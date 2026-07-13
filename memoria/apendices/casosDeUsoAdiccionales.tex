@@ -1,0 +1,453 @@
+\chapter{Casos de uso adicionales}\label{cap:casos_de_uso_adicionales}
+
+Este apéndice recoge los casos de uso adicionales del sistema que, por no considerarse esenciales para la comprensión general del proyecto, no se han incluido en el cuerpo principal de la memoria (Sección~
+ef{cap:casos_de_uso}). Cada uno de ellos sigue la misma estructura que los presentados en dicha sección: resumen, actor, precondición, postcondición, secuencia base, secuencia alternativa y requisitos relacionados.
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Consultar información de cofradías}}                                                                              \\
+        \hline
+        \textbf{Resumen}                                                                                                                                           & El usuario consulta la información detallada de las cofradías disponibles en una ciudad.                               \\
+        \hline
+        \textbf{Actor}                                                                                                                                             & Ciudadano                                                                                                              \\
+        \hline
+        \textbf{Precondición}                                                                                                                                      & El usuario ha seleccionado una ciudad o el usuario ha autorizado que la aplicación pueda consultar su ubicación actual. \\
+        \hline
+        \textbf{Postcondición}                                                                                                                                     & Se muestra la lista de cofradías con su información.                                                                   \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede a la sección de cofradías. }                                                                              \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de cofradías de la ciudad seleccionada. }                                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona una cofradía. }                                                                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema muestra la información detallada de la cofradía. }                                                               \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] No hay cofradías disponibles: El sistema muestra un mensaje indicando que no hay cofradías registradas en esa ciudad. } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                                                           & RF-03, RF-04 y RF-09.                                                                                                  \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Consultar información de cofradías}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Acceso como cofrade}}                                                                   \\
+        \hline
+        \textbf{Resumen}                                                                                                                 & Un usuario se registra en la aplicación como miembro de una cofradía. \\
+        \hline
+        \textbf{Actor}                                                                                                                   & Cofrade                                                               \\
+        \hline
+        \textbf{Precondición}                                                                                                            & El usuario no está registrado.                                        \\
+        \hline
+        \textbf{Postcondición}                                                                                                           & El usuario queda registrado y puede acceder a funciones de cofrade.   \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                     \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona la opción de registro. }                                                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el formulario de registro (Introducir código de acceso para dicha cofradía). } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario introduce el código de acceso de la cofradía. }                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema valida el código. }                                                                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema muestra mensaje informando del correcto acceso. }                                      \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                              \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Codigo inválido: El sistema muestra los errores de validación. }                              \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                                 & RF-02.                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Acceso como cofrade}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Añadir favoritos}}                                                                    \\
+        \hline
+        \textbf{Resumen}                                                                                                               & Un usuario marca elementos como favoritos. \\
+        \hline
+        \textbf{Actor}                                                                                                                 & Ciudadano                                  \\
+        \hline
+        \textbf{Precondición}                                                                                                          &                                            \\
+        \hline
+        \textbf{Postcondición}                                                                                                         & El elemento queda guardado de favoritos    \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                   \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario navega a una cofradía, evento o procesión. }                                         \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario pulsa el botón de favorito. }                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema guarda el elemento como favorito. }                                                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema muestra confirmación visual. }                                                       \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                            \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] El elemento ya es favorito: El sistema elimina el elemento de favoritos (casos de uso 6). } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                               & RF-10.                                     \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Añadir favoritos}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Eliminar favoritos}}                                                                  \\
+        \hline
+        \textbf{Resumen}                                                                                                               & Un usuario desmarca elementos como favoritos. \\
+        \hline
+        \textbf{Actor}                                                                                                                 & Usuario                                       \\
+        \hline
+        \textbf{Precondición}                                                                                                          & El elemento esté marcado como favorito        \\
+        \hline
+        \textbf{Postcondición}                                                                                                         & El elemento queda eliminado de favoritos      \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                   \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario navega a una cofradía, evento o procesión. }                                         \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario pulsa el botón de favorito. }                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema quita el elemento de favorito. }                                                     \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema muestra confirmación visual. }                                                       \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                            \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] El elemento no es favorito: El sistema elimina el elemento de favoritos (casos de uso 5). } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                               & RF-10.                                        \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Eliminar favoritos}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Configurar notificaciones}}                                   \\
+        \hline
+        \textbf{Resumen}                                                                                       & Un usuario configura las preferencias de notificaciones". \\
+        \hline
+        \textbf{Actor}                                                                                         & Usuario                                       \\
+        \hline
+        \textbf{Precondición}                                                                                  & El elemento esté marcado como favorito        \\
+        \hline
+        \textbf{Postcondición}                                                                                 & El elemento queda eliminado de favoritos      \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede a la configuración de notificaciones. }               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra las opciones disponibles. }                          \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario activa/desactiva tipos de notificaciones. }                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario guarda los cambios. }                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema confirma que se han guardado. }                              \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                       & RF-11, RF-12 y RF-21.                         \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Configurar notificaciones}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Crear cofradía/Hermandad}}                                    \\
+        \hline
+        \textbf{Resumen}                                                                                       & Un miembro de la Junta de Cofradías crea una nueva cofradía. \\
+        \hline
+        \textbf{Actor}                                                                                         & Junta de Cofradías                                           \\
+        \hline
+        \textbf{Precondición}                                                                                  & El usuario tiene rol de Junta de Cofradías                   \\
+        \hline
+        \textbf{Postcondición}                                                                                 & La cofradía queda creada en el sistema                       \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de gestión. }                                \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona crear nueva cofradía. }                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema muestra el formulario de creación. }                         \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario introduce los datos de la cofradía. }                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario guarda la cofradía. }                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema valida y guarda la información. }                            \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Datos incompletos: El sistema muestra los campos requeridos. }      \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                       & RF-19 y RF-20.                                               \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Crear cofradía/Hermandad}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Crear procesión}}                                             \\
+        \hline
+        \textbf{Resumen}                                                                                       & Un miembro de la Junta de Cofradías crea una nueva procesión.                  \\
+        \hline
+        \textbf{Actor}                                                                                         & Junta de Cofradías                                                             \\
+        \hline
+        \textbf{Precondición}                                                                                  & El usuario tiene rol de Junta de Cofradías y que exista al menos una cofradía \\
+        \hline
+        \textbf{Postcondición}                                                                                 & La procesión queda creada en el sistema                                        \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de gestión. }                                \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona crear nueva procesión. }                          \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema muestra el formulario de creación. }                         \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario introduce los datos de la procesión. }                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario define el recorrido en el mapa. }                            \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6] El usuario guarda la procesión. }                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [7] El sistema valida y guarda la información. }                            \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [7.a.1] Datos incompletos: El sistema muestra los campos requeridos. }      \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                       & RF-19 y RF-20.                                                                 \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Crear procesión}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Actualizar estado de procesión}}                                                 \\
+        \hline
+        \textbf{Resumen}                                                                                                          & La Junta de Cofradías actualiza el estado de una procesión.                             \\
+        \hline
+        \textbf{Actor}                                                                                                            & Junta de Cofradías                                                                      \\
+        \hline
+        \textbf{Precondición}                                                                                                     & El usuario tiene rol de Junta de Cofradías y existe una procesión programada o en curso \\
+        \hline
+        \textbf{Postcondición}                                                                                                    & El estado de la procesión queda actualizado y se notifica a los usuarios                \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                              \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de gestión de procesiones. }                                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona la procesión a actualizar. }                                         \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema muestra la información actual de la procesión. }                                \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario selecciona el nuevo estado. }                                                   \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario confirma el cambio. }                                                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema actualiza el estado. }                                                          \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [7] El sistema envia notificaciones automaticas a los usuarios interesados. }                  \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] Sin conexión: El sistema muestra error de conexión. }                                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Sin conexión: El sistema muestra error de conexión. }                                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.b.1] Caso de uso crear alerta: El usuario crea una alerta. }                                \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.c.1] Estado no valido: El sistema muestra los estados disponibles segun el estado actual. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.d.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Sin conexión: El sistema muestra error de conexión. }                                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                          & RF-05, RF-12 y RF-27.                                                                   \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Actualizar estado de procesión}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Gestionar información de Semana Santa}}                                       \\
+        \hline
+        \textbf{Resumen}                                                                                                       & La Junta de Cofradías introduce o modifica toda la información de la Semana Santa de su ciudad. \\
+        \hline
+        \textbf{Actor}                                                                                                         & Junta de Cofradías                                                                              \\
+        \hline
+        \textbf{Precondición}                                                                                                  & El usuario tiene rol de Junta de Cofradías                                                      \\
+        \hline
+        \textbf{Postcondición}                                                                                                 & La información de la Semana Santa queda actualizada en el sistema                               \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona el modulo a gestionar (cofradías, procesiones, eventos, pasos). } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de elementos existentes. }                                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario puede crear, editar o eliminar elementos. }                                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario introduce/modifica los datos requeridos. }                                   \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema valida la información. }                                                     \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema guarda los cambios. }                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [7] El sistema muestra confirmación. }                                                      \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Sin conexión: El sistema muestra error de conexión}                                 \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                 \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Sin conexión: El sistema muestra error de conexión. }                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                 \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.c.1] Eliminar elemento con dependencias: El sistema advierte y solicita confirmación. }  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Datos invalidos: El sistema muestra errores de validación. }                        \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                       & RF-19, RF-20 y RF-30.                                                                           \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Gestionar información de Semana Santa}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Definir recorrido de procesión}}                                                 \\
+        \hline
+        \textbf{Resumen}                                                                                                          & La Junta de Cofradías define o modifica el recorrido de una procesión en el mapa. \\
+        \hline
+        \textbf{Actor}                                                                                                            & Junta de Cofradías                                                                \\
+        \hline
+        \textbf{Precondición}                                                                                                     & El usuario tiene rol de Junta de Cofradías y existe una procesión creada.         \\
+        \hline
+        \textbf{Postcondición}                                                                                                    & El recorrido de la procesión queda definido con todos sus puntos.                 \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                              \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede a la gestión de procesiones. }                                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona la procesión. }                                                      \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario accede a la edición del recorrido. }                                            \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema muestra el mapa interactivo. }                                                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario marca los puntos del recorrido en orden. }                                      \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6] El usuario define horarios estimados para cada puntos. }                                   \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [7] El usuario marca puntos de interes especiales. }                                           \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [8] El usuario guarda el recorrido. }                                                          \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [9] El sistema calcula distancia y tiempo estimado. }                                          \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.2] Recorrido invalido: El sistema indica que debe tener al menos punto de inicio y fin. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [7.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [8.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                          & RF-16 y RF-29.                                                                    \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Definir recorrido de procesión}
+\end{table}

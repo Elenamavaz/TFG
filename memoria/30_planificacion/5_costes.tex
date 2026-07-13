@@ -1,0 +1,135 @@
+\section{Estimación de costes}\label{cap:estimacionCostes}
+
+A continuación se presenta el presupuesto estimado del proyecto, calculado como si este fuese desarrollado por un equipo profesional completo, siguiendo los perfiles habituales en el desarrollo de una aplicación móvil de estas características. Se trata de una estimación teórica con fines de planificación y no de los costes reales asumidos por el autor, quien ha desarrollado el TFG de forma individual.
+
+\subsection{Costes de personal}
+
+Un proyecto de estas características, correspondiente al desarrollo completo de una aplicación móvil sobre la Semana Santa, requeriría en un entorno profesional un equipo multidisciplinar. Se han considerado los siguientes seis perfiles, entre los que se reparten las 300 horas estimadas de duración del proyecto:
+
+\begin{itemize}
+    \item \textbf{Jefe de Proyecto}: coordinación general, planificación y seguimiento.
+    \item \textbf{Analista Funcional}: recogida y especificación de requisitos, análisis del dominio.
+    \item \textbf{Diseñador UX/UI}: diseño de la experiencia e interfaz de usuario.
+    \item \textbf{Desarrollador Backend}: implementación del servidor, base de datos y API.
+    \item \textbf{Desarrollador Frontend/Mobile}: implementación de la aplicación Android.
+    \item \textbf{Tester/QA}: pruebas funcionales, de regresión y control de calidad.
+\end{itemize}
+
+Para cada perfil se ha calculado el coste por hora a partir del sueldo bruto anual medio en España, incrementado en un 30\% en concepto de cotizaciones a la Seguridad Social a cargo de la empresa, y dividido entre 1.800 horas anuales de jornada completa. La Tabla~\ref{tab:horas_personal} recoge el reparto de horas y el coste asociado a cada perfil.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Perfil} & \textbf{Horas} & \textbf{Coste/hora} & \textbf{Coste total} \\
+\hline
+Jefe de Proyecto \cite{salarioJefeProyecto}          & 45  & 33€ & 1.485,00€ \\
+\hline
+Analista Funcional \cite{salarioAnalista}            & 45  & 27€ & 1.215,00€ \\
+\hline
+Diseñador UX/UI \cite{salarioUXUI}                   & 30  & 27€ &   810,00€ \\
+\hline
+Desarrollador Backend \cite{salarioBackend}          & 75  & 26€ & 1.950,00€ \\
+\hline
+Desarrollador Frontend/Mobile \cite{salarios}        & 75  & 19€ & 1.425,00€ \\
+\hline
+Tester/QA \cite{salarioTester}                       & 30  & 17€ &   510,00€ \\
+\hline
+\textbf{Total} & \textbf{300} & & \textbf{7.395,00€} \\
+\hline
+\end{tabular}
+\caption{Reparto de horas y coste de personal por perfil}
+\label{tab:horas_personal}
+\end{table}
+
+\subsection{Costes de equipo y amortización}
+
+El equipo del proyecto necesitaría un ordenador portátil por persona, además de un dispositivo Android dedicado a las pruebas. Se considera una duración total del proyecto de 5 meses.
+
+\begin{itemize}
+    \item \textbf{Ordenadores portátiles}: 6 unidades valoradas en 1.000€ cada una, con una vida útil estimada de 5 años (60 meses). La amortización mensual por unidad es de 16,66€, lo que supone 83,30€ por portátil durante los 5 meses del proyecto, y \textbf{500,00€} en total para los 6 puestos de trabajo.
+    \item \textbf{Dispositivo Android de pruebas}: 1 unidad valorada en 300€, con una vida útil estimada de 3 años (36 meses). La amortización mensual es de 8,33€, lo que supone \textbf{41,65€} para los 5 meses del proyecto.
+\end{itemize}
+
+El coste total de amortización de los recursos de equipo asciende a \textbf{541,65€}, tal y como recoge la Tabla~\ref{tab:amortizacion}.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Recurso} & \textbf{Valor} & \textbf{Vida útil} & \textbf{Amortización (5 meses)} \\
+\hline
+Portátiles (x6) & 6.000,00€ & 5 años & 500,00€ \\
+\hline
+Dispositivo Android (x1) & 300,00€ & 3 años & 41,65€ \\
+\hline
+\textbf{Total amortización} & & & \textbf{541,65€} \\
+\hline
+\end{tabular}
+\caption{Amortización total de los recursos de equipo}
+\label{tab:amortizacion}
+\end{table}
+
+\subsection{Costes de licencias de software}
+
+Buena parte de las herramientas empleadas disponen de planes gratuitos o licencias universitarias suficientes para un proyecto de este tamaño. Sin embargo, un equipo profesional de 6 personas necesitaría además herramientas colaborativas de pago para la gestión del proyecto y el diseño. La Tabla~\ref{tab:licencias} recoge el coste y la fuente de cada licencia.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Herramienta} & \textbf{Coste} & \textbf{Fuente} \\
+\hline
+Android Studio & 0,00€ & \cite{androidstudio} \\
+\hline
+Visual Studio Code & 0,00€ & \cite{vscode} \\
+\hline
+Overleaf (plan gratuito) & 0,00€ & --- \\
+\hline
+Google Firebase (plan gratuito) & 0,00€ & \cite{firebasefcm} \\
+\hline
+Google Maps API (crédito gratuito) & 0,00€ & \cite{googlemapsapi} \\
+\hline
+GitHub (plan gratuito) & 0,00€ & \cite{github} \\
+\hline
+Cuenta de desarrollador Google Play (pago único) & 23,00€ & \cite{googlePlayFee} \\
+\hline
+Figma Professional (1 licencia, 5 meses) & 69,00€ & \cite{figmaPricing} \\
+\hline
+Jira Software Standard (6 usuarios, 5 meses) & 218,40€ & \cite{jiraPricing} \\
+\hline
+\textbf{Total licencias} & \textbf{310,40€} & \\
+\hline
+\end{tabular}
+\caption{Coste de licencias de software}
+\label{tab:licencias}
+\end{table}
+
+\subsection{Costes estructurales}
+
+Un equipo de 6 personas trabajando de forma presencial o híbrida necesitaría un espacio de oficina. Se ha tomado como referencia el alquiler de un despacho de 22 m\textsuperscript{2} en un espacio de coworking en el centro de Valladolid, con todos los suministros incluidos (calefacción, refrigeración, electricidad, wifi y limpieza), por un importe de 475€ al mes \cite{oficinaValladolid}. Para los 5 meses de duración del proyecto, el coste estructural total asciende a \textbf{2.375,00€}.
+
+\subsection{Coste total}
+
+La Tabla~\ref{tab:costes_totales} resume el presupuesto completo del proyecto, considerando personal, amortización de equipo, licencias de software y costes estructurales, para una duración de 300 horas repartidas en 5 meses.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Elemento} & \textbf{Coste} \\
+\hline
+Personal (Tabla~\ref{tab:horas_personal}) & 7.395,00€ \\
+\hline
+Amortización de equipo (Tabla~\ref{tab:amortizacion}) & 541,65€ \\
+\hline
+Licencias de software (Tabla~\ref{tab:licencias}) & 310,40€ \\
+\hline
+Costes estructurales (oficina y suministros) & 2.375,00€ \\
+\hline
+\textbf{Total} & \textbf{10.622,05€} \\
+\hline
+\end{tabular}
+\caption{Costes totales del proyecto}
+\label{tab:costes_totales}
+\end{table}

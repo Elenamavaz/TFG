@@ -1,0 +1,96 @@
+\section{Planificación, Fases e iteraciones}\label{cap:planificacion}
+
+\subsection{Planificación inicial}
+
+Este proyecto consta de dos grandes fases, cuya planificación general se puede observar en el siguiente Diagrama de Gantt \cite{diagramaGantt} realizado (Figura \ref{fig:DiagramaGanttCompleto}).
+
+La \textbf{primera fase} se centra en el análisis de las aplicaciones relacionadas con la Semana Santa existentes, la identificación de sus carencias y áreas de mejora, y en la definición extendida de los requisitos funcionales y no funcionales \cite{ieee29148} del sistema, además de la elaboración de los casos de uso \cite{uml} y los distintos diagramas que servirán como base para la realización del desarrollo de la aplicación.
+
+En cuanto a la \textbf{segunda fase}, esta está más centrada en el diseño e implementación de la aplicación de forma iterativa e incremental \cite{larman2004}. Esta fase está organizada en cinco iteraciones principales. Aunque el marco general del proyecto sigue el modelo en cascada --en el sentido de que el análisis es seguido del diseño y tras este la implementación--, en esta segunda fase se aplica un ciclo interno de análisis, diseño, implementación y pruebas en cada iteración, lo que permite ir incorporando las funcionalidades de forma progresiva y verificando su correcto funcionamiento antes de darla por finalizada y avanzar a la siguiente. Estas iteraciones abarcan desde las funcionalidades básicas del ciudadano hasta las más complejas, como la geolocalización en tiempo real, es decir, la capacidad de conocer y actualizar la posición geográfica de una procesión de forma continua haciendo uso de la tecnología GPS\footnote{GPS (Global Positioning System): sistema de navegación por satélite que permite determinar la posición geográfica de un dispositivo en cualquier punto del planeta.} del móvil, o el sistema de notificaciones (mensajes enviados desde el servidor a los dispositivos de los usuarios sin que estos tengan que abrir la aplicación activamente).
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=1\textwidth]{imagenes/DiagramaGantBig.png}
+    \caption{Diagrama de Gantt general completo del proyecto}
+    \label{fig:DiagramaGanttCompleto}
+\end{figure}
+
+Esta primera fase comienza con el análisis de las propuestas existentes en el mercado, identificando las características principales de aplicaciones como \textit{El Penitente} \cite{elpenitente}, \textit{Valladolid Cofrade} \cite{valladolidCofrade} o \textit{sSantaZgz} \cite{sSantaZgz}.
+
+Seguido de este análisis se realiza la definición de los requisitos funcionales, los cuales describen las funcionalidades concretas que el sistema debe ofrecer, y los requisitos no funcionales, que definen las condiciones de calidad, rendimiento y seguridad que debe cumplir [13], teniendo en cuenta los cuatro perfiles de usuario: Ciudadano, miembro de la organización, conjunto de organizaciones y Administrador. También se elaboran los diagramas de secuencia y el modelo de dominio, así como los casos de uso [14], representaciones estandarizadas de las interacciones entre los usuarios y el sistema, que servirán para el desarrollo posterior.
+
+Las tareas de esta fase son: 
+
+\begin{itemize}
+    \item \textbf{Análisis de propuestas existentes} (8h): análisis de las aplicaciones actuales de Semana Santa y sus funcionalidades.
+    \item \textbf{Definición de requisitos funcionales} (10h): identificación de las funcionalidades requeridas para cada perfil de usuario.
+    \item \textbf{Definición de requisitos no funcionales} (5h): especificación de requisitos de rendimiento, seguridad, usabilidad y accesibilidad.
+    \item \textbf{Diagramas de secuencia y clases} (8h): modelado de la estructura y comportamiento del sistema mediante notación UML \cite{uml}.
+    \item \textbf{Elaboración de casos de uso} (12h): descripción detallada de las interacciones usuario-sistema.
+\end{itemize}
+
+\subsection{Iteración 1: Módulo ciudadano básico}
+
+Esta primera iteración tiene como objetivo establecer la arquitectura base del sistema y desarrollar las funcionalidades fundamentales del perfil de ciudadano, entre las que se incluyen la visualización de la información general de la Semana Santa, el listado de organizaciones y la consulta de eventos.
+
+\begin{itemize}
+    \item \textbf{Análisis}: requisitos específicos del módulo ciudadano (5h).
+    \item \textbf{Diseño}: arquitectura base del sistema (8h), base de datos inicial (6h) e interfaces del ciudadano, incluyendo \textit{mockups}\footnote{\textit{Mockup}: representación visual estática de la interfaz de una aplicación, utilizada para planificar el diseño antes de su implementación.} (6h).
+    \item \textbf{Implementación}: vista de cofradías (10h) e información general (8h).
+    \item \textbf{Pruebas}: validación de la iteración (4h).
+\end{itemize}
+
+\subsection{Iteración 2: Sistema de mapas}
+
+Esta segunda iteración se centra principalmente en la implementación del sistema de mapas, que permitirá visualizar los distintos recorridos de las procesiones.
+
+\begin{itemize}
+    \item \textbf{Análisis}: requisitos del sistema de mapas (4h).
+    \item \textbf{Diseño}: integración con Google Maps \cite{googlemapsapi}, así como interfaces de mapas y recorridos (5h).
+    \item \textbf{Implementación}: integración de la API de Google Maps \cite{googlemapsapi} y visualización de recorridos (10h).
+    \item \textbf{Pruebas}: validación de la iteración (4h).
+\end{itemize}
+
+\subsection{Iteración 3: Geolocalización y perfil cofrade}
+
+Esta tercera iteración se centra en la implementación completa del sistema de geolocalización en tiempo real, de forma que se pueda conocer y actualizar de manera continua la posición de las procesiones durante su recorrido. Además, se desarrolla el perfil de miembro con sus correspondientes funcionalidades, incluyendo la posibilidad de compartir la ubicación durante las procesiones.
+
+\begin{itemize}
+    \item \textbf{Análisis}: requisitos de geolocalización y perfil cofrade (4h).
+    \item \textbf{Diseño}: sistema de geolocalización (5h), interfaces del perfil cofrade (5h).
+    \item \textbf{Implementación}: geolocalización en tiempo real (14h), perfil cofrade (10h).
+    \item \textbf{Pruebas}: validación de la iteración (4h).
+\end{itemize}
+
+\subsection{Iteración 4: Panel de la Junta de Cofradías}
+
+Esta cuarta iteración corresponde al desarrollo del panel de gestión para las Juntas de Cofradías, permitiendo administrar la información de la Semana Santa, incluyendo eventos, recorridos, imágenes y participantes. El acceso a este panel está restringido mediante un mecanismo de control de acceso \cite{owasp}, que permite diferenciar los permisos y limitaciones de los distintos roles del sistema.
+
+\begin{itemize}
+    \item \textbf{Análisis}: requisitos del panel de gestión (4h).
+    \item \textbf{Diseño}: panel de gestión de cofradías (5h), interfaces de edición de recorridos (4h).
+    \item \textbf{Implementación}: gestión de cofradías y eventos (12h), editor de recorridos (10h).
+    \item \textbf{Pruebas}: validación de la iteración (4h).
+\end{itemize}
+
+\subsection{Iteración 5: Panel de administrador y notificaciones}
+
+Esta quinta y última iteración se centra en la implementación del panel de administrador global del sistema, así como del sistema de notificaciones, que permitirá a la Junta de Cofradías comunicar a los usuarios cambios o incidencias en las procesiones de forma inmediata, sin necesidad de que estos tengan la aplicación abierta.
+
+\begin{itemize}
+    \item \textbf{Análisis}: requisitos del panel de administrador y sistema de notificaciones (4h).
+    \item \textbf{Diseño}: panel de administrador (4h), sistema de notificaciones \textit{push} (4h).
+    \item \textbf{Implementación}: panel de administrador (10h), sistema de notificaciones (10h).
+    \item \textbf{Pruebas}: validación de la iteración (4h).
+\end{itemize}
+
+\subsection{Fase final: documentación y entrega}
+
+En esta última fase se realizan las pruebas de integración del sistema completo, la corrección de errores detectados, la finalización de la memoria del proyecto y la preparación de la entrega final.
+
+\begin{itemize}
+    \item \textbf{Finalización de la memoria} (10h).
+    \item \textbf{Pruebas de integración y sistema} (8h).
+    \item \textbf{Corrección de errores} (4h).
+    \item \textbf{Revisión final y preparación de la entrega} (4h).
+\end{itemize}

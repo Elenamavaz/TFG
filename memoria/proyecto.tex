@@ -1,0 +1,317 @@
+%\documentclass[a4paper,11pt]{book}
+\documentclass[a4paper,twoside,11pt,titlepage]{book}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage{tipa} % IPA
+\usepackage[spanish, es-tabla]{babel} % tabla en vez de cuadro
+\usepackage{enumitem} % Enumeración
+\usepackage[table,xcdraw]{xcolor} % tablas
+\usepackage{notoccite} % No citar en las listas de figuras
+\usepackage{eurosym} % euros
+\usepackage{tipa} % IPA transripción
+\usepackage{amsmath} % formulas
+\usepackage[capposition=bottom]{floatrow} % Notas en el pie de tablas e imágenes con \floatfoot
+
+% Para poder buscar y copiar texto en el pdf resultante
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+% FIN-Para poder buscar y copiar texto en el pdf resultante
+
+% Este comando "palatino" cambia el tipo de letra de todo el documento.
+%\usepackage{palatino}
+\renewcommand{\sfdefault}{phv} % Arial
+
+% TODO: Es necesario?
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage{setspace}
+\spacing{1.2}
+
+%\newcolumntype{b}{X}
+\newcolumntype{s}{>{\hsize=.5\hsize}X}
+\newcolumntype{x}{>{\hsize=.45\hsize}X}
+
+\decimalpoint
+\usepackage{dcolumn}
+\newcolumntype{.}{D{.}{\esperiod}{-1}}
+
+\makeatletter
+
+% Para referenciar un texto cualquiera con
+% \textlabel{Something}{sth:bla}
+% \ref{sth:bla}
+\newcommand*{\textlabel}[2]{%
+  \edef\@currentlabel{#1}% Set target label
+  \phantomsection% Correct hyper reference link
+  #1\label{#2}% Print and store label
+}
+
+\addto\shorthandsspanish{\let\esperiod\es@period@code}
+
+
+\makeatother
+
+%\usepackage[chapter]{algorithm}
+\RequirePackage{verbatim}
+%\RequirePackage[Glenn]{fncychap}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{afterpage}
+\usepackage{longtable}
+% TODO Quitar cuando no necesito el texto dummy
+\usepackage{lipsum}
+
+\PassOptionsToPackage{hyphens}{url} % siempre antes de hyperref
+\usepackage{hyperref} %referencias
+
+
+% Controla los márgenes {izquierda}{derecha}{arriba}{abajo}. 
+\usepackage{anysize} % márgenes
+\marginsize{2cm}{1.5cm}{1.5cm}{1.5cm} % márgenes
+
+\usepackage{graphicx,caption}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{enumitem}
+
+% ********************************************************************
+% Re-usable information
+% ********************************************************************
+\newcommand{\myTitle}{Aplicación móvil para la información y
+geolocalización de procesiones y eventos
+en semana santa.}
+\newcommand{\myDegree}{Grado en Ingeniería Informática\xspace}
+\newcommand{\myName}{Elena Martínez Vázquez\xspace}
+\newcommand{\myProf}{Juan Alberto Muñoz Cristóbal\xspace}
+\newcommand{\myOtherProf}{Pablo Federico Sanchez Mayoral\xspace}
+%\newcommand{\mySupervisor}{Put name here\xspace}
+\newcommand{\myFaculty}{Escuela de Ingeniería Informática\xspace}
+\newcommand{\myFacultyShort}{Escuela de Ingeniería Informática\xspace}
+\newcommand{\myDepartment}{Departamento de Informática\xspace}
+\newcommand{\myUni}{\protect{Universidad de Valladolid}\xspace}
+\newcommand{\myLocation}{Valladolid\xspace}
+\newcommand{\myTime}{\today\xspace}
+\newcommand{\myVersion}{Version 1.0\xspace}
+
+
+\hypersetup{
+pdfauthor = {\myName (autor/a [at] gmail [dot] com)},
+pdftitle = {\myTitle},
+pdfsubject = {},
+% TODO
+pdfkeywords = {keywords},
+pdfcreator = {LaTeX con el paquete hyperref},
+pdfproducer = {pdflatex}
+}
+
+%\hyphenation{}
+
+
+%\usepackage{doxygen/doxygen}
+%\usepackage{pdfpages}
+\usepackage{url}
+\usepackage{colortbl,longtable}
+\usepackage[stable]{footmisc}
+%\usepackage{index}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+\fancyfoot[RO,LE]{\textbf{\thepage}}
+\renewcommand{\chaptermark}[1]{\markboth{\textbf{#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textbf{\thesection. #1}}}
+
+
+\setlength{\headheight}{1.5\headheight}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+%Definimos los tipos teorema, ejemplo y definición podremos usar estos tipos
+%simplemente poniendo \begin{teorema} \end{teorema} ...
+%\newtheorem{teorema}{Teorema}[chapter]
+%\newtheorem{ejemplo}{Ejemplo}[chapter]
+%\newtheorem{definicion}{Definición}[chapter]
+
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+\definecolor{gray30}{gray}{.94}
+
+\lstset{ frame=Ltb,
+     framerule=0.5pt,
+     aboveskip=0.5cm,
+     framextopmargin=3pt,
+     framexbottommargin=3pt,
+     framexleftmargin=0.1cm,
+     framesep=0pt,
+     rulesep=.4pt,
+     backgroundcolor=\color{gray97},
+     rulesepcolor=\color{black},
+     %
+     stringstyle=\ttfamily,
+     showstringspaces = false,
+     basicstyle=\scriptsize\ttfamily,
+     commentstyle=\color{gray45},
+     keywordstyle=\bfseries,
+     %
+     numbers=left,
+     numbersep=6pt,
+     numberstyle=\tiny,
+     numberfirstline = false,
+     breaklines=true,
+   }
+ 
+% minimizar fragmentado de listados
+\lstnewenvironment{listing}[1][]
+   {\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{light-gray}{gray}{0.25}
+
+\lstdefinestyle{java}{
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\footnotesize\ttfamily},
+  numberstyle={\tiny},
+  numbers=left,
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+\lstdefinestyle{Consola}
+   {basicstyle=\scriptsize\bf\ttfamily,
+    backgroundcolor=\color{gray30},
+    frame=single,
+    numbers=none
+}
+
+
+\newcommand{\bigrule}{\titlerule[0.5mm]}
+
+
+%Para conseguir que en las páginas en blanco no hayan cabeceras
+\makeatletter
+\def\clearpage{%
+  \ifvmode
+    \ifnum \@dbltopnum =\m@ne
+      \ifdim \pagetotal <\topskip
+        \hbox{}
+      \fi
+    \fi
+  \fi
+  \newpage
+  \thispagestyle{empty}
+  \write\m@ne{}
+  \vbox{}
+  \penalty -\@Mi
+}
+\makeatother
+
+\usepackage{pdfpages}
+
+
+\begin{document}
+
+\input{00_portada/portada}
+\input{05_prefacios/prefacio}
+\frontmatter
+\tableofcontents
+\listoffigures
+\listoftables
+%
+
+
+\mainmatter
+\setlength{\parskip}{10pt}
+\setlength{\parindent}{0.5cm}
+
+
+\chapter{Introducción}
+\input{10_introduccion/1_contexto}
+\input{10_introduccion/2_motivacion}
+\input{10_introduccion/3_estado_cuestion}
+\input{10_introduccion/4_objetivos}
+\input{10_introduccion/5_estructura}
+%
+
+\chapter{Planificación}\label{cap:planificacion}
+\input{30_planificacion/1_metodologia}
+\input{30_planificacion/2_planificacion_extensa}
+\input{30_planificacion/3_riesgos}
+\input{30_planificacion/4_seguimiento_proyecto}
+\input{30_planificacion/5_costes}
+
+\chapter{Análisis}\label{cap:analisis}
+\input{40_analisis/2_requisistos}
+\input{40_analisis/3_casos_de_uso}
+\input{40_analisis/4_modelo_de_dominio}
+
+\chapter{Descripción de las iteraciones}\label{cap:iteraciones}
+\input{50_iteraciones/1_iteracion}
+\input{50_iteraciones/2_iteracion}
+\input{50_iteraciones/3_iteracion}
+\input{50_iteraciones/4_iteracion4}
+\clearpage
+%
+
+\input{60_estado/1_estado}
+
+\input{70_pruebas/1_pruebas}
+
+\input{80_conclusiones/1_conclusiones}
+
+% \input{80_trabajofuturo/1_trabajofuturo}
+%
+
+\part*{Apéndices}
+\addcontentsline{toc}{part}{Apéndices}
+\appendix
+%\input{apendices/glosario}
+\input{apendices/acronimos}
+%\input{apendices/funcionalidad_implementada}
+%\input{apendices/test_usabilidad}
+%\input{apendices/hitos_proyecto}
+% HECHO
+\input{apendices/manual_despliegue}
+%\input{apendices/pruebas_aplicacion_de_pruebas}
+
+\input{apendices/manual_usuario}
+%\input{apendices/cuaderno_bitacora}
+% HECHO
+\input{apendices/contenido_CD}
+
+%%%%
+
+\part*{}
+\addcontentsline{toc}{part}{Bibliografía}
+%\nocite{*}
+
+% B. Internacional
+\bibliographystyle{IEEEtran}
+
+% C. Otro
+%\bibliographystyle{miunsrturl}
+\bibliography{bibliografia/bibliografia}
+
+
+
+
+\chapter*{}
+\thispagestyle{empty}
+
+
+
+
+\end{document}
