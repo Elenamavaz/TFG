@@ -4,7 +4,21 @@
 
 \subsection{Diseño}
 
-En esta fase he realizado el diseñoo de la arquitectura basica del sistema y de la base de datos incial.
+Antes de iniciar esta fase de diseño se han tomado las decisiones de arquitectura y del modelo de datos que se describen a continuación, necesarias para establecer la base del resto de iteraciones del proyecto.
+
+\subsection{Decisiones tecnológicas}
+
+En cuanto a la parte del cliente móvil, se ha optado por \textbf{React Native}, evitando la duplicación de esfuerzos que supondría el desarrollo nativo para Android e iOS. Además, esta elección ayuda a cumplir con el requisito RNF-07 (compatibilidad con ambas plataformas). Por tratarse de un proyecto desarrollado por una única persona, React Native permite mantener una única base de código y disponer de librerías útiles para la implementación de los dos puntos más críticos del sistema: la integración con mapas (\texttt{react-native-maps}) y la geolocalización (\texttt{expo-location} / \texttt{react-native-geolocation-service}).
+
+Por otro lado, como backend se ha optado por \textbf{Firebase} \parencite{firebase}, utilizándolo como \emph{Backend-as-a-Service}, sin servidores propios intermedios. Se descarta un backend a medida, ya que Firebase resuelve de forma nativa la autenticación \parencite{firebase-auth}, el almacenamiento de datos y, especialmente, la sincronización en tiempo real necesaria para la geolocalización mediante los \emph{listeners} de Cloud Firestore \parencite{firestore}, sin necesidad de implementar una infraestructura propia basada en sockets. Esta decisión es coherente con el riesgo "Problemas con Firebase/base de datos", identificado en la planificación (Sección~\ref{cap:analisisRiesgos}), y con el requisito RNF-08 (actualización de la posición).
+
+Para la implementación de los mapas, se mantiene \textbf{Google Maps Platform} \parencite{googlemaps}, ya justificado en el estado de la cuestión (Sección~1.3.2). La contingencia prevista ante el riesgo "Problemas con la integración de Google Maps" (Sección~\ref{cap:analisisRiesgos}) sigue siendo migrar a \textbf{OpenStreetMap} \parencite{osm}, un proyecto colaborativo de cartografía libre, o a \textbf{Mapbox} \parencite{mapbox}, una plataforma comercial compatible con los datos de OpenStreetMap que ofrece servicios avanzados de visualización y personalización de mapas.
+
+\subsubsection{Arquitectura del sistema}
+
+\subsubsection{Diseño de la base de datos}\label{sec:disenoBD}
+
+\subsubsection{Patrones de diseño}
 
 \subsection{Implementacion}
 
