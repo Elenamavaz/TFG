@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  14 JUL 2026 12:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  15 JUL 2026 12:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2751,21 +2751,21 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-50_iteraciones/1_iteracion.tex:7: Use of \??? doesn't match its definition.
+50_iteraciones/1_iteracion.tex:9: Use of \??? doesn't match its definition.
 <argument> \???  
                  ! LaTeX Error: Erroneous variable \l__socket_hyp/raisedlink...
-l.7 \subsection{Implementacion}
+l.9 \subsection{Implementacion}
                                
 If you say, e.g., `\def\a1{...}', then you must always
 put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-50_iteraciones/1_iteracion.tex:9: Use of \??? doesn't match its definition.
+50_iteraciones/1_iteracion.tex:11: Use of \??? doesn't match its definition.
 <argument> \???  
                  ! LaTeX Error: Erroneous variable \l__socket_hyp/raisedlink...
-l.9 \subsection{Pruebas}
-                        
+l.11 \subsection{Pruebas}
+                         
 If you say, e.g., `\def\a1{...}', then you must always
 put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
@@ -3010,7 +3010,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,19n,83p,1495b,12343s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchb8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchr8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchri8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on proyecto.pdf (69 pages, 3862589 bytes).
+Output written on proyecto.pdf (69 pages, 3862689 bytes).
 PDF statistics:
  745 PDF objects out of 1000 (max. 8388607)
  160 named destinations out of 1000 (max. 500000)
