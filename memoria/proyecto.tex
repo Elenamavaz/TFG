@@ -26,7 +26,7 @@
 \usepackage{booktabs}
 
 \usepackage{setspace}
-\spacing{1.2}
+\setstretch{1.2} % antes: \spacing{1.2} - abria un grupo sin cerrar, incompatible con el kernel LaTeX nuevo de MiKTeX
 
 %\newcolumntype{b}{X}
 \newcolumntype{s}{>{\hsize=.5\hsize}X}
@@ -299,7 +299,11 @@ pdfproducer = {pdflatex}
 %\nocite{*}
 
 % B. Internacional
-\bibliographystyle{IEEEtran}
+% NOTA: se sustituye IEEEtran por ieeetr (estilo numerico equivalente que
+% viene incluido de serie en cualquier instalacion de LaTeX, sin depender
+% del paquete IEEEtran). Si tu editor si tiene IEEEtran.bst instalado,
+% puedes volver a bibliographystyle{IEEEtran} sin tocar nada mas.
+\bibliographystyle{ieeetr}
 
 % C. Otro
 %\bibliographystyle{miunsrturl}
