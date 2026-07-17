@@ -94,6 +94,105 @@ Un patrón de diseño \cite{larman2004} es una solución ya conocida y reutiliza
     \item \textbf{Adapter}: patrón que convierte el formato de datos de un sistema externo al formato interno que espera la aplicación, permitiendo que ambos ``encajen'' sin modificar ninguno de los dos. Las notificaciones \emph{push} de Firebase Cloud Messaging llegan con un formato plano (título, cuerpo, y un mapa de texto), distinto del modelo interno tipado \texttt{Alerta}/\texttt{Aviso}; una función adaptadora convierte ese \emph{payload} recibido al modelo de dominio antes de utilizarlo en la aplicación.
 \end{itemize}
 
-\subsection{Implementacion}
+\subsubsection{Interfaces de usuario}
+ 
+Paralelamente a las decisiones de arquitectura y de base de datos, se ha diseñado en Figma \cite{figma} el conjunto de pantallas del perfil de ciudadano mediante \emph{mockups}\footnote{Mockup: representación visual estática de la interfaz de una aplicación, sin funcionalidad real, utilizada para planificar el diseño antes de su implementación.}, que sirven de referencia visual para la implementación posterior. Se ha optado por diseñar de forma conjunta todas las pantallas del perfil ciudadano, aunque no todas se implementen en esta primera iteración, para garantizar una línea visual coherente desde el principio y evitar rediseños parciales más adelante. De ellas, en esta primera iteración se implementan únicamente la selección de ciudad, la pantalla de inicio y el listado y detalle de cofradías y procesiones; el resto se retoman en la iteración a la que corresponden: el mapa en vivo en la Iteración 2, el modo cofrade y la ubicación compartida del perfil en la Iteración 3, y las preferencias de notificaciones del perfil en la Iteración 5.
+ 
+Todas las pantallas comparten una estética oscura con acentos dorados, que evoca la iluminación de cirios y el ambiente nocturno característico de las procesiones, y una barra de navegación inferior fija con cinco secciones (\emph{Inicio}, \emph{Cofradías}, \emph{Mapa}, \emph{Buscar} y \emph{Perfil}), que se corresponde directamente con el paquete \texttt{navigation/} descrito en el apartado de arquitectura.
+ 
+\paragraph{Selección de ciudad}
+ 
+Es la primera pantalla que ve cualquier usuario, ya que toda la información de la aplicación (cofradías, procesiones, eventos) está filtrada por la ciudad seleccionada, tal y como se refleja en la colección \texttt{ciudades} descrita en el apartado anterior. El usuario puede buscar su ciudad o elegirla de una lista con el número de procesiones disponibles en cada una.
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/eleguirCiudad.png.png}
+    \caption{Mockup de la pantalla de selección de ciudad}
+    \label{fig:mockupCiudad}
+\end{figure}
+ 
+\paragraph{Inicio}
+ 
+Muestra la información general del día en curso: el día de Semana Santa seleccionado, avisos relevantes (por ejemplo, un retraso en el horario de salida), la procesión que está en curso en ese momento si la hay, unas estadísticas generales de la ciudad (número de cofradías, procesiones y nazarenos) y el listado de procesiones programadas para el día.
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/inicio.png.png}
+    \caption{Mockup de la pantalla de inicio}
+    \label{fig:mockupInicio}
+\end{figure}
+ 
+\paragraph{Cofradías y procesiones}
+ 
+El listado de cofradías permite buscar y acceder a la ficha de cada una. La ficha de una cofradía muestra su historia, su web oficial, las procesiones que organiza y los pasos que la componen; desde ahí se puede acceder al detalle de una procesión concreta, con su horario, duración, número de nazarenos, recorrido y pasos que participan en ella.
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/cofradia.png}
+    \caption{Mockup del listado de cofradías}
+    \label{fig:mockupCofradias}
+\end{figure}
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/cofradiaInfo.png}
+    \caption{Mockup del detalle de una cofradía}
+    \label{fig:mockupDetalleCofradia}
+\end{figure}
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/procesionDetalles.png}
+    \caption{Mockup del detalle de una procesión}
+    \label{fig:mockupDetalleProcesion}
+\end{figure}
+ 
+\paragraph{Buscar, Mapa y Perfil}
+ 
+Estas tres pantallas se han diseñado ya para mantener la coherencia visual del conjunto, pero su funcionalidad se implementa en iteraciones posteriores. \emph{Buscar} permite localizar procesiones filtrando por día y estado (programada, en curso o finalizada); \emph{Mapa en Vivo} mostrará la posición en tiempo real de las procesiones en curso sobre un mapa de Google Maps (Iteración 2); y \emph{Perfil} reúne, además de la ciudad seleccionada y las cofradías/procesiones favoritas del ciudadano, el cambio al modo cofrade con el botón para compartir ubicación (Iteración 3) y las preferencias de notificaciones (Iteración 5).
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/buscar.png}
+    \caption{Mockup de la pantalla de búsqueda}
+    \label{fig:mockupBuscar}
+\end{figure}
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/mapa.png}
+    \caption{Mockup del mapa en vivo}
+    \label{fig:mockupMapa}
+\end{figure}
+ 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/perfil.png}
+    \caption{Mockup de la pantalla de perfil, en modo ciudadano}
+    \label{fig:mockupPerfil}
+\end{figure}
 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/perfilCofrade.png}
+    \caption{Mockup de la pantalla de perfil, en modo cofrade}
+    \label{fig:mockupPerfil}
+\end{figure}
+ 
+\subsubsection{Patrones de diseño}
+ 
+Un patrón de diseño \cite{larman2004} es una solución ya conocida y reutilizable a un problema que se repite con frecuencia en el desarrollo de software; su uso facilita la legibilidad, el mantenimiento y la escalabilidad del código. Para seleccionar los patrones aplicables a este proyecto se han revisado dos TFG previos de la escuela con una arquitectura similar (aplicación móvil apoyada en Firebase), de los que se han descartado los patrones \emph{Builder} y \emph{Abstract Factory}: en Java se justifican porque los constructores de clases no admiten bien parámetros opcionales, pero en JavaScript/TypeScript un objeto literal con esos mismos campos opcionales ya resuelve el mismo problema de forma nativa, y en ningún punto del sistema es necesario intercambiar familias completas de implementaciones. Los siete patrones finalmente aplicados son los siguientes:
+ 
+\begin{itemize}
+    \item \textbf{Singleton}: patrón que garantiza que una clase tenga una única instancia en toda la aplicación y un punto de acceso global a ella, evitando crear varias copias innecesarias. En este proyecto, la inicialización del SDK de Firebase (\texttt{firebase/config}) se realiza una única vez y esa misma instancia se reutiliza en el resto de la aplicación.
+    \item \textbf{Repository}: patrón que separa la lógica de acceso a los datos del resto de la aplicación, ocultando los detalles de cómo y dónde se almacenan. La capa \texttt{services} es la única parte del código que conoce el SDK de Firebase; el resto de la aplicación solo invoca funciones como \texttt{procesionService.obtenerActivas(ciudadId)}, sin saber que por detrás se está consultando Firestore. Esto facilitaría cambiar de proveedor de backend en el futuro (línea de trabajo futuro, Sección~\ref{cap:trabajo_futuro}) sin modificar ninguna pantalla.
+    \item \textbf{Observer}: patrón en el que uno o varios elementos (``observadores'') se suscriben a los cambios de otro elemento y son notificados automáticamente cuando este cambia, en lugar de tener que preguntar repetidamente. Los \emph{listeners} de Firestore (\texttt{onSnapshot}) funcionan así: notifican a la interfaz cada vez que cambia la posición de una procesión o llega una notificación nueva.
+    \item \textbf{Factory Method}: patrón que centraliza en una única función la creación de un objeto, delegando en ella la decisión de qué variante concreta construir. El dominio distingue \texttt{Aviso} y \texttt{Alerta} como subtipos de \texttt{Notificacion} (Figura~\ref{fig:DiagramDomain}); una función fábrica construye el objeto correcto según los campos \texttt{tipoAlerta} y \texttt{fechaExpiracion} antes de guardarlo en Firestore.
+    \item \textbf{Context/Provider}: convención propia de React (no un patrón GoF\footnote{GoF (\emph{Gang of Four}): apodo con el que se conoce a los cuatro autores del libro \emph{Design Patterns} \cite{gof} (1994), que popularizó el catálogo clásico de patrones de diseño orientado a objetos (Singleton, Observer, Factory Method, entre otros).} clásico) que permite exponer un dato o estado a cualquier pantalla de la aplicación sin tener que pasarlo manualmente de componente en componente. \texttt{AuthContext} y \texttt{LocationContext} exponen así el usuario autenticado y los permisos de ubicación a cualquier pantalla que los necesite.
+    \item \textbf{Facade}: patrón que ofrece una única función sencilla como punto de entrada a una operación que, por detrás, involucra varios pasos o subsistemas distintos. El caso de uso ``Compartir ubicación durante procesión'' (RF-15) esconde tras la llamada \texttt{geoService.iniciarCompartirUbicacion(procesionId)} la solicitud de permiso de GPS, la escritura periódica en Firestore y la gestión de una posible pérdida de conexión.
+    \item \textbf{Adapter}: patrón que convierte el formato de datos de un sistema externo al formato interno que espera la aplicación, permitiendo que ambos ``encajen'' sin modificar ninguno de los dos. Las notificaciones \emph{push} de Firebase Cloud Messaging llegan con un formato plano (título, cuerpo, y un mapa de texto), distinto del modelo interno tipado \texttt{Alerta}/\texttt{Aviso}; una función adaptadora convierte ese \emph{payload} recibido al modelo de dominio antes de utilizarlo en la aplicación.
+\end{itemize}
+ 
+\subsection{Implementacion}
+ 
 \subsection{Pruebas}
