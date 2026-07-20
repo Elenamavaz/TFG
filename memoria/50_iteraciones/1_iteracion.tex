@@ -31,7 +31,7 @@ Dentro del propio cliente, el código se organiza siguiendo una \textbf{arquitec
 
 La Figura~\ref{fig:disenoPaquetes} muestra esta organización en forma de diagrama de paquetes, donde las flechas discontinuas indican qué paquete depende de (necesita) cuál.
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/Dragrama de aplicacion front-end.png}
     \caption{Diagrama de paquetes de la aplicación cliente}
@@ -53,7 +53,7 @@ Como se ha explicado, el back-end de este proyecto no incluye código propio, si
 
 Un diagrama de despliegue representa, de forma física, dónde se ejecuta cada parte del sistema y cómo se comunican entre sí esos entornos. La Figura~\ref{fig:disenoDespliegue} recoge el despliegue completo de este proyecto: el dispositivo móvil ejecuta la aplicación React Native, que se comunica mediante el protocolo HTTPS\footnote{HTTPS: versión segura (cifrada) del protocolo HTTP, usado habitualmente para la comunicación entre aplicaciones y servicios en internet.} tanto con Firebase (autenticación, base de datos, almacenamiento y notificaciones) como con Google Maps Platform (visualización de mapas y cálculo de rutas). Puede observarse que no existe ningún nodo de base de datos local: el requisito RNF-03 (disponibilidad de la información estática sin conexión a internet) queda cubierto por la caché\footnote{Caché: copia local y temporal de unos datos, guardada en el propio dispositivo, que permite seguir accediendo a ellos aunque se pierda la conexión a internet.} que Cloud Firestore guarda automáticamente en el dispositivo, sin que sea necesario implementar una base de datos local adicional como haría, por ejemplo, una aplicación Android nativa con Room.
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/Diagrama de despliegue.png}
     \caption{Diagrama de despliegue de la aplicación}
@@ -72,7 +72,7 @@ A diferencia de una base de datos relacional tradicional (como MySQL), organizad
     \item La colección \texttt{usuarios} solo contiene los perfiles de rol elevado (cofrade, junta de cofradías, administrador): el ciudadano no se registra, por lo que no genera ningún documento en Firestore para poder usar la aplicación. Un usuario obtiene uno de estos roles al introducir un \textbf{código de acceso} válido, gestionado en la colección \texttt{codigosAcceso} (con estados \texttt{EMITIDO}, \texttt{VALIDADO} y \texttt{REVOCADO}); en ese momento se crea su sesión de Firebase Authentication y su documento en \texttt{/usuarios/\{id\}}, con el rol guardado como campo y comprobado mediante las reglas de seguridad de Firestore, mecanismo que cubre el requisito RNF-05 (control de acceso diferenciado por rol). Cada código de acceso lleva además una \textbf{referencia a la cofradía} que lo emite, de forma que un cofrade que valida su código queda automáticamente vinculado a esa cofradía y puede actuar en su nombre (por ejemplo, compartiendo la ubicación de uno de sus pasos o publicando un evento).
 \end{itemize}
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/diagrama_dominio_simplificado.png}
     \caption{Diagrama de dominio}
@@ -104,7 +104,7 @@ Todas las pantallas comparten una estética oscura con acentos dorados, que evoc
  
 Es la primera pantalla que ve cualquier usuario, ya que toda la información de la aplicación (cofradías, procesiones, eventos) está filtrada por la ciudad seleccionada, tal y como se refleja en la colección \texttt{ciudades} descrita en el apartado anterior. El usuario puede buscar su ciudad o elegirla de una lista con el número de procesiones disponibles en cada una.
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/eleguirCiudad.png}
     \caption{Mockup de la pantalla de selección de ciudad}
@@ -115,14 +115,14 @@ Es la primera pantalla que ve cualquier usuario, ya que toda la información de 
  
 Muestra la información general del día en curso: el día de Semana Santa seleccionado, avisos relevantes (por ejemplo, un retraso en el horario de salida), la procesión que está en curso en ese momento si la hay, unas estadísticas generales de la ciudad (número de cofradías, procesiones y nazarenos) y el listado de procesiones programadas para el día.
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/inicio.png}
     \caption{Mockup de la pantalla de inicio}
     \label{fig:mockupInicio}
 \end{figure}
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/inicioFav.png}
     \caption{Mockup de la pantalla de inicio}
@@ -134,21 +134,21 @@ Muestra la información general del día en curso: el día de Semana Santa selec
  
 El listado de cofradías permite buscar y acceder a la ficha de cada una. La ficha de una cofradía muestra su historia, su web oficial, las procesiones que organiza y los pasos que la componen; desde ahí se puede acceder al detalle de una procesión concreta, con su horario, duración, número de nazarenos, recorrido y pasos que participan en ella.
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/cofradia.png}
     \caption{Mockup del listado de cofradías}
     \label{fig:mockupCofradias}
 \end{figure}
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/cofradiaInfo.png}
     \caption{Mockup del detalle de una cofradía}
     \label{fig:mockupDetalleCofradia}
 \end{figure}
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/procesionDetalles.png}
     \caption{Mockup del detalle de una procesión}
@@ -159,42 +159,42 @@ El listado de cofradías permite buscar y acceder a la ficha de cada una. La fic
  
 Estas tres pantallas se han diseñado ya para mantener la coherencia visual del conjunto, pero su funcionalidad se implementa en iteraciones posteriores. \emph{Buscar} permite localizar procesiones filtrando por día y estado (programada, en curso o finalizada); \emph{Mapa en Vivo} mostrará la posición en tiempo real de las procesiones en curso sobre un mapa de Google Maps (Iteración 2); y \emph{Perfil} reúne, además de la ciudad seleccionada y las cofradías/procesiones favoritas del ciudadano, el cambio al modo cofrade con el botón para compartir ubicación (Iteración 3) y las preferencias de notificaciones (Iteración 5).
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/buscar.png}
     \caption{Mockup de la pantalla de búsqueda}
     \label{fig:mockupBuscar}
 \end{figure}
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/buscarProcesiones.png}
     \caption{Mockup de la pantalla de búsqueda}
     \label{fig:mockupBuscar}
 \end{figure}
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/buscarEditada.png}
     \caption{Mockup de la pantalla de búsqueda}
     \label{fig:mockupBuscar}
 \end{figure}
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/mapa.png}
     \caption{Mockup del mapa en vivo}
     \label{fig:mockupMapa}
 \end{figure}
  
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/perfil.png}
     \caption{Mockup de la pantalla de perfil, en modo ciudadano}
     \label{fig:mockupPerfil}
 \end{figure}
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/perfilCofrade.png}
     \caption{Mockup de la pantalla de perfil, en modo cofrade}
