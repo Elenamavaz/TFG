@@ -178,49 +178,45 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
     \caption{Caso de uso: Crear alerta}
 \end{table}
 
-
 \begin{table}[h!]
     \centering
     \renewcommand{\arraystretch}{1.5}
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Generar ruta hacia procesión}}                                \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Acceso como cofrade}}                                                                   \\
         \hline
-        \textbf{Resumen}                                                                                       & El usuario genera una ruta desde su ubicación hasta una procesión.      \\
+        \textbf{Resumen}                                                                                                                 & Un usuario se registra en la aplicación como miembro de una cofradía. \\
         \hline
-        \textbf{Actor}                                                                                         & Ciudadano                                                               \\
+        \textbf{Actor}                                                                                                                   & Cofrade                                                               \\
         \hline
-        \textbf{Precondición}                                                                                  & El usuario tiene permisos de ubicación y hay una procesión seleccionada \\
+        \textbf{Precondición}                                                                                                            & El usuario no está registrado.                                        \\
         \hline
-        \textbf{Postcondición}                                                                                 & Se muestra la ruta en el mapa                                           \\
+        \textbf{Postcondición}                                                                                                           & El usuario queda registrado y puede acceder a funciones de cofrade.   \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                           \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                     \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona una procesión. }                                  \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona la opción de registro. }                                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El usuario pulsa generar ruta. }                                        \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el formulario de registro (Introducir código de acceso para dicha cofradía). } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El sistema obtiene la ubicación del usuario. }                          \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario introduce el código de acceso de la cofradía. }                                        \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El sistema calcula la ruta óptima. }                                    \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema valida el código. }                                                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El sistema muestra la ruta en el mapa. }                                \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema muestra mensaje informando del correcto acceso. }                                      \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                              \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Sin permisos de ubicación: El sistema solicita permisos. }          \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                           \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Sin conexión: El sistema muestra error de conexión. }               \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Codigo inválido: El sistema muestra los errores de validación. }                              \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
-        \hline
-        \textbf{Requisitos Relacionados}                                                                       & RF-07 y RF-17.                                                          \\
+        \textbf{Requisitos Relacionados}                                                                                                 & RF-02.                                                                \\
         \hline
     \end{tabular}
-    \caption{Caso de uso: Generar ruta hacia procesión}
+    \caption{Caso de uso: Acceso como cofrade}
 \end{table}
-
 
 \begin{table}[h!]
     \centering
