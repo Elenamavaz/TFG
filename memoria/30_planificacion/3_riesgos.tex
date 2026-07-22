@@ -44,149 +44,102 @@ La variable probabilidad representa la probabilidad de que el riesgo se material
 \subsection{Planificación de riesgo}
 
 Tras realizar la identificación de los riesgos, el siguiente paso es la decisión de qué medidas se deben tomar para reducir la probabilidad de que el riesgo ocurra, de forma que se pueda disminuir su impacto una vez se materialice.
-
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Estimaciones de tiempo erróneas \\
-\hline
-\textbf{Reducción} & Planificar las tareas con margen por si la estimación ha sido inferior al tiempo necesario. Dividir las tareas grandes en subtareas más pequeñas y manejables. \\
-\hline
-\textbf{Contingencia} & Cambiar la planificación, reducir el alcance del proyecto priorizando las funcionalidades esenciales. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Estimaciones de tiempo erróneas \\[0.4em]
+\textbf{Reducción} & Planificar las tareas con margen por si la estimación ha sido inferior al tiempo necesario. Dividir las tareas grandes en subtareas más pequeñas y manejables. \\[0.4em]
+\textbf{Contingencia} & Cambiar la planificación, reducir el alcance del proyecto priorizando las funcionalidades esenciales.
 \end{tabular}
 \caption{Riesgo 1: Estimaciones de tiempo erróneas}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Problemas con la integración de Google Maps \\
-\hline
-\textbf{Reducción} & Realizar pruebas de concepto tempranas con la API de Google Maps. Documentarse sobre las limitaciones y cuotas del servicio. \\
-\hline
-\textbf{Contingencia} & Considerar alternativas como OpenStreetMap \cite{openstreetmap} o Mapbox en caso de problemas persistentes. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Problemas con la integración de Google Maps \\[0.4em]
+\textbf{Reducción} & Realizar pruebas de concepto tempranas con la API de Google Maps. Documentarse sobre las limitaciones y cuotas del servicio. \\[0.4em]
+\textbf{Contingencia} & Considerar alternativas como OpenStreetMap \cite{openstreetmap} o Mapbox en caso de problemas persistentes.
 \end{tabular}
 \caption{Riesgo 2: Problemas con la integración de Google Maps}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Errores durante el desarrollo \\
-\hline
-\textbf{Reducción} & Verificar que la funcionalidad está implementada correctamente antes de dar por finalizado el incremento. Realizar pruebas unitarias\footnote{Pruebas unitarias: pruebas que verifican el correcto funcionamiento de componentes individuales del código de forma aislada.}. \\
-\hline
-\textbf{Contingencia} & Volver al último punto correctamente probado y continuar desde ahí. Utilizar control de versiones \cite{github} para recuperar estados anteriores del código. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Errores durante el desarrollo \\[0.4em]
+\textbf{Reducción} & Verificar que la funcionalidad está implementada correctamente antes de dar por finalizado el incremento. Realizar pruebas unitarias\footnote{Pruebas unitarias: pruebas que verifican el correcto funcionamiento de componentes individuales del código de forma aislada.} \\[0.4em]
+\textbf{Contingencia} & Volver al último punto correctamente probado y continuar desde ahí. Utilizar control de versiones \cite{github} para recuperar estados anteriores del código.
 \end{tabular}
 \caption{Riesgo 3: Errores durante el desarrollo}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Falta de experiencia con tecnologías móviles \\
-\hline
-\textbf{Reducción} & Formarse en las tecnologías clave antes de proceder al desarrollo. Consultar documentación oficial y tutoriales. \\
-\hline
-\textbf{Contingencia} & Aprovechar la experiencia del tutor para solventar los posibles problemas. Buscar soluciones en comunidades de desarrolladores. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Falta de experiencia con tecnologías móviles \\[0.4em]
+\textbf{Reducción} & Formarse en las tecnologías clave antes de proceder al desarrollo. Consultar documentación oficial y tutoriales. \\[0.4em]
+\textbf{Contingencia} & Aprovechar la experiencia del tutor para solventar los posibles problemas. Buscar soluciones en comunidades de desarrolladores.
 \end{tabular}
 \caption{Riesgo 4: Falta de experiencia con tecnologías móviles}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Problemas con la geolocalización en tiempo real \\
-\hline
-\textbf{Reducción} & Investigar las mejores prácticas para implementar geolocalización en aplicaciones móviles. Realizar prototipos tempranos para validar la viabilidad técnica. \\
-\hline
-\textbf{Contingencia} & Implementar un modo de actualización manual de la ubicación como alternativa temporal. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Problemas con la geolocalización en tiempo real \\[0.4em]
+\textbf{Reducción} & Investigar las mejores prácticas para implementar geolocalización en aplicaciones móviles. Realizar prototipos tempranos para validar la viabilidad técnica. \\[0.4em]
+\textbf{Contingencia} & Implementar un modo de actualización manual de la ubicación como alternativa temporal.
 \end{tabular}
 \caption{Riesgo 5: Problemas con la geolocalización en tiempo real}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Cambios en los requisitos \\
-\hline
-\textbf{Reducción} & El desarrollo iterativo permite adaptar el sistema a cambios de forma gradual. \\
-\hline
-\textbf{Contingencia} & Reevaluar las prioridades y ajustar el alcance del proyecto según las nuevas necesidades. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Cambios en los requisitos \\[0.4em]
+\textbf{Reducción} & El desarrollo iterativo permite adaptar el sistema a cambios de forma gradual. \\[0.4em]
+\textbf{Contingencia} & Reevaluar las prioridades y ajustar el alcance del proyecto según las nuevas necesidades.
 \end{tabular}
 \caption{Riesgo 6: Cambios en los requisitos}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Especificaciones genéricas \\
-\hline
-\textbf{Reducción} & Reunir toda la información posible antes de abordar una tarea. Clarificar requisitos con el tutor. \\
-\hline
-\textbf{Contingencia} & Prototipar en caso de ser necesario para validar la interpretación de los requisitos. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Especificaciones genéricas \\[0.4em]
+\textbf{Reducción} & Reunir toda la información posible antes de abordar una tarea. Clarificar requisitos con el tutor. \\[0.4em]
+\textbf{Contingencia} & Prototipar en caso de ser necesario para validar la interpretación de los requisitos.
 \end{tabular}
 \caption{Riesgo 7: Especificaciones genéricas}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Problemas con el entorno de desarrollo \\
-\hline
-\textbf{Reducción} & Utilizar un repositorio remoto (GitHub \cite{github}) para almacenar copias de seguridad del código. \\
-\hline
-\textbf{Contingencia} & Utilizar una máquina de respaldo o entorno de desarrollo alternativo. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Problemas con el entorno de desarrollo \\[0.4em]
+\textbf{Reducción} & Utilizar un repositorio remoto (GitHub \cite{github}) para almacenar copias de seguridad del código. \\[0.4em]
+\textbf{Contingencia} & Utilizar una máquina de respaldo o entorno de desarrollo alternativo.
 \end{tabular}
 \caption{Riesgo 8: Problemas con el entorno de desarrollo}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Indisposición del desarrollador \\
-\hline
-\textbf{Reducción} & Planificar las tareas con margen por si es necesario extender el tiempo para completar el incremento. \\
-\hline
-\textbf{Contingencia} & Realizar horas extra en caso necesario y ajustar la planificación. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Indisposición del desarrollador \\[0.4em]
+\textbf{Reducción} & Planificar las tareas con margen por si es necesario extender el tiempo para completar el incremento. \\[0.4em]
+\textbf{Contingencia} & Realizar horas extra en caso necesario y ajustar la planificación.
 \end{tabular}
 \caption{Riesgo 9: Indisposición del desarrollador}
 \end{table}
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Riesgo} & Problemas con Firebase/base de datos \\
-\hline
-\textbf{Reducción} & Documentarse sobre las limitaciones del plan gratuito de Firebase \cite{firebasefcm}. Diseñar una estructura de datos eficiente. \\
-\hline
-\textbf{Contingencia} & Migrar a un servicio alternativo en caso de problemas críticos. \\
-\hline
+\begin{tabular}{@{}p{3cm}p{10cm}@{}}
+\textbf{Riesgo} & Problemas con Firebase/base de datos \\[0.4em]
+\textbf{Reducción} & Documentarse sobre las limitaciones del plan gratuito de Firebase \cite{firebasefcm}. Diseñar una estructura de datos eficiente. \\[0.4em]
+\textbf{Contingencia} & Migrar a un servicio alternativo en caso de problemas críticos.
 \end{tabular}
 \caption{Riesgo 10: Problemas con Firebase/base de datos}
 \end{table}
-
-\subsection{Monitorización de riesgos}
-
-Durante el desarrollo del proyecto, se debe realizar un seguimiento continuo de los riesgos identificados para detectar de forma temprana su aparición y poder aplicar las medidas pertinentes.
-
-\textit{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Nota : Esta sección se completará al finalizar el desarrollo del proyecto, documentando qué riesgos se manifestaron, el impacto que tuvieron y las medidas que se tomaron para subsanarlos.}

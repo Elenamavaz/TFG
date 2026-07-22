@@ -1,0 +1,48 @@
+\section{Actores del sistema}\label{cap:analisis_usuarios}
+
+En el desarrollo de cualquier sistema software es fundamental identificar y definir los actores que interactuarán con la plataforma. Los actores representan a las entidades externas, ya sean personas u otros sistemas, que se comunican con la aplicación y hacen uso de sus funcionalidades.
+
+En el caso de esta aplicación, orientada a la gestión y consulta de información sobre la Semana Santa, se han identificado cuatro actores principales: el ciudadano, el cofrade, la Junta de Cofradías y el administrador. Cada uno de ellos dispone de un nivel de acceso y unas funcionalidades diferenciadas, que se detallan a continuación y que sirven de base para la definición de los requisitos funcionales (Sección~\ref{cap:requisitos}).
+
+\subsection{Ciudadano}
+
+El ciudadano es el actor principal de la aplicación y representa a cualquier persona interesada en seguir la Semana Santa, ya sea de forma presencial en la ciudad o de manera remota. No requiere registro previo para utilizar la aplicación.
+
+Puede consultar la información detallada de cofradías, eventos y procesiones, realizar búsquedas y aplicar filtros, y visualizar en tiempo real la posición de las procesiones mediante geolocalización. Además, puede generar rutas hacia una procesión o entre dos puntos evitando aquellas que estén activas, marcar contenido como favorito, configurar sus preferencias de notificaciones y recibir alertas sobre los eventos y procesiones que sigue.
+
+\subsection{Cofrade}
+
+El cofrade es un ciudadano que, además, pertenece a una cofradía o hermandad. Accede al modo cofrade introduciendo el código de acceso de su cofradía, validado por la Junta de Cofradías correspondiente, y hereda todas las funcionalidades disponibles para el ciudadano.
+
+Su funcionalidad diferencial es la posibilidad de compartir su ubicación en tiempo real durante las procesiones en las que participa, lo que permite alimentar la geolocalización que consultan el resto de usuarios.
+
+\subsection{Junta de Cofradías}
+
+La Junta de Cofradías es el actor responsable de la gestión del contenido asociado a su cofradía o hermandad dentro de la aplicación. Accede a un panel de gestión desde el que puede crear y editar cofradías, eventos y procesiones, así como definir y modificar sobre el mapa los recorridos de estas últimas.
+
+Asimismo, se encarga de actualizar el estado de las procesiones en tiempo real, gestionar los pasos y los puntos de interés de la ciudad, publicar información sobre cortes de calles, y crear las alertas y notificaciones que reciben los ciudadanos y cofrades. También es responsable de validar y aprobar, mediante el código de acceso correspondiente, el registro de nuevos cofrades en su cofradía.
+
+\subsection{Administrador}
+
+El administrador es el actor con mayor nivel de privilegios dentro del sistema y se encarga de su configuración y mantenimiento a nivel global, por encima del ámbito de una cofradía concreta. Su principal responsabilidad es la gestión de las ciudades disponibles en la aplicación, dando de alta, editando o dando de baja aquellas en las que el sistema ofrece cobertura.
+
+La Tabla~\ref{tab:actores} resume los cuatro actores identificados y su rol dentro del sistema.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|p{10cm}|}
+\hline
+\textbf{Actor} & \textbf{Rol} \\
+\hline
+Ciudadano & Consulta información y sigue la Semana Santa sin necesidad de registro. \\
+\hline
+Cofrade & Ciudadano perteneciente a una cofradía; comparte su ubicación durante las procesiones. \\
+\hline
+Junta de Cofradías & Gestiona el contenido de su cofradía: cofradías, eventos, procesiones, recorridos y alertas. \\
+\hline
+Administrador & Gestiona la configuración global del sistema, en particular las ciudades disponibles. \\
+\hline
+\end{tabular}
+\caption{Resumen de los actores del sistema}
+\label{tab:actores}
+\end{table}
