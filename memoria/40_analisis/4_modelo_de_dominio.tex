@@ -14,7 +14,43 @@ En esta sección se detalla el diseño conceptual del sistema, incluyendo las en
 
 En este apartado se mostrarán los diagramas de secuencia obtenidos del análisis a partir de los casos de uso mencionados anteriormente. Se han excluido de esta sección las secuencias alternativas de cancelar con el fin de simplificar los diagramas.
 
-FALTAN LOS DIAGRMAS DE SECUENCIA!!!!!!!!!!!!!!!!!!!!!!!!!
+Para el caso de uso \textit{Visualizar procesión en tiempo real} (Figura~\ref{fig:secVisualizarProcesion}), el ciudadano selecciona una procesión activa y el sistema obtiene la instancia de \texttt{Procesion} correspondiente, junto con su recorrido planificado, y se suscribe a las actualizaciones de su posición actual. Mientras la procesión está en curso, el sistema recalcula sobre el recorrido el tramo ya realizado y el tramo restante en función de la posición recibida, para mantener el mapa del usuario actualizado.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth,keepaspectratio]{imagenes/diagramaSecuenciaVisualizarProcesion.png}
+\caption{Diagrama de secuencia del CU ``Visualizar procesión en tiempo real''}
+\label{fig:secVisualizarProcesion}
+\end{figure}
+
+En el caso de uso \textit{Compartir ubicación durante procesión} (Figura~\ref{fig:secCompartirUbicacion}), el cofrade accede a la procesión activa de su cofradía y activa la opción de compartir su ubicación. El sistema solicita los permisos de localización si no los tiene concedidos: si el cofrade los deniega, se le informa de que no es posible compartir la ubicación sin permiso; si los concede, el sistema comienza a actualizar de forma periódica la posición del cofrade mientras la procesión sigue en curso.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth,keepaspectratio]{imagenes/diagramaSecuenciaCompartirUbicacion.png}
+\caption{Diagrama de secuencia del CU ``Compartir ubicación durante procesión''}
+\label{fig:secCompartirUbicacion}
+\end{figure}
+
+En el caso de uso \textit{Acceso como cofrade} (Figura~\ref{fig:secAccesoCofrade}), el usuario selecciona la opción de registro y el sistema le muestra el formulario correspondiente. Al introducir el código de acceso de su cofradía, el sistema obtiene el \texttt{CodigoAcceso} correspondiente y lo valida, informando al usuario del acceso correcto o de un error de validación según el resultado.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth,keepaspectratio]{imagenes/diagramaSecuenciaAccesoCofrade.png}
+\caption{Diagrama de secuencia del CU ``Acceso como cofrade''}
+\label{fig:secAccesoCofrade}
+\end{figure}
+
+En el caso de uso \textit{Dar de alta ciudad} (Figura~\ref{fig:secAltaCiudad}), el administrador accede al panel de administración, donde el sistema le muestra la lista de ciudades existentes, y selecciona la opción de añadir una nueva ciudad. Tras introducir los datos, el sistema construye la instancia de \texttt{Ciudad} correspondiente y valida los datos introducidos, repitiendo la solicitud hasta que estos son válidos, momento en el que la ciudad queda dada de alta.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth,keepaspectratio]{imagenes/diagramaSecuenciaAltaCiudad.png}
+\caption{Diagrama de secuencia del CU ``Dar de alta ciudad''}
+\label{fig:secAltaCiudad}
+\end{figure}
+
+% TODO: diagramas de secuencia pendientes de añadir - Editar ciudad, Dar de baja ciudad y Crear alerta.
 
 \subsection{Modelo de dominio detallado}
 

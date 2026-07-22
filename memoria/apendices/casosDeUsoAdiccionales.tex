@@ -46,38 +46,40 @@ ef{cap:casos_de_uso}). Cada uno de ellos sigue la misma estructura que los prese
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Acceso como cofrade}}                                                                   \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Generar ruta hacia procesión}}                                \\
         \hline
-        \textbf{Resumen}                                                                                                                 & Un usuario se registra en la aplicación como miembro de una cofradía. \\
+        \textbf{Resumen}                                                                                       & El usuario genera una ruta desde su ubicación hasta una procesión.      \\
         \hline
-        \textbf{Actor}                                                                                                                   & Cofrade                                                               \\
+        \textbf{Actor}                                                                                         & Ciudadano                                                               \\
         \hline
-        \textbf{Precondición}                                                                                                            & El usuario no está registrado.                                        \\
+        \textbf{Precondición}                                                                                  & El usuario tiene permisos de ubicación y hay una procesión seleccionada \\
         \hline
-        \textbf{Postcondición}                                                                                                           & El usuario queda registrado y puede acceder a funciones de cofrade.   \\
+        \textbf{Postcondición}                                                                                 & Se muestra la ruta en el mapa                                           \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                     \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                           \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona la opción de registro. }                                                    \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona una procesión. }                                  \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el formulario de registro (Introducir código de acceso para dicha cofradía). } \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario pulsa generar ruta. }                                        \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El usuario introduce el código de acceso de la cofradía. }                                        \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema obtiene la ubicación del usuario. }                          \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El sistema valida el código. }                                                                    \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema calcula la ruta óptima. }                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El sistema muestra mensaje informando del correcto acceso. }                                      \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema muestra la ruta en el mapa. }                                \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                              \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                           \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Sin permisos de ubicación: El sistema solicita permisos. }          \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Codigo inválido: El sistema muestra los errores de validación. }                              \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Sin conexión: El sistema muestra error de conexión. }               \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                                 & RF-02.                                                                \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                       & RF-07 y RF-17.                                                          \\
         \hline
     \end{tabular}
-    \caption{Caso de uso: Acceso como cofrade}
+    \caption{Caso de uso: Generar ruta hacia procesión}
 \end{table}
 
 
@@ -450,4 +452,87 @@ ef{cap:casos_de_uso}). Cada uno de ellos sigue la misma estructura que los prese
         \hline
     \end{tabular}
     \caption{Caso de uso: Definir recorrido de procesión}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Editar ciudad}}                                                           \\
+        \hline
+        \textbf{Resumen}                                                                                                    & El administrador modifica los datos de una ciudad existente.                                                         \\
+        \hline
+        \textbf{Actor}                                                                                                      & Administrador                                                                                                         \\
+        \hline
+        \textbf{Precondición}                                                                                               & El usuario tiene rol de Administrador y existe al menos una ciudad registrada.                                       \\
+        \hline
+        \textbf{Postcondición}                                                                                              & Los datos de la ciudad quedan actualizados en el sistema.                                                            \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de administración. }                                     \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de ciudades existentes. }                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona la ciudad que desea editar. }                                 \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario modifica los datos de la ciudad. }                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema valida y guarda los cambios. }                                           \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Datos incompletos: El sistema muestra los campos requeridos. }                  \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                    & RF-26.                                                                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Editar ciudad}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Dar de baja ciudad}}                                                      \\
+        \hline
+        \textbf{Resumen}                                                                                                    & El administrador retira una ciudad disponible de la aplicación.                                                      \\
+        \hline
+        \textbf{Actor}                                                                                                      & Administrador                                                                                                         \\
+        \hline
+        \textbf{Precondición}                                                                                               & El usuario tiene rol de Administrador y existe al menos una ciudad registrada.                                       \\
+        \hline
+        \textbf{Postcondición}                                                                                              & La ciudad deja de estar disponible en el sistema.                                                                    \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                       \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de administración. }                                     \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de ciudades existentes. }                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona la ciudad que desea eliminar. }                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema comprueba si la ciudad tiene datos asociados (cofradías, eventos o procesiones). }  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario confirma la eliminación. }                                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema elimina la ciudad. }                                                     \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Ciudad con datos asociados: El sistema advierte de que la ciudad tiene cofradías, eventos o procesiones registrados antes de continuar. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la eliminación. }        \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                                    & RF-26.                                                                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Dar de baja ciudad}
 \end{table}

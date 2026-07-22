@@ -224,15 +224,15 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Gestionar ciudades disponibles}}                                          \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Dar de alta ciudad}}                                                      \\
         \hline
-        \textbf{Resumen}                                                                                                    & El administrador da de alta, edita o retira ciudades disponibles en la aplicación.                                    \\
+        \textbf{Resumen}                                                                                                    & El administrador da de alta una nueva ciudad disponible en la aplicación.                                            \\
         \hline
         \textbf{Actor}                                                                                                      & Administrador                                                                                                         \\
         \hline
         \textbf{Precondición}                                                                                               & El usuario tiene rol de Administrador.                                                                               \\
         \hline
-        \textbf{Postcondición}                                                                                              & La lista de ciudades disponibles queda actualizada en el sistema.                                                    \\
+        \textbf{Postcondición}                                                                                              & La nueva ciudad queda disponible en el sistema.                                                                      \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                       \\
         \hline
@@ -240,11 +240,11 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
         \hline
         \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de ciudades existentes. }                               \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona añadir, editar o eliminar una ciudad. }                       \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona la opción de añadir ciudad. }                                 \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El usuario introduce o modifica los datos de la ciudad. }                           \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario introduce los datos de la nueva ciudad. }                                \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El sistema valida y guarda los cambios. }                                           \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema valida y guarda la nueva ciudad. }                                       \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                \\
         \hline
@@ -252,11 +252,8 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5.a.1] Datos incompletos: El sistema muestra los campos requeridos. }                  \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Ciudad con datos asociados: El sistema advierte antes de eliminar una ciudad que tenga cofradías, eventos o procesiones registrados. } \\
-        \hline
         \textbf{Requisitos Relacionados}                                                                                    & RF-26.                                                                                                                \\
         \hline
     \end{tabular}
-    \caption{Caso de uso: Gestionar ciudades disponibles}
+    \caption{Caso de uso: Dar de alta ciudad}
 \end{table}
-
