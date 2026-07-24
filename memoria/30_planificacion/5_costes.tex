@@ -47,26 +47,28 @@ Tester/QA \cite{salarioTester}                       & 30  & 17€ &   510,00€
 El equipo del proyecto necesitaría un ordenador portátil por persona, además de un dispositivo Android dedicado a las pruebas. Se considera una duración total del proyecto de 5 meses.
 
 \begin{itemize}
-    \item \textbf{Ordenadores portátiles}: 6 unidades valoradas en 1.000€ cada una, con una vida útil estimada de 5 años (60 meses). La amortización mensual por unidad es de 16,66€, lo que supone 83,30€ por portátil durante los 5 meses del proyecto, y \textbf{500,00€} en total para los 6 puestos de trabajo.
-    \item \textbf{Dispositivo Android de pruebas}: 1 unidad valorada en 300€, con una vida útil estimada de 3 años (36 meses). La amortización mensual es de 8,33€, lo que supone \textbf{41,65€} para los 5 meses del proyecto.
+    \item \textbf{Ordenadores portátiles}: 6 unidades valoradas en 1.000€ cada una, con una vida útil estimada de 5 años (60 meses). La amortización mensual por unidad es de 16,66€, lo que supone 83,30€ por portátil durante los 5 meses del proyecto, y 500,00€ en total para los 6 puestos de trabajo.
+    \item \textbf{Dispositivo Android de pruebas}: 1 unidad valorada en 300€, con una vida útil estimada de 3 años (36 meses). La amortización mensual es de 8,33€, lo que supone 41,65€ para los 5 meses del proyecto.
 \end{itemize}
 
-El coste total de amortización de los recursos de equipo asciende a \textbf{541,65€}, tal y como recoge la Tabla~\ref{tab:amortizacion}.
+Ahora bien, estos importes corresponden a la ocupación de los equipos durante los 5 meses completos del proyecto. Dado que el trabajo real asciende a 300 horas, frente a una capacidad disponible de 750 horas en ese periodo (150 horas/mes de jornada completa, según el criterio de 1.800 horas anuales aplicado en el apartado anterior), el resto del tiempo los equipos podrían destinarse a otro uso. Por ello, la amortización se imputa de forma proporcional al uso real del proyecto (300/750 = 40\%).
+
+El coste de amortización así calculado asciende a \textbf{216,66€}, tal y como recoge la Tabla~\ref{tab:amortizacion}.
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|l|r|r|r|}
+\begin{tabular}{|l|r|r|r|r|}
 \hline
-\textbf{Recurso} & \textbf{Valor} & \textbf{Vida útil} & \textbf{Amortización (5 meses)} \\
+\textbf{Recurso} & \textbf{Valor} & \textbf{Vida útil} & \textbf{Amort. (5 meses)} & \textbf{Amort. proporcional (300h, 40\%)} \\
 \hline
-Portátiles (x6) & 6.000,00€ & 5 años & 500,00€ \\
+Portátiles (x6) & 6.000,00€ & 5 años & 500,00€ & 200,00€ \\
 \hline
-Dispositivo Android (x1) & 300,00€ & 3 años & 41,65€ \\
+Dispositivo Android (x1) & 300,00€ & 3 años & 41,65€ & 16,66€ \\
 \hline
-\textbf{Total amortización} & & & \textbf{541,65€} \\
+\textbf{Total amortización} & & & 541,65€ & \textbf{216,66€} \\
 \hline
 \end{tabular}
-\caption{Amortización total de los recursos de equipo}
+\caption{Amortización de los recursos de equipo, prorrateada al uso real del proyecto}
 \label{tab:amortizacion}
 \end{table}
 
@@ -107,11 +109,13 @@ Jira Software Standard (6 usuarios, 5 meses) & 218,40€ & \cite{jiraPricing} \\
 
 \subsection{Otros costes indirectos}
 
-Un equipo de 6 personas trabajando de forma presencial o híbrida necesitaría un espacio de oficina. Se ha tomado como referencia el alquiler de un despacho de 22 m\textsuperscript{2} en un espacio de coworking en el centro de Valladolid, con todos los suministros incluidos (calefacción, refrigeración, electricidad, wifi y limpieza), por un importe de 475€ al mes \cite{oficinaValladolid}. Para los 5 meses de duración del proyecto, el coste estructural total asciende a \textbf{2.375,00€}.
+Un equipo de 6 personas trabajando de forma presencial o híbrida necesitaría un espacio de oficina. Se ha tomado como referencia el alquiler de un despacho de 22 m\textsuperscript{2} en un espacio de coworking en el centro de Valladolid, con todos los suministros incluidos (calefacción, refrigeración, electricidad, wifi y limpieza), por un importe de 475€ al mes \cite{oficinaValladolid}. Para los 5 meses de duración del proyecto, el coste estructural asciende a 2.375,00€.
+
+Al igual que con la amortización de equipos, este importe corresponde a la disponibilidad del espacio durante los 5 meses completos, mientras que el uso real del proyecto es de 300 horas frente a una capacidad de 750 horas en ese periodo (40\%); el resto del tiempo el espacio podría destinarse a otro uso. Aplicando este mismo criterio de proporcionalidad, el coste estructural imputado al proyecto asciende a \textbf{950,00€} (2.375,00€ × 40\%).
 
 \subsection{Coste total}
 
-La Tabla~\ref{tab:costes_totales} resume el presupuesto completo del proyecto, considerando personal, amortización de equipo, licencias de software y costes estructurales, para una duración de 300 horas repartidas en 5 meses.
+La Tabla~\ref{tab:costes_totales} resume el presupuesto completo del proyecto, considerando personal, amortización de equipo, licencias de software y costes estructurales —estos dos últimos prorrateados a las 300 horas reales de uso— para una duración de 300 horas repartidas en 5 meses.
 
 \begin{table}[ht!]
 \centering
@@ -121,13 +125,13 @@ La Tabla~\ref{tab:costes_totales} resume el presupuesto completo del proyecto, c
 \hline
 Personal (Tabla~\ref{tab:horas_personal}) & 7.395,00€ \\
 \hline
-Amortización de equipo (Tabla~\ref{tab:amortizacion}) & 541,65€ \\
+Amortización de equipo, prorrateada (Tabla~\ref{tab:amortizacion}) & 216,66€ \\
 \hline
 Licencias de software (Tabla~\ref{tab:licencias}) & 310,40€ \\
 \hline
-Costes estructurales (oficina y suministros) & 2.375,00€ \\
+Costes estructurales, prorrateados (oficina y suministros) & 950,00€ \\
 \hline
-\textbf{Total} & \textbf{10.622,05€} \\
+\textbf{Total} & \textbf{8.872,06€} \\
 \hline
 \end{tabular}
 \caption{Costes totales del proyecto}

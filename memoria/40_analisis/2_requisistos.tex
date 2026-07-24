@@ -31,7 +31,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-13} \prioridad{Alta} El sistema debe enviar notificaciones al usuario sobre los eventos o procesiones, de acuerdo con sus preferencias de notificación.
  
-    \item \textbf{RF-14} \prioridad{Alta} El sistema debe enviar siemrpe las alertas sobre los eventos o procesiones.
+    \item \textbf{RF-14} \prioridad{Alta} El sistema debe enviar siempre las alertas sobre los eventos o procesiones.
 
     \item \textbf{RF-17} \prioridad{Alta} El sistema debe mostrar la información detallada de las procesiones (recorrido, horarios, pasos, ...).
 
@@ -39,7 +39,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
     
     \item \textbf{RF-09} \prioridad{Media} El sistema debe poder generar rutas entre dos puntos evitando las procesiones activas.
 
-    \item \textbf{RF-12} \prioridad{Media} El sistema debe permitir a los usuarios marcar cofradías, eventos o procesiones como favoritas.
+    \item \textbf{RF-12} \prioridad{Media} El sistema debe permitir a los usuarios marcar cofradías, eventos o procesiones como favoritas, para filtrar la información mostrada en la aplicación y recibir notificaciones sobre ellas.
 
     \item \textbf{RF-16} \prioridad{Media} El sistema debe permitir al usuario interactuar con el mapa (zoom, desplazamiento, ...).
 
@@ -59,7 +59,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 \begin{itemize}
     \item \textbf{RF-02} \prioridad{Alta} El sistema debe permitir a los cofrades de la cofradía acceder al modo cofrade mediante el código de acceso.
  
-    \item \textbf{RF-15} \prioridad{Alta} El sistema debe permitir a los cofrades compartir su ubicación en tiempo real durante las procesiones.
+    \item \textbf{RF-15} \prioridad{Alta} El sistema debe permitir a los cofrades compartir, y dejar de compartir en cualquier momento, su ubicación en tiempo real durante las procesiones.
 \end{itemize}
 
 \subsubsection{Junta de Cofradías}
@@ -69,9 +69,9 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-21} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear nuevas cofradías, eventos y procesiones.
 
-    \item \textbf{RF-27} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear alertas y notificaciones para los usuarios.
+    \item \textbf{RF-27} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear y eliminar alertas y notificaciones para los usuarios.
 
-    \item \textbf{RF-28} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías actualizar el estado de las procesiones en tiempo real.
+    \item \textbf{RF-28} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías actualizar el estado de las procesiones en tiempo real (programada, en curso, finalizada o cancelada).
 
     \item \textbf{RF-30} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías definir y modificar los recorridos de las procesiones en el mapa.
 
@@ -79,7 +79,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-31} \prioridad{Media} El sistema debe permitir a la Junta de Cofradías gestionar la información de los pasos de cada cofradía.
 
-    \item \textbf{RF-32} \prioridad{Media} El sistema debe permitir a la Junta de Cofradías publicar información sobre cortes de calles asociados procesiones.
+    \item \textbf{RF-32} \prioridad{Media} El sistema debe permitir a la Junta de Cofradías publicar información sobre cortes de calles asociados a las procesiones.
 
     \item \textbf{RF-33} \prioridad{Media} El sistema debe permitir a la Junta de Cofradías generar nuevos códigos de acceso para que los cofrades puedan acceder al modo cofrade de las distintas cofradías.
 
@@ -88,7 +88,9 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 \subsubsection{Administrador}
 
 \begin{itemize}
-    \item \textbf{RF-26} \prioridad{Alta} El sistema debe permitir al administrador gestionar las ciudades disponibles y las juntas asociadas a ella en la aplicación.
+    \item \textbf{RF-26} \prioridad{Alta} El sistema debe permitir al administrador gestionar las ciudades disponibles y las juntas asociadas a ellas en la aplicación.
+
+    \item \textbf{RF-34} \prioridad{Alta} El sistema debe permitir al administrador dar de alta, editar y dar de baja las Juntas de Cofradías del sistema.
 \end{itemize}
 
 
@@ -132,6 +134,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
     \item \textbf{RI-04} \prioridad{Alta} El sistema debe almacenar la información sobre las procesiones:
     \begin{itemize}
         \item Fecha de inicio y fecha de fin.
+        \item Estado (programada, en curso, finalizada o cancelada).
         \item Evento al que sigue.
         \item Cofradía a la que pertenece.
         \item Pasos que desfilan en ella.
@@ -177,7 +180,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Junta de Cofradías que la gestiona.
     \end{itemize}
  
-    \item \textbf{RI-06} \prioridad{Media} El sistema debe almacenar la información sobre las distintas ubicaciones que hay en el sistema:
+    \item \textbf{RI-06} \prioridad{Media} El sistema debe almacenar la información sobre los puntos de interés y demás ubicaciones de referencia utilizadas en los recorridos y en el mapa:
     \begin{itemize}
         \item Latitud.
         \item Longitud.
@@ -207,13 +210,13 @@ Los requisitos no funcionales describen las características de calidad del sist
 
     \item \textbf{RNF-05} \prioridad{Alta} El sistema debe implementar mecanismos de control de acceso que diferencien entre ciudadanos, cofrades y miembros de la junta de cofradías.
 
-    \item \textbf{RNF-07} \prioridad{Alta} El sistema debe ser compatible tanto con dispositivos Android como con dispositivos iPhone.
+    \item \textbf{RNF-07} \prioridad{Alta} El sistema debe ser compatible tanto con dispositivos Android como con dispositivos iOS.
 
-    \item \textbf{RNF-08} \prioridad{Alta} El sistema debe actualizar la posición de las procesiones con una frecuencia mínima de 30 segundos.
+    \item \textbf{RNF-08} \prioridad{Alta} El sistema debe actualizar la posición de las procesiones con una frecuencia mínima de 30 segundos\footnote{Este intervalo se ha elegido como equilibrio entre ofrecer una posición suficientemente precisa para el usuario y evitar un consumo excesivo de batería y datos móviles en los dispositivos de los cofrades que comparten su ubicación.}.
 
-    \item \textbf{RNF-03} \prioridad{Media} El sistema debe funcionar correctamente en dispositivos móviles con conexión a internet. Sin conexión, únicamente estará disponible la información estática de la aplicación, quedando inoperativas la geolocalización en tiempo real y las notificaciones.
+    \item \textbf{RNF-03} \prioridad{Media} El sistema debe funcionar correctamente en dispositivos móviles con conexión a internet. Sin conexión, únicamente estará disponible la información estática de la aplicación (previamente almacenada en local), quedando inoperativas la geolocalización en tiempo real, las notificaciones y las alertas.
 
-    \item \textbf{RNF-04} \prioridad{Media} El sistema debe gestionar de forma eficiente la carga del mapa, garantizando tiempos de respuesta menores a 10 segundos.
+    \item \textbf{RNF-04} \prioridad{Media} El sistema debe gestionar de forma eficiente la carga del mapa, garantizando tiempos de respuesta menores a 10 segundos\footnote{Valor tomado como referencia habitual de usabilidad para evitar que el usuario perciba la aplicación como lenta al cargar el mapa.}.
 
     \item \textbf{RNF-06} \prioridad{Media} El sistema debe ser capaz de enviar notificaciones de manera fiable y en tiempo adecuado (menos de 60 segundos de latencia).
 \end{itemize}

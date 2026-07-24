@@ -66,17 +66,17 @@ A diferencia de una base de datos relacional tradicional (como MySQL), organizad
 
 \begin{itemize}
     \item \texttt{pasos} y \texttt{puntosRuta} se modelan como \textbf{subcolecciones} de \texttt{cofradias} y \texttt{recorridos} respectivamente, porque siempre se consultan junto a su documento padre (por ejemplo, los pasos de una cofradía concreta) y nunca de forma independiente.
-    \item \texttt{posicionActual} es un \textbf{documento único} dentro de cada procesión, que se sobrescribe cada vez que llega una nueva posición GPS. El cliente se suscribe a este documento mediante un \emph{listener} en tiempo real (en vez de estar preguntando repetidamente si hay novedades, es Firestore quien avisa a la aplicación en cuanto el documento cambia), cumpliendo el requisito RNF-08 sin necesidad de implementar servidores de sockets propios.
+    \item \texttt{posicionActual} es un \textbf{documento único} dentro de cada procesión, que se sobrescribe cada vez que llega una nueva posición GPS. El cliente se suscribe a este documento mediante un \emph{listener} en tiempo real (en vez de estar preguntando repetidamente si hay novedades, es Firestore quien avisa a la aplicación en cuanto el documento cambia), cumpliendo el requisito RNF-08 sin necesidad de implementar servidores de sockets propios. Al tratarse de un único documento por procesión que se sobrescribe con la posición agregada, el cliente recibe una sola actualización por cambio de posición en lugar de un flujo continuo de actualizaciones parciales por cada cofrade, evitando así problemas de parpadeo o sobrecarga en el mapa.
     \item \texttt{favoritos} no se guarda en Firestore, sino de forma local en el propio dispositivo (por ejemplo, con \texttt{AsyncStorage}), ya que el ciudadano no tiene cuenta ni sesión en la que persistir esta información en el servidor; únicamente se guarda el identificador de la cofradía o procesión marcada como favorita.
     \item \texttt{codigosAcceso} y \texttt{entregas}, estas sí como subcolecciones de Firestore, guardan únicamente una \textbf{referencia} (el identificador) a la cofradía, procesión o usuario correspondiente, en lugar de copiar todos sus datos, para evitar tener la misma información duplicada en varios sitios y que se desactualice.
-    \item La colección \texttt{usuarios} solo contiene los perfiles de rol elevado (cofrade, junta de cofradías, administrador): el ciudadano no se registra, por lo que no genera ningún documento en Firestore para poder usar la aplicación. Un usuario obtiene uno de estos roles al introducir un \textbf{código de acceso} válido, gestionado en la colección \texttt{codigosAcceso} (con estados \texttt{EMITIDO}, \texttt{VALIDADO} y \texttt{REVOCADO}); en ese momento se crea su sesión de Firebase Authentication y su documento en \texttt{/usuarios/\{id\}}, con el rol guardado como campo y comprobado mediante las reglas de seguridad de Firestore, mecanismo que cubre el requisito RNF-05 (control de acceso diferenciado por rol). Cada código de acceso lleva además una \textbf{referencia a la cofradía} que lo emite, de forma que un cofrade que valida su código queda automáticamente vinculado a esa cofradía y puede actuar en su nombre (por ejemplo, compartiendo la ubicación de uno de sus pasos o publicando un evento).
+    \item La colección \texttt{usuarios} solo contiene los perfiles de rol elevado (cofrade, junta de cofradías, administrador): el ciudadano no se registra, por lo que no genera ningún documento en Firestore para poder usar la aplicación. Un usuario obtiene uno de estos roles al introducir un \textbf{código de acceso} válido, gestionado en la colección \texttt{codigosAcceso} (con estados \texttt{EMITIDO}, \texttt{VALIDADO} y \texttt{REVOCADO}); en ese momento se crea su sesión de Firebase Authentication y su documento en \texttt{/usuarios/\{id\}}, con el rol guardado como campo y comprobado mediante las reglas de seguridad de Firestore, mecanismo que cubre el requisito RNF-05 (control de acceso diferenciado por rol). Cada código de acceso lleva además una \textbf{referencia a la cofradía} que lo emite, de forma que un cofrade que valida su código queda automáticamente vinculado a esa cofradía y puede compartir su ubicación en tiempo real durante las procesiones en las que participa, que es la única acción que el modelo de dominio le permite realizar directamente sobre el sistema (Figura~\ref{fig:DiagramDomain}).
 \end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/diagrama_dominio_simplificado.png}
-    \caption{Diagrama de dominio}
-    \label{fig:DiagramDomain}
+    \caption{Diagrama de dominio simplificado, referido a las colecciones de Firestore}
+    \label{fig:DiagramDomainSimplificado}
 \end{figure}
 
 \subsubsection{Interfaces de usuario}
@@ -110,8 +110,8 @@ Muestra la información general del día en curso: el día de Semana Santa selec
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/inicioFav.png}
-    \caption{Mockup de la pantalla de inicio}
-    \label{fig:mockupInicio}
+    \caption{Mockup de la pantalla de inicio con favoritos}
+    \label{fig:mockupInicioFav}
 \end{figure}
  
 
@@ -154,15 +154,15 @@ Estas tres pantallas se han diseñado ya para mantener la coherencia visual del 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/buscarProcesiones.png}
-    \caption{Mockup de la pantalla de búsqueda}
-    \label{fig:mockupBuscar}
+    \caption{Mockup de la pantalla de búsqueda de procesiones}
+    \label{fig:mockupBuscarProcesiones}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/buscarEditada.png}
-    \caption{Mockup de la pantalla de búsqueda}
-    \label{fig:mockupBuscar}
+    \caption{Mockup de la pantalla de búsqueda (versión revisada)}
+    \label{fig:mockupBuscarEditada}
 \end{figure}
  
 \begin{figure}[H]
@@ -183,7 +183,7 @@ Estas tres pantallas se han diseñado ya para mantener la coherencia visual del 
     \centering
     \includegraphics[width=0.45\textwidth]{imagenes/perfilCofrade.png}
     \caption{Mockup de la pantalla de perfil, en modo cofrade}
-    \label{fig:mockupPerfil}
+    \label{fig:mockupPerfilCofrade}
 \end{figure}
  
 \subsubsection{Patrones de diseño}
@@ -192,11 +192,11 @@ Un patrón de diseño \cite{larman2004} es una solución ya conocida y reutiliza
  
 \begin{itemize}
     \item \textbf{Singleton}: patrón que garantiza que una clase tenga una única instancia en toda la aplicación y un punto de acceso global a ella, evitando crear varias copias innecesarias. En este proyecto, la inicialización del SDK de Firebase (\texttt{firebase/config}) se realiza una única vez y esa misma instancia se reutiliza en el resto de la aplicación.
-    \item \textbf{Repository}: patrón que separa la lógica de acceso a los datos del resto de la aplicación, ocultando los detalles de cómo y dónde se almacenan. La capa \texttt{services} es la única parte del código que conoce el SDK de Firebase; el resto de la aplicación solo invoca funciones como \texttt{procesionService.obtenerActivas(ciudadId)}, sin saber que por detrás se está consultando Firestore. Esto facilitaría cambiar de proveedor de backend en el futuro (línea de trabajo futuro, Sección~\ref{cap:trabajo_futuro}) sin modificar ninguna pantalla.
+    \item \textbf{Repository}: patrón que separa la lógica de acceso a los datos del resto de la aplicación, ocultando los detalles de cómo y dónde se almacenan. La capa \texttt{services} es la única parte del código que conoce el SDK de Firebase; el resto de la aplicación solo invoca funciones como \texttt{procesionService.} \texttt{obtenerActivas(ciudadId)}, sin saber que por detrás se está consultando Firestore. Esto facilitaría cambiar de proveedor de backend en el futuro (línea de trabajo futuro, Sección~\ref{cap:trabajo_futuro}) sin modificar ninguna pantalla.
     \item \textbf{Observer}: patrón en el que uno o varios elementos (``observadores'') se suscriben a los cambios de otro elemento y son notificados automáticamente cuando este cambia, en lugar de tener que preguntar repetidamente. Los \emph{listeners} de Firestore (\texttt{onSnapshot}) funcionan así: notifican a la interfaz cada vez que cambia la posición de una procesión o llega una notificación nueva.
     \item \textbf{Factory Method}: patrón que centraliza en una única función la creación de un objeto, delegando en ella la decisión de qué variante concreta construir. El dominio distingue \texttt{Aviso} y \texttt{Alerta} como subtipos de \texttt{Notificacion} (Figura~\ref{fig:DiagramDomain}); una función fábrica construye el objeto correcto según los campos \texttt{tipoAlerta} y \texttt{fechaExpiracion} antes de guardarlo en Firestore.
     \item \textbf{Context/Provider}: convención propia de React (no un patrón GoF\footnote{GoF (\emph{Gang of Four}): apodo con el que se conoce a los cuatro autores del libro \emph{Design Patterns} \cite{gof} (1994), que popularizó el catálogo clásico de patrones de diseño orientado a objetos (Singleton, Observer, Factory Method, entre otros).} clásico) que permite exponer un dato o estado a cualquier pantalla de la aplicación sin tener que pasarlo manualmente de componente en componente. \texttt{AuthContext} y \texttt{LocationContext} exponen así el usuario autenticado y los permisos de ubicación a cualquier pantalla que los necesite.
-    \item \textbf{Facade}: patrón que ofrece una única función sencilla como punto de entrada a una operación que, por detrás, involucra varios pasos o subsistemas distintos. El caso de uso ``Compartir ubicación durante procesión'' (RF-15) esconde tras la llamada \texttt{geoService.iniciarCompartirUbicacion(procesionId)} la solicitud de permiso de GPS, la escritura periódica en Firestore y la gestión de una posible pérdida de conexión.
+    \item \textbf{Facade}: patrón que ofrece una única función sencilla como punto de entrada a una operación que, por detrás, involucra varios pasos o subsistemas distintos. El caso de uso ``Compartir ubicación durante procesión'' (RF-15) esconde tras la llamada \texttt{geoService.iniciarCompartirUbicacion} \texttt{(procesionId)} la solicitud de permiso de GPS, la escritura periódica en Firestore y la gestión de una posible pérdida de conexión.
     \item \textbf{Adapter}: patrón que convierte el formato de datos de un sistema externo al formato interno que espera la aplicación, permitiendo que ambos ``encajen'' sin modificar ninguno de los dos. Las notificaciones \emph{push} de Firebase Cloud Messaging llegan con un formato plano (título, cuerpo, y un mapa de texto), distinto del modelo interno tipado \texttt{Alerta}/\texttt{Aviso}; una función adaptadora convierte ese \emph{payload} recibido al modelo de dominio antes de utilizarlo en la aplicación.
 \end{itemize}
  

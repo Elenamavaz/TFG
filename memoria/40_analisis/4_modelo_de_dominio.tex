@@ -10,6 +10,25 @@ En esta sección se detalla el diseño conceptual del sistema, incluyendo las en
 \label{fig:DiagramDomain}
 \end{figure}
 
+El modelo de dominio representa las principales entidades del sistema y las relaciones existentes entre ellas. La clase \texttt{Ciudad} agrupa las procesiones y actos propios de cada localidad, y está gestionada por una \texttt{JuntaCofradias}, que a su vez agrupa las distintas \texttt{Cofradia} de esa ciudad. Cada \texttt{Cofradia} organiza uno o varios \texttt{Evento} y posee uno o varios \texttt{Paso}, que pueden desfilar en varias procesiones distintas, de ahí la relación de muchos a muchos entre \texttt{Paso} y \texttt{Procesion}. Cada \texttt{Procesion} sigue a un \texttt{Evento} y tiene asociado un \texttt{Recorrido}, compuesto a su vez por distintos \texttt{PuntoRuta}, clase abstracta de la que heredan \texttt{Ubicacion} y \texttt{PuntoDeInteres}.
+
+Para la geolocalización en tiempo real, un \texttt{Usuario} puede compartir su posición, lo que genera una \texttt{PosicionActual} asociada a la procesión que está siguiendo en ese momento (\textit{procesionEnVivo}); es esta posición, calculada a partir de las ubicaciones compartidas por los cofrades, la que consultan el resto de usuarios de la aplicación.
+
+La comunicación con los usuarios se modela mediante la clase abstracta \texttt{Notificacion}, de la que heredan \texttt{Aviso} y \texttt{Alerta}: los avisos son mensajes informativos con una fecha de expiración, mientras que las alertas incorporan un tipo (incidencia, cambio de horario, cancelación, corte de calle, meteorología o seguridad) y una prioridad. Cada notificación entregada a un usuario se registra mediante una \texttt{EntregaNotificacion}, que almacena si ha sido leída y en qué momento, evitando así duplicar la notificación en sí para cada destinatario.
+
+Por último, el acceso al modo cofrade se controla mediante la clase \texttt{CodigoAcceso}: la \texttt{JuntaCofradias} emite los códigos, quedan asociados a una \texttt{Cofradia} concreta, y un \texttt{Usuario} los valida para obtener los privilegios de cofrade. De forma similar, los elementos marcados como favoritos por un usuario (cofradías, eventos o procesiones) se representan mediante la clase \texttt{Favorito}, que hace referencia a cualquier elemento que implemente la interfaz \texttt{Favoriteable}.
+
+\subsection{Modelo de dominio detallado}
+
+Con el modelo de dominio y los diagramas de secuencia anteriores, construimos un modelo de dominio extendido (Figura ~\ref{fig:DiagramDomainDetail}) con los métodos a implementar.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth,height=0.85\textheight,keepaspectratio]{imagenes/DiagramaDetalladoDeDominio.png}
+\caption{Diagrama de dominio detallado del proyecto}
+\label{fig:DiagramDomainDetail}
+\end{figure}
+
 \subsection{Realización en análisis de los casos de uso}
 
 En este apartado se mostrarán los diagramas de secuencia obtenidos del análisis a partir de los casos de uso mencionados anteriormente. Se han excluido de esta sección las secuencias alternativas de cancelar con el fin de simplificar los diagramas.
@@ -52,13 +71,3 @@ En el caso de uso \textit{Dar de alta ciudad} (Figura~\ref{fig:secAltaCiudad}), 
 
 % TODO: diagramas de secuencia pendientes de añadir - Editar ciudad, Dar de baja ciudad y Crear alerta.
 
-\subsection{Modelo de dominio detallado}
-
-Con el modelo de dominio y los diagramas de secuencia anteriores, construimos un modelo de dominio extendido (Figura ~\ref{fig:DiagramDomainDetail}) con los métodos a implementar.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth,height=0.85\textheight,keepaspectratio]{imagenes/DiagramaDetalladoDeDominio.png}
-\caption{Diagrama de dominio detallado del proyecto}
-\label{fig:DiagramDomainDetail}
-\end{figure}
