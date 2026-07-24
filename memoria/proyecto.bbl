@@ -1,0 +1,215 @@
+\begin{thebibliography}{10}
+
+\bibitem{googlemapsapi}
+{Google}, ``Maps {JavaScript} {API} --- documentación oficial.''
+  \url{https://developers.google.com/maps/documentation/javascript}, 2024.
+\newblock Consultado el 1 de enero de 2025.
+
+\bibitem{geolocalizacion}
+{Evaluando Software}, ``La geolocalización funciona.''
+  \url{https://www.evaluandosoftware.com/bpm/la-geolocalizacion-funciona/},
+  2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{elpenitente}
+{PlayCofrade}, ``El penitente --- aplicación móvil.''
+  \url{https://elpenitente.app/}, 2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{fotosElpenitente}
+{PlayCofrade}, ``El penitente --- aplicación móvil (google play).''
+  \url{https://play.google.com/store/apps/details?id=com.playcofrade.elpenitente&hl=es},
+  2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{valladolidCofrade}
+{Valladolid Cofrade}, ``Lanzamos la nueva app de {Valladolid} {Cofrade}: toda
+  la {Semana} {Santa} 2026 en tu móvil y con avisos en tiempo real.''
+  \url{https://www.valladolidcofrade.com/noticias-2026/3660-lanzamos-la-nueva-app-de-valladolid-cofrade-toda-la-semana-santa-2026-en-tu-movil-y-con-avisos-en-tiempo-real},
+  2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{queEsPWA}
+{Mozilla Developer Network}, ``¿qué es una {PWA}?.''
+  \url{https://developer.mozilla.org/es/docs/Web/Progressive_web_apps}, 2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{sSantaZgz}
+{Ayuntamiento de Zaragoza}, ``ssantazgz --- aplicación móvil.''
+  \url{https://www.zaragoza.es/sede/portal/turismo/post/app-semana-santa},
+  2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{juntaZamora}
+{Junta Pro Semana Santa de Zamora}, ``Junta pro semana santa de zamora ---
+  aplicación móvil.'' \url{https://semanasantadezamora.com/}, 2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{uber}
+{Uber Technologies}, ``Uber --- página oficial.'' \url{https://www.uber.com},
+  2024.
+\newblock Consultado el 1 de enero de 2025.
+
+\bibitem{marioTFG}
+M.~Llorente~Pérez, ``Mejoras en la usabilidad de la aplicación móvil
+  {OrientaTree} para orientación deportiva aplicada a la educación,''
+  Master's thesis, Universidad de Valladolid, 2025.
+\newblock \url{https://uvadoc.uva.es/handle/10324/79500}.
+
+\bibitem{sommerville2015}
+I.~Sommerville, {\em Software Engineering}.
+\newblock Boston, MA: Pearson, 10~ed., 2015.
+\newblock
+  \url{https://dn790001.ca.archive.org/0/items/bme-vik-konyvek/Software%20Engineering%20-%20Ian%20Sommerville.pdf}.
+
+\bibitem{diagramaGantt}
+{ProjectManager}, ``What is a {Gantt} chart?.''
+  \url{https://www.projectmanager.com/guides/gantt-chart}, 2026.
+\newblock Consultado el 9 de mayo de 2026.
+
+\bibitem{ieee29148}
+{IEEE}, ``{IEEE} {Std} 29148-2018: Systems and software engineering ---
+  requirements engineering,'' Standard 29148-2018, Institute of Electrical and
+  Electronics Engineers, 2018.
+\newblock \url{https://ieeexplore.ieee.org/document/8559686}.
+
+\bibitem{uml}
+{Object Management Group}, ``{UML} --- unified modeling language,
+  especificación oficial.'' \url{https://www.omg.org/spec/UML}, 2017.
+\newblock Versión 2.5.1. Consultado el 1 de enero de 2025.
+
+\bibitem{larman2004}
+C.~Larman, {\em Applying {UML} and Patterns: An Introduction to Object-Oriented
+  Analysis and Design and Iterative Development}.
+\newblock Upper Saddle River, NJ: Prentice Hall, 3~ed., 2004.
+\newblock
+  \url{https://www.pearson.com/en-us/subject-catalog/p/applying-uml-and-patterns/P200000003228}.
+
+\bibitem{owasp}
+{OWASP Foundation}, ``Access control cheat sheet.''
+  \url{https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html},
+  2024.
+\newblock Consultado el 1 de enero de 2025.
+
+\bibitem{pmbok}
+{Project Management Institute}, {\em A Guide to the Project Management Body of
+  Knowledge ({PMBOK} Guide)}.
+\newblock Newtown Square, PA: Project Management Institute, 7~ed., 2021.
+\newblock \url{https://www.pmi.org/pmbok-guide-standards}.
+
+\bibitem{boehm}
+B.~W. Boehm, {\em Software Risk Management}.
+\newblock Los Alamitos, CA: IEEE Computer Society Press, 1989.
+
+\bibitem{openstreetmap}
+{OpenStreetMap Foundation}, ``Openstreetmap --- mapa libre del mundo.''
+  \url{https://www.openstreetmap.org}, 2024.
+\newblock Consultado el 1 de mayo de 2025.
+
+\bibitem{github}
+{GitHub, Inc.}, ``Github --- plataforma de desarrollo de software.''
+  \url{https://github.com}, 2024.
+\newblock Consultado el 1 de mayo de 2025.
+
+\bibitem{firebasefcm}
+{Google Firebase}, ``Firebase cloud messaging --- documentación oficial.''
+  \url{https://firebase.google.com/docs/cloud-messaging}, 2024.
+\newblock Consultado el 1 de enero de 2025.
+
+\bibitem{salarioJefeProyecto}
+{Glassdoor}, ``Sueldo: Jefe de proyecto en españa.''
+  \url{https://www.glassdoor.es/Sueldos/jefe-de-proyecto-sueldo-SRCH_KO0,16_IP2.htm},
+  2025.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{salarioAnalista}
+{Glassdoor}, ``Sueldo: Analista funcional en españa.''
+  \url{https://www.glassdoor.es/Sueldos/analista-funcional-sueldo-SRCH_KO0,18.htm},
+  2025.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{salarioUXUI}
+{Glassdoor}, ``Sueldo: Ux designer en españa.''
+  \url{https://www.glassdoor.es/Sueldos/ux-designer-sueldo-SRCH_KO0,11.htm},
+  2025.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{salarioBackend}
+{Glassdoor}, ``Sueldo: Backend developer en españa.''
+  \url{https://www.glassdoor.es/Sueldos/backend-developer-sueldo-SRCH_KO0,17.htm},
+  2026.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{salarios}
+{Glassdoor}, ``Salario de desarrollador móvil junior en españa.''
+  \url{https://www.glassdoor.es}, 2025.
+\newblock Consultado el 1 de mayo de 2025.
+
+\bibitem{salarioTester}
+{Glassdoor}, ``Sueldos para el puesto de qa tester en españa.''
+  \url{https://www.glassdoor.es/Sueldos/qa-tester-sueldo-SRCH_KO0,9.htm}, 2025.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{androidstudio}
+{Google}, ``Android studio --- entorno de desarrollo oficial para android.''
+  \url{https://developer.android.com/studio}, 2024.
+\newblock Consultado el 1 de mayo de 2025.
+
+\bibitem{vscode}
+{Microsoft}, ``Visual studio code --- editor de código fuente.''
+  \url{https://code.visualstudio.com}, 2024.
+\newblock Consultado el 1 de mayo de 2025.
+
+\bibitem{googlePlayFee}
+{Dribba}, ``¿cuánto cuesta subir una app a google play?.''
+  \url{https://dribba.com/blog/cuanto-cuesta-subir-una-app-al-google-play},
+  2026.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{figmaPricing}
+{Figma, Inc.}, ``Planes y precios de figma.''
+  \url{https://www.figma.com/es-es/pricing/}, 2026.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{jiraPricing}
+{Atlassian}, ``Planes de precios de jira software.''
+  \url{https://www.atlassian.com/es/software/jira/pricing}, 2026.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{oficinaValladolid}
+{Fotocasa}, ``Oficinas de alquiler en centro, valladolid capital.''
+  \url{https://www.fotocasa.es/es/alquiler/oficinas/valladolid-capital/centro/l},
+  2026.
+\newblock Consultado el 9 de julio de 2026.
+
+\bibitem{reactnative}
+{Meta Platforms}, ``React native --- documentación oficial.''
+  \url{https://reactnative.dev/docs/getting-started}, 2024.
+\newblock Consultado el 15 de julio de 2026.
+
+\bibitem{firebase}
+{Google Firebase}, ``Firebase --- plataforma de desarrollo de aplicaciones.''
+  \url{https://firebase.google.com/docs}, 2024.
+\newblock Consultado el 15 de julio de 2026.
+
+\bibitem{firestore}
+{Google Firebase}, ``Cloud firestore --- documentación oficial.''
+  \url{https://firebase.google.com/docs/firestore}, 2024.
+\newblock Consultado el 15 de julio de 2026.
+
+\bibitem{nosql}
+{MongoDB, Inc.}, ``What is {NoSQL}?.''
+  \url{https://www.mongodb.com/nosql-explained}, 2024.
+\newblock Consultado el 15 de julio de 2026.
+
+\bibitem{figma}
+{Figma, Inc.}, ``Figma --- herramienta de diseño de interfaces colaborativa.''
+  \url{https://www.figma.com}, 2024.
+\newblock Consultado el 1 de mayo de 2025.
+
+\bibitem{gof}
+E.~Gamma, R.~Helm, R.~Johnson, and J.~Vlissides, {\em Design Patterns: Elements
+  of Reusable Object-Oriented Software}.
+\newblock Reading, MA: Addison-Wesley, 1994.
+
+\end{thebibliography}
