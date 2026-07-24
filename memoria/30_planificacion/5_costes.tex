@@ -137,3 +137,15 @@ Costes estructurales, prorrateados (oficina y suministros) & 950,00€ \\
 \caption{Costes totales del proyecto}
 \label{tab:costes_totales}
 \end{table}
+
+\subsection{Coste estimado de Firebase en producción}\label{cap:costeFirebaseProduccion}
+
+Los costes anteriores corresponden únicamente al desarrollo del TFG, durante el cual el uso de Firebase se ha mantenido dentro de la capa gratuita (plan \textit{Spark}). Sin embargo, tal y como se señala en la Sección~\ref{cap:puntosDebiles}, el paso a producción con usuarios reales implicaría migrar al plan de pago \textit{Blaze}, facturado según el consumo real. A modo orientativo, y tomando las tarifas oficiales vigentes del plan Blaze para Cloud Firestore \cite{firebasepricing} --0,06 € por cada 100.000 lecturas, 0,18 € por cada 100.000 escrituras y 0,26 € por GB almacenado al mes, descontando la cuota gratuita diaria de 50.000 lecturas y 20.000 escrituras--, se puede estimar el coste de una semana de Semana Santa en una única ciudad piloto:
+
+\begin{itemize}
+    \item \textbf{Lecturas}: suponiendo 3.000 usuarios simultáneos consultando el mapa en tiempo real durante una media de 3 horas al día, con actualizaciones cada 30 segundos (RNF-08), se generarían unas 360 lecturas por usuario y día, es decir, aproximadamente 1.080.000 lecturas diarias (7.560.000 en los 7 días de Semana Santa). Descontando la cuota gratuita, el coste asciende a unos \textbf{4,30 €}.
+    \item \textbf{Escrituras}: suponiendo 200 cofrades compartiendo su ubicación durante 2 horas al día (240 escrituras por cofrade y día), se generarían unas 48.000 escrituras diarias (336.000 en los 7 días). Descontando la cuota gratuita, el coste asciende a unos \textbf{0,35 €}.
+    \item \textbf{Almacenamiento y notificaciones}: el volumen de datos almacenado (perfiles, códigos de acceso, información de cofradías y procesiones) se mantendría muy por debajo de 1~GB, dentro de la cuota gratuita; Cloud Messaging no tiene coste en el plan Blaze \cite{firebasepricing}.
+\end{itemize}
+
+Bajo estas hipótesis, el coste de Firebase para una semana de Semana Santa en una ciudad piloto rondaría los \textbf{5 €}, una cifra reducida gracias al bajo coste unitario de las operaciones de Firestore. No obstante, este importe crecería proporcionalmente al escalar la aplicación a más ciudades y usuarios, tal y como se plantea en el trabajo futuro (Sección~\ref{cap:trabajo_futuro}), por lo que esta estimación --y las hipótesis de partida sobre el número de usuarios y ciudades-- debería revisarse y ajustarse junto con el tutor antes de un despliegue real en producción.
