@@ -182,6 +182,11 @@ B.~W. Boehm, {\em Software Risk Management}.
   2026.
 \newblock Consultado el 9 de julio de 2026.
 
+\bibitem{firebasepricing}
+{Google Firebase}, ``Understand cloud firestore billing (plan {Blaze}).''
+  \url{https://firebase.google.com/docs/firestore/pricing}, 2026.
+\newblock Consultado el 24 de julio de 2026.
+
 \bibitem{reactnative}
 {Meta Platforms}, ``React native --- documentación oficial.''
   \url{https://reactnative.dev/docs/getting-started}, 2024.

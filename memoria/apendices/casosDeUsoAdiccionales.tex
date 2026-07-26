@@ -8,9 +8,9 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Consultar información de cofradías}}                                                                              \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Consultar información de una cofradía, procesión, evento o paso}}                                                                              \\
         \hline
-        \textbf{Resumen}                                                                                                                                           & El usuario consulta la información detallada de las cofradías disponibles en una ciudad.                               \\
+        \textbf{Resumen}                                                                                                                                           & El usuario consulta la información detallada de una cofradía, procesión, evento o paso de la ciudad seleccionada.                               \\
         \hline
         \textbf{Actor}                                                                                                                                             & Ciudadano                                                                                                              \\
         \hline
@@ -20,22 +20,22 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                                               \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede a la sección de cofradías. }                                                                              \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al listado de cofradías, procesiones, eventos o pasos (RF-37). }                                                                              \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de cofradías de la ciudad seleccionada. }                                                       \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista correspondiente de la ciudad seleccionada. }                                                       \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona una cofradía. }                                                                                       \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona un elemento de la lista. }                                                                                       \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El sistema muestra la información detallada de la cofradía. }                                                               \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema muestra la información detallada del elemento seleccionado. }                                                               \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                                                        \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2.a.1] No hay cofradías disponibles: El sistema muestra un mensaje indicando que no hay cofradías registradas en esa ciudad. } \\
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] Sin elementos disponibles: El sistema muestra un mensaje indicando que no hay elementos registrados de ese tipo en esa ciudad. } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                                                           & RF-03, RF-04 y RF-09.                                                                                                  \\
+        \textbf{Requisitos Relacionados}                                                                                                                           & RF-03, RF-04, RF-05 y RF-17.                                                                                                  \\
         \hline
     \end{tabular}
-    \caption{Caso de uso: Consultar información de cofradías}
+    \caption{Caso de uso: Consultar información de una cofradía, procesión, evento o paso}
 \end{table}
 
 
@@ -69,9 +69,9 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                              \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                           \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                           \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Codigo inválido: El sistema muestra los errores de validación. }                              \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Código inválido: El sistema muestra los errores de validación. }                              \\
         \hline
         \textbf{Requisitos Relacionados}                                                                                                 & RF-02.                                                                \\
         \hline
@@ -108,9 +108,9 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                            \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2.a.1] El elemento ya es favorito: El sistema elimina el elemento de favoritos (casos de uso 6). } \\
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] El elemento ya es favorito: El sistema lo elimina de favoritos (caso de uso Eliminar favoritos). } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                               & RF-10.                                     \\
+        \textbf{Requisitos Relacionados}                                                                                               & RF-12.                                     \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Añadir favoritos}
@@ -127,7 +127,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \textbf{Resumen}                                                                                                               & Un usuario desmarca elementos como favoritos. \\
         \hline
-        \textbf{Actor}                                                                                                                 & Usuario                                       \\
+        \textbf{Actor}                                                                                                                 & Ciudadano                                      \\
         \hline
         \textbf{Precondición}                                                                                                          & El elemento esté marcado como favorito        \\
         \hline
@@ -145,9 +145,9 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                            \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2.a.1] El elemento no es favorito: El sistema elimina el elemento de favoritos (casos de uso 5). } \\
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] El elemento no es favorito: El sistema lo añade a favoritos (caso de uso Añadir favoritos). } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                               & RF-10.                                        \\
+        \textbf{Requisitos Relacionados}                                                                                               & RF-12.                                        \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Eliminar favoritos}
@@ -162,13 +162,13 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Caso de uso: Configurar notificaciones}}                                   \\
         \hline
-        \textbf{Resumen}                                                                                       & Un usuario configura las preferencias de notificaciones". \\
+        \textbf{Resumen}                                                                                       & Un ciudadano se suscribe o desuscribe de las notificaciones sobre cofradías, eventos o procesiones concretas. \\
         \hline
-        \textbf{Actor}                                                                                         & Usuario                                       \\
+        \textbf{Actor}                                                                                         & Ciudadano                                     \\
         \hline
-        \textbf{Precondición}                                                                                  & El elemento esté marcado como favorito        \\
+        \textbf{Precondición}                                                                                  & --                                             \\
         \hline
-        \textbf{Postcondición}                                                                                 & El elemento queda eliminado de favoritos      \\
+        \textbf{Postcondición}                                                                                 & Las preferencias de notificaciones quedan guardadas \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                           \\
         \hline
@@ -184,9 +184,9 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                       & RF-11, RF-12 y RF-21.                         \\
+        \textbf{Requisitos Relacionados}                                                                       & RF-22.                                        \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Configurar notificaciones}
@@ -225,11 +225,11 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [6.a.1] Datos incompletos: El sistema muestra los campos requeridos. }      \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                       & RF-19 y RF-20.                                               \\
+        \textbf{Requisitos Relacionados}                                                                       & RF-21 y RF-33.                                               \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Crear cofradía/Hermandad}
@@ -270,13 +270,13 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. } \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operación. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [7.a.1] Datos incompletos: El sistema muestra los campos requeridos. }      \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                       & RF-19 y RF-20.                                                                 \\
+        \textbf{Requisitos Relacionados}                                                                       & RF-21 y RF-30.                                                                 \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Crear procesión}
@@ -313,27 +313,27 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [6] El sistema actualiza el estado. }                                                          \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [7] El sistema envia notificaciones automaticas a los usuarios interesados. }                  \\
+        \multicolumn{2}{|p{15cm}|}{ [7] El sistema envía notificaciones automáticas a los usuarios interesados. }                  \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                       \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [2.a.1] Sin conexión: El sistema muestra error de conexión. }                                  \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [2.b.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.a.1] Sin conexión: El sistema muestra error de conexión. }                                  \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.b.1] Caso de uso crear alerta: El usuario crea una alerta. }                                \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.c.1] Estado no valido: El sistema muestra los estados disponibles segun el estado actual. } \\
+        \multicolumn{2}{|p{15cm}|}{ [4.c.1] Estado no válido: El sistema muestra los estados disponibles según el estado actual. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.d.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [4.d.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5.a.1] Sin conexión: El sistema muestra error de conexión. }                                  \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [5.b.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                          & RF-05, RF-12 y RF-27.                                                                   \\
+        \textbf{Requisitos Relacionados}                                                                                          & RF-28 y RF-27.                                                                   \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Actualizar estado de procesión}
@@ -358,7 +358,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                           \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona el modulo a gestionar (cofradías, procesiones, eventos, pasos). } \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona el módulo a gestionar (cofradías, procesiones, eventos, pasos). } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de elementos existentes. }                                  \\
         \hline
@@ -376,17 +376,17 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [3.a.1] Sin conexión: El sistema muestra error de conexión}                                 \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                 \\
+        \multicolumn{2}{|p{15cm}|}{ [3.b.1] Cancelación de la operación: El usuario desea cancelar la operación. }                 \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.a.1] Sin conexión: El sistema muestra error de conexión. }                               \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.b.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                 \\
+        \multicolumn{2}{|p{15cm}|}{ [4.b.1] Cancelación de la operación: El usuario desea cancelar la operación. }                 \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.c.1] Eliminar elemento con dependencias: El sistema advierte y solicita confirmación. }  \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Datos invalidos: El sistema muestra errores de validación. }                        \\
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Datos inválidos: El sistema muestra errores de validación. }                        \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                       & RF-19, RF-20 y RF-30.                                                                           \\
+        \textbf{Requisitos Relacionados}                                                                                       & RF-20, RF-21 y RF-31.                                                                           \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Gestionar información de Semana Santa}
@@ -423,7 +423,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [6] El usuario define horarios estimados para cada puntos. }                                   \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [7] El usuario marca puntos de interes especiales. }                                           \\
+        \multicolumn{2}{|p{15cm}|}{ [7] El usuario marca puntos de interés especiales. }                                           \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [8] El usuario guarda el recorrido. }                                                          \\
         \hline
@@ -431,21 +431,21 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                       \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.2] Recorrido invalido: El sistema indica que debe tener al menos punto de inicio y fin. } \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.2] Recorrido inválido: El sistema indica que debe tener al menos punto de inicio y fin. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [7.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [7.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [8.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                    \\
+        \multicolumn{2}{|p{15cm}|}{ [8.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                    \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                          & RF-16 y RF-29.                                                                    \\
+        \textbf{Requisitos Relacionados}                                                                                          & RF-30 y RF-29.                                                                    \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Definir recorrido de procesión}
@@ -484,7 +484,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [3.a.1] Ciudad con Junta ya asignada: El sistema informa de que la ciudad ya tiene una Junta de Cofradías asociada. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                 \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                 \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5.a.1] Datos incompletos: El sistema muestra los campos requeridos. }                         \\
         \hline
@@ -525,7 +525,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                       \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operacion. }                 \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                 \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5.a.1] Datos incompletos: El sistema muestra los campos requeridos. }                         \\
         \hline
@@ -659,4 +659,185 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
     \end{tabular}
     \caption{Caso de uso: Dar de baja ciudad}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Consultar calendario de Semana Santa}}                            \\
+        \hline
+        \textbf{Resumen}                                                                                           & El ciudadano consulta el calendario con los días de la Semana Santa. \\
+        \hline
+        \textbf{Actor}                                                                                             & Ciudadano                                                             \\
+        \hline
+        \textbf{Precondición}                                                                                      & El usuario ha seleccionado una ciudad.                                \\
+        \hline
+        \textbf{Postcondición}                                                                                     & Se muestra el calendario con los días señalados.                      \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al calendario desde el menú principal. }                  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el calendario, indicando los días con eventos o procesiones programadas. } \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] Sin conexión: El sistema muestra la última información almacenada en local. } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                           & RF-35.                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Consultar calendario de Semana Santa}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Consultar procesiones de un día}}                                 \\
+        \hline
+        \textbf{Resumen}                                                                                           & El ciudadano consulta el listado de procesiones programadas en un día concreto. \\
+        \hline
+        \textbf{Actor}                                                                                             & Ciudadano                                                             \\
+        \hline
+        \textbf{Precondición}                                                                                      & El usuario está consultando el calendario de Semana Santa.            \\
+        \hline
+        \textbf{Postcondición}                                                                                     & Se muestra el listado de procesiones de ese día.                      \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona un día en el calendario. }                            \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el listado de procesiones programadas ese día. }         \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] Sin procesiones: El sistema indica que no hay procesiones programadas ese día. } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                           & RF-36.                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Consultar procesiones de un día}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Acceder a listados desde el menú principal}}                      \\
+        \hline
+        \textbf{Resumen}                                                                                           & El ciudadano accede a los listados completos de procesiones, pasos, eventos o cofradías. \\
+        \hline
+        \textbf{Actor}                                                                                             & Ciudadano                                                             \\
+        \hline
+        \textbf{Precondición}                                                                                      & El usuario ha seleccionado una ciudad.                                \\
+        \hline
+        \textbf{Postcondición}                                                                                     & Se muestra el listado completo solicitado.                            \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al menú principal. }                                      \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona el tipo de listado (procesiones, pasos, eventos o cofradías). } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema muestra el listado completo correspondiente. }                   \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Sin elementos disponibles: El sistema muestra un mensaje indicando que no hay elementos de ese tipo. } \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                           & RF-37.                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Acceder a listados desde el menú principal}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Gestionar perfil de la Junta de Cofradías}}                       \\
+        \hline
+        \textbf{Resumen}                                                                                           & La Junta de Cofradías consulta o modifica la información de su propio perfil. \\
+        \hline
+        \textbf{Actor}                                                                                             & Junta de Cofradías                                                    \\
+        \hline
+        \textbf{Precondición}                                                                                      & El usuario tiene rol de Junta de Cofradías.                           \\
+        \hline
+        \textbf{Postcondición}                                                                                     & Los datos del perfil quedan actualizados en el sistema.               \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede a la sección de perfil. }                                 \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra los datos actuales del perfil. }                         \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario modifica los datos. }                                            \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema valida y guarda los cambios. }                                   \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Datos inválidos: El sistema muestra los errores de validación. }        \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                           & RF-39.                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Gestionar perfil de la Junta de Cofradías}
+\end{table}
+
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Gestionar miembros de las Juntas de Cofradías}}                   \\
+        \hline
+        \textbf{Resumen}                                                                                           & El administrador da de alta, edita o da de baja a los miembros de una Junta de Cofradías. \\
+        \hline
+        \textbf{Actor}                                                                                             & Administrador                                                         \\
+        \hline
+        \textbf{Precondición}                                                                                      & El usuario tiene rol de Administrador y existe al menos una Junta de Cofradías registrada. \\
+        \hline
+        \textbf{Postcondición}                                                                                     & Los miembros de la Junta de Cofradías quedan actualizados en el sistema. \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                               \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de administración. }                             \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona la Junta de Cofradías. }                              \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema muestra la lista de miembros de esa Junta. }                     \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario da de alta, edita o da de baja a un miembro. }                   \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema valida y guarda los cambios. }                                   \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                        \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }  \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Datos inválidos: El sistema muestra los errores de validación. }        \\
+        \hline
+        \textbf{Requisitos Relacionados}                                                                           & RF-40.                                                                \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Gestionar miembros de las Juntas de Cofradías}
 \end{table}
