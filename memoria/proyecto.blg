@@ -5,11 +5,12 @@ Reallocating 'name_of_file' (item size: 1) to 7 items.
 The style file: ieeetr.bst
 Reallocating 'name_of_file' (item size: 1) to 26 items.
 Database file #1: bibliografia/bibliografia.bib
+Warning--I didn't find a database entry for "firebasepricing"
 You've used 39 entries,
             1876 wiz_defined-function locations,
-            669 strings with 9205 characters,
-and the built_in function-call counts, 5466 in all, are:
-= -- 561
+            671 strings with 9243 characters,
+and the built_in function-call counts, 5469 in all, are:
+= -- 562
 > -- 166
 < -- 1
 + -- 81
@@ -18,23 +19,23 @@ and the built_in function-call counts, 5466 in all, are:
 := -- 826
 add.period$ -- 81
 call.type$ -- 39
-change.case$ -- 37
+change.case$ -- 38
 chr.to.int$ -- 0
 cite$ -- 39
 duplicate$ -- 186
 empty$ -- 700
 format.name$ -- 42
-if$ -- 1389
+if$ -- 1390
 int.to.chr$ -- 0
 int.to.str$ -- 39
 missing$ -- 10
 newline$ -- 162
 num.names$ -- 39
-pop$ -- 218
+pop$ -- 219
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 103
+skip$ -- 102
 stack$ -- 0
 substring$ -- 0
 swap$ -- 6
@@ -46,3 +47,4 @@ warning$ -- 0
 while$ -- 39
 width$ -- 41
 write$ -- 398
+(There was 1 warning)
