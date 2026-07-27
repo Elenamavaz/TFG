@@ -21,17 +21,14 @@
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama de despliegue de la aplicación}}{46}{figure.caption.56}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Estructura de colecciones y subcolecciones de Cloud Firestore}}{48}{figure.caption.58}%
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Mockup de la pantalla de selección de ciudad}}{49}{figure.caption.61}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Mockup de la pantalla de inicio}}{50}{figure.caption.63}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Mockup de la pantalla de inicio con favoritos}}{51}{figure.caption.64}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Mockup del listado de cofradías}}{52}{figure.caption.66}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Mockup del detalle de una cofradía}}{53}{figure.caption.67}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Mockup del detalle de una procesión}}{54}{figure.caption.68}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Mockup de la pantalla de búsqueda}}{55}{figure.caption.70}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Mockup de la pantalla de búsqueda de procesiones}}{56}{figure.caption.71}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Mockup de la pantalla de búsqueda (versión revisada)}}{57}{figure.caption.72}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Mockup del mapa en vivo}}{58}{figure.caption.73}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Mockup de la pantalla de perfil, en modo ciudadano}}{59}{figure.caption.74}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Mockup de la pantalla de perfil, en modo cofrade}}{60}{figure.caption.75}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Mockup de la pantalla de inicio: aviso de retraso, procesión en curso, estadísticas y agenda del día}}{50}{figure.caption.63}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Mockup de la pantalla de calendario: vista mensual y agenda del día seleccionado}}{51}{figure.caption.65}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Mockup del menú de la pantalla de inicio y de los listados de procesiones, pasos, eventos y cofradías}}{52}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Mockup del detalle de un paso y de una cofradía}}{53}{figure.caption.69}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Mockup del detalle de una procesión (programada y en curso) y de su información ampliada}}{54}{figure.caption.71}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Mockup de la pantalla de búsqueda con filtros por día y estado}}{55}{figure.caption.73}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Mockup del mapa en vivo}}{56}{figure.caption.75}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Mockup de la pantalla de perfil, en modo ciudadano y en modo cofrade}}{57}{figure.caption.77}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

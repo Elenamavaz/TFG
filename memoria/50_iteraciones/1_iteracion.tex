@@ -83,9 +83,9 @@ El Apéndice~\ref{cap:esquemaBD} recoge, a nivel de campo, el esquema completo d
 
 \subsubsection{Interfaces de usuario}
  
-Paralelamente a las decisiones de arquitectura y de base de datos, se ha diseñado en Figma \cite{figma} el conjunto de pantallas del perfil de ciudadano mediante \emph{mockups}\footnote{Mockup: representación visual estática de la interfaz de una aplicación, sin funcionalidad real, utilizada para planificar el diseño antes de su implementación.}, que sirven de referencia visual para la implementación posterior. Se ha optado por diseñar de forma conjunta todas las pantallas del perfil ciudadano, aunque no todas se implementen en esta primera iteración, para garantizar una línea visual coherente desde el principio y evitar rediseños parciales más adelante. De ellas, en esta primera iteración se implementan únicamente la selección de ciudad, la pantalla de inicio y el listado y detalle de cofradías y procesiones; el resto se retoman en la iteración a la que corresponden: el mapa en vivo en la Iteración 2, el modo cofrade y la ubicación compartida del perfil en la Iteración 3, y las preferencias de notificaciones del perfil en la Iteración 5.
+Paralelamente a las decisiones de arquitectura y de base de datos, se ha diseñado en Figma \cite{figma} el conjunto de pantallas del perfil de ciudadano mediante \emph{mockups}\footnote{Mockup: representación visual estática de la interfaz de una aplicación, sin funcionalidad real, utilizada para planificar el diseño antes de su implementación.}, que sirven de referencia visual para la implementación posterior. Se ha optado por diseñar de forma conjunta todas las pantallas del perfil ciudadano, aunque no todas se implementen en esta primera iteración, para garantizar una línea visual coherente desde el principio y evitar rediseños parciales más adelante. De ellas, en esta primera iteración se implementan únicamente la selección de ciudad, la pantalla de inicio y los listados y fichas de detalle de cofradías, procesiones, pasos y eventos; el resto se retoman en la iteración a la que corresponden: el mapa en vivo en la Iteración 2, el modo cofrade y la ubicación compartida del perfil en la Iteración 3, y el calendario, la búsqueda y las preferencias de notificaciones del perfil en iteraciones posteriores.
  
-Todas las pantallas comparten una estética oscura con acentos dorados, que evoca la iluminación de cirios y el ambiente nocturno característico de las procesiones, y una barra de navegación inferior fija con cinco secciones (\emph{Inicio}, \emph{Cofradías}, \emph{Mapa}, \emph{Buscar} y \emph{Perfil}), que se corresponde directamente con el paquete \texttt{navigation/} descrito en el apartado de arquitectura.
+Todas las pantallas comparten una estética oscura con acentos dorados, que evoca la iluminación de cirios y el ambiente nocturno característico de las procesiones, y una barra de navegación inferior fija con cinco secciones (\emph{Inicio}, \emph{Calendario}, \emph{Mapa}, \emph{Buscar} y \emph{Perfil}), que se corresponde directamente con el paquete \texttt{navigation/} descrito en el apartado de arquitectura. Los listados de cofradías, procesiones, pasos y eventos ya no ocupan una sección propia de la barra de navegación, sino que se accede a ellos desde un menú contextual en la pantalla de \emph{Inicio}, tal y como se explica más adelante.
  
 La paleta de color se apoya en tonos marrón muy oscuro, casi negro, para el fondo (\texttt{\#1E1008}, \texttt{\#120A06}, \texttt{\#34150E}, \texttt{\#472F17}), dorados como color de acento para títulos, iconos activos y elementos interactivos (\texttt{\#C9A84C}, \texttt{\#9A7D60}), tonos crema para tarjetas y textos secundarios (\texttt{\#F0E0C8}, \texttt{\#E3D595}) y blanco (\texttt{\#FFFFFF}) para el texto principal sobre fondo oscuro; un verde puntual (\texttt{\#37E37E}) se reserva para indicadores de estado, como una procesión en curso. En cuanto a la tipografía, se combinan tres familias: \textbf{Cormorant Garamond}, una serifa elegante, para los títulos, coherente con la estética evocada; \textbf{Lora}, también serifa pero más neutra, para el texto de lectura extensa (historia de una cofradía, descripción de un paso); y \textbf{Sora}, de palo seco, para los elementos de interfaz (botones, etiquetas, barra de navegación), donde interesa más la legibilidad a tamaños pequeños que el carácter estético. Estas decisiones se apoyan, además del criterio propio, en las pautas de \emph{Material Design~3} \cite{materialdesign3}, la guía de diseño de interfaz de Google, en particular en lo relativo al contraste de color, el tamaño mínimo táctil de los elementos interactivos y la estructura de la barra de navegación inferior.
  
@@ -102,92 +102,90 @@ Es la primera pantalla que ve cualquier usuario, ya que toda la información de 
  
 \paragraph{Inicio}
  
-Muestra la información general del día en curso: el día de Semana Santa seleccionado, avisos relevantes (por ejemplo, un retraso en el horario de salida), la procesión que está en curso en ese momento si la hay, unas estadísticas generales de la ciudad (número de cofradías, procesiones y nazarenos) y el listado de procesiones programadas para el día.
+Muestra la información general del día de Semana Santa seleccionado: un aviso destacado si existe alguna incidencia relevante (por ejemplo, un retraso en el horario de salida), la procesión que está en curso en ese momento si la hay, unas estadísticas generales de la ciudad (número de cofradías, procesiones y nazarenos) y el listado de procesiones y eventos programados para el día, marcando cuáles son favoritos del ciudadano. Desde el menú contextual de esta pantalla (icono \emph{overflow} superior derecho) se accede, además, a los listados independientes de cofradías, procesiones, pasos y eventos.
  
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/inicio.png}
-    \caption{Mockup de la pantalla de inicio}
+    \includegraphics[width=0.9\textwidth]{imagenes/inicioYfav.png}
+    \caption{Mockup de la pantalla de inicio: aviso de retraso, procesión en curso, estadísticas y agenda del día}
     \label{fig:mockupInicio}
 \end{figure}
-
+ 
+\paragraph{Calendario}
+ 
+Complementa a la pantalla de inicio permitiendo consultar cualquier otro día de la Semana Santa, no solo el actual. Ofrece dos niveles de detalle: una vista mensual completa, con un indicador en los días que tienen procesiones programadas, y una vista semanal con la agenda del día seleccionado, listando sus procesiones con horario y duración.
+ 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/inicioFav.png}
-    \caption{Mockup de la pantalla de inicio con favoritos}
-    \label{fig:mockupInicioFav}
+    \includegraphics[width=0.9\textwidth]{imagenes/calendario.png}
+    \caption{Mockup de la pantalla de calendario: vista mensual y agenda del día seleccionado}
+    \label{fig:mockupCalendario}
 \end{figure}
  
-
-\paragraph{Cofradías y procesiones}
+\paragraph{Listados de cofradías, procesiones, pasos y eventos}
  
-El listado de cofradías permite buscar y acceder a la ficha de cada una. La ficha de una cofradía muestra su historia, su web oficial, las procesiones que organiza y los pasos que la componen; desde ahí se puede acceder al detalle de una procesión concreta, con su horario, duración, número de nazarenos, recorrido y pasos que participan en ella.
+Cada uno de estos cuatro elementos del dominio cuenta con su propio listado, accesible desde el menú de la pantalla de Inicio, con buscador propio y sin más información que el nombre de cada elemento, ya que su detalle se consulta accediendo a la ficha correspondiente.
  
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/cofradia.png}
-    \caption{Mockup del listado de cofradías}
-    \label{fig:mockupCofradias}
+    \includegraphics[width=0.95\textwidth]{imagenes/listados.png}
+    \caption{Mockup del menú de la pantalla de inicio y de los listados de procesiones, pasos, eventos y cofradías}
+    \label{fig:mockupListados}
 \end{figure}
  
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/cofradiaInfo.png}
-    \caption{Mockup del detalle de una cofradía}
-    \label{fig:mockupDetalleCofradia}
-\end{figure}
+\paragraph{Detalle de cofradía y de paso}
+ 
+La ficha de una cofradía muestra su historia, su web oficial, las procesiones y el evento que organiza y los pasos que la componen. De forma análoga, la ficha de un paso muestra una imagen, su historia y origen, un análisis artístico y su web oficial, siguiendo la misma estructura visual que la ficha de cofradía para mantener la coherencia del conjunto.
  
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/procesionDetalles.png}
-    \caption{Mockup del detalle de una procesión}
+    \includegraphics[width=0.9\textwidth]{imagenes/infoPasoyCofradia.png}
+    \caption{Mockup del detalle de un paso y de una cofradía}
+    \label{fig:mockupDetalleCofradiaPaso}
+\end{figure}
+ 
+\paragraph{Detalle de procesión}
+ 
+Muestra el estado de la procesión (programada, en curso o finalizada), su día y hora de salida, duración, número de nazarenos, los pasos que participan en ella y su recorrido sobre un mapa, con un botón de acceso directo al mapa en vivo si la procesión está en curso. Además, de forma similar a la ficha de una cofradía, cada procesión tiene una pantalla de información ampliada con la historia y el origen del desfile.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/procesionDetalleNuevo.png}
+    \caption{Mockup del detalle de una procesión (programada y en curso) y de su información ampliada}
     \label{fig:mockupDetalleProcesion}
 \end{figure}
  
-\paragraph{Buscar, Mapa y Perfil}
+\paragraph{Buscar}
  
-Estas tres pantallas se han diseñado ya para mantener la coherencia visual del conjunto, pero su funcionalidad se implementa en iteraciones posteriores. \emph{Buscar} permite localizar procesiones filtrando por día y estado (programada, en curso o finalizada); \emph{Mapa en Vivo} mostrará la posición en tiempo real de las procesiones en curso sobre un mapa de Google Maps (Iteración 2); y \emph{Perfil} reúne, además de la ciudad seleccionada y las cofradías/procesiones favoritas del ciudadano, el cambio al modo cofrade con el botón para compartir ubicación (Iteración 3) y las preferencias de notificaciones (Iteración 5).
+Permite localizar procesiones, pasos y eventos combinando texto libre con filtros por día de Semana Santa y por estado (programada, en curso o finalizada), mostrando un mensaje cuando ningún resultado cumple los filtros seleccionados. Su funcionalidad se implementa en una iteración posterior.
  
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/buscar.png}
-    \caption{Mockup de la pantalla de búsqueda}
+    \includegraphics[width=0.9\textwidth]{imagenes/buscaryFiltrar.png}
+    \caption{Mockup de la pantalla de búsqueda con filtros por día y estado}
     \label{fig:mockupBuscar}
 \end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/buscarProcesiones.png}
-    \caption{Mockup de la pantalla de búsqueda de procesiones}
-    \label{fig:mockupBuscarProcesiones}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/buscarEditada.png}
-    \caption{Mockup de la pantalla de búsqueda (versión revisada)}
-    \label{fig:mockupBuscarEditada}
-\end{figure}
+ 
+\paragraph{Mapa en Vivo}
+ 
+Mostrará sobre un mapa de Google Maps la posición en tiempo real de las procesiones en curso y la ubicación del propio ciudadano, junto con un listado de las procesiones actualmente en movimiento desde el que centrar el mapa sobre una de ellas. Se implementa en la Iteración 2.
  
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/mapa.png}
+    \includegraphics[width=0.45\textwidth]{imagenes/mapaEnVivo.png}
     \caption{Mockup del mapa en vivo}
     \label{fig:mockupMapa}
 \end{figure}
  
+\paragraph{Perfil}
+ 
+Reúne la ciudad seleccionada y las cofradías/procesiones favoritas del ciudadano, el cambio entre el modo ciudadano y el modo cofrade, y las preferencias de notificaciones (avisos de procesiones en curso, alertas de tráfico y retrasos). En modo cofrade se añade además el botón para activar la ubicación compartida durante una procesión. El cambio de modo y la ubicación compartida se implementan en la Iteración 3; las preferencias de notificaciones, en una iteración posterior.
+ 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/perfil.png}
-    \caption{Mockup de la pantalla de perfil, en modo ciudadano}
+    \includegraphics[width=0.9\textwidth]{imagenes/perfiles.png}
+    \caption{Mockup de la pantalla de perfil, en modo ciudadano y en modo cofrade}
     \label{fig:mockupPerfil}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/perfilCofrade.png}
-    \caption{Mockup de la pantalla de perfil, en modo cofrade}
-    \label{fig:mockupPerfilCofrade}
 \end{figure}
  
 \subsubsection{Patrones de diseño}

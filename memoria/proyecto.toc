@@ -60,38 +60,43 @@
 \contentsline {subsubsection}{Interfaces de usuario}{48}{section*.59}%
 \contentsline {paragraph}{Selección de ciudad}{49}{section*.60}%
 \contentsline {paragraph}{Inicio}{50}{section*.62}%
-\contentsline {paragraph}{Cofradías y procesiones}{51}{section*.65}%
-\contentsline {paragraph}{Buscar, Mapa y Perfil}{54}{section*.69}%
-\contentsline {subsubsection}{Patrones de diseño}{60}{section*.76}%
-\contentsline {subsection}{\numberline {4.1.3}Implementacion}{62}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Pruebas}{62}{subsection.4.1.4}%
-\contentsline {section}{\numberline {4.2}2ª Iteración}{62}{section.4.2}%
-\contentsline {section}{\numberline {4.3}3ª Iteración}{62}{section.4.3}%
-\contentsline {section}{\numberline {4.4}4ª Iteración}{62}{section.4.4}%
-\contentsline {chapter}{\numberline {5}Estado final de la aplicación}{63}{chapter.5}%
-\contentsline {subsection}{\numberline {5.0.1}Historias de usuario}{63}{subsection.5.0.1}%
-\contentsline {chapter}{\numberline {6}Pruebas}{65}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusiones}{67}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Trabajo futuro}{67}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Puntos débiles}{67}{section.7.2}%
-\contentsline {part}{Bibliografía}{71}{part*.78}%
-\contentsline {part}{Anexos}{77}{part*.80}%
-\contentsline {chapter}{\numberline {A}Acrónimos}{77}{appendix.Alph1}%
-\contentsline {chapter}{\numberline {B}Casos de uso adicionales}{79}{appendix.Alph2}%
-\contentsline {chapter}{\numberline {C}Esquema de la base de datos}{97}{appendix.Alph3}%
-\contentsline {section}{\numberline {C.1}Ciudad (\texttt {ciudades})}{97}{section.Alph3.1}%
-\contentsline {section}{\numberline {C.2}Cofradía / Hermandad (\texttt {cofradias})}{97}{section.Alph3.2}%
-\contentsline {subsection}{\numberline {C.2.1}Paso (\texttt {cofradias/\{id\}/pasos}) --- subcolección}{98}{subsection.Alph3.2.1}%
-\contentsline {subsection}{\numberline {C.2.2}CódigoAcceso (\texttt {cofradias/\{id\}/codigosAcceso}) --- subcolección}{98}{subsection.Alph3.2.2}%
-\contentsline {section}{\numberline {C.3}Evento (\texttt {eventos})}{98}{section.Alph3.3}%
-\contentsline {section}{\numberline {C.4}Procesión (\texttt {procesiones})}{99}{section.Alph3.4}%
-\contentsline {subsection}{\numberline {C.4.1}PosiciónActual (\texttt {procesiones/\{id\}/posicionActual}) --- subcolección de un único documento fijo (\texttt {actual})}{99}{subsection.Alph3.4.1}%
-\contentsline {section}{\numberline {C.5}Recorrido (\texttt {recorridos})}{100}{section.Alph3.5}%
-\contentsline {subsection}{\numberline {C.5.1}PuntoRuta (\texttt {recorridos/\{id\}/puntosRuta}) --- subcolección}{100}{subsection.Alph3.5.1}%
-\contentsline {section}{\numberline {C.6}Usuario (\texttt {usuarios})}{100}{section.Alph3.6}%
-\contentsline {subsection}{\numberline {C.6.1}EntregaNotificacion (\texttt {usuarios/\{id\}/notificacionesEntregadas}) --- subcolección}{101}{subsection.Alph3.6.1}%
-\contentsline {section}{\numberline {C.7}Notificación (\texttt {notificaciones})}{101}{section.Alph3.7}%
-\contentsline {section}{\numberline {C.8}Relaciones entre colecciones}{102}{section.Alph3.8}%
-\contentsline {chapter}{\numberline {D}Manual de despliegue}{103}{appendix.Alph4}%
-\contentsline {chapter}{\numberline {E}Manual de uso}{105}{appendix.Alph5}%
-\contentsline {chapter}{\numberline {F}Contenido del TFG}{107}{appendix.Alph6}%
+\contentsline {paragraph}{Calendario}{50}{section*.64}%
+\contentsline {paragraph}{Listados de cofradías, procesiones, pasos y eventos}{51}{section*.66}%
+\contentsline {paragraph}{Detalle de cofradía y de paso}{52}{section*.68}%
+\contentsline {paragraph}{Detalle de procesión}{53}{section*.70}%
+\contentsline {paragraph}{Buscar}{54}{section*.72}%
+\contentsline {paragraph}{Mapa en Vivo}{55}{section*.74}%
+\contentsline {paragraph}{Perfil}{56}{section*.76}%
+\contentsline {subsubsection}{Patrones de diseño}{57}{section*.78}%
+\contentsline {subsection}{\numberline {4.1.3}Implementacion}{59}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Pruebas}{59}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}2ª Iteración}{59}{section.4.2}%
+\contentsline {section}{\numberline {4.3}3ª Iteración}{59}{section.4.3}%
+\contentsline {section}{\numberline {4.4}4ª Iteración}{59}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Estado final de la aplicación}{61}{chapter.5}%
+\contentsline {subsection}{\numberline {5.0.1}Historias de usuario}{61}{subsection.5.0.1}%
+\contentsline {chapter}{\numberline {6}Pruebas}{63}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusiones}{65}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Trabajo futuro}{65}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Puntos débiles}{65}{section.7.2}%
+\contentsline {part}{Bibliografía}{69}{part*.80}%
+\contentsline {part}{Anexos}{75}{part*.82}%
+\contentsline {chapter}{\numberline {A}Acrónimos}{75}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {B}Casos de uso adicionales}{77}{appendix.Alph2}%
+\contentsline {chapter}{\numberline {C}Esquema de la base de datos}{95}{appendix.Alph3}%
+\contentsline {section}{\numberline {C.1}Ciudad (\texttt {ciudades})}{95}{section.Alph3.1}%
+\contentsline {section}{\numberline {C.2}Cofradía / Hermandad (\texttt {cofradias})}{95}{section.Alph3.2}%
+\contentsline {subsection}{\numberline {C.2.1}Paso (\texttt {cofradias/\{id\}/pasos}) --- subcolección}{96}{subsection.Alph3.2.1}%
+\contentsline {subsection}{\numberline {C.2.2}CódigoAcceso (\texttt {cofradias/\{id\}/codigosAcceso}) --- subcolección}{96}{subsection.Alph3.2.2}%
+\contentsline {section}{\numberline {C.3}Evento (\texttt {eventos})}{96}{section.Alph3.3}%
+\contentsline {section}{\numberline {C.4}Procesión (\texttt {procesiones})}{97}{section.Alph3.4}%
+\contentsline {subsection}{\numberline {C.4.1}PosiciónActual (\texttt {procesiones/\{id\}/posicionActual}) --- subcolección de un único documento fijo (\texttt {actual})}{97}{subsection.Alph3.4.1}%
+\contentsline {section}{\numberline {C.5}Recorrido (\texttt {recorridos})}{98}{section.Alph3.5}%
+\contentsline {subsection}{\numberline {C.5.1}PuntoRuta (\texttt {recorridos/\{id\}/puntosRuta}) --- subcolección}{98}{subsection.Alph3.5.1}%
+\contentsline {section}{\numberline {C.6}Usuario (\texttt {usuarios})}{98}{section.Alph3.6}%
+\contentsline {subsection}{\numberline {C.6.1}EntregaNotificacion (\texttt {usuarios/\{id\}/notificacionesEntregadas}) --- subcolección}{99}{subsection.Alph3.6.1}%
+\contentsline {section}{\numberline {C.7}Notificación (\texttt {notificaciones})}{99}{section.Alph3.7}%
+\contentsline {section}{\numberline {C.8}Relaciones entre colecciones}{100}{section.Alph3.8}%
+\contentsline {chapter}{\numberline {D}Manual de despliegue}{101}{appendix.Alph4}%
+\contentsline {chapter}{\numberline {E}Manual de uso}{103}{appendix.Alph5}%
+\contentsline {chapter}{\numberline {F}Contenido del TFG}{105}{appendix.Alph6}%
