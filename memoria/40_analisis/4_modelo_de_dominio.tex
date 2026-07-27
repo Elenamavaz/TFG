@@ -18,20 +18,9 @@ La comunicación con los usuarios se modela mediante la clase abstracta \texttt{
 
 Por último, el acceso al modo cofrade se controla mediante la clase \texttt{CodigoAcceso}: cada \texttt{Cofradia} emite su propio código, generado automáticamente por el sistema en el momento en que la cofradía se da de alta, y un \texttt{Usuario} lo valida para obtener los privilegios de cofrade. De forma similar, los elementos marcados como favoritos por un usuario (cofradías, eventos o procesiones) se representan mediante la clase \texttt{Favorito}, que hace referencia a cualquier elemento que implemente la interfaz \texttt{Favoriteable}.
 
-\subsection{Modelo de dominio detallado}
+\subsection{Modelo de interacción}\label{cap:modeloInteraccion}
 
-Con el modelo de dominio y los diagramas de secuencia anteriores, construimos un modelo de dominio extendido (Figura ~\ref{fig:DiagramDomainDetail}) con los métodos a implementar.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth,height=0.85\textheight,keepaspectratio]{imagenes/DiagramaDetalladoDeDominio.png}
-\caption{Diagrama de dominio detallado del proyecto}
-\label{fig:DiagramDomainDetail}
-\end{figure}
-
-\subsection{Realización en análisis de los casos de uso}
-
-En este apartado se mostrarán los diagramas de secuencia obtenidos del análisis a partir de los casos de uso mencionados anteriormente. Se han excluido de esta sección las secuencias alternativas de cancelar con el fin de simplificar los diagramas.
+En esta sección se describen los principales casos de uso de la aplicación mediante diagramas de secuencia obtenidos a partir del análisis. Se han excluido las secuencias alternativas de cancelar con el fin de simplificar los diagramas.
 
 Para el caso de uso \textit{Visualizar procesión en tiempo real} (Figura~\ref{fig:secVisualizarProcesion}), el ciudadano selecciona una procesión activa y el sistema obtiene la instancia de \texttt{Procesion} correspondiente, junto con su recorrido planificado, y se suscribe a las actualizaciones de su posición actual. Mientras la procesión está en curso, el sistema recalcula sobre el recorrido el tramo ya realizado y el tramo restante en función de la posición recibida, para mantener el mapa del usuario actualizado.
 
