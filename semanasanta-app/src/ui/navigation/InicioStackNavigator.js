@@ -1,0 +1,29 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { InicioScreen } from '../screens/ciudadano/InicioScreen';
+import { ListadoScreen } from '../screens/ciudadano/listados/ListadoScreen';
+import { DetalleCofradiaScreen } from '../screens/ciudadano/detalle/DetalleCofradiaScreen';
+import { DetallePasoScreen } from '../screens/ciudadano/detalle/DetallePasoScreen';
+import { DetalleProcesionScreen } from '../screens/ciudadano/detalle/DetalleProcesionScreen';
+import { colors, fontFamilies } from '../../theme';
+
+const Stack = createNativeStackNavigator();
+
+const screenOptions = {
+  headerStyle: { backgroundColor: colors.background },
+  headerTintColor: colors.gold,
+  headerTitleStyle: { fontFamily: fontFamilies.titleSemiBold, fontSize: 18 },
+  headerShadowVisible: false,
+  contentStyle: { backgroundColor: colors.background },
+};
+
+export function InicioStackNavigator() {
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen name="InicioHome" component={InicioScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Listado" component={ListadoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleCofradia" component={DetalleCofradiaScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />
+    </Stack.Navigator>
+  );
+}
