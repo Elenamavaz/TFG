@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, Text } from 'react-native';
-import { ScreenContainer } from '../../../components/common/ScreenContainer';
-import { SearchInput } from '../../../components/common/SearchInput';
-import { ListItemCard } from '../../../components/common/ListItemCard';
-import { StatusBadge } from '../../../components/common/StatusBadge';
+import { FlatList, Text } from 'react-native';
+import { ScreenContainer, SearchInput, ListItemCard, StatusBadge } from '../../../components/common';
 import { useCiudad } from '../../../../application/context/CiudadContext';
 import { getCofradiasPorCiudad } from '../../../../data/services/cofradiaService';
 import { getProcesionesPorCiudad } from '../../../../data/services/procesionService';
 import { getEventosPorCiudad } from '../../../../data/services/eventoService';
 import { pasosMock } from '../../../../data/mock/pasos';
 import { cofradiasMock } from '../../../../data/mock/cofradias';
-import { colors, fontFamilies, spacing } from '../../../../theme';
+
+import { styles } from './ListScreen.styles';
 
 const CONFIG_POR_TIPO = {
   cofradias: {
@@ -91,19 +89,3 @@ export function ListadoScreen({ route, navigation }) {
     </ScreenContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: spacing.lg,
-  },
-  list: {
-    paddingTop: spacing.md,
-    paddingBottom: spacing.xl,
-  },
-  empty: {
-    color: colors.goldMuted,
-    fontFamily: fontFamilies.bodyRegular,
-    fontSize: 14,
-    marginTop: spacing.lg,
-  },
-});

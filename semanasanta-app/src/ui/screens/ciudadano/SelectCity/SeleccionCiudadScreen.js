@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScreenContainer } from '../../components/common/ScreenContainer';
-import { SearchInput } from '../../components/common/SearchInput';
-import { useCiudad } from '../../../application/context/CiudadContext';
-import { getCiudades } from '../../../data/services/ciudadService';
-import { colors, fontFamilies, radii, spacing } from '../../../theme';
+import { FlatList, Text, TouchableOpacity } from 'react-native';
+import { ScreenContainer } from '../../../components/common/ScreenContainer';
+import { SearchInput } from '../../../components/common/SearchInput';
+import { useCiudad } from '../../../../application/context/CiudadContext';
+import { getCiudades } from '../../../../data/services/ciudadService';
+import { styles } from './SeleccionCiudadScreen.styles';
 
 export function SeleccionCiudadScreen({ navigation }) {
   const { seleccionarCiudad } = useCiudad();
@@ -48,49 +48,3 @@ export function SeleccionCiudadScreen({ navigation }) {
     </ScreenContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
-  },
-  eyebrow: {
-    color: colors.goldMuted,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 13,
-  },
-  title: {
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.titleBold,
-    fontSize: 40,
-    marginTop: spacing.xs,
-  },
-  subtitle: {
-    color: colors.cream,
-    fontFamily: fontFamilies.bodyRegular,
-    fontSize: 14,
-    marginTop: spacing.xs,
-    marginBottom: spacing.lg,
-  },
-  list: {
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.xl,
-  },
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: radii.md,
-    padding: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  cardTitle: {
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 22,
-  },
-  cardMeta: {
-    color: colors.goldMuted,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 13,
-    marginTop: 2,
-  },
-});

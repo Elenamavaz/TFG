@@ -1,11 +1,7 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { createBottomTabNavigator, getFocusedRouteNameFromRoute } from '@react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import { InicioStackNavigator } from './InicioStackNavigator';
-import { CalendarioScreen } from '../screens/ciudadano/CalendarioScreen';
-import { MapaScreen } from '../screens/ciudadano/MapaScreen';
-import { BuscarScreen } from '../screens/ciudadano/BuscarScreen';
-import { PerfilScreen } from '../screens/ciudadano/PerfilScreen';
+import { CalendarioScreen, MapaScreen, BuscarScreen, PerfilScreen } from '../screens/ciudadano';
 import { colors, fontFamilies } from '../../theme';
 
 const Tab = createBottomTabNavigator();

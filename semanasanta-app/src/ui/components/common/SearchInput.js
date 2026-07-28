@@ -1,6 +1,7 @@
-import { StyleSheet, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, fontFamilies, spacing, radii } from '../../../theme';
+import { colors } from '../../../theme';
+import { styles } from './SearchInput.styles';
 
 export function SearchInput({ value, onChangeText, placeholder = 'Buscar...' }) {
   return (
@@ -16,23 +17,3 @@ export function SearchInput({ value, onChangeText, placeholder = 'Buscar...' }) 
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surface,
-    borderRadius: radii.md,
-    paddingHorizontal: spacing.md,
-    height: 48,
-  },
-  icon: {
-    marginRight: spacing.sm,
-  },
-  input: {
-    flex: 1,
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 15,
-  },
-});

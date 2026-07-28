@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScreenContainer } from '../../../components/common/ScreenContainer';
-import { StatusBadge } from '../../../components/common/StatusBadge';
-import { ListItemCard } from '../../../components/common/ListItemCard';
-import { getProcesionPorId } from '../../../../data/services/procesionService';
-import { getPasosPorIds } from '../../../../data/services/pasoService';
-import { colors, fontFamilies, radii, spacing } from '../../../../theme';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScreenContainer, StatusBadge, ListItemCard } from '../../../components/common';
+import { getProcesionPorId, getPasosPorIds } from '../../../../data/services';
+import {  } from '../../../../data/services/pasoService';
+
+import { styles } from './DetailProcesionScreen.styles';
 
 function formatearDuracion(minutos) {
   const horas = Math.floor(minutos / 60);
@@ -86,70 +85,3 @@ export function DetalleProcesionScreen({ route, navigation }) {
     </ScreenContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: spacing.lg,
-    paddingBottom: spacing.xl,
-  },
-  title: {
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.titleBold,
-    fontSize: 28,
-    marginTop: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  infoRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginBottom: spacing.sm,
-  },
-  infoBox: {
-    flex: 1,
-    backgroundColor: colors.surface,
-    borderRadius: radii.md,
-    padding: spacing.md,
-  },
-  infoLabel: {
-    color: colors.goldMuted,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 12,
-  },
-  infoValue: {
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 16,
-    marginTop: 2,
-  },
-  sectionTitle: {
-    color: colors.gold,
-    fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 18,
-    marginTop: spacing.lg,
-    marginBottom: spacing.sm,
-  },
-  mapPlaceholder: {
-    height: 160,
-    borderRadius: radii.md,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mapPlaceholderText: {
-    color: colors.goldMuted,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 13,
-  },
-  cta: {
-    backgroundColor: colors.surfaceAlt,
-    borderRadius: radii.md,
-    paddingVertical: spacing.md,
-    alignItems: 'center',
-    marginTop: spacing.lg,
-  },
-  ctaText: {
-    color: colors.gold,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 15,
-  },
-});

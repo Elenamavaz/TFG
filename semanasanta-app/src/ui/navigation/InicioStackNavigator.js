@@ -1,9 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { InicioScreen } from '../screens/ciudadano/InicioScreen';
-import { ListadoScreen } from '../screens/ciudadano/listados/ListadoScreen';
-import { DetalleCofradiaScreen } from '../screens/ciudadano/detalle/DetalleCofradiaScreen';
-import { DetallePasoScreen } from '../screens/ciudadano/detalle/DetallePasoScreen';
-import { DetalleProcesionScreen } from '../screens/ciudadano/detalle/DetalleProcesionScreen';
+import { InicioScreen, ListadoScreen, DetalleCofradiaScreen, DetallePasoScreen, DetalleProcesionScreen } from '../screens/ciudadano';
 import { colors, fontFamilies } from '../../theme';
 
 const Stack = createNativeStackNavigator();

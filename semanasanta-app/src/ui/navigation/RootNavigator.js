@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SeleccionCiudadScreen } from '../screens/ciudadano/SeleccionCiudadScreen';
+import { SeleccionCiudadScreen } from '../screens/ciudadano';
 import { MainTabNavigator } from './MainTabNavigator';
 
 const Stack = createNativeStackNavigator();
