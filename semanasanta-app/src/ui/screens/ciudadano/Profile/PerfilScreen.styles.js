@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   sectionTitle: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
     marginBottom: spacing.sm,
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
   },
   ciudadMeta: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 12,
     marginTop: 2,

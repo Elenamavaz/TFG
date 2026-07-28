@@ -15,11 +15,11 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   imagePlaceholderText: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
   },
   eyebrow: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
   },

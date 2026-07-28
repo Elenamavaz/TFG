@@ -7,7 +7,7 @@ import { styles } from './ComingSoonScreen.styles';
 export function ComingSoonScreen({ icon, title, description }) {
   return (
     <ScreenContainer style={styles.container}>
-      <Ionicons name={icon} size={40} color={colors.goldMuted} />
+      <Ionicons name={icon} size={40} color={colors.subtitle} />
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
     </ScreenContainer>

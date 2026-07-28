@@ -2,17 +2,8 @@ import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { ScreenContainer, StatusBadge, ListItemCard } from '../../../components/common';
 import { getProcesionPorId, getPasosPorIds } from '../../../../data/services';
-import {  } from '../../../../data/services/pasoService';
-
+import { formatearDuracion } from '../../../utils/tiempo';
 import { styles } from './DetailProcesionScreen.styles';
-
-function formatearDuracion(minutos) {
-  const horas = Math.floor(minutos / 60);
-  const restoMinutos = minutos % 60;
-  if (horas === 0) return `${restoMinutos}min`;
-  if (restoMinutos === 0) return `${horas}h`;
-  return `${horas}h ${restoMinutos}min`;
-}
 
 export function DetalleProcesionScreen({ route, navigation }) {
   const { procesionId } = route.params;

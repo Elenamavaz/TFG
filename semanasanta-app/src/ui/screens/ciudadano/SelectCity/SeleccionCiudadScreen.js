@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
-import { ScreenContainer } from '../../../components/common/ScreenContainer';
-import { SearchInput } from '../../../components/common/SearchInput';
-import { useCiudad } from '../../../../application/context/CiudadContext';
-import { getCiudades } from '../../../../data/services/ciudadService';
+import { ScreenContainer, SearchInput } from '../../../components/common';
+import { useCiudad } from '../../../../application/context';
+import { getCiudades } from '../../../../data/services';
 import { styles } from './SeleccionCiudadScreen.styles';
 
 export function SeleccionCiudadScreen({ navigation }) {

@@ -1,4 +1,5 @@
-import { createBottomTabNavigator, getFocusedRouteNameFromRoute } from '@react-navigation';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { InicioStackNavigator } from './InicioStackNavigator';
 import { CalendarioScreen, MapaScreen, BuscarScreen, PerfilScreen } from '../screens/ciudadano';
@@ -27,7 +28,7 @@ export function MainTabNavigator() {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.gold,
-        tabBarInactiveTintColor: colors.goldMuted,
+        tabBarInactiveTintColor: colors.subtitle,
         tabBarStyle: [
           { backgroundColor: colors.backgroundAlt, borderTopColor: colors.surface },
           route.name === 'Inicio' ? tabBarStyleParaInicio(route) : null,

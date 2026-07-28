@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native';
-import { ScreenContainer } from '../../../components/common/ScreenContainer';
-import { useCiudad } from '../../../../application/context/CiudadContext';
+import { ScreenContainer } from '../../../components/common';
+import { useCiudad } from '../../../../application/context';
 import { styles } from './PerfilScreen.styles';
 
 export function PerfilScreen({ navigation }) {

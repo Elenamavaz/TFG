@@ -6,12 +6,12 @@ import { styles } from './SearchInput.styles';
 export function SearchInput({ value, onChangeText, placeholder = 'Buscar...' }) {
   return (
     <View style={styles.wrapper}>
-      <Ionicons name="search" size={18} color={colors.goldMuted} style={styles.icon} />
+      <Ionicons name="search" size={18} color={colors.subtitle} style={styles.icon} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={colors.goldMuted}
+        placeholderTextColor={colors.subtitle}
         style={styles.input}
       />
     </View>

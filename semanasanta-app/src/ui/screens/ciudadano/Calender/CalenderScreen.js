@@ -1,4 +1,4 @@
-import { ComingSoonScreen } from '../../../components/common/ComingSoonScreen';
+import { ComingSoonScreen } from '../../../components/common';
 
 export function CalendarioScreen() {
   return (

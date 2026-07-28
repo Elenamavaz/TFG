@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     padding: spacing.md,
   },
   infoLabel: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 12,
   },
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mapPlaceholderText: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
   },

@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   ciudad: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
   },
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     fontSize: 32,
   },
   subtitle: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
     marginTop: 2,
@@ -44,11 +44,37 @@ export const styles = StyleSheet.create({
   menuButton: {
     padding: spacing.xs,
   },
-  enCursoCard: {
-    backgroundColor: colors.surfaceAlt,
+  avisoCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    backgroundColor: colors.backgroundRed,
     borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.borderRed,
     padding: spacing.md,
     marginTop: spacing.lg,
+  },
+  avisoTexto: {
+    flex: 1,
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  enCursoCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    backgroundColor: colors.greenBackground,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.greenBorder,
+    padding: spacing.md,
+    marginTop: spacing.sm,
+  },
+  enCursoLeft: {
+    flex: 1,
+    marginRight: spacing.sm,
   },
   enCursoTitle: {
     color: colors.textPrimary,
@@ -57,9 +83,23 @@ export const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   enCursoMeta: {
-    color: colors.cream,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
+    marginTop: 2,
+  },
+  enCursoRight: {
+    alignItems: 'flex-end',
+  },
+  enCursoHora: {
+    color: colors.gold,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 20,
+  },
+  enCursoDuracion: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
     marginTop: 2,
   },
   statsRow: {
@@ -78,6 +118,7 @@ export const styles = StyleSheet.create({
     color: colors.gold,
     fontFamily: fontFamilies.titleBold,
     fontSize: 24,
+    marginTop: spacing.xs,
   },
   statLabel: {
     color: colors.cream,
@@ -86,14 +127,14 @@ export const styles = StyleSheet.create({
     marginTop: 2,
   },
   sectionTitle: {
-    color: colors.textPrimary,
+    color: colors.subtitle,
     fontFamily: fontFamilies.titleSemiBold,
     fontSize: 20,
     marginTop: spacing.lg,
     marginBottom: spacing.sm,
   },
   empty: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.bodyRegular,
     fontSize: 14,
   },
@@ -153,7 +194,7 @@ export const styles = StyleSheet.create({
     color: colors.gold,
   },
   diaMenuItemFecha: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 12,
   },

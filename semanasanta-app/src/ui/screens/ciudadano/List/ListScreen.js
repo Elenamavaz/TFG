@@ -1,13 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Text } from 'react-native';
 import { ScreenContainer, SearchInput, ListItemCard, StatusBadge } from '../../../components/common';
-import { useCiudad } from '../../../../application/context/CiudadContext';
-import { getCofradiasPorCiudad } from '../../../../data/services/cofradiaService';
-import { getProcesionesPorCiudad } from '../../../../data/services/procesionService';
-import { getEventosPorCiudad } from '../../../../data/services/eventoService';
+import { useCiudad } from '../../../../application/context';
+import { getCofradiasPorCiudad, getProcesionesPorCiudad, getEventosPorCiudad } from '../../../../data/services';
 import { pasosMock } from '../../../../data/mock/pasos';
 import { cofradiasMock } from '../../../../data/mock/cofradias';
-
 import { styles } from './ListScreen.styles';
 
 const CONFIG_POR_TIPO = {
@@ -15,24 +12,28 @@ const CONFIG_POR_TIPO = {
     titulo: 'Cofradías',
     detalle: 'DetalleCofradia',
     idParam: 'cofradiaId',
+    icono: 'people',
     cargar: (ciudadId) => getCofradiasPorCiudad(ciudadId),
   },
   procesiones: {
     titulo: 'Procesiones',
     detalle: 'DetalleProcesion',
     idParam: 'procesionId',
+    icono: 'church',
     cargar: (ciudadId) => getProcesionesPorCiudad(ciudadId),
   },
   eventos: {
     titulo: 'Eventos',
     detalle: null,
     idParam: 'eventoId',
+    icono: 'candle',
     cargar: (ciudadId) => getEventosPorCiudad(ciudadId),
   },
   pasos: {
     titulo: 'Pasos',
     detalle: 'DetallePaso',
     idParam: 'pasoId',
+    icono: 'cross',
     // los pasos no guardan ciudadId directamente: se resuelven vía la cofradía a la que pertenecen
     cargar: (ciudadId) => {
       const cofradiaIds = cofradiasMock.filter((c) => c.ciudadId === ciudadId).map((c) => c.id);
@@ -43,6 +44,7 @@ const CONFIG_POR_TIPO = {
 
 export function ListadoScreen({ route, navigation }) {
   const { tipo } = route.params;
+  const { }
   const config = CONFIG_POR_TIPO[tipo];
   const { ciudadSeleccionada } = useCiudad();
   const [items, setItems] = useState([]);
@@ -79,6 +81,7 @@ export function ListadoScreen({ route, navigation }) {
         ListEmptyComponent={<Text style={styles.empty}>No hay elementos que coincidan con la búsqueda.</Text>}
         renderItem={({ item }) => (
           <ListItemCard
+            icon={item.icono}
             title={item.nombre}
             badge={item.estado ? <StatusBadge estado={item.estado} /> : null}
             onPress={() => onPressItem(item)}

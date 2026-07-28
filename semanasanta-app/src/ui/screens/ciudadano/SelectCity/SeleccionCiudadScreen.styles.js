@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     paddingTop: spacing.lg,
   },
   eyebrow: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
   },
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     fontSize: 22,
   },
   cardMeta: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
     marginTop: 2,

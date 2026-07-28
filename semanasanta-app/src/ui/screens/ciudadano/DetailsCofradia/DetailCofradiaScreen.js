@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Linking, ScrollView, Text, TouchableOpacity } from 'react-native';
-import { ScreenContainer, ListItemCard, StatusBadge } from '../../../components/common/';
+import { ScreenContainer, ListItemCard, StatusBadge } from '../../../components/common';
 import { getCofradiaPorId, getProcesionPorId, getPasosPorIds } from '../../../../data/services';
 
 import { styles } from './DetailCofradiaScreen.styles';

@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingBottom: spacing.xl,
   },
   empty: {
-    color: colors.goldMuted,
+    color: colors.subtitle,
     fontFamily: fontFamilies.bodyRegular,
     fontSize: 14,
     marginTop: spacing.lg,

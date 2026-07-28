@@ -1,12 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { Ionicons, Octicons } from '@expo/vector-icons';
-import { ScreenContainer, ListItemCard, StatusBadge} from '../../../components/common';
+import { Ionicons, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { ScreenContainer, ListItemCard, StatusBadge } from '../../../components/common';
 import { useCiudad } from '../../../../application/context';
-import { getCofradiasPorCiudad, getProcesionesPorCiudad, getProcesionEnCurso } from '../../../../data/services';
-import { getEventosPorCiudad, getDiasSemanaSanta } from '../../../../data/services';
-
+import {
+  getCofradiasPorCiudad,
+  getProcesionesPorCiudad,
+  getProcesionEnCurso,
+  getEventosPorCiudad,
+  getDiasSemanaSanta,
+  getAlertaDelDia,
+} from '../../../../data/services';
+import { formatearDuracion } from '../../../utils/tiempo';
 import { colors } from '../../../../theme';
 import { styles } from './HomeScreen.styles';
 
@@ -27,6 +33,11 @@ function formatearFechaCorta(fechaIso) {
   return `${dia} de ${MESES[mes - 1]}`;
 }
 
+function formatearNumero(numero) {
+  if (numero >= 1000) return `${Math.round(numero / 1000)}k`;
+  return `${numero}`;
+}
+
 export function InicioScreen({ navigation }) {
   const { ciudadSeleccionada } = useCiudad();
   const [menuVisible, setMenuVisible] = useState(false);
@@ -34,6 +45,7 @@ export function InicioScreen({ navigation }) {
   const [numCofradias, setNumCofradias] = useState(0);
   const [numProcesionesTotal, setNumProcesionesTotal] = useState(0);
   const [procesionEnCurso, setProcesionEnCurso] = useState(null);
+  const [alerta, setAlerta] = useState(null);
   const [dias, setDias] = useState([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
   const [agenda, setAgenda] = useState([]);
@@ -51,9 +63,20 @@ export function InicioScreen({ navigation }) {
       if (!ciudadSeleccionada) return;
       const ciudadId = ciudadSeleccionada.id;
 
-      getCofradiasPorCiudad(ciudadId).then((cofradias) => setNumCofradias(cofradias.length));
-      getProcesionEnCurso(ciudadId).then(setProcesionEnCurso);
-      getProcesionesPorCiudad(ciudadId).then((procesiones) => setNumProcesionesTotal(procesiones.length));
+      Promise.all([
+        getCofradiasPorCiudad(ciudadId),
+        getProcesionEnCurso(ciudadId),
+        getProcesionesPorCiudad(ciudadId),
+      ]).then(([cofradias, enCurso, procesiones]) => {
+        setNumCofradias(cofradias.length);
+        setNumProcesionesTotal(procesiones.length);
+        if (enCurso) {
+          const cofradia = cofradias.find((c) => c.id === enCurso.cofradiaId);
+          setProcesionEnCurso({ ...enCurso, cofradiaNombre: cofradia?.nombre });
+        } else {
+          setProcesionEnCurso(null);
+        }
+      });
     }, [ciudadSeleccionada])
   );
 
@@ -62,19 +85,24 @@ export function InicioScreen({ navigation }) {
       if (!ciudadSeleccionada || !diaSeleccionado) return;
       const ciudadId = ciudadSeleccionada.id;
 
-      Promise.all([getProcesionesPorCiudad(ciudadId), getEventosPorCiudad(ciudadId)]).then(
-        ([procesiones, eventos]) => {
-          const items = [
-            ...procesiones
-              .filter((p) => p.dia === diaSeleccionado.nombre)
-              .map((p) => ({ ...p, categoria: 'procesion' })),
-            ...eventos
-              .filter((e) => e.fecha === diaSeleccionado.fecha)
-              .map((e) => ({ ...e, categoria: 'evento' })),
-          ];
-          setAgenda(items);
-        }
-      );
+      getAlertaDelDia(ciudadId, diaSeleccionado.nombre).then(setAlerta);
+
+      Promise.all([
+        getProcesionesPorCiudad(ciudadId),
+        getEventosPorCiudad(ciudadId),
+        getCofradiasPorCiudad(ciudadId),
+      ]).then(([procesiones, eventos, cofradias]) => {
+        const nombrePorCofradiaId = Object.fromEntries(cofradias.map((c) => [c.id, c.nombre]));
+        const items = [
+          ...procesiones
+            .filter((p) => p.dia === diaSeleccionado.nombre)
+            .map((p) => ({ ...p, categoria: 'procesion', cofradiaNombre: nombrePorCofradiaId[p.cofradiaId] })),
+          ...eventos
+            .filter((e) => e.fecha === diaSeleccionado.fecha)
+            .map((e) => ({ ...e, categoria: 'evento', cofradiaNombre: nombrePorCofradiaId[e.cofradiaId] })),
+        ];
+        setAgenda(items);
+      });
     }, [ciudadSeleccionada, diaSeleccionado])
   );
 
@@ -86,6 +114,15 @@ export function InicioScreen({ navigation }) {
   function abrirAgendaItem(item) {
     if (item.categoria === 'procesion') {
       navigation.navigate('DetalleProcesion', { procesionId: item.id });
+    }
+    // los eventos no tienen pantalla de detalle todavía (se añadirá en una iteración posterior)
+  }
+
+  function abrirAlerta() {
+    if (alerta?.procesionId) {
+      navigation.navigate('DetalleProcesion', { procesionId: alerta.procesionId });
+    } else if (alerta?.eventoId) {
+      // los eventos no tienen pantalla de detalle todavía (se añadirá en una iteración posterior)
     }
   }
 
@@ -106,9 +143,9 @@ export function InicioScreen({ navigation }) {
               onPress={() => navigation.getParent()?.navigate('SeleccionCiudad')}
               activeOpacity={0.8}
             >
-              <Octicons name="location" size={14} color={colors.goldMuted} />
+              <Octicons name="location" size={14} color={colors.subtitle} />
               <Text style={styles.ciudad}>{ciudadSeleccionada.nombre}</Text>
-              <Ionicons name="chevron-down" size={14} color={colors.goldMuted} />
+              <Ionicons name="chevron-down" size={14} color={colors.subtitle} />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.diaRow} onPress={() => setDiaMenuVisible(true)} activeOpacity={0.8}>
@@ -124,24 +161,48 @@ export function InicioScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {procesionEnCurso ? (
-          <View style={styles.enCursoCard}>
-            <StatusBadge estado="EN_CURSO" />
-            <Text style={styles.enCursoTitle}>{procesionEnCurso.nombre}</Text>
-            <Text style={styles.enCursoMeta}>
-              Salida {procesionEnCurso.horaSalida} · {procesionEnCurso.dia}
+        {alerta ? (
+          <TouchableOpacity style={styles.avisoCard} onPress={abrirAlerta} activeOpacity={0.8}>
+            <Ionicons name="alarm-outline" size={20} color={colors.cream} />
+            <Text style={styles.avisoTexto} numberOfLines={2}>
+              {alerta.texto}
             </Text>
-          </View>
+            <Ionicons name="chevron-forward" size={18} color={colors.cream} />
+          </TouchableOpacity>
+        ) : null}
+
+        {procesionEnCurso ? (
+          <>
+            <Text style={styles.sectionTitle}>En curso ahora</Text>
+            <View style={styles.enCursoCard}>
+            <View style={styles.enCursoLeft}>
+              <StatusBadge estado="EN_CURSO" />
+              <Text style={styles.enCursoTitle}>{procesionEnCurso.nombre}</Text>
+              <Text style={styles.enCursoMeta}>{procesionEnCurso.cofradiaNombre}</Text>
+            </View>
+            <View style={styles.enCursoRight}>
+              <Text style={styles.enCursoHora}>{procesionEnCurso.horaSalida}</Text>
+              <Text style={styles.enCursoDuracion}>{formatearDuracion(procesionEnCurso.duracionMin)}</Text>
+            </View>
+            </View>
+          </>
         ) : null}
 
         <View style={styles.statsRow}>
           <View style={styles.statBox}>
+            <MaterialCommunityIcons name="church" size={22} color={colors.subtitle} />
             <Text style={styles.statValue}>{numCofradias}</Text>
             <Text style={styles.statLabel}>Cofradías</Text>
           </View>
           <View style={styles.statBox}>
+            <MaterialCommunityIcons name="cross" size={22} color={colors.subtitle} />
             <Text style={styles.statValue}>{numProcesionesTotal}</Text>
             <Text style={styles.statLabel}>Procesiones</Text>
+          </View>
+          <View style={styles.statBox}>
+            <MaterialCommunityIcons name="candle" size={22} color={colors.subtitle} />
+            <Text style={styles.statValue}>{formatearNumero(ciudadSeleccionada.numCofrades ?? 0)}</Text>
+            <Text style={styles.statLabel}>Cofrades</Text>
           </View>
         </View>
 
@@ -149,11 +210,13 @@ export function InicioScreen({ navigation }) {
         {agenda.map((item) => (
           <ListItemCard
             key={`${item.categoria}-${item.id}`}
+            icon={item.categoria === 'procesion' ? 'cross' : 'candle'}
             title={item.nombre}
-            subtitle={item.categoria === 'procesion' ? item.horaSalida : null}
+            subtitle={item.cofradiaNombre}
+            hora={item.categoria === 'procesion' ? item.horaSalida : null}
             badge={<StatusBadge estado={item.estado} />}
+            mostrarFavorito
             onPress={() => abrirAgendaItem(item)}
-            rightIcon={item.categoria === 'procesion' ? 'chevron-forward' : null}
           />
         ))}
         {agenda.length === 0 ? (
