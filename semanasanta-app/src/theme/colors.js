@@ -10,7 +10,7 @@ export const colors = {
   cream: '#F0E0C8',
   creamMuted: '#E3D595',
 
-  textPrimary: cream,
+  textPrimary: '#F0E0C8',
 
   statusEnCursoText: '#37E37E',
   statusEnCurso: '#0B4A25',

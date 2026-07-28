@@ -4,7 +4,7 @@ export const eventosMock = [
     cofradiaId: 'vera-cruz',
     nombre: 'Vía Crucis de la Exaltación',
     descripcion: 'Vía Crucis organizado por la Cofradía de la Santa Vera-Cruz.',
-    fecha: '2027-03-19',
+    fecha: '2027-03-21',
     estado: 'PROGRAMADO',
   },
   {
