@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   ciudad: {
-    color: colors.subtitle,
+    color: colors.gold,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
   },
@@ -79,13 +79,13 @@ export const styles = StyleSheet.create({
   enCursoTitle: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 22,
+    fontSize: 18,
     marginTop: spacing.xs,
   },
   enCursoMeta: {
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
-    fontSize: 13,
+    fontSize: 9,
     marginTop: 2,
   },
   enCursoRight: {
@@ -111,6 +111,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.surface,
     borderRadius: radii.md,
+    borderColor: colors.surfaceAlt,
     paddingVertical: spacing.md,
     alignItems: 'center',
   },

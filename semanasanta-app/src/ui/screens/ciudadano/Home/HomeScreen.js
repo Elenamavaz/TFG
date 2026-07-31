@@ -143,9 +143,9 @@ export function InicioScreen({ navigation }) {
               onPress={() => navigation.getParent()?.navigate('SeleccionCiudad')}
               activeOpacity={0.8}
             >
-              <Octicons name="location" size={14} color={colors.subtitle} />
+              <Octicons name="location" size={14} color={colors.gold} />
               <Text style={styles.ciudad}>{ciudadSeleccionada.nombre}</Text>
-              <Ionicons name="chevron-down" size={14} color={colors.subtitle} />
+              <Ionicons name="chevron-down" size={14} color={colors.gold} />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.diaRow} onPress={() => setDiaMenuVisible(true)} activeOpacity={0.8}>
@@ -206,7 +206,7 @@ export function InicioScreen({ navigation }) {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>Procesiones y eventos de {diaSeleccionado.nombre.toLowerCase()}</Text>
+        <Text style={styles.sectionTitle}>Procesiones y eventos de hoy</Text>
         {agenda.map((item) => (
           <ListItemCard
             key={`${item.categoria}-${item.id}`}

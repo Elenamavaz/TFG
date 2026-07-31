@@ -44,7 +44,6 @@ const CONFIG_POR_TIPO = {
 
 export function ListadoScreen({ route, navigation }) {
   const { tipo } = route.params;
-  const { }
   const config = CONFIG_POR_TIPO[tipo];
   const { ciudadSeleccionada } = useCiudad();
   const [items, setItems] = useState([]);

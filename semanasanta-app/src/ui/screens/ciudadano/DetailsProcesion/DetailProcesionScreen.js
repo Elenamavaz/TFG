@@ -1,20 +1,36 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { ScreenContainer, StatusBadge, ListItemCard } from '../../../components/common';
-import { getProcesionPorId, getPasosPorIds } from '../../../../data/services';
+import { Ionicons } from '@expo/vector-icons';
+import { ScreenContainer, StatusBadge, PasoListItem } from '../../../components/common';
+import { getProcesionPorId, getPasosPorIds, getCofradiaPorId } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
+import { colors } from '../../../../theme';
 import { styles } from './DetailProcesionScreen.styles';
 
 export function DetalleProcesionScreen({ route, navigation }) {
   const { procesionId } = route.params;
   const [procesion, setProcesion] = useState(null);
+  const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
 
   useEffect(() => {
     getProcesionPorId(procesionId).then((data) => {
       setProcesion(data);
       if (!data) return;
-      navigation.setOptions({ title: data.nombre });
+
+      navigation.setOptions({
+        title: 'Detalles',
+        headerRight: () =>
+          data.estado === 'EN_CURSO' ? (
+            <TouchableOpacity onPress={() => navigation.navigate('DetalleProcesionInfo', { procesionId })}>
+              <Ionicons name="reader-outline" size={22} color={colors.gold} />
+            </TouchableOpacity>
+          ) : (
+            <Ionicons name="heart-outline" size={22} color={colors.gold} />
+          ),
+      });
+
+      getCofradiaPorId(data.cofradiaId).then((cofradia) => setCofradiaNombre(cofradia?.nombre));
       getPasosPorIds(data.pasoIds).then(setPasos);
     });
   }, [procesionId]);
@@ -26,6 +42,7 @@ export function DetalleProcesionScreen({ route, navigation }) {
       <ScrollView contentContainerStyle={styles.container}>
         <StatusBadge estado={procesion.estado} />
         <Text style={styles.title}>{procesion.nombre}</Text>
+        {cofradiaNombre ? <Text style={styles.subtitle}>{cofradiaNombre}</Text> : null}
 
         <View style={styles.infoRow}>
           <View style={styles.infoBox}>
@@ -52,10 +69,10 @@ export function DetalleProcesionScreen({ route, navigation }) {
           <>
             <Text style={styles.sectionTitle}>Pasos</Text>
             {pasos.map((paso) => (
-              <ListItemCard
+              <PasoListItem
                 key={paso.id}
+                label={paso.tipo}
                 title={paso.nombre}
-                subtitle={paso.tipo}
                 onPress={() => navigation.navigate('DetallePaso', { pasoId: paso.id })}
               />
             ))}
@@ -67,11 +84,9 @@ export function DetalleProcesionScreen({ route, navigation }) {
           <Text style={styles.mapPlaceholderText}>Mapa del recorrido (Iteración 2)</Text>
         </View>
 
-        {procesion.estado === 'EN_CURSO' ? (
-          <TouchableOpacity style={styles.cta} onPress={() => navigation.getParent()?.navigate('Mapa')}>
-            <Text style={styles.ctaText}>Ir a la procesión</Text>
-          </TouchableOpacity>
-        ) : null}
+        <TouchableOpacity style={styles.cta} onPress={() => navigation.getParent()?.navigate('Mapa')}>
+          <Text style={styles.ctaText}>Ir a la procesión</Text>
+        </TouchableOpacity>
       </ScrollView>
     </ScreenContainer>
   );

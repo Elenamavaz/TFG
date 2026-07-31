@@ -16,7 +16,7 @@ export const cofradiasMock = [
     nombre: 'Cofradía Universitaria del Santo Cristo de la Luz',
     historia:
       'El Santo Cristo de la Luz es una obra de madurez del célebre escultor gallego Gregorio Fernández, realizada en torno a 1630.',
-    webOficial: 'https://jcssva.org/pasos-procesionales/santisimo-cristo-de-la-luz-n39/',
+    webOficial: 'https://jcssva.org/',
     pasoIds: ['cristo-luz'],
     procesionIds: ['peregrinacion-promesa'],
     eventoId: 'peregrinacion-promesa-evento',

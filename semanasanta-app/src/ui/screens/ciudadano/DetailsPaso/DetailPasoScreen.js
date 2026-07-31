@@ -1,18 +1,28 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import { ScreenContainer } from '../../../components/common';
-import { getPasoPorId } from '../../../../data/services';
-
+import { Ionicons } from '@expo/vector-icons';
+import { ScreenContainer, InfoSection, LinkBox } from '../../../components/common';
+import { getPasoPorId, getCofradiaPorId } from '../../../../data/services';
+import { colors } from '../../../../theme';
 import { styles } from './DetailPasoScreen.styles';
 
 export function DetallePasoScreen({ route, navigation }) {
   const { pasoId } = route.params;
   const [paso, setPaso] = useState(null);
+  const [cofradiaNombre, setCofradiaNombre] = useState(null);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Detalles',
+      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.gold} />,
+    });
+  }, []);
 
   useEffect(() => {
     getPasoPorId(pasoId).then((data) => {
       setPaso(data);
-      if (data) navigation.setOptions({ title: data.nombre });
+      if (!data) return;
+      getCofradiaPorId(data.cofradiaId).then((cofradia) => setCofradiaNombre(cofradia?.nombre));
     });
   }, [pasoId]);
 
@@ -21,15 +31,33 @@ export function DetallePasoScreen({ route, navigation }) {
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.imagePlaceholder}>
-          <Text style={styles.imagePlaceholderText}>Imagen</Text>
+        <View style={styles.headerRow}>
+          <View style={styles.headerText}>
+            <Text style={styles.title}>{paso.nombre}</Text>
+            {cofradiaNombre ? <Text style={styles.subtitle}>{cofradiaNombre}</Text> : null}
+          </View>
+          <View style={styles.imagePlaceholder}>
+            <Text style={styles.imagePlaceholderText}>Imagen</Text>
+          </View>
         </View>
 
-        <Text style={styles.eyebrow}>{paso.tipo}</Text>
-        <Text style={styles.title}>{paso.nombre}</Text>
+        {paso.descripcion ? (
+          <InfoSection title="Historia y Origen">
+            <Text style={styles.body}>{paso.descripcion}</Text>
+          </InfoSection>
+        ) : null}
 
-        <Text style={styles.sectionTitle}>Historia y origen</Text>
-        <Text style={styles.body}>{paso.descripcion}</Text>
+        {paso.analisis ? (
+          <InfoSection title="Análisis Artístico y Detalles">
+            <Text style={styles.body}>{paso.analisis}</Text>
+          </InfoSection>
+        ) : null}
+
+        {paso.webOficial ? (
+          <InfoSection title="Web oficial">
+            <LinkBox url={paso.webOficial} />
+          </InfoSection>
+        ) : null}
       </ScrollView>
     </ScreenContainer>
   );

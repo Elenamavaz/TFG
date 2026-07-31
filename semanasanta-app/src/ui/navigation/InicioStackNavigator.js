@@ -1,5 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { InicioScreen, ListadoScreen, DetalleCofradiaScreen, DetallePasoScreen, DetalleProcesionScreen } from '../screens/ciudadano';
+import {
+  InicioScreen,
+  ListadoScreen,
+  DetalleCofradiaScreen,
+  DetallePasoScreen,
+  DetalleProcesionScreen,
+  DetalleProcesionInfoScreen,
+} from '../screens/ciudadano';
 import { colors, fontFamilies } from '../../theme';
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +27,7 @@ export function InicioStackNavigator() {
       <Stack.Screen name="DetalleCofradia" component={DetalleCofradiaScreen} options={{ title: '' }} />
       <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleProcesionInfo" component={DetalleProcesionInfoScreen} options={{ title: '' }} />
     </Stack.Navigator>
   );
 }

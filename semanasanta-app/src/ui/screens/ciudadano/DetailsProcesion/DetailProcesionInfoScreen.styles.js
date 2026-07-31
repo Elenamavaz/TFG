@@ -9,15 +9,13 @@ export const styles = StyleSheet.create({
   title: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleBold,
-    fontSize: 28,
-    marginBottom: spacing.md,
+    fontSize: 26,
   },
-  sectionTitle: {
-    color: colors.gold,
-    fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 18,
-    marginTop: spacing.lg,
-    marginBottom: spacing.sm,
+  subtitle: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 14,
+    marginTop: 2,
   },
   body: {
     color: colors.cream,

@@ -6,35 +6,37 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     paddingBottom: spacing.xl,
   },
-  imagePlaceholder: {
-    height: 180,
-    borderRadius: radii.md,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.lg,
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
-  imagePlaceholderText: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-  },
-  eyebrow: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 13,
+  headerText: {
+    flex: 1,
+    marginRight: spacing.sm,
   },
   title: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleBold,
-    fontSize: 28,
-    marginTop: spacing.xs,
+    fontSize: 24,
   },
-  sectionTitle: {
-    color: colors.gold,
-    fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 18,
-    marginTop: spacing.lg,
-    marginBottom: spacing.sm,
+  subtitle: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 13,
+    marginTop: 2,
+  },
+  imagePlaceholder: {
+    width: 72,
+    height: 72,
+    borderRadius: radii.md,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imagePlaceholderText: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 11,
   },
   body: {
     color: colors.cream,

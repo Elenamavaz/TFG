@@ -3,3 +3,7 @@ export { SearchInput } from './SearchInput';
 export { StatusBadge } from './StatusBadge';
 export { ListItemCard } from './ListItemCard';
 export { ComingSoonScreen } from './ComingSoonScreen';
+export { InfoSection } from './InfoSection';
+export { LinkBox } from './LinkBox';
+export { PasoListItem } from './PasoListItem';
+export { ProcesionCard } from './ProcesionCard';

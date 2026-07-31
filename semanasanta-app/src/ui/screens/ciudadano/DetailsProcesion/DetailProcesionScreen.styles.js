@@ -11,6 +11,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.titleBold,
     fontSize: 28,
     marginTop: spacing.sm,
+  },
+  subtitle: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 14,
+    marginTop: 2,
     marginBottom: spacing.md,
   },
   infoRow: {
@@ -55,14 +61,16 @@ export const styles = StyleSheet.create({
     fontSize: 13,
   },
   cta: {
-    backgroundColor: colors.surfaceAlt,
+    backgroundColor: colors.backgroundRed,
+    borderWidth: 1,
+    borderColor: colors.borderRed,
     borderRadius: radii.md,
     paddingVertical: spacing.md,
     alignItems: 'center',
     marginTop: spacing.lg,
   },
   ctaText: {
-    color: colors.gold,
+    color: colors.cream,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 15,
   },
