@@ -10,6 +10,8 @@ export function ListItemCard({
   hora,
   badge,
   mostrarFavorito = false,
+  esFavorito = false,
+  onToggleFavorito,
   onPress,
   rightIcon = 'chevron-forward',
 }) {
@@ -40,7 +42,13 @@ export function ListItemCard({
       ) : null}
 
       {mostrarFavorito ? (
-        <Ionicons name="heart-outline" size={20} color={colors.gold} style={styles.favorito} />
+        <TouchableOpacity
+          onPress={onToggleFavorito}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          style={styles.favorito}
+        >
+          <Ionicons name={esFavorito ? 'heart' : 'heart-outline'} size={20} color={colors.gold} />
+        </TouchableOpacity>
       ) : rightIcon ? (
         <Ionicons name={rightIcon} size={20} color={colors.subtitle} />
       ) : null}

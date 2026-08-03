@@ -49,6 +49,19 @@ export function InicioScreen({ navigation }) {
   const [dias, setDias] = useState([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
   const [agenda, setAgenda] = useState([]);
+  const [favoritos, setFavoritos] = useState(new Set());
+
+  const alternarFavorito = useCallback((id) => {
+    setFavoritos((actuales) => {
+      const siguientes = new Set(actuales);
+      if (siguientes.has(id)) {
+        siguientes.delete(id);
+      } else {
+        siguientes.add(id);
+      }
+      return siguientes;
+    });
+  }, []);
 
   useEffect(() => {
     getDiasSemanaSanta().then((lista) => {
@@ -216,6 +229,8 @@ export function InicioScreen({ navigation }) {
             hora={item.categoria === 'procesion' ? item.horaSalida : null}
             badge={<StatusBadge estado={item.estado} />}
             mostrarFavorito
+            esFavorito={favoritos.has(item.id)}
+            onToggleFavorito={() => alternarFavorito(item.id)}
             onPress={() => abrirAgendaItem(item)}
           />
         ))}
