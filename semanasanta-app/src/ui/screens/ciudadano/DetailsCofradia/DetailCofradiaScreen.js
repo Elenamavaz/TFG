@@ -9,7 +9,12 @@ import {
   PasoListItem,
   StatusBadge,
 } from '../../../components/common';
-import { getCofradiaPorId, getProcesionPorId, getEventoPorId, getPasosPorIds } from '../../../../data/services';
+import {
+  getCofradiaPorId,
+  getProcesionesPorCofradia,
+  getEventosPorCofradia,
+  getPasosPorCofradia,
+} from '../../../../data/services';
 import { colors } from '../../../../theme';
 import { styles } from './DetailCofradiaScreen.styles';
 
@@ -17,7 +22,7 @@ export function DetalleCofradiaScreen({ route, navigation }) {
   const { cofradiaId } = route.params;
   const [cofradia, setCofradia] = useState(null);
   const [procesiones, setProcesiones] = useState([]);
-  const [evento, setEvento] = useState(null);
+  const [eventos, setEventos] = useState([]);
   const [pasos, setPasos] = useState([]);
 
   useEffect(() => {
@@ -31,11 +36,9 @@ export function DetalleCofradiaScreen({ route, navigation }) {
     getCofradiaPorId(cofradiaId).then((data) => {
       setCofradia(data);
       if (!data) return;
-      Promise.all(data.procesionIds.map((id) => getProcesionPorId(id))).then((lista) =>
-        setProcesiones(lista.filter(Boolean))
-      );
-      if (data.eventoId) getEventoPorId(data.eventoId).then(setEvento);
-      getPasosPorIds(data.pasoIds).then(setPasos);
+      getProcesionesPorCofradia(cofradiaId).then(setProcesiones);
+      getEventosPorCofradia(cofradiaId).then(setEventos);
+      getPasosPorCofradia(cofradiaId).then(setPasos);
     });
   }, [cofradiaId]);
 
@@ -56,9 +59,9 @@ export function DetalleCofradiaScreen({ route, navigation }) {
           </InfoSection>
         ) : null}
 
-        {procesiones.length > 0 || evento ? (
+        {procesiones.length > 0 || eventos.length > 0 ? (
           <>
-            <Text style={styles.sectionTitle}>Procesiones y evento</Text>
+            <Text style={styles.sectionTitle}>Procesiones y eventos</Text>
             {procesiones.map((procesion) => (
               <ProcesionCard
                 key={procesion.id}
@@ -66,19 +69,20 @@ export function DetalleCofradiaScreen({ route, navigation }) {
                 subtitulo={cofradia.nombre}
                 dia={procesion.dia}
                 hora={procesion.horaSalida}
-                ruta={procesion.resumenRuta?.join(' → ')}
+                ruta={procesion.recorrido?.puntos.map((punto) => punto.nombre).join(' → ')}
                 badge={<StatusBadge estado={procesion.estado} />}
                 onPress={() => navigation.navigate('DetalleProcesion', { procesionId: procesion.id })}
               />
             ))}
-            {evento ? (
+            {eventos.map((evento) => (
               <ProcesionCard
+                key={evento.id}
                 titulo={evento.nombre}
                 subtitulo={cofradia.nombre}
                 badge={<StatusBadge estado={evento.estado} />}
                 mostrarChevron={false}
               />
-            ) : null}
+            ))}
           </>
         ) : null}
 

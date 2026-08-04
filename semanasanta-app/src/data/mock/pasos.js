@@ -1,25 +1,21 @@
+import { Paso } from '../models';
+
 export const pasosMock = [
-  {
+  new Paso({
     id: 'sentencia',
     cofradiaId: 'vera-cruz',
     nombre: 'Cristo de la Sentencia',
     tipo: 'Paso de Misterio',
     descripcion: 'Talla que representa el momento en que Cristo es condenado a muerte.',
-    analisis: null,
-    webOficial: null,
-    imagen: null,
-  },
-  {
+  }),
+  new Paso({
     id: 'esperanza',
     cofradiaId: 'vera-cruz',
     nombre: 'Ntra. Sra. de la Esperanza',
     tipo: 'Paso de Palio',
     descripcion: 'Imagen mariana bajo palio que acompaña al Cristo de la Sentencia.',
-    analisis: null,
-    webOficial: null,
-    imagen: null,
-  },
-  {
+  }),
+  new Paso({
     id: 'cristo-luz',
     cofradiaId: 'santo-cristo-luz',
     nombre: 'Santo Cristo de la Luz',
@@ -29,6 +25,5 @@ export const pasosMock = [
     analisis:
       'Los historiadores y críticos de arte de todo el mundo consideran al Santo Cristo de la Luz como uno de los crucificados más perfectos jamás tallados, ganándose desde hace siglos el sobrenombre popular de "La Perla". El apelativo hace justicia a la sobrecogedora y meticulosa perfección de su estudio anatómico. Gregorio Fernández logró plasmar con un realismo asombroso la pesadez de un cuerpo que acaba de fallecer: los músculos del torso aparecen ligeramente distendidos, el tórax está hundido y la cabeza cae con extrema naturalidad sobre el hombro derecho. El dramatismo barroco castellano se aprecia en los cruentos detalles de la Pasión: el autor utilizó postizos típicos de la época para acentuar el realismo, los ojos del Cristo son de cristal para otorgar una mirada profunda, y la corona de espinas está tallada directamente sobre el bloque.',
     webOficial: 'https://jcssva.org/pasos-procesionales/santisimo-cristo-de-la-luz-n39/',
-    imagen: null,
-  },
+  }),
 ];
