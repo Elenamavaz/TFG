@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
-    marginTop: 2,
+    marginTop: 10,
   },
   menuButton: {
     padding: spacing.xs,
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
   avisoCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
+    gap: spacing.md,
     backgroundColor: colors.backgroundRed,
     borderRadius: radii.md,
     borderWidth: 0.5,
@@ -132,7 +132,7 @@ export const styles = StyleSheet.create({
     color: colors.subtitle,
     fontFamily: fontFamilies.titleSemiBold,
     fontSize: 19,
-    marginTop: spacing.lg,
+    marginTop: spacing.md,
     marginBottom: spacing.sm,
   },
   empty: {

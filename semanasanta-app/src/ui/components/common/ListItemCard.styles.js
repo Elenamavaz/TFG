@@ -47,7 +47,8 @@ export const styles = StyleSheet.create({
   hora: {
     color: colors.gold,
     fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 20,
+    fontSize: 19,
+    marginBottom: 4,
   },
   favorito: {
     marginLeft: spacing.xs,
