@@ -17,10 +17,10 @@ import { colors } from '../../../../theme';
 import { styles } from './HomeScreen.styles';
 
 const OPCIONES_MENU = [
-  { tipo: 'cofradias', label: 'Cofradías' },
-  { tipo: 'procesiones', label: 'Procesiones' },
-  { tipo: 'pasos', label: 'Pasos' },
-  { tipo: 'eventos', label: 'Eventos' },
+  { tipo: 'cofradias', label: 'Cofradías', icon: 'account-multiple' },
+  { tipo: 'procesiones', label: 'Procesiones', icon: 'candle' },
+  { tipo: 'pasos', label: 'Pasos', icon: 'cross' },
+  { tipo: 'eventos', label: 'Eventos', icon: 'church' },
 ];
 
 const MESES = [
@@ -112,7 +112,12 @@ export function InicioScreen({ navigation }) {
             .map((p) => ({ ...p, categoria: 'procesion', cofradiaNombre: nombrePorCofradiaId[p.cofradiaId] })),
           ...eventos
             .filter((e) => e.fecha === diaSeleccionado.fecha)
-            .map((e) => ({ ...e, categoria: 'evento', cofradiaNombre: nombrePorCofradiaId[e.cofradiaId] })),
+            .map((e) => ({
+              ...e,
+              categoria: 'evento',
+              horaSalida: e.hora,
+              cofradiaNombre: nombrePorCofradiaId[e.cofradiaId],
+            })),
         ];
         setAgenda(items);
       });
@@ -176,11 +181,10 @@ export function InicioScreen({ navigation }) {
 
         {alerta ? (
           <TouchableOpacity style={styles.avisoCard} onPress={abrirAlerta} activeOpacity={0.8}>
-            <Ionicons name="alarm-outline" size={20} color={colors.cream} />
+            <Ionicons name="alarm-outline" size={20} color={colors.subtitle} />
             <Text style={styles.avisoTexto} numberOfLines={2}>
               {alerta.texto}
             </Text>
-            <Ionicons name="chevron-forward" size={18} color={colors.cream} />
           </TouchableOpacity>
         ) : null}
 
@@ -203,17 +207,17 @@ export function InicioScreen({ navigation }) {
 
         <View style={styles.statsRow}>
           <View style={styles.statBox}>
-            <MaterialCommunityIcons name="church" size={22} color={colors.subtitle} />
+            <MaterialCommunityIcons name="church" size={24} color={colors.subtitle} />
             <Text style={styles.statValue}>{numCofradias}</Text>
             <Text style={styles.statLabel}>Cofradías</Text>
           </View>
           <View style={styles.statBox}>
-            <MaterialCommunityIcons name="cross" size={22} color={colors.subtitle} />
+            <MaterialCommunityIcons name="cross" size={24} color={colors.subtitle} />
             <Text style={styles.statValue}>{numProcesionesTotal}</Text>
             <Text style={styles.statLabel}>Procesiones</Text>
           </View>
           <View style={styles.statBox}>
-            <MaterialCommunityIcons name="candle" size={22} color={colors.subtitle} />
+            <MaterialCommunityIcons name="candle" size={24} color={colors.subtitle} />
             <Text style={styles.statValue}>{formatearNumero(ciudadSeleccionada.numCofrades ?? 0)}</Text>
             <Text style={styles.statLabel}>Cofrades</Text>
           </View>
@@ -226,7 +230,7 @@ export function InicioScreen({ navigation }) {
             icon={item.categoria === 'procesion' ? 'cross' : 'candle'}
             title={item.nombre}
             subtitle={item.cofradiaNombre}
-            hora={item.categoria === 'procesion' ? item.horaSalida : null}
+            hora={item.horaSalida}
             badge={<StatusBadge estado={item.estado} />}
             mostrarFavorito
             esFavorito={favoritos.has(item.id)}
@@ -244,6 +248,7 @@ export function InicioScreen({ navigation }) {
           <View style={styles.menu}>
             {OPCIONES_MENU.map((opcion) => (
               <TouchableOpacity key={opcion.tipo} style={styles.menuItem} onPress={() => abrirListado(opcion.tipo)}>
+                <MaterialCommunityIcons name={opcion.icon} size={20} color={colors.subtitle} />
                 <Text style={styles.menuItemText}>{opcion.label}</Text>
               </TouchableOpacity>
             ))}

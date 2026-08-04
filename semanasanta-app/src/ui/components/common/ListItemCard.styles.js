@@ -5,10 +5,13 @@ export const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.surface,
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
     borderRadius: radii.md,
+    borderColor: colors.subtitle,
     padding: spacing.md,
     marginBottom: spacing.sm,
+    marginTop: spacing.sm,
   },
   avatar: {
     width: 44,
@@ -16,7 +19,7 @@ export const styles = StyleSheet.create({
     borderRadius: 22,
     borderWidth: 1,
     borderColor: colors.subtitle,
-    backgroundColor: colors.surfaceAlt,
+    backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.sm,
@@ -33,7 +36,7 @@ export const styles = StyleSheet.create({
   subtitle: {
     color: colors.subtitle,
     fontFamily: fontFamilies.bodyRegular,
-    fontSize: 13,
+    fontSize: 11,
     marginTop: 2,
   },
   rightColumn: {
@@ -44,7 +47,7 @@ export const styles = StyleSheet.create({
   hora: {
     color: colors.gold,
     fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 16,
+    fontSize: 20,
   },
   favorito: {
     marginLeft: spacing.xs,

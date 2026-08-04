@@ -79,6 +79,7 @@ export function DetalleCofradiaScreen({ route, navigation }) {
                 key={evento.id}
                 titulo={evento.nombre}
                 subtitulo={cofradia.nombre}
+                hora={evento.hora}
                 badge={<StatusBadge estado={evento.estado} />}
                 mostrarChevron={false}
               />

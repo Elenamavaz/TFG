@@ -30,7 +30,13 @@ export function MainTabNavigator() {
         tabBarActiveTintColor: colors.gold,
         tabBarInactiveTintColor: colors.subtitle,
         tabBarStyle: [
-          { backgroundColor: colors.backgroundAlt, borderTopColor: colors.surface },
+          {
+            backgroundColor: colors.background,
+            borderTopColor: colors.subtitle,
+            borderWidth: 0.5,
+            height: 76,
+            paddingTop: 8,
+          },
           route.name === 'Inicio' ? tabBarStyleParaInicio(route) : null,
         ],
         tabBarLabelStyle: { fontFamily: fontFamilies.uiMedium, fontSize: 11 },

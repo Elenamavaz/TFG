@@ -7,18 +7,18 @@ export const styles = StyleSheet.create({
     paddingTop: spacing.lg,
   },
   eyebrow: {
-    color: colors.subtitle,
+    color: colors.gold,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
   },
   title: {
-    color: colors.textPrimary,
+    color: colors.cream,
     fontFamily: fontFamilies.titleBold,
     fontSize: 40,
     marginTop: spacing.xs,
   },
   subtitle: {
-    color: colors.cream,
+    color: colors.subtitle,
     fontFamily: fontFamilies.bodyRegular,
     fontSize: 14,
     marginTop: spacing.xs,
@@ -29,13 +29,13 @@ export const styles = StyleSheet.create({
     paddingBottom: spacing.xl,
   },
   card: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.backgroundAlt,
     borderRadius: radii.md,
     padding: spacing.md,
     marginBottom: spacing.sm,
   },
   cardTitle: {
-    color: colors.textPrimary,
+    color: colors.cream,
     fontFamily: fontFamilies.titleSemiBold,
     fontSize: 22,
   },

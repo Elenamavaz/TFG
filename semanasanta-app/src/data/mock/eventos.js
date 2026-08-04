@@ -7,6 +7,7 @@ export const eventosMock = [
     nombre: 'Vía Crucis de la Exaltación',
     descripcion: 'Vía Crucis organizado por la Cofradía de la Santa Vera-Cruz.',
     fecha: '2027-03-21',
+    hora: '21:00',
     estado: EstadoEvento.PROGRAMADO,
   }),
   new Evento({
@@ -15,6 +16,7 @@ export const eventosMock = [
     nombre: 'La Peregrinación de la Promesa',
     descripcion: 'Peregrinación fundacional de la Cofradía Universitaria del Santo Cristo de la Luz.',
     fecha: '2027-03-23',
+    hora: '22:30',
     estado: EstadoEvento.EN_CURSO,
   }),
 ];

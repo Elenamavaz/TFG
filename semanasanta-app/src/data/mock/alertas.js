@@ -2,6 +2,16 @@ import { Alerta, TipoAlerta, TipoNotificacion, PrioridadAlerta } from '../models
 
 export const alertasMock = [
   new Alerta({
+    id: 'lluvia-domingo-ramos',
+    titulo: 'Posibilidad de lluvia',
+    tipo: TipoNotificacion.CAMBIO_ESTADO,
+    tipoAlerta: TipoAlerta.METEOROLOGIA,
+    prioridad: PrioridadAlerta.ALTA,
+    ciudadId: 'valladolid',
+    dia: 'Domingo de Ramos',
+    texto: 'Posibilidad de lluvia esta tarde: consulta si tu cofradía suspende la procesión.',
+  }),
+  new Alerta({
     id: 'retraso-peregrinacion-promesa',
     titulo: 'Retraso en la Peregrinación de la Promesa',
     tipo: TipoNotificacion.CAMBIO_ESTADO,

@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   },
   cta: {
     backgroundColor: colors.backgroundRed,
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: colors.borderRed,
     borderRadius: radii.md,
     paddingVertical: spacing.md,
