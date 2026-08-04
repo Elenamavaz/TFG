@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { CiudadProvider } from './src/application/context/CiudadContext';
+import { DiaProvider } from './src/application/context/DiaContext';
 import { RootNavigator } from './src/ui/navigation/RootNavigator';
 import { colors, fontsToLoad } from './src/theme';
 
@@ -22,9 +23,11 @@ export default function App() {
   return (
     <View style={styles.container}>
       <CiudadProvider>
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
+        <DiaProvider>
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+        </DiaProvider>
       </CiudadProvider>
       <StatusBar style="light" />
     </View>

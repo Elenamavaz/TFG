@@ -3,7 +3,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScreenContainer, ListItemCard, StatusBadge } from '../../../components/common';
-import { useCiudad } from '../../../../application/context';
+import { useCiudad, useDia } from '../../../../application/context';
 import {
   getCofradiasPorCiudad,
   getProcesionesPorCiudad,
@@ -12,7 +12,7 @@ import {
   getDiasSemanaSanta,
   getAlertaDelDia,
 } from '../../../../data/services';
-import { formatearDuracion } from '../../../utils/tiempo';
+import { formatearDuracion, MESES } from '../../../utils/tiempo';
 import { colors } from '../../../../theme';
 import { styles } from './HomeScreen.styles';
 
@@ -21,11 +21,6 @@ const OPCIONES_MENU = [
   { tipo: 'procesiones', label: 'Procesiones', icon: 'candle' },
   { tipo: 'pasos', label: 'Pasos', icon: 'cross' },
   { tipo: 'eventos', label: 'Eventos', icon: 'church' },
-];
-
-const MESES = [
-  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
 ];
 
 function formatearFechaCorta(fechaIso) {
@@ -40,6 +35,7 @@ function formatearNumero(numero) {
 
 export function InicioScreen({ navigation }) {
   const { ciudadSeleccionada } = useCiudad();
+  const { diaSeleccionado, seleccionarDia: setDiaSeleccionado } = useDia();
   const [menuVisible, setMenuVisible] = useState(false);
   const [diaMenuVisible, setDiaMenuVisible] = useState(false);
   const [numCofradias, setNumCofradias] = useState(0);
@@ -47,7 +43,6 @@ export function InicioScreen({ navigation }) {
   const [procesionEnCurso, setProcesionEnCurso] = useState(null);
   const [alerta, setAlerta] = useState(null);
   const [dias, setDias] = useState([]);
-  const [diaSeleccionado, setDiaSeleccionado] = useState(null);
   const [agenda, setAgenda] = useState([]);
   const [favoritos, setFavoritos] = useState(new Set());
 
@@ -67,9 +62,9 @@ export function InicioScreen({ navigation }) {
     getDiasSemanaSanta().then((lista) => {
       setDias(lista);
       const hoy = new Date().toISOString().slice(0, 10);
-      setDiaSeleccionado(lista.find((d) => d.fecha === hoy) ?? lista[0]);
+      setDiaSeleccionado((actual) => actual ?? lista.find((d) => d.fecha === hoy) ?? lista[0]);
     });
-  }, []);
+  }, [setDiaSeleccionado]);
 
   useFocusEffect(
     useCallback(() => {

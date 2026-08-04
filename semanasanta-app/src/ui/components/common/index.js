@@ -7,3 +7,4 @@ export { InfoSection } from './InfoSection';
 export { LinkBox } from './LinkBox';
 export { PasoListItem } from './PasoListItem';
 export { ProcesionCard } from './ProcesionCard';
+export { AgendaItemCard } from './AgendaItemCard';

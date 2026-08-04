@@ -5,3 +5,12 @@ export function formatearDuracion(minutos) {
   if (restoMinutos === 0) return `${horas}h`;
   return `${horas}h ${restoMinutos}min`;
 }
+
+export const MESES = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+];
+
+// Lunes primero, para que coincida con la semana L M X J V S D del calendario.
+export const DIAS_SEMANA_CORTOS = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+export const DIAS_SEMANA_LARGOS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
