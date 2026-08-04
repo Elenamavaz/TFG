@@ -80,13 +80,13 @@ export const styles = StyleSheet.create({
   enCursoTitle: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 18,
+    fontSize: 20,
     marginTop: spacing.xs,
   },
   enCursoMeta: {
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
-    fontSize: 9,
+    fontSize: 10,
     marginTop: 2,
   },
   enCursoRight: {
