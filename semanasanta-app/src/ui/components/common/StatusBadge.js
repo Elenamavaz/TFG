@@ -10,6 +10,8 @@ const ESTADOS = {
   FINALIZADO: { label: 'Finalizado', color: colors.statusFinalizada },
   CANCELADA: { label: 'Cancelada', color: colors.redText, background: colors.backgroundRed },
   CANCELADO: { label: 'Cancelado', color: colors.redText, background: colors.backgroundRed },
+  // No es un estado real: distingue un evento entre resultados de búsqueda mezclados con procesiones.
+  EVENTO: { label: 'Evento', color: colors.gold, background: colors.surfaceAlt },
 };
 
 export function StatusBadge({ estado }) {

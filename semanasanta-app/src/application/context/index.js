@@ -1,2 +1,3 @@
 export { CiudadProvider, useCiudad } from './CiudadContext';
 export { DiaProvider, useDia } from './DiaContext';
+export { FavoritosProvider, useFavoritos } from './FavoritosContext';

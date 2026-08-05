@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, AgendaItemCard } from '../../../components/common';
-import { useCiudad, useDia } from '../../../../application/context';
+import { useCiudad, useDia, useFavoritos } from '../../../../application/context';
 import {
   getProcesionesPorCiudad,
   getEventosPorCiudad,
@@ -50,19 +50,7 @@ export function CalendarioScreen() {
   const [procesiones, setProcesiones] = useState([]);
   const [eventos, setEventos] = useState([]);
   const [cofradiasPorId, setCofradiasPorId] = useState({});
-  const [favoritos, setFavoritos] = useState(new Set());
-
-  const alternarFavorito = useCallback((id) => {
-    setFavoritos((actuales) => {
-      const siguientes = new Set(actuales);
-      if (siguientes.has(id)) {
-        siguientes.delete(id);
-      } else {
-        siguientes.add(id);
-      }
-      return siguientes;
-    });
-  }, []);
+  const { esFavorito, alternarFavorito } = useFavoritos();
 
   useEffect(() => {
     getDiasSemanaSanta().then((lista) => {
@@ -215,8 +203,8 @@ export function CalendarioScreen() {
                   subtitulo={item.cofradiaNombre}
                   hora={item.horaSalida}
                   duracion={item.duracionMin ? formatearDuracion(item.duracionMin) : null}
-                  esFavorito={favoritos.has(item.id)}
-                  onToggleFavorito={() => alternarFavorito(item.id)}
+                  esFavorito={esFavorito(item.id, item.categoria)}
+                  onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
                 />
               ))
             ) : (

@@ -15,11 +15,13 @@ import {
   getEventosPorCofradia,
   getPasosPorCofradia,
 } from '../../../../data/services';
+import { useFavoritos } from '../../../../application/context';
 import { colors } from '../../../../theme';
 import { styles } from './DetailCofradiaScreen.styles';
 
 export function DetalleCofradiaScreen({ route, navigation }) {
   const { cofradiaId } = route.params;
+  const { esFavorito, alternarFavorito } = useFavoritos();
   const [cofradia, setCofradia] = useState(null);
   const [procesiones, setProcesiones] = useState([]);
   const [eventos, setEventos] = useState([]);
@@ -71,6 +73,8 @@ export function DetalleCofradiaScreen({ route, navigation }) {
                 hora={procesion.horaSalida}
                 ruta={procesion.recorrido?.puntos.map((punto) => punto.nombre).join(' → ')}
                 badge={<StatusBadge estado={procesion.estado} />}
+                esFavorito={esFavorito(procesion.id, 'procesion')}
+                onToggleFavorito={() => alternarFavorito(procesion.id, 'procesion')}
                 onPress={() => navigation.navigate('DetalleProcesion', { procesionId: procesion.id })}
               />
             ))}
@@ -81,6 +85,8 @@ export function DetalleCofradiaScreen({ route, navigation }) {
                 subtitulo={cofradia.nombre}
                 hora={evento.hora}
                 badge={<StatusBadge estado={evento.estado} />}
+                esFavorito={esFavorito(evento.id, 'evento')}
+                onToggleFavorito={() => alternarFavorito(evento.id, 'evento')}
                 mostrarChevron={false}
               />
             ))}

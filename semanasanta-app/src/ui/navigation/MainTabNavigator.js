@@ -2,7 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { InicioStackNavigator } from './InicioStackNavigator';
-import { CalendarioScreen, MapaScreen, BuscarScreen, PerfilScreen } from '../screens/ciudadano';
+import { BuscarStackNavigator } from './BuscarStackNavigator';
+import { PerfilStackNavigator } from './PerfilStackNavigator';
+import { CalendarioScreen, MapaScreen } from '../screens/ciudadano';
 import { colors, fontFamilies } from '../../theme';
 
 const Tab = createBottomTabNavigator();
@@ -15,11 +17,16 @@ const ICONOS_POR_TAB = {
   Perfil: 'person',
 };
 
-// Oculta la tab bar cuando el usuario navega a un listado o a un detalle
-// dentro del stack de Inicio, siguiendo el patrón de los mockups (Sección 4.1).
-function tabBarStyleParaInicio(route) {
-  const rutaActiva = getFocusedRouteNameFromRoute(route) ?? 'InicioHome';
-  return rutaActiva === 'InicioHome' ? undefined : { display: 'none' };
+// Ruta "home" de cada tab que tiene su propio stack interno, para saber
+// cuándo ocultar la tab bar (al entrar en un listado/detalle) y cuándo
+// mostrarla de nuevo, siguiendo el patrón de los mockups (Sección 4.1).
+const RUTA_HOME_POR_TAB = { Inicio: 'InicioHome', Buscar: 'BuscarHome', Perfil: 'PerfilHome' };
+
+function tabBarStyleParaStack(route, nombreTab) {
+  const rutaHome = RUTA_HOME_POR_TAB[nombreTab];
+  if (!rutaHome) return undefined;
+  const rutaActiva = getFocusedRouteNameFromRoute(route) ?? rutaHome;
+  return rutaActiva === rutaHome ? undefined : { display: 'none' };
 }
 
 export function MainTabNavigator() {
@@ -37,7 +44,7 @@ export function MainTabNavigator() {
             height: 76,
             paddingTop: 8,
           },
-          route.name === 'Inicio' ? tabBarStyleParaInicio(route) : null,
+          tabBarStyleParaStack(route, route.name),
         ],
         tabBarLabelStyle: { fontFamily: fontFamilies.uiMedium, fontSize: 11 },
         tabBarIcon: ({ color, size, focused }) => (
@@ -48,8 +55,8 @@ export function MainTabNavigator() {
       <Tab.Screen name="Inicio" component={InicioStackNavigator} />
       <Tab.Screen name="Calendario" component={CalendarioScreen} />
       <Tab.Screen name="Mapa" component={MapaScreen} />
-      <Tab.Screen name="Buscar" component={BuscarScreen} />
-      <Tab.Screen name="Perfil" component={PerfilScreen} />
+      <Tab.Screen name="Buscar" component={BuscarStackNavigator} />
+      <Tab.Screen name="Perfil" component={PerfilStackNavigator} />
     </Tab.Navigator>
   );
 }

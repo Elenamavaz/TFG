@@ -1,4 +1,4 @@
-import { Evento, EstadoEvento } from '../models';
+import { Evento, EstadoEvento, Ubicacion } from '../models';
 
 export const eventosMock = [
   new Evento({
@@ -10,6 +10,7 @@ export const eventosMock = [
     hora: '21:00',
     duracionMin: 90,
     estado: EstadoEvento.PROGRAMADO,
+    ubicacion: new Ubicacion({ latitud: null, longitud: null, direccion: 'Iglesia Penitencial de la Santa Vera-Cruz' }),
   }),
   new Evento({
     id: 'peregrinacion-promesa-evento',
@@ -20,5 +21,6 @@ export const eventosMock = [
     hora: '22:30',
     duracionMin: 150,
     estado: EstadoEvento.EN_CURSO,
+    ubicacion: new Ubicacion({ latitud: null, longitud: null, direccion: 'Plaza de Santa Cruz' }),
   }),
 ];

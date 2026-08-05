@@ -11,13 +11,25 @@ export function ProcesionCard({
   ruta,
   badge,
   mostrarFavorito = true,
+  esFavorito = false,
+  onToggleFavorito,
   mostrarChevron = true,
   onPress,
 }) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={onPress ? 0.8 : 1} disabled={!onPress}>
       {mostrarFavorito ? (
-        <Ionicons name="heart-outline" size={18} color={colors.gold} style={styles.favorito} />
+        onToggleFavorito ? (
+          <TouchableOpacity
+            onPress={onToggleFavorito}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            style={styles.favorito}
+          >
+            <Ionicons name={esFavorito ? 'heart' : 'heart-outline'} size={18} color={colors.gold} />
+          </TouchableOpacity>
+        ) : (
+          <Ionicons name="heart-outline" size={18} color={colors.gold} style={styles.favorito} />
+        )
       ) : null}
 
       <View style={styles.headerRow}>

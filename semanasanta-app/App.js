@@ -6,6 +6,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { CiudadProvider } from './src/application/context/CiudadContext';
 import { DiaProvider } from './src/application/context/DiaContext';
+import { FavoritosProvider } from './src/application/context/FavoritosContext';
 import { RootNavigator } from './src/ui/navigation/RootNavigator';
 import { colors, fontsToLoad } from './src/theme';
 
@@ -24,9 +25,11 @@ export default function App() {
     <View style={styles.container}>
       <CiudadProvider>
         <DiaProvider>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
+          <FavoritosProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </FavoritosProvider>
         </DiaProvider>
       </CiudadProvider>
       <StatusBar style="light" />

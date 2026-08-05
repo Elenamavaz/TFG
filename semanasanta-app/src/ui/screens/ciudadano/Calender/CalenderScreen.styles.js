@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
   diaNumero: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.bodyRegular,
-    fontSize: 16,
+    fontSize: 20,
   },
   diaNumeroActivo: {
     color: colors.background,

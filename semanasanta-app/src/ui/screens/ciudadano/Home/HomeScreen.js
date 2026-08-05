@@ -3,7 +3,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScreenContainer, ListItemCard, StatusBadge } from '../../../components/common';
-import { useCiudad, useDia } from '../../../../application/context';
+import { useCiudad, useDia, useFavoritos } from '../../../../application/context';
 import {
   getCofradiasPorCiudad,
   getProcesionesPorCiudad,
@@ -21,6 +21,7 @@ const OPCIONES_MENU = [
   { tipo: 'procesiones', label: 'Procesiones', icon: 'candle' },
   { tipo: 'pasos', label: 'Pasos', icon: 'cross' },
   { tipo: 'eventos', label: 'Eventos', icon: 'church' },
+  { tipo: 'favoritos', label: 'Tus Favoritos', icon: 'heart-outline' },
 ];
 
 function formatearFechaCorta(fechaIso) {
@@ -44,19 +45,7 @@ export function InicioScreen({ navigation }) {
   const [alerta, setAlerta] = useState(null);
   const [dias, setDias] = useState([]);
   const [agenda, setAgenda] = useState([]);
-  const [favoritos, setFavoritos] = useState(new Set());
-
-  const alternarFavorito = useCallback((id) => {
-    setFavoritos((actuales) => {
-      const siguientes = new Set(actuales);
-      if (siguientes.has(id)) {
-        siguientes.delete(id);
-      } else {
-        siguientes.add(id);
-      }
-      return siguientes;
-    });
-  }, []);
+  const { esFavorito, alternarFavorito } = useFavoritos();
 
   useEffect(() => {
     getDiasSemanaSanta().then((lista) => {
@@ -228,8 +217,8 @@ export function InicioScreen({ navigation }) {
             hora={item.horaSalida}
             badge={<StatusBadge estado={item.estado} />}
             mostrarFavorito
-            esFavorito={favoritos.has(item.id)}
-            onToggleFavorito={() => alternarFavorito(item.id)}
+            esFavorito={esFavorito(item.id, item.categoria)}
+            onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
             onPress={() => abrirAgendaItem(item)}
           />
         ))}
