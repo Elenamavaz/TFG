@@ -40,7 +40,7 @@ export function MainTabNavigator() {
           {
             backgroundColor: colors.background,
             borderTopColor: colors.subtitle,
-            borderWidth: 0.5,
+            borderTopWidth: 0.5,
             height: 76,
             paddingTop: 8,
           },

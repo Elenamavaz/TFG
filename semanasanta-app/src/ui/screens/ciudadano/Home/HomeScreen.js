@@ -117,7 +117,9 @@ export function InicioScreen({ navigation }) {
     if (item.categoria === 'procesion') {
       navigation.navigate('DetalleProcesion', { procesionId: item.id });
     }
-    // los eventos no tienen pantalla de detalle todavía (se añadirá en una iteración posterior)
+    if (item.categoria === 'evento') {
+      navigation.navigate('DetalleEvento', { procesionId: item.id });
+    }  
   }
 
   function abrirAlerta() {

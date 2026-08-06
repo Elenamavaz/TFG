@@ -3,8 +3,10 @@ import { colors, fontFamilies, radii, spacing } from '../../../theme';
 
 export const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
     borderRadius: radii.md,
+    borderColor: colors.subtitle,
     padding: spacing.md,
     paddingRight: spacing.xl,
     marginBottom: spacing.sm,
@@ -22,7 +24,7 @@ export const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs,
+    gap: spacing.sm,
   },
   dia: {
     color: colors.subtitle,
@@ -32,7 +34,7 @@ export const styles = StyleSheet.create({
   hora: {
     color: colors.gold,
     fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 15,
+    fontSize: 20,
   },
   titulo: {
     color: colors.textPrimary,

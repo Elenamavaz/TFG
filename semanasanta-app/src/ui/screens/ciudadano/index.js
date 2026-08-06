@@ -5,6 +5,7 @@ export { DetalleCofradiaScreen } from './DetailsCofradia/DetailCofradiaScreen';
 export { DetallePasoScreen } from './DetailsPaso/DetailPasoScreen';
 export { DetalleProcesionScreen } from './DetailsProcesion/DetailProcesionScreen';
 export { DetalleProcesionInfoScreen } from './DetailsProcesion/DetailProcesionInfoScreen';
+export { DetalleEventoScreen } from './DetailsEvento/DetailEventoScreen';
 export { CalendarioScreen } from './Calender/CalenderScreen';
 export { MapaScreen } from './Map/MapaScreen';
 export { BuscarScreen } from './Search/SearchScreen';

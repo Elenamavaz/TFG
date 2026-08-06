@@ -197,14 +197,12 @@ export function BuscarScreen({ navigation }) {
             badge={item.categoria === 'evento' ? <StatusBadge estado="EVENTO" /> : <StatusBadge estado={item.estado} />}
             esFavorito={esFavorito(item.id, item.categoria)}
             onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
-            mostrarChevron={Boolean(item.onPress)}
             onPress={item.onPress}
           />
         ))}
 
         {resultadosPasos.length > 0 ? (
           <>
-            <Text style={styles.sectionTitle}>Pasos</Text>
             {resultadosPasos.map((paso) => (
               <PasoListItem
                 key={paso.id}

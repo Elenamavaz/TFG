@@ -6,6 +6,7 @@ import {
   DetallePasoScreen,
   DetalleProcesionScreen,
   DetalleProcesionInfoScreen,
+  DetalleEventoScreen,
 } from '../screens/ciudadano';
 import { colors, fontFamilies } from '../../theme';
 
@@ -28,6 +29,7 @@ export function InicioStackNavigator() {
       <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleProcesionInfo" component={DetalleProcesionInfoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleEvento" component={DetalleEventoScreen} options={{ title: '' }} />
     </Stack.Navigator>
   );
 }

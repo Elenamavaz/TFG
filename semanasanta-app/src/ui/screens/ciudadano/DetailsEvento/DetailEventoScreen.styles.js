@@ -25,21 +25,6 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     paddingBottom: spacing.xl,
   },
-  topRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  infoButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: colors.subtitle,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   title: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleBold,
@@ -60,13 +45,9 @@ export const styles = StyleSheet.create({
   },
   infoBox: {
     flex: 1,
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 0.5,
+    backgroundColor: colors.surface,
     borderRadius: radii.md,
-    borderColor: colors.subtitle,
     padding: spacing.md,
-    paddingRight: spacing.xl,
-    marginBottom: spacing.sm,
   },
   infoLabel: {
     color: colors.subtitle,
@@ -86,17 +67,34 @@ export const styles = StyleSheet.create({
     marginTop: spacing.lg,
     marginBottom: spacing.sm,
   },
+  body: {
+    color: colors.cream,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 14,
+    lineHeight: 20,
+  },
   mapPlaceholder: {
     height: 160,
     borderRadius: radii.md,
     backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: spacing.xs,
+  },
+  mapPin: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.surfaceAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   mapPlaceholderText: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
+    color: colors.cream,
+    fontFamily: fontFamilies.uiMedium,
     fontSize: 13,
+    paddingHorizontal: spacing.lg,
+    textAlign: 'center',
   },
   cta: {
     backgroundColor: colors.backgroundRed,
@@ -106,9 +104,6 @@ export const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     alignItems: 'center',
     marginTop: spacing.lg,
-  },
-  ctaDisabled: {
-    opacity: 0.4,
   },
   ctaText: {
     color: colors.cream,

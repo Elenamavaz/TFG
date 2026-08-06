@@ -13,8 +13,15 @@ export function DetallePasoScreen({ route, navigation }) {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Detalles',
-      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.gold} />,
+      headerTintColor: colors.subtitle,
+      headerTitleAlign: 'center',
+      headerBackground: () => <View style={styles.headerBackground} />,
+      headerTitle: () => (
+        <View style={styles.headerBadge}>
+          <Text style={styles.headerBadgeText}>Detalles</Text>
+        </View>
+      ),
+      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
     });
   }, []);
 

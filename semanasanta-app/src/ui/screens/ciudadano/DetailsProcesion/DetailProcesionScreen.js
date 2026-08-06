@@ -20,14 +20,7 @@ export function DetalleProcesionScreen({ route, navigation }) {
 
       navigation.setOptions({
         title: 'Detalles',
-        headerRight: () =>
-          data.estado === 'EN_CURSO' ? (
-            <TouchableOpacity onPress={() => navigation.navigate('DetalleProcesionInfo', { procesionId })}>
-              <Ionicons name="reader-outline" size={22} color={colors.gold} />
-            </TouchableOpacity>
-          ) : (
-            <Ionicons name="heart-outline" size={22} color={colors.gold} />
-          ),
+        headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.gold} />,
       });
 
       getCofradiaPorId(data.cofradiaId).then((cofradia) => setCofradiaNombre(cofradia?.nombre));
@@ -40,7 +33,15 @@ export function DetalleProcesionScreen({ route, navigation }) {
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
-        <StatusBadge estado={procesion.estado} />
+        <View style={styles.topRow}>
+          <StatusBadge estado={procesion.estado} />
+          <TouchableOpacity
+            style={styles.infoButton}
+            onPress={() => navigation.navigate('DetalleProcesionInfo', { procesionId })}
+          >
+            <Ionicons name="reader-outline" size={18} color={colors.subtitle} />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.title}>{procesion.nombre}</Text>
         {cofradiaNombre ? <Text style={styles.subtitle}>{cofradiaNombre}</Text> : null}
 
@@ -84,7 +85,11 @@ export function DetalleProcesionScreen({ route, navigation }) {
           <Text style={styles.mapPlaceholderText}>Mapa del recorrido (Iteración 2)</Text>
         </View>
 
-        <TouchableOpacity style={styles.cta} onPress={() => navigation.getParent()?.navigate('Mapa')}>
+        <TouchableOpacity
+          style={[styles.cta, procesion.estado !== 'EN_CURSO' && styles.ctaDisabled]}
+          disabled={procesion.estado !== 'EN_CURSO'}
+          onPress={() => navigation.getParent()?.navigate('Mapa')}
+        >
           <Text style={styles.ctaText}>Ir a la procesión</Text>
         </TouchableOpacity>
       </ScrollView>

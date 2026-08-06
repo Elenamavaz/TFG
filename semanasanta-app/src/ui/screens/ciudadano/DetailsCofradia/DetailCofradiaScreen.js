@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {
   ScreenContainer,
@@ -29,8 +29,15 @@ export function DetalleCofradiaScreen({ route, navigation }) {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Detalles',
-      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.gold} />,
+      headerTintColor: colors.subtitle,
+      headerTitleAlign: 'center',
+      headerBackground: () => <View style={styles.headerBackground} />,
+      headerTitle: () => (
+        <View style={styles.headerBadge}>
+          <Text style={styles.headerBadgeText}>Detalles</Text>
+        </View>
+      ),
+      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
     });
   }, []);
 
@@ -83,11 +90,12 @@ export function DetalleCofradiaScreen({ route, navigation }) {
                 key={evento.id}
                 titulo={evento.nombre}
                 subtitulo={cofradia.nombre}
+                dia={evento.dia}
                 hora={evento.hora}
                 badge={<StatusBadge estado={evento.estado} />}
                 esFavorito={esFavorito(evento.id, 'evento')}
                 onToggleFavorito={() => alternarFavorito(evento.id, 'evento')}
-                mostrarChevron={false}
+                onPress={() => navigation.navigate('DetalleEvento', { eventoId: evento.id })}
               />
             ))}
           </>

@@ -18,6 +18,6 @@ export const styles = StyleSheet.create({
   },
   label: {
     fontFamily: fontFamilies.uiMedium,
-    fontSize: 12,
+    fontSize: 10,
   },
 });

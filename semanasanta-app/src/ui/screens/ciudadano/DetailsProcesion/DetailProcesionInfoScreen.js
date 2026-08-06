@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, InfoSection, LinkBox } from '../../../components/common';
 import { getProcesionPorId, getCofradiaPorId } from '../../../../data/services';
@@ -13,8 +13,15 @@ export function DetalleProcesionInfoScreen({ route, navigation }) {
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'Información',
-      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.gold} />,
+      headerTintColor: colors.subtitle,
+      headerTitleAlign: 'center',
+      headerBackground: () => <View style={styles.headerBackground} />,
+      headerTitle: () => (
+        <View style={styles.headerBadge}>
+          <Text style={styles.headerBadgeText}>Detalles</Text>
+        </View>
+      ),
+      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
     });
   }, []);
 

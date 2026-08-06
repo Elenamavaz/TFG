@@ -22,7 +22,13 @@
     },
     "plugins": [
       "expo-font",
-      "expo-splash-screen"
+      "expo-splash-screen",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Usamos tu ubicación para seleccionar automáticamente la ciudad más cercana al abrir la app."
+        }
+      ]
     ]
   }
 }

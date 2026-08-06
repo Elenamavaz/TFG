@@ -5,8 +5,10 @@ export const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.surface,
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
     borderRadius: radii.md,
+    borderColor: colors.subtitle,
     padding: spacing.md,
     marginBottom: spacing.sm,
   },
@@ -14,9 +16,9 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: colors.subtitle,
-    backgroundColor: colors.surfaceAlt,
+    backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.sm,
@@ -32,7 +34,7 @@ export const styles = StyleSheet.create({
   title: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 17,
+    fontSize: 18,
     marginTop: 2,
   },
 });

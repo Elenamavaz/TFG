@@ -7,6 +7,7 @@ export class Evento extends Favoriteable {
     nombre,
     descripcion = null,
     fecha,
+    dia,
     hora = null,
     duracionMin = null,
     estado,
@@ -18,6 +19,7 @@ export class Evento extends Favoriteable {
     this.nombre = nombre;
     this.descripcion = descripcion;
     this.fecha = fecha;
+    this.dia = dia;
     this.hora = hora;
     this.duracionMin = duracionMin;
     this.estado = estado;
