@@ -109,6 +109,8 @@ export function DetalleCofradiaScreen({ route, navigation }) {
                 key={paso.id}
                 label={paso.tipo}
                 title={paso.nombre}
+                esFavorito={esFavorito(paso.id, 'paso')}
+                onToggleFavorito={() => alternarFavorito(paso.id, 'paso')}
                 onPress={() => navigation.navigate('DetallePaso', { pasoId: paso.id })}
               />
             ))}

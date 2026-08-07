@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     borderRadius: radii.md,
     borderColor: colors.subtitle,
     padding: spacing.md,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.md,
   },
   avatar: {
     width: 40,
@@ -25,6 +25,10 @@ export const styles = StyleSheet.create({
   },
   textBlock: {
     flex: 1,
+    marginRight: spacing.sm,
+  },
+  favorito: {
+    marginRight: spacing.sm,
   },
   label: {
     color: colors.subtitle,

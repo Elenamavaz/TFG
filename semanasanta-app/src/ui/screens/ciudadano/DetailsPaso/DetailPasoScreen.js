@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, InfoSection, LinkBox } from '../../../components/common';
 import { getPasoPorId, getCofradiaPorId } from '../../../../data/services';
@@ -43,9 +43,13 @@ export function DetallePasoScreen({ route, navigation }) {
             <Text style={styles.title}>{paso.nombre}</Text>
             {cofradiaNombre ? <Text style={styles.subtitle}>{cofradiaNombre}</Text> : null}
           </View>
-          <View style={styles.imagePlaceholder}>
-            <Text style={styles.imagePlaceholderText}>Imagen</Text>
-          </View>
+          {paso.imagen ? (
+            <Image source={{ uri: paso.imagen }} style={styles.imagen} resizeMode="cover" />
+          ) : (
+            <View style={styles.imagePlaceholder}>
+              <Ionicons name="image-outline" size={22} color={colors.subtitle} />
+            </View>
+          )}
         </View>
 
         {paso.descripcion ? (

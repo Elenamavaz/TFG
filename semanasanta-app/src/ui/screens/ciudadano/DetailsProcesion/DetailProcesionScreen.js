@@ -4,11 +4,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, StatusBadge, PasoListItem } from '../../../components/common';
 import { getProcesionPorId, getPasosPorIds, getCofradiaPorId } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
+import { useFavoritos } from '../../../../application/context';
 import { colors } from '../../../../theme';
 import { styles } from './DetailProcesionScreen.styles';
 
 export function DetalleProcesionScreen({ route, navigation }) {
   const { procesionId } = route.params;
+  const { esFavorito, alternarFavorito } = useFavoritos();
   const [procesion, setProcesion] = useState(null);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
@@ -19,8 +21,15 @@ export function DetalleProcesionScreen({ route, navigation }) {
       if (!data) return;
 
       navigation.setOptions({
-        title: 'Detalles',
-        headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.gold} />,
+        headerTintColor: colors.subtitle,
+        headerTitleAlign: 'center',
+        headerBackground: () => <View style={styles.headerBackground} />,
+        headerTitle: () => (
+          <View style={styles.headerBadge}>
+            <Text style={styles.headerBadgeText}>Detalles</Text>
+          </View>
+        ),
+        headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
       });
 
       getCofradiaPorId(data.cofradiaId).then((cofradia) => setCofradiaNombre(cofradia?.nombre));
@@ -74,6 +83,8 @@ export function DetalleProcesionScreen({ route, navigation }) {
                 key={paso.id}
                 label={paso.tipo}
                 title={paso.nombre}
+                esFavorito={esFavorito(paso.id, 'paso')}
+                onToggleFavorito={() => alternarFavorito(paso.id, 'paso')}
                 onPress={() => navigation.navigate('DetallePaso', { pasoId: paso.id })}
               />
             ))}

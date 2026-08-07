@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, StatusBadge } from '../../../components/common';
+import { ScreenContainer, StatusBadge, InfoSection } from '../../../components/common';
 import { getEventoPorId, getCofradiaPorId } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
 import { colors } from '../../../../theme';
@@ -52,21 +52,24 @@ export function DetalleEventoScreen({ route, navigation }) {
             <Text style={styles.infoLabel}>Hora</Text>
             <Text style={styles.infoValue}>{evento.hora}</Text>
           </View>
-        </View>
-        {evento.duracionMin ? (
-          <View style={styles.infoRow}>
+          {evento.duracionMin ? (
             <View style={styles.infoBox}>
               <Text style={styles.infoLabel}>Duración</Text>
               <Text style={styles.infoValue}>{formatearDuracion(evento.duracionMin)}</Text>
             </View>
-          </View>
-        ) : null}
+          ) : null}
+        </View>
 
         {evento.descripcion ? (
-          <>
-            <Text style={styles.sectionTitle}>Descripción</Text>
+          <InfoSection title="Descripción">
             <Text style={styles.body}>{evento.descripcion}</Text>
-          </>
+          </InfoSection>
+        ) : null}
+
+        {evento.historia ? (
+          <InfoSection title="Historia">
+            <Text style={styles.body}>{evento.historia}</Text>
+          </InfoSection>
         ) : null}
 
         <Text style={styles.sectionTitle}>Ubicación</Text>

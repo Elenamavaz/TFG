@@ -6,8 +6,10 @@ import {
   getCofradiasPorCiudad,
   getProcesionesPorCiudad,
   getEventosPorCiudad,
+  getCofradiaPorId,
   getProcesionPorId,
   getEventoPorId,
+  getPasoPorId,
 } from '../../../../data/services';
 import { pasosMock } from '../../../../data/mock/pasos';
 import { cofradiasMock } from '../../../../data/mock/cofradias';
@@ -18,21 +20,21 @@ const CONFIG_POR_TIPO = {
     titulo: 'Cofradías',
     detalle: 'DetalleCofradia',
     idParam: 'cofradiaId',
-    icono: 'people',
+    icono: 'account-multiple',
     cargar: (ciudadId) => getCofradiasPorCiudad(ciudadId),
   },
   procesiones: {
     titulo: 'Procesiones',
     detalle: 'DetalleProcesion',
     idParam: 'procesionId',
-    icono: 'church',
+    icono: 'candle',
     cargar: (ciudadId) => getProcesionesPorCiudad(ciudadId),
   },
   eventos: {
     titulo: 'Eventos',
-    detalle: null,
+    detalle: 'DetalleEvento',
     idParam: 'eventoId',
-    icono: 'candle',
+    icono: 'church',
     cargar: (ciudadId) => getEventosPorCiudad(ciudadId),
   },
   pasos: {
@@ -57,6 +59,16 @@ const CONFIG_POR_TIPO = {
   },
 };
 
+// Un favorito puede ser una cofradía, una procesión, un evento o un paso
+// (ver FavoritosContext: se guardan como { id, tipo }). Cada categoría sabe
+// cómo cargarse por id, con qué icono mostrarse y a qué pantalla de detalle ir.
+const CONFIG_POR_CATEGORIA_FAVORITO = {
+  cofradia: { obtener: getCofradiaPorId, detalle: 'DetalleCofradia', idParam: 'cofradiaId', icono: CONFIG_POR_TIPO.cofradias.icono },
+  procesion: { obtener: getProcesionPorId, detalle: 'DetalleProcesion', idParam: 'procesionId', icono: CONFIG_POR_TIPO.procesiones.icono },
+  evento: { obtener: getEventoPorId, detalle: 'DetalleEvento', idParam: 'eventoId', icono: CONFIG_POR_TIPO.eventos.icono },
+  paso: { obtener: getPasoPorId, detalle: 'DetallePaso', idParam: 'pasoId', icono: CONFIG_POR_TIPO.pasos.icono },
+};
+
 export function ListadoScreen({ route, navigation }) {
   const { tipo } = route.params;
   const config = CONFIG_POR_TIPO[tipo];
@@ -68,21 +80,17 @@ export function ListadoScreen({ route, navigation }) {
   useEffect(() => {
     if (tipo === 'favoritos') {
       Promise.all(
-        favoritos.map((f) =>
-          (f.tipo === 'procesion' ? getProcesionPorId(f.id) : getEventoPorId(f.id)).then(
-            (item) => item && { ...item, categoria: f.tipo, icono: f.tipo === 'procesion' ? 'church' : 'candle' }
-          )
-        )
+        favoritos.map((f) => {
+          const cfg = CONFIG_POR_CATEGORIA_FAVORITO[f.tipo];
+          if (!cfg) return Promise.resolve(null);
+          return cfg.obtener(f.id).then((item) => item && { ...item, categoria: f.tipo, icono: cfg.icono });
+        })
       ).then((lista) => setItems(lista.filter(Boolean)));
       return;
     }
     if (!ciudadSeleccionada) return;
     config.cargar(ciudadSeleccionada.id).then(setItems);
   }, [ciudadSeleccionada, tipo, favoritos]);
-
-  useEffect(() => {
-    navigation.setOptions({ title: config.titulo });
-  }, [tipo]);
 
   const itemsFiltrados = useMemo(() => {
     const texto = busqueda.trim().toLowerCase();
@@ -91,19 +99,21 @@ export function ListadoScreen({ route, navigation }) {
   }, [items, busqueda]);
 
   function detalleDe(item) {
-    if (tipo === 'favoritos') return item.categoria === 'procesion' ? 'DetalleProcesion' : null;
+    if (tipo === 'favoritos') return CONFIG_POR_CATEGORIA_FAVORITO[item.categoria]?.detalle ?? null;
     return config.detalle;
   }
 
   function onPressItem(item) {
     const detalle = detalleDe(item);
     if (!detalle) return;
-    const idParam = tipo === 'favoritos' ? 'procesionId' : config.idParam;
+    const idParam = tipo === 'favoritos' ? CONFIG_POR_CATEGORIA_FAVORITO[item.categoria].idParam : config.idParam;
     navigation.navigate(detalle, { [idParam]: item.id });
   }
 
   return (
     <ScreenContainer style={styles.container}>
+      <Text style={styles.title}>{config.titulo}</Text>
+
       <SearchInput value={busqueda} onChangeText={setBusqueda} placeholder={`Buscar en ${config.titulo.toLowerCase()}...`} />
 
       <FlatList

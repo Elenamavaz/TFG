@@ -40,7 +40,7 @@ function formatearResumenDia(diaSemanaSanta, fechaISO, agenda) {
   return `${nombreDia} · ${dia} ${MESES[mes - 1]} · ${partes.length > 0 ? partes.join(' · ') : 'sin agenda'}`;
 }
 
-export function CalendarioScreen() {
+export function CalendarioScreen({ navigation }) {
   const { ciudadSeleccionada } = useCiudad();
   const { diaSeleccionado: diaHome } = useDia();
 
@@ -146,6 +146,15 @@ export function CalendarioScreen() {
     setDiaAgenda(null);
   }
 
+  function abrirAgendaItem(item) {
+    if (item.categoria === 'procesion') {
+      navigation.navigate('DetalleProcesion', { procesionId: item.id });
+    }
+    if (item.categoria === 'evento') {
+      navigation.navigate('DetalleEvento', { eventoId: item.id });
+    }
+  }
+
   if (!ciudadSeleccionada || !mesActual) return null;
 
   return (
@@ -205,6 +214,7 @@ export function CalendarioScreen() {
                   duracion={item.duracionMin ? formatearDuracion(item.duracionMin) : null}
                   esFavorito={esFavorito(item.id, item.categoria)}
                   onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
+                  onPress={() => abrirAgendaItem(item)}
                 />
               ))
             ) : (

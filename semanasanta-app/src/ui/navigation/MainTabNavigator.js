@@ -2,9 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { InicioStackNavigator } from './InicioStackNavigator';
+import { CalendarioStackNavigator } from './CalendarioStackNavigator';
 import { BuscarStackNavigator } from './BuscarStackNavigator';
 import { PerfilStackNavigator } from './PerfilStackNavigator';
-import { CalendarioScreen, MapaScreen } from '../screens/ciudadano';
+import { MapaScreen } from '../screens/ciudadano';
 import { colors, fontFamilies } from '../../theme';
 
 const Tab = createBottomTabNavigator();
@@ -17,16 +18,21 @@ const ICONOS_POR_TAB = {
   Perfil: 'person',
 };
 
-// Ruta "home" de cada tab que tiene su propio stack interno, para saber
-// cuándo ocultar la tab bar (al entrar en un listado/detalle) y cuándo
-// mostrarla de nuevo, siguiendo el patrón de los mockups (Sección 4.1).
-const RUTA_HOME_POR_TAB = { Inicio: 'InicioHome', Buscar: 'BuscarHome', Perfil: 'PerfilHome' };
+// Pantallas de "detalle" (dentro de los stacks de cada tab) que ocultan la
+// tab bar, siguiendo el patrón de los mockups (Sección 4.1). El resto -las
+// "home" de cada tab y los listados (Cofradías, Procesiones, Pasos...)-
+// mantienen la tab bar visible.
+const RUTAS_SIN_TAB_BAR = new Set([
+  'DetalleCofradia',
+  'DetalleProcesion',
+  'DetalleProcesionInfo',
+  'DetallePaso',
+  'DetalleEvento',
+]);
 
-function tabBarStyleParaStack(route, nombreTab) {
-  const rutaHome = RUTA_HOME_POR_TAB[nombreTab];
-  if (!rutaHome) return undefined;
-  const rutaActiva = getFocusedRouteNameFromRoute(route) ?? rutaHome;
-  return rutaActiva === rutaHome ? undefined : { display: 'none' };
+function tabBarStyleParaStack(route) {
+  const rutaActiva = getFocusedRouteNameFromRoute(route);
+  return rutaActiva && RUTAS_SIN_TAB_BAR.has(rutaActiva) ? { display: 'none' } : undefined;
 }
 
 export function MainTabNavigator() {
@@ -44,7 +50,7 @@ export function MainTabNavigator() {
             height: 76,
             paddingTop: 8,
           },
-          tabBarStyleParaStack(route, route.name),
+          tabBarStyleParaStack(route),
         ],
         tabBarLabelStyle: { fontFamily: fontFamilies.uiMedium, fontSize: 11 },
         tabBarIcon: ({ color, size, focused }) => (
@@ -52,8 +58,21 @@ export function MainTabNavigator() {
         ),
       })}
     >
-      <Tab.Screen name="Inicio" component={InicioStackNavigator} />
-      <Tab.Screen name="Calendario" component={CalendarioScreen} />
+      <Tab.Screen
+        name="Inicio"
+        component={InicioStackNavigator}
+        listeners={({ navigation }) => ({
+          // El tab "Inicio" siempre debe llevar a la pantalla de inicio, aunque
+          // se haya dejado su stack a medias (p. ej. tras "Ir a la procesión"
+          // desde un detalle, que salta al tab Mapa): no se limita a cambiar de
+          // tab y reanudar donde estaba, sino que resetea a InicioHome.
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('Inicio', { screen: 'InicioHome' });
+          },
+        })}
+      />
+      <Tab.Screen name="Calendario" component={CalendarioStackNavigator} />
       <Tab.Screen name="Mapa" component={MapaScreen} />
       <Tab.Screen name="Buscar" component={BuscarStackNavigator} />
       <Tab.Screen name="Perfil" component={PerfilStackNavigator} />

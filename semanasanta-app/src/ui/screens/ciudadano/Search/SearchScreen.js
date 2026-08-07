@@ -137,8 +137,11 @@ export function BuscarScreen({ navigation }) {
           <View style={styles.searchInputWrapper}>
             <SearchInput value={texto} onChangeText={setTexto} placeholder="Procesiones, pasos, eventos, ..." />
           </View>
-          <TouchableOpacity style={styles.filtroButton} onPress={() => setFiltrosVisibles((actual) => !actual)}>
-            <Ionicons name="options-outline" size={20} color={colors.background} />
+          <TouchableOpacity
+            style={[styles.filtroButton, filtrosVisibles && styles.filtroButtonActivo]}
+            onPress={() => setFiltrosVisibles((actual) => !actual)}
+          >
+            <Ionicons name="options-outline" size={20} color={filtrosVisibles ? colors.background : colors.subtitle} />
           </TouchableOpacity>
         </View>
 
@@ -208,6 +211,9 @@ export function BuscarScreen({ navigation }) {
                 key={paso.id}
                 label={paso.tipo}
                 title={paso.nombre}
+                mostrarIcono={false}
+                esFavorito={esFavorito(paso.id, 'paso')}
+                onToggleFavorito={() => alternarFavorito(paso.id, 'paso')}
                 onPress={() => navigation.navigate('DetallePaso', { pasoId: paso.id })}
               />
             ))}

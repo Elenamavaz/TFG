@@ -45,8 +45,10 @@ export const styles = StyleSheet.create({
   },
   infoBox: {
     flex: 1,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
     borderRadius: radii.md,
+    borderColor: colors.subtitle,
     padding: spacing.md,
   },
   infoLabel: {
@@ -57,14 +59,14 @@ export const styles = StyleSheet.create({
   infoValue: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 2,
   },
   sectionTitle: {
-    color: colors.gold,
+    color: colors.subtitle,
     fontFamily: fontFamilies.titleSemiBold,
     fontSize: 18,
-    marginTop: spacing.lg,
+    marginTop: spacing.md,
     marginBottom: spacing.sm,
   },
   body: {
@@ -75,8 +77,10 @@ export const styles = StyleSheet.create({
   },
   mapPlaceholder: {
     height: 160,
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
     borderRadius: radii.md,
-    backgroundColor: colors.surface,
+    borderColor: colors.subtitle,
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,

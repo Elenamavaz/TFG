@@ -44,18 +44,21 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 2,
   },
-  imagePlaceholder: {
+  imagen: {
     width: 72,
     height: 72,
     borderRadius: radii.md,
     backgroundColor: colors.surface,
+  },
+  imagePlaceholder: {
+    width: 72,
+    height: 72,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.subtitle,
+    backgroundColor: colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  imagePlaceholderText: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 11,
   },
   body: {
     color: colors.cream,

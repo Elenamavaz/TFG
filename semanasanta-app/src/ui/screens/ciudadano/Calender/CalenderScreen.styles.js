@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
   mesTitulo: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 20,
+    fontSize: 24,
   },
   diasSemanaRow: {
     flexDirection: 'row',
@@ -53,25 +53,28 @@ export const styles = StyleSheet.create({
   },
   diaCeldaActiva: {
     backgroundColor: colors.gold,
-    borderRadius: radii.sm,
+    borderRadius: radii.lg,
   },
   diaNumero: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.bodyRegular,
-    fontSize: 20,
+    fontSize: 22,
   },
   diaNumeroActivo: {
     color: colors.background,
-    fontFamily: fontFamilies.titleSemiBold,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 20,
   },
   puntoAgenda: {
     width: 5,
     height: 5,
     borderRadius: 3,
     backgroundColor: colors.gold,
-    marginTop: 4,
   },
   puntoAgendaActivo: {
+    width: 5,
+    height: 5,
+    borderRadius: 3,
     backgroundColor: colors.background,
   },
   leyendaRow: {

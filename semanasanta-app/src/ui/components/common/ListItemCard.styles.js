@@ -16,10 +16,10 @@ export const styles = StyleSheet.create({
   avatar: {
     width: 44,
     height: 44,
-    borderRadius: 20,
+    borderRadius: 22,
     borderWidth: 1,
     borderColor: colors.subtitle,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.backgroundAlt,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.sm,

@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.subtitle,
     padding: spacing.md,
     paddingRight: spacing.xl,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.md,
   },
   favorito: {
     position: 'absolute',

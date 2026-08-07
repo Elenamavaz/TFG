@@ -25,9 +25,15 @@ export const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: radii.md,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
+    borderColor: colors.subtitle,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  filtroButtonActivo: {
+    backgroundColor: colors.gold,
+    borderColor: colors.gold,
   },
   chipsRow: {
     flexDirection: 'row',

@@ -118,15 +118,15 @@ export function InicioScreen({ navigation }) {
       navigation.navigate('DetalleProcesion', { procesionId: item.id });
     }
     if (item.categoria === 'evento') {
-      navigation.navigate('DetalleEvento', { procesionId: item.id });
-    }  
+      navigation.navigate('DetalleEvento', { eventoId: item.id });
+    }
   }
 
   function abrirAlerta() {
     if (alerta?.procesionId) {
       navigation.navigate('DetalleProcesion', { procesionId: alerta.procesionId });
     } else if (alerta?.eventoId) {
-      // los eventos no tienen pantalla de detalle todavía (se añadirá en una iteración posterior)
+      navigation.navigate('DetalleEvento', { eventoId: alerta.eventoId });
     }
   }
 
@@ -213,7 +213,7 @@ export function InicioScreen({ navigation }) {
         {agenda.map((item) => (
           <ListItemCard
             key={`${item.categoria}-${item.id}`}
-            icon={item.categoria === 'procesion' ? 'cross' : 'candle'}
+            icon={item.categoria === 'procesion' ? 'candle' : 'church'}
             title={item.nombre}
             subtitle={item.cofradiaNombre}
             hora={item.horaSalida}

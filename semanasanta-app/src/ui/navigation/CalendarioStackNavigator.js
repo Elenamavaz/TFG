@@ -1,11 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
-  InicioScreen,
-  ListadoScreen,
-  DetalleCofradiaScreen,
-  DetallePasoScreen,
+  CalendarioScreen,
   DetalleProcesionScreen,
   DetalleProcesionInfoScreen,
+  DetallePasoScreen,
   DetalleEventoScreen,
 } from '../screens/ciudadano';
 import { colors, fontFamilies } from '../../theme';
@@ -20,15 +18,13 @@ const screenOptions = {
   contentStyle: { backgroundColor: colors.background },
 };
 
-export function InicioStackNavigator() {
+export function CalendarioStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name="InicioHome" component={InicioScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Listado" component={ListadoScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="DetalleCofradia" component={DetalleCofradiaScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
+      <Stack.Screen name="CalendarioHome" component={CalendarioScreen} options={{ headerShown: false }} />
       <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleProcesionInfo" component={DetalleProcesionInfoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleEvento" component={DetalleEventoScreen} options={{ title: '' }} />
     </Stack.Navigator>
   );

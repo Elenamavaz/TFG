@@ -6,6 +6,7 @@ export class Evento extends Favoriteable {
     cofradiaId,
     nombre,
     descripcion = null,
+    historia = null,
     fecha,
     dia,
     hora = null,
@@ -18,6 +19,7 @@ export class Evento extends Favoriteable {
     this.cofradiaId = cofradiaId; // organiza: 1 Cofradia
     this.nombre = nombre;
     this.descripcion = descripcion;
+    this.historia = historia;
     this.fecha = fecha;
     this.dia = dia;
     this.hora = hora;

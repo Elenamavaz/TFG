@@ -18,7 +18,7 @@ export function DetalleProcesionInfoScreen({ route, navigation }) {
       headerBackground: () => <View style={styles.headerBackground} />,
       headerTitle: () => (
         <View style={styles.headerBadge}>
-          <Text style={styles.headerBadgeText}>Detalles</Text>
+          <Text style={styles.headerBadgeText}>Información</Text>
         </View>
       ),
       headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
