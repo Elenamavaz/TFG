@@ -18,23 +18,23 @@ La variable probabilidad representa la probabilidad de que el riesgo se material
 \hline
 1. Estimaciones de tiempo erróneas & 8 & 7 & 56 \\
 \hline
-2. Problemas con la integración de Google Maps & 6 & 8 & 48 \\
+2. Falta de experiencia con las tecnologías del backend propio (Spring Boot) & 7 & 7 & 49 \\
 \hline
-3. Errores durante el desarrollo & 7 & 6 & 42 \\
+3. Problemas con la integración de Google Maps & 6 & 8 & 48 \\
 \hline
-4. Retrasos o errores por falta de experiencia con tecnologías móviles & 7 & 6 & 42 \\
+4. Errores durante el desarrollo & 7 & 6 & 42 \\
 \hline
-5. Problemas con la geolocalización en tiempo real & 5 & 8 & 40 \\
+5. Retrasos o errores por falta de experiencia con tecnologías móviles & 7 & 6 & 42 \\
 \hline
-6. Cambios en los requisitos & 6 & 6 & 36 \\
+6. Problemas con la geolocalización en tiempo real & 5 & 8 & 40 \\
 \hline
-7. Especificaciones ambiguas o poco definidas & 5 & 6 & 30 \\
+7. Cambios en los requisitos & 6 & 6 & 36 \\
 \hline
-8. Problemas con el entorno de desarrollo & 4 & 5 & 20 \\
+8. Especificaciones ambiguas o poco definidas & 5 & 6 & 30 \\
 \hline
-9. Indisponibilidad del desarrollador & 3 & 6 & 18 \\
+9. Problemas con el entorno de desarrollo & 4 & 5 & 20 \\
 \hline
-10. Problemas con Firebase o la base de datos & 3 & 5 & 15 \\
+10. Indisponibilidad del desarrollador & 3 & 6 & 18 \\
 \hline
 \end{tabular}
 \caption{Riesgos identificados en el proyecto}
@@ -147,10 +147,10 @@ Tras realizar la identificación de los riesgos, el siguiente paso es la decisi�
 \begin{table}[ht!]
 \centering
 \begin{tabular}{@{}p{3cm}p{10cm}@{}}
-\textbf{Riesgo} & Problemas con Firebase/base de datos \\[0.4em]
-\textbf{Reducción} & Documentarse sobre las limitaciones del plan gratuito de Firebase \cite{firebasefcm}. Diseñar una estructura de datos eficiente. \\[0.4em]
-\textbf{Contingencia} & Migrar a un servicio alternativo en caso de problemas críticos.
+\textbf{Riesgo} & Falta de experiencia con las tecnologías del backend propio (Spring Boot, Spring Security, JPA/Hibernate) \\[0.4em]
+\textbf{Reducción} & Realizar una prueba de concepto acotada (\emph{spike}) antes de comenzar la implementación completa, construyendo un único recurso extremo a extremo (entidad, autenticación JWT y \emph{endpoint} protegido por rol) para validar el ritmo de desarrollo real con la tecnología. Consultar la documentación oficial y limitar el alcance del backend a lo estrictamente necesario para los requisitos, evitando patrones o herramientas adicionales que no aporten valor al proyecto (por ejemplo, no se contemplan microservicios ni colas de mensajería). \\[0.4em]
+\textbf{Contingencia} & Si el retraso es significativo, reducir el alcance del backend priorizando los endpoints imprescindibles para cada iteración y posponiendo funcionalidades secundarias a iteraciones posteriores, tal y como permite la metodología iterativa incremental (Sección~\ref{cap:metodología}).
 \end{tabular}
-\caption{Riesgo 10: Problemas con Firebase/base de datos}
+\caption{Riesgo 10: Falta de experiencia con las tecnologías del backend propio}
 \label{tab:riesgo10}
 \end{table}

@@ -1,11 +1,11 @@
 \chapter{Esquema de la base de datos}\label{cap:esquemaBD}
 
-Este apéndice recoge, a nivel de detalle de campo, el esquema completo de las colecciones y subcolecciones de Cloud Firestore introducidas en el apartado \nameref{sec:disenoBD} (Sección~\ref{cap:1_iteracion}), incluyendo los tipos de dato de cada campo y las referencias entre documentos. Los tipos de dato mostrados (\texttt{string}, \texttt{number}, \texttt{boolean}, \texttt{timestamp}, \texttt{geopoint}, \texttt{reference}, \texttt{array}, \texttt{map}, \texttt{enum}) corresponden a los tipos nativos de Cloud Firestore~\cite{firestore}.
+Este apéndice recoge, a nivel de detalle de campo, el esquema completo de las tablas de PostgreSQL~\cite{postgresql} introducidas en el apartado \nameref{sec:disenoBD} (Sección~\ref{cap:1_iteracion}), incluyendo los tipos de dato de cada campo y las claves primarias y foráneas. Los tipos de dato mostrados corresponden a tipos nativos de PostgreSQL (\texttt{BIGINT}, \texttt{VARCHAR}, \texttt{TEXT}, \texttt{BOOLEAN}, \texttt{TIMESTAMP}, \texttt{DOUBLE PRECISION}) o a tipos enumerados propios (\texttt{ENUM}) definidos para este esquema.
 
 \section{Ciudad (\texttt{ciudades})}
-\textbf{Ruta:} \texttt{ciudades/{ciudadId}} \quad \textbf{Requisito:} RI-10, RI-09
+\textbf{Requisito:} RI-10, RI-09
 
-Agrupa las procesiones y actos de cada localidad. La Junta de Cofradías se embebe aquí, ya que gestiona una única ciudad (relación 1:1).
+Agrupa las procesiones y actos de cada localidad.
 
 \begin{table}[H]
 \centering
@@ -13,24 +13,22 @@ Agrupa las procesiones y actos de cada localidad. La Junta de Cofradías se embe
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{nombre} & \texttt{string} &  \\
+\texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{comunidadAutonoma} & \texttt{string} &  \\
+\texttt{comunidad\_autonoma} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{descripcion} & \texttt{string} &  \\
-\hline
-\texttt{juntaCofradias} & \texttt{map} & \{nombre, email, telefono\} --- Junta que gestiona la ciudad \\
+\texttt{descripcion} & \texttt{TEXT} &  \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{ciudades}}
 \end{table}
 
-\section{Cofradía / Hermandad (\texttt{cofradias})}
-\textbf{Ruta:} \texttt{cofradias/{cofradiaId}} \quad \textbf{Requisito:} RI-02
+\section{Junta de Cofradías (\texttt{juntas\_cofradias})}
+\textbf{Requisito:} RI-10
 
-Asociación religiosa que organiza eventos y procesiones. Pertenece a la Junta de Cofradías de su ciudad.
+Junta que gestiona una ciudad. Relación 1:1 con \texttt{ciudades}.
 
 \begin{table}[H]
 \centering
@@ -38,23 +36,49 @@ Asociación religiosa que organiza eventos y procesiones. Pertenece a la Junta d
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{nombre} & \texttt{string} &  \\
+\texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{historia} & \texttt{string} &  \\
+\texttt{email} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{archivoInformacion} & \texttt{string} & URL a Firebase Storage \\
+\texttt{telefono} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{fechaCreacion} & \texttt{timestamp} &  \\
+\texttt{ciudad\_id} & \texttt{BIGINT} & FK $\to$ \texttt{ciudades(id)}, \texttt{UNIQUE} \\
 \hline
-\texttt{ciudadId} & \texttt{reference} & $\to$ ciudades/\{ciudadId\} \\
+\end{tabular}
+\caption{Campos de \texttt{juntas\_cofradias}}
+\end{table}
+
+\section{Cofradía / Hermandad (\texttt{cofradias})}
+\textbf{Requisito:} RI-02
+
+Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
+\hline
+\texttt{nombre} & \texttt{VARCHAR} &  \\
+\hline
+\texttt{historia} & \texttt{TEXT} &  \\
+\hline
+\texttt{archivo\_informacion} & \texttt{VARCHAR} & URL a Firebase Storage \\
+\hline
+\texttt{fecha\_creacion} & \texttt{TIMESTAMP} &  \\
+\hline
+\texttt{ciudad\_id} & \texttt{BIGINT} & FK $\to$ \texttt{ciudades(id)} \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{cofradias}}
 \end{table}
-\subsection{Paso (\texttt{cofradias/\{id\}/pasos}) --- subcolección}
-Pasos que posee la cofradía. Se consultan siempre junto a su cofradía padre. Relación N:M con procesiones vía procesionIds.
+
+\section{Paso (\texttt{pasos})}
+Pasos que posee la cofradía. Relación N:M con procesiones a través de \texttt{pasos\_procesiones}.
 
 \begin{table}[H]
 \centering
@@ -62,20 +86,36 @@ Pasos que posee la cofradía. Se consultan siempre junto a su cofradía padre. R
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{nombre} & \texttt{string} &  \\
+\texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{descripcion} & \texttt{string} &  \\
+\texttt{descripcion} & \texttt{TEXT} &  \\
 \hline
-\texttt{imagen} & \texttt{string} & URL a Firebase Storage \\
+\texttt{imagen} & \texttt{VARCHAR} & URL a Firebase Storage \\
 \hline
-\texttt{procesionIds} & \texttt{array} & procesiones en las que desfila (N:M) \\
+\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
 \hline
 \end{tabular}
-\caption{Campos de \texttt{cofradias/{id}/pasos}}
+\caption{Campos de \texttt{pasos}}
 \end{table}
-\subsection{CódigoAcceso (\texttt{cofradias/\{id\}/codigosAcceso}) --- subcolección}
+
+\subsection{Paso-Procesión (\texttt{pasos\_procesiones}) --- tabla intermedia N:M}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{paso\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{pasos(id)} \\
+\hline
+\texttt{procesion\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{procesiones(id)} \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{pasos\_procesiones}}
+\end{table}
+
+\section{Código de Acceso (\texttt{codigos\_acceso})}
 Códigos que emite la cofradía. Un usuario valida uno para obtener el rol de cofrade y queda vinculado a esta cofradía.
 
 \begin{table}[H]
@@ -84,20 +124,20 @@ Códigos que emite la cofradía. Un usuario valida uno para obtener el rol de co
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{codigo} & \texttt{string} &  \\
+\texttt{codigo} & \texttt{VARCHAR} & \texttt{UNIQUE} \\
 \hline
-\texttt{estado} & \texttt{enum} & EMITIDO, VALIDADO, REVOCADO \\
+\texttt{estado} & \texttt{ENUM} & \texttt{EMITIDO}, \texttt{VALIDADO}, \texttt{REVOCADO} \\
 \hline
-\texttt{cofradiaId} & \texttt{reference} & $\to$ cofradias/\{cofradiaId\} \\
+\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
 \hline
 \end{tabular}
-\caption{Campos de \texttt{cofradias/{id}/codigosAcceso}}
+\caption{Campos de \texttt{codigos\_acceso}}
 \end{table}
 
 \section{Evento (\texttt{eventos})}
-\textbf{Ruta:} \texttt{eventos/{eventoId}} \quad \textbf{Requisito:} RI-03
+\textbf{Requisito:} RI-03
 
 Acto organizado por una cofradía. Una procesión sigue a un evento.
 
@@ -107,26 +147,26 @@ Acto organizado por una cofradía. Una procesión sigue a un evento.
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{nombre} & \texttt{string} &  \\
+\texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{descripcion} & \texttt{string} &  \\
+\texttt{descripcion} & \texttt{TEXT} &  \\
 \hline
-\texttt{fecha} & \texttt{timestamp} &  \\
+\texttt{fecha} & \texttt{TIMESTAMP} &  \\
 \hline
-\texttt{estado} & \texttt{enum} & PROGRAMADO, EN\_CURSO, FINALIZADO, CANCELADO \\
+\texttt{estado} & \texttt{ENUM} & \texttt{PROGRAMADO}, \texttt{EN\_CURSO}, \texttt{FINALIZADO}, \texttt{CANCELADO} \\
 \hline
-\texttt{cofradiaId} & \texttt{reference} & $\to$ cofradias/\{cofradiaId\} \\
+\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{eventos}}
 \end{table}
 
 \section{Procesión (\texttt{procesiones})}
-\textbf{Ruta:} \texttt{procesiones/{procesionId}} \quad \textbf{Requisito:} RI-04
+\textbf{Requisito:} RI-04
 
-Datos estables de la procesión (horario, recorrido, pasos). La posición en vivo se aísla en una subcolección para no reescribir estos datos.
+Datos estables de la procesión (horario, recorrido, pasos). La posición en vivo se aísla en una tabla aparte para no reescribir estos datos.
 
 \begin{table}[H]
 \centering
@@ -134,27 +174,26 @@ Datos estables de la procesión (horario, recorrido, pasos). La posición en viv
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{fechaInicio} & \texttt{timestamp} &  \\
+\texttt{fecha\_inicio} & \texttt{TIMESTAMP} &  \\
 \hline
-\texttt{fechaFin} & \texttt{timestamp} &  \\
+\texttt{fecha\_fin} & \texttt{TIMESTAMP} &  \\
 \hline
-\texttt{estado} & \texttt{enum} & PROGRAMADA, EN\_CURSO, FINALIZADA, CANCELADA \\
+\texttt{estado} & \texttt{ENUM} & \texttt{PROGRAMADA}, \texttt{EN\_CURSO}, \texttt{FINALIZADA}, \texttt{CANCELADA} \\
 \hline
-\texttt{eventoId} & \texttt{reference} & $\to$ eventos/\{eventoId\} \\
+\texttt{evento\_id} & \texttt{BIGINT} & FK $\to$ \texttt{eventos(id)} \\
 \hline
-\texttt{cofradiaId} & \texttt{reference} & $\to$ cofradias/\{cofradiaId\} \\
+\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
 \hline
-\texttt{recorridoId} & \texttt{reference} & $\to$ recorridos/\{recorridoId\} \\
-\hline
-\texttt{pasoIds} & \texttt{array} & pasos que desfilan (N:M) \\
+\texttt{recorrido\_id} & \texttt{BIGINT} & FK $\to$ \texttt{recorridos(id)}, \texttt{UNIQUE} (1:1) \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{procesiones}}
 \end{table}
-\subsection{PosiciónActual (\texttt{procesiones/\{id\}/posicionActual}) --- subcolección de un único documento fijo (\texttt{actual})}
-Documento único que se sobrescribe (batch) con la posición agregada de los cofrades. El cliente se suscribe con un listener en tiempo real (onSnapshot).
+
+\subsection{Posición Actual (\texttt{posicion\_actual}) --- relación 1:1 con \texttt{procesiones}}
+Fila única por procesión que se sobrescribe (\texttt{UPSERT}) con la posición agregada de los cofrades. El cliente la consulta mediante \texttt{GET~/procesiones/\{id\}/ubicacion}.
 
 \begin{table}[H]
 \centering
@@ -162,20 +201,22 @@ Documento único que se sobrescribe (batch) con la posición agregada de los cof
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{latitud} & \texttt{number} &  \\
+\texttt{procesion\_id} & \texttt{BIGINT} & PK y FK $\to$ \texttt{procesiones(id)} \\
 \hline
-\texttt{longitud} & \texttt{number} &  \\
+\texttt{latitud} & \texttt{DOUBLE PRECISION} &  \\
 \hline
-\texttt{timestamp} & \texttt{timestamp} & instante de la lectura \\
+\texttt{longitud} & \texttt{DOUBLE PRECISION} &  \\
 \hline
-\texttt{cofradesActivos} & \texttt{number} & n\'umero de ubicaciones agregadas \\
+\texttt{timestamp} & \texttt{TIMESTAMP} & instante de la lectura \\
+\hline
+\texttt{cofrades\_activos} & \texttt{INTEGER} & número de ubicaciones agregadas \\
 \hline
 \end{tabular}
-\caption{Campos de \texttt{procesiones/{id}/posicionActual}}
+\caption{Campos de \texttt{posicion\_actual}}
 \end{table}
 
 \section{Recorrido (\texttt{recorridos})}
-\textbf{Ruta:} \texttt{recorridos/{recorridoId}} \quad \textbf{Requisito:} RI-05, RI-06
+\textbf{Requisito:} RI-05, RI-06
 
 Itinerario asociado a una procesión, compuesto por puntos de ruta ordenados.
 
@@ -185,19 +226,20 @@ Itinerario asociado a una procesión, compuesto por puntos de ruta ordenados.
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{nombre} & \texttt{string} &  \\
+\texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{distanciaTotal} & \texttt{number} & metros \\
+\texttt{distancia\_total} & \texttt{DOUBLE PRECISION} & metros \\
 \hline
-\texttt{tiempoEstimado} & \texttt{number} & minutos \\
+\texttt{tiempo\_estimado} & \texttt{INTEGER} & minutos \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{recorridos}}
 \end{table}
-\subsection{PuntoRuta (\texttt{recorridos/\{id\}/puntosRuta}) --- subcolección}
-Puntos que componen el recorrido. Clase abstracta: puede ser Ubicacion o PuntoDeInteres (RI-06). Se consultan junto a su recorrido padre.
+
+\subsection{Punto de Ruta (\texttt{puntos\_ruta})}
+Puntos que componen el recorrido. Puede ser de tipo \texttt{UBICACION} o \texttt{PUNTO\_DE\_INTERES} (RI-06).
 
 \begin{table}[H]
 \centering
@@ -205,28 +247,30 @@ Puntos que componen el recorrido. Clase abstracta: puede ser Ubicacion o PuntoDe
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{tipo} & \texttt{enum} & UBICACION, PUNTO\_DE\_INTERES \\
+\texttt{tipo} & \texttt{ENUM} & \texttt{UBICACION}, \texttt{PUNTO\_DE\_INTERES} \\
 \hline
-\texttt{latitud} & \texttt{number} &  \\
+\texttt{latitud} & \texttt{DOUBLE PRECISION} &  \\
 \hline
-\texttt{longitud} & \texttt{number} &  \\
+\texttt{longitud} & \texttt{DOUBLE PRECISION} &  \\
 \hline
-\texttt{direccion} & \texttt{string} &  \\
+\texttt{direccion} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{horaPrevista} & \texttt{timestamp} & hora prevista de paso \\
+\texttt{hora\_prevista} & \texttt{TIMESTAMP} & hora prevista de paso \\
 \hline
-\texttt{orden} & \texttt{number} &  \\
+\texttt{orden} & \texttt{INTEGER} &  \\
+\hline
+\texttt{recorrido\_id} & \texttt{BIGINT} & FK $\to$ \texttt{recorridos(id)} \\
 \hline
 \end{tabular}
-\caption{Campos de \texttt{recorridos/{id}/puntosRuta}}
+\caption{Campos de \texttt{puntos\_ruta}}
 \end{table}
 
 \section{Usuario (\texttt{usuarios})}
-\textbf{Ruta:} \texttt{usuarios/{usuarioId}} \quad \textbf{Requisito:} RI-01
+\textbf{Requisito:} RI-01
 
-Solo perfiles de rol elevado (cofrade, junta, administrador). El ciudadano no se registra y no genera documento. El id coincide con el UID de Firebase Authentication.
+Solo perfiles de rol elevado (cofrade, junta, administrador). El ciudadano no se registra y no genera fila.
 
 \begin{table}[H]
 \centering
@@ -234,50 +278,36 @@ Solo perfiles de rol elevado (cofrade, junta, administrador). El ciudadano no se
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} & UID de Firebase Authentication \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{rol} & \texttt{enum} & COFRADE, JUNTA, ADMIN \\
+\texttt{email} & \texttt{VARCHAR} & \texttt{UNIQUE} \\
 \hline
-\texttt{cofradiaId} & \texttt{reference} & $\to$ cofradias/\{cofradiaId\} (si es cofrade) \\
+\texttt{password\_hash} & \texttt{VARCHAR} & \emph{hash} BCrypt de la contraseña \\
 \hline
-\texttt{codigoAccesoValidado} & \texttt{string} &  \\
+\texttt{rol} & \texttt{ENUM} & \texttt{COFRADE}, \texttt{JUNTA}, \texttt{ADMIN} \\
 \hline
-\texttt{fechaIngreso} & \texttt{timestamp} &  \\
+\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)}, nulo si no es cofrade \\
 \hline
-\texttt{compartiendoUbicacion} & \texttt{boolean} &  \\
+\texttt{fecha\_ingreso} & \texttt{TIMESTAMP} &  \\
 \hline
-\texttt{posicionActual} & \texttt{map} & \{latitud, longitud, timestamp\} mientras comparte ubicación \\
+\texttt{compartiendo\_ubicacion} & \texttt{BOOLEAN} &  \\
 \hline
-\texttt{procesionEnVivo} & \texttt{reference} & $\to$ procesiones/\{procesionId\} \\
+\texttt{latitud} & \texttt{DOUBLE PRECISION} & mientras comparte ubicación \\
+\hline
+\texttt{longitud} & \texttt{DOUBLE PRECISION} & mientras comparte ubicación \\
+\hline
+\texttt{timestamp\_posicion} & \texttt{TIMESTAMP} & mientras comparte ubicación \\
+\hline
+\texttt{procesion\_en\_vivo\_id} & \texttt{BIGINT} & FK $\to$ \texttt{procesiones(id)}, nulo si no comparte \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{usuarios}}
 \end{table}
-\subsection{EntregaNotificacion (\texttt{usuarios/\{id\}/notificacionesEntregadas}) --- subcolección}
-Registra si el usuario ha leído cada notificación y cuándo, sin duplicar la notificación. Solo guarda la referencia.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|p{7cm}|}
-\hline
-\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
-\hline
-\texttt{id} & \texttt{string} &  \\
-\hline
-\texttt{notificacionId} & \texttt{reference} & $\to$ notificaciones/\{notificacionId\} \\
-\hline
-\texttt{leida} & \texttt{boolean} &  \\
-\hline
-\texttt{fechaLectura} & \texttt{timestamp} &  \\
-\hline
-\end{tabular}
-\caption{Campos de \texttt{usuarios/{id}/notificacionesEntregadas}}
-\end{table}
 
 \section{Notificación (\texttt{notificaciones})}
-\textbf{Ruta:} \texttt{notificaciones/{notificacionId}} \quad \textbf{Requisito:} RI-08
+\textbf{Requisito:} RI-08
 
-Clase abstracta con dos tipos: Aviso (informativo, con expiración) y Alerta (con tipo y prioridad). La entrega por usuario se registra en usuarios/\{id\}/notificacionesEntregadas.
+Dos tipos: Aviso (informativo, con expiración) y Alerta (con tipo y prioridad).
 
 \begin{table}[H]
 \centering
@@ -285,26 +315,47 @@ Clase abstracta con dos tipos: Aviso (informativo, con expiración) y Alerta (co
 \hline
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
-\texttt{id} & \texttt{string} &  \\
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{tipo} & \texttt{enum} & AVISO, ALERTA \\
+\texttt{tipo} & \texttt{ENUM} & \texttt{AVISO}, \texttt{ALERTA} \\
 \hline
-\texttt{titulo} & \texttt{string} &  \\
+\texttt{titulo} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{fechaCreacion} & \texttt{timestamp} &  \\
+\texttt{fecha\_creacion} & \texttt{TIMESTAMP} &  \\
 \hline
-\texttt{fechaExpiracion} & \texttt{timestamp} & solo Aviso \\
+\texttt{fecha\_expiracion} & \texttt{TIMESTAMP} & solo Aviso, nulo en caso contrario \\
 \hline
-\texttt{tipoAlerta} & \texttt{enum} & solo Alerta: INCIDENCIA, CAMBIO\_HORARIO, CANCELACION, CORTE\_CALLE, METEOROLOGIA, SEGURIDAD \\
+\texttt{tipo\_alerta} & \texttt{ENUM} & solo Alerta: \texttt{INCIDENCIA}, \texttt{CAMBIO\_HORARIO}, \texttt{CANCELACION}, \texttt{CORTE\_CALLE}, \texttt{METEOROLOGIA}, \texttt{SEGURIDAD} \\
 \hline
-\texttt{prioridad} & \texttt{enum} & solo Alerta: BAJA, MEDIA, ALTA, URGENTE \\
+\texttt{prioridad} & \texttt{ENUM} & solo Alerta: \texttt{BAJA}, \texttt{MEDIA}, \texttt{ALTA}, \texttt{URGENTE} \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{notificaciones}}
 \end{table}
 
-\section{Relaciones entre colecciones}
-Al ser Firestore una base de datos NoSQL sin \emph{joins}, las relaciones entre colecciones se resuelven guardando referencias (identificadores) entre documentos, tal y como recoge la Tabla~\ref{tab:relacionesFirestore}.
+\subsection{Notificación Entregada (\texttt{notificaciones\_entregadas}) --- tabla intermedia N:M}
+Registra si el usuario ha leído cada notificación y cuándo.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{usuario\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{usuarios(id)} \\
+\hline
+\texttt{notificacion\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{notificaciones(id)} \\
+\hline
+\texttt{leida} & \texttt{BOOLEAN} &  \\
+\hline
+\texttt{fecha\_lectura} & \texttt{TIMESTAMP} &  \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{notificaciones\_entregadas}}
+\end{table}
+
+\section{Relaciones entre tablas}
+La Tabla~\ref{tab:relacionesBD} recoge las relaciones entre tablas de este esquema, todas ellas garantizadas por claves foráneas con restricción de integridad referencial.
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|}
@@ -313,13 +364,25 @@ Al ser Firestore una base de datos NoSQL sin \emph{joins}, las relaciones entre 
 \hline
 \texttt{ciudades} & \texttt{cofradias} & agrupa & 1:N \\
 \hline
+\texttt{ciudades} & \texttt{juntas\_cofradias} & gestionada por & 1:1 \\
+\hline
 \texttt{cofradias} & \texttt{eventos} & organiza & 1:N \\
 \hline
 \texttt{cofradias} & \texttt{procesiones} & organiza & 1:N \\
 \hline
+\texttt{cofradias} & \texttt{pasos} & posee & 1:N \\
+\hline
+\texttt{cofradias} & \texttt{codigos\_acceso} & emite & 1:N \\
+\hline
 \texttt{eventos} & \texttt{procesiones} & es seguido por & 1:N \\
 \hline
 \texttt{procesiones} & \texttt{recorridos} & tiene & 1:1 \\
+\hline
+\texttt{procesiones} & \texttt{posicion\_actual} & tiene & 1:1 \\
+\hline
+\texttt{recorridos} & \texttt{puntos\_ruta} & compuesto por & 1:N \\
+\hline
+\texttt{pasos} & \texttt{procesiones} & desfila en & N:M \\
 \hline
 \texttt{usuarios} & \texttt{cofradias} & pertenece a & N:1 \\
 \hline
@@ -328,6 +391,6 @@ Al ser Firestore una base de datos NoSQL sin \emph{joins}, las relaciones entre 
 \texttt{notificaciones} & \texttt{usuarios} & se entrega a & N:M \\
 \hline
 \end{tabular}
-\caption{Relaciones entre colecciones de Firestore}
-\label{tab:relacionesFirestore}
+\caption{Relaciones entre tablas de PostgreSQL}
+\label{tab:relacionesBD}
 \end{table}

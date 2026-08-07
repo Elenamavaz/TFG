@@ -90,6 +90,8 @@ Overleaf (plan gratuito) & 0,00€ & --- \\
 \hline
 Google Firebase (plan gratuito) & 0,00€ & \cite{firebasefcm} \\
 \hline
+Railway (plan gratuito) & 0,00€ & \cite{railwaypricing} \\
+\hline
 Google Maps API (crédito gratuito) & 0,00€ & \cite{googlemapsapi} \\
 \hline
 GitHub (plan gratuito) & 0,00€ & \cite{github} \\
@@ -138,14 +140,16 @@ Costes estructurales, prorrateados (oficina y suministros) & 950,00€ \\
 \label{tab:costes_totales}
 \end{table}
 
-\subsection{Coste estimado de Firebase en producción}\label{cap:costeFirebaseProduccion}
-
-Los costes anteriores corresponden únicamente al desarrollo del TFG, durante el cual el uso de Firebase se ha mantenido dentro de la capa gratuita (plan \textit{Spark}). Sin embargo, tal y como se señala en la Sección~\ref{cap:puntosDebiles}, el paso a producción con usuarios reales implicaría migrar al plan de pago \textit{Blaze}, facturado según el consumo real. A modo orientativo, y tomando las tarifas oficiales vigentes del plan Blaze para Cloud Firestore \cite{firebasepricing} --0,06 € por cada 100.000 lecturas, 0,18 € por cada 100.000 escrituras y 0,26 € por GB almacenado al mes, descontando la cuota gratuita diaria de 50.000 lecturas y 20.000 escrituras--, se puede estimar el coste de una semana de Semana Santa en una única ciudad piloto:
-
+\subsection{Coste estimado de la infraestructura en producción}\label{cap:costeFirebaseProduccion}
+ 
+Los costes anteriores corresponden únicamente al desarrollo del TFG, durante el cual tanto Railway~\cite{railway} como los servicios de Firebase utilizados (Storage y Cloud Messaging) se han mantenido dentro de sus respectivos planes gratuitos. Sin embargo, tal y como se señala en la Sección~\ref{cap:puntosDebiles}, el paso a producción con usuarios reales implicaría, por un lado, pasar del plan \textit{Free} de Railway a un plan de pago (\textit{Hobby} o \textit{Pro}) facturado según el consumo real de CPU, memoria y red \cite{railwaypricing}, y por otro, un coste de Firebase previsiblemente marginal, ya que Cloud Messaging no tiene coste y Storage solo se usa para las imágenes de los pasos, un volumen de datos pequeño y que apenas crece con el número de usuarios.
+ 
+A modo orientativo, tomando las tarifas oficiales vigentes de Railway \cite{railwaypricing} --10\,\$ por GB de RAM al mes, 20\,\$ por vCPU al mes y 0,05\,\$ por GB de red saliente-- se puede estimar el coste de una semana de Semana Santa en una única ciudad piloto, bajo las mismas hipótesis de partida que en el planteamiento inicial con Firebase (Sección~\ref{cap:puntosDebiles}): 3.000 usuarios simultáneos consultando la posición de una procesión en vivo, con una cadencia de 30 segundos (RNF-08), y 200 cofrades compartiendo su ubicación durante 2 horas al día.
+ 
 \begin{itemize}
-    \item \textbf{Lecturas}: suponiendo 3.000 usuarios simultáneos consultando el mapa en tiempo real durante una media de 3 horas al día, con actualizaciones cada 30 segundos (RNF-08), se generarían unas 360 lecturas por usuario y día, es decir, aproximadamente 1.080.000 lecturas diarias (7.560.000 en los 7 días de Semana Santa). Descontando la cuota gratuita, el coste asciende a unos \textbf{4,30 €}.
-    \item \textbf{Escrituras}: suponiendo 200 cofrades compartiendo su ubicación durante 2 horas al día (240 escrituras por cofrade y día), se generarían unas 48.000 escrituras diarias (336.000 en los 7 días). Descontando la cuota gratuita, el coste asciende a unos \textbf{0,35 €}.
-    \item \textbf{Almacenamiento y notificaciones}: el volumen de datos almacenado (perfiles, códigos de acceso, información de cofradías y procesiones) se mantendría muy por debajo de 1~GB, dentro de la cuota gratuita; Cloud Messaging no tiene coste en el plan Blaze \cite{firebasepricing}.
+    \item \textbf{Cómputo del backend}: una instancia con 1\,GB de RAM y 1\,vCPU es capaz de sostener sin dificultad el volumen de peticiones simples en JSON que generan estas hipótesis (del orden de 100-150 peticiones por segundo en el pico de la tarde). Manteniendo el servicio desplegado de forma continua durante los 7 días de Semana Santa (una sexta parte de un mes de 30 días), el coste de cómputo asciende a unos \textbf{7,00\,\$} ((10\,\$ + 20\,\$) $\times$ 7/30).
+    \item \textbf{Base de datos}: una instancia de PostgreSQL con recursos equivalentes (0,5\,GB de RAM, 1\,GB de almacenamiento en volumen) añade aproximadamente \textbf{1,20\,\$} para el mismo periodo.
+    \item \textbf{Red saliente}: el volumen de datos transferido por las respuestas JSON de la API (posiciones, listados, fichas) se mantiene, para este número de usuarios y peticiones ligeras, muy por debajo de 10\,GB en la semana, lo que supone menos de \textbf{0,50\,\$}.
 \end{itemize}
-
-Bajo estas hipótesis, el coste de Firebase para una semana de Semana Santa en una ciudad piloto rondaría los \textbf{5 €}, una cifra reducida gracias al bajo coste unitario de las operaciones de Firestore. No obstante, este importe crecería proporcionalmente al escalar la aplicación a más ciudades y usuarios, tal y como se plantea en el trabajo futuro (Sección~\ref{cap:trabajo_futuro}), por lo que esta estimación --y las hipótesis de partida sobre el número de usuarios y ciudades-- debería revisarse y ajustarse junto con el tutor antes de un despliegue real en producción.
+ 
+Bajo estas hipótesis, el coste de infraestructura para una semana de Semana Santa en una ciudad piloto rondaría los \textbf{9\,\$} de consumo, a los que se sumaría la cuota fija del plan de Railway elegido (5\,\$/mes en el plan \textit{Hobby}) si no se opta por mantener el servicio en el plan \textit{Free} el resto del año. Se trata de un orden de magnitud similar al estimado inicialmente para Firebase (unos 5€ semanales, Sección~\ref{cap:puntosDebiles} de una versión anterior de este documento), con la diferencia de que aquí el coste depende de los recursos de cómputo reservados y no del número de operaciones de lectura o escritura, por lo que crece de forma más previsible al escalar a más ciudades y usuarios, aunque también exige dimensionar y, en su caso, escalar manualmente la instancia del backend a medida que crece la carga --una responsabilidad que antes asumía Firebase de forma automática--. Esta estimación --y las hipótesis de partida sobre el número de usuarios y ciudades-- debería revisarse y ajustarse junto con el tutor antes de un despliegue real en producción.
