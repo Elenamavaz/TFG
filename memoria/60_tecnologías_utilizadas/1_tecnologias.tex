@@ -1,46 +1,47 @@
 \chapter{Tecnologías utilizadas}\label{cap:tecnologias}
-
+ 
 Este capítulo recoge, a modo de referencia, el conjunto de tecnologías, herramientas y servicios empleados en el desarrollo del proyecto, agrupados por la parte del sistema a la que pertenecen. La justificación de cada decisión --por qué esta tecnología y no otra-- se desarrolla con más detalle en el apartado \nameref{sec:decisionesTecnologicas} (Sección~\ref{cap:1_iteracion}); este capítulo se centra en describir brevemente cada pieza y su papel dentro del sistema.
-
+ 
 \section{Cliente móvil}
-
+ 
 \begin{itemize}
     \item \textbf{React Native} \cite{reactnative}: \emph{framework}\footnote{Framework: conjunto de herramientas y bibliotecas de código que facilitan el desarrollo de un tipo concreto de aplicación, proporcionando una estructura base sobre la que trabajar.} de Meta que permite escribir una única aplicación en JavaScript/TypeScript y ejecutarla tanto en Android como en iOS.
-    \item \textbf{react-native-maps} y \textbf{expo-location}: librerías utilizadas para la integración del mapa y el acceso a la geolocalización del dispositivo, respectivamente.
+    \item \textbf{Expo} \cite{expo}: conjunto de herramientas sobre React Native recomendado por la documentación oficial de este último \cite{reactnative} para construir el código de la aplicación, en lugar de configurar manualmente el entorno nativo de cada plataforma. Aporta una biblioteca estándar de módulos nativos, un proceso de compilación gestionado (\emph{EAS Build}) y la publicación de actualizaciones del código sin pasar por las tiendas de aplicaciones.
+    \item \textbf{react-native-maps} y \textbf{expo-location}: librerías utilizadas para la integración del mapa y el acceso a la geolocalización del dispositivo, respectivamente; esta última forma parte de la biblioteca estándar de Expo.
     \item \textbf{TanStack Query} \cite{reactquery}: librería de gestión de estado remoto que se encarga de las peticiones a la API propia (caché en memoria y en disco, reintentos automáticos y actualización periódica de los datos), utilizada para cubrir la disponibilidad sin conexión de los datos estáticos (RNF-03), tal y como se explica en la Sección~\ref{cap:1_iteracion}.
 \end{itemize}
-
+ 
 \section{Backend propio}
-
+ 
 \begin{itemize}
     \item \textbf{Spring Boot} \cite{springboot}: \emph{framework} de Java sobre el que se construye la API REST\footnote{API REST: forma habitual de comunicación entre un cliente y un servidor propio, en la que el cliente pide o envía datos a través de peticiones HTTP a unas direcciones (\emph{endpoints}) definidas por el propio equipo de desarrollo.} del proyecto, siguiendo una arquitectura en capas (controlador, servicio, repositorio) descrita en la Sección~\ref{cap:1_iteracion}.
     \item \textbf{Spring Security} \cite{springsecurity} y \textbf{JWT} (\emph{JSON Web Token}) \cite{jwt}: mecanismo de autenticación y autorización de la API. Tras validar sus credenciales, el usuario recibe un token firmado que debe incluir en cada petición posterior; el servidor lo valida y comprueba el rol asociado antes de permitir el acceso a un recurso, sin necesidad de mantener sesión en el servidor.
     \item \textbf{Spring Data JPA} \cite{springdatajpa} e \textbf{Hibernate} \cite{hibernate}: capa de persistencia (\emph{Object-Relational Mapping} u ORM\footnote{ORM: técnica que traduce automáticamente entre los objetos de un lenguaje de programación orientado a objetos (Java, en este caso) y las tablas de una base de datos relacional, evitando escribir manualmente la mayoría de las sentencias SQL.}) que traduce las entidades Java del dominio a tablas de PostgreSQL y viceversa.
     \item \textbf{springdoc-openapi} \cite{springdoc}, basado en la especificación \textbf{OpenAPI} \cite{openapi}: genera automáticamente la documentación interactiva de la API a partir del propio código.
 \end{itemize}
-
+ 
 \section{Base de datos}
-
+ 
 \begin{itemize}
     \item \textbf{PostgreSQL} \cite{postgresql}: sistema gestor de bases de datos relacional utilizado para almacenar toda la información persistente del sistema (ciudades, cofradías, procesiones, recorridos, usuarios, notificaciones, etc.). El esquema completo se detalla en el Apéndice~\ref{cap:esquemaBD}.
 \end{itemize}
-
+ 
 \section{Servicios externos}
-
+ 
 \begin{itemize}
     \item \textbf{Firebase Storage} \cite{firebasestorage}: espacio de almacenamiento en la nube donde se guardan las imágenes de los pasos de cada cofradía. Se ha mantenido este servicio, en lugar de gestionar el almacenamiento de ficheros desde el backend propio, porque resuelve de forma nativa aspectos como la compresión, el servido eficiente de imágenes o el control de acceso a los ficheros, sin aportar valor académico adicional programarlo desde cero.
     \item \textbf{Firebase Cloud Messaging (FCM)} \cite{firebasefcm}: servicio de notificaciones \emph{push}. El backend propio, a través del \textbf{Firebase Admin SDK} \cite{fcmadminsdk}, es quien decide cuándo se envía una notificación (por ejemplo, cuando una Junta de Cofradías publica una alerta) y delega en FCM la entrega al dispositivo del usuario.
     \item \textbf{Google Maps Platform} \cite{googlemapsapi}: visualización de mapas y cálculo de rutas en el cliente, ya justificado en el estado de la cuestión (Sección~1.3.2).
 \end{itemize}
-
+ 
 \section{Despliegue y alojamiento}
-
+ 
 \begin{itemize}
     \item \textbf{Railway} \cite{railway}: plataforma \emph{PaaS} (\emph{Platform as a Service}) utilizada para alojar tanto la API de Spring Boot como la base de datos PostgreSQL. Se ha elegido frente a un servidor propio (VPS) porque simplifica el despliegue continuo desde GitHub, no requiere gestionar manualmente el sistema operativo del servidor y dispone de un plan gratuito suficiente para las necesidades del proyecto durante el desarrollo del TFG \cite{railwaypricing}, en línea con el planteamiento de \nameref{sec:decisionesTecnologicas} de priorizar el tiempo de desarrollo dado que el proyecto lo lleva a cabo una única persona. El manual de despliegue completo se recoge en el Apéndice~\ref{cap:manual_despliegue}.
 \end{itemize}
-
+ 
 \section{Herramientas de desarrollo}
-
+ 
 \begin{itemize}
     \item \textbf{Android Studio} \cite{androidstudio} y \textbf{Visual Studio Code} \cite{vscode}: entornos de desarrollo utilizados para la aplicación móvil y para el backend, respectivamente.
     \item \textbf{GitHub} \cite{github}: control de versiones y repositorio remoto del proyecto, utilizado además como origen del despliegue continuo en Railway.
