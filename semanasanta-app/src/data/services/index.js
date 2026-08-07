@@ -1,5 +1,10 @@
 export { getCiudades, getCiudadPorId } from './ciudadService';
-export { getCiudadIdGuardada, guardarCiudadId } from './preferenciasService';
+export {
+  getCiudadIdGuardada,
+  guardarCiudadId,
+  getModoAccesoGuardado,
+  guardarModoAcceso,
+} from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
 export { getCofradiasPorCiudad, getCofradiaPorId } from './cofradiaService';
 export { getPasosPorCofradia, getPasosPorIds, getPasoPorId } from './pasoService';

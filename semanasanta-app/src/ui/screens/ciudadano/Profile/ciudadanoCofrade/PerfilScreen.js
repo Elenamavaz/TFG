@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Octicons } from '@expo/vector-icons';
-import { ScreenContainer, StatusBadge } from '../../../components/common';
-import { useCiudad, useFavoritos } from '../../../../application/context';
+import { ScreenContainer, StatusBadge } from '../../../../components/common';
+import { useCiudad, useFavoritos } from '../../../../../application/context';
 import {
   getCofradiasPorCiudad,
   getDiasSemanaSanta,
   getEventoPorId,
   getProcesionPorId,
-} from '../../../../data/services';
-import { colors } from '../../../../theme';
+} from '../../../../../data/services';
+import { colors } from '../../../../../theme';
 import { styles } from './PerfilScreen.styles';
 
 const NOTIFICACIONES_INICIALES = [
