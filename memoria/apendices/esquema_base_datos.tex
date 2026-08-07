@@ -280,9 +280,9 @@ Solo perfiles de rol elevado (cofrade, junta, administrador). El ciudadano no se
 \hline
 \texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{email} & \texttt{VARCHAR} & \texttt{UNIQUE} \\
+\texttt{email} & \texttt{VARCHAR} & \texttt{UNIQUE}, nulo si \texttt{rol = COFRADE} \\
 \hline
-\texttt{password\_hash} & \texttt{VARCHAR} & \emph{hash} BCrypt de la contraseña \\
+\texttt{password\_hash} & \texttt{VARCHAR} & \emph{hash} BCrypt, nulo si \texttt{rol = COFRADE} (el cofrade se autentica con el código de acceso, no con contraseña) \\
 \hline
 \texttt{rol} & \texttt{ENUM} & \texttt{COFRADE}, \texttt{JUNTA}, \texttt{ADMIN} \\
 \hline
