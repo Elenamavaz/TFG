@@ -6,7 +6,7 @@ export class Cofradia extends Favoriteable {
     ciudadId,
     nombre,
     historia = null,
-    archivoInformacion = null,
+    web = null,
     fechaCreacion = new Date(),
     webOficial = null,
   }) {
@@ -15,7 +15,7 @@ export class Cofradia extends Favoriteable {
     this.ciudadId = ciudadId;
     this.nombre = nombre;
     this.historia = historia;
-    this.archivoInformacion = archivoInformacion;
+    this.web = web;
     this.fechaCreacion = fechaCreacion;
     this.webOficial = webOficial;
     // pasos/procesiones/eventos NO se guardan aquí como arrays: son relaciones
