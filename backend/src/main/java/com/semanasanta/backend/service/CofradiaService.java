@@ -30,6 +30,11 @@ public class CofradiaService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe la cofradía con id " + id));
     }
 
+    // TODO(auth JWT + usuarios.ciudad_id): crear/actualizar/eliminar deben comprobar
+    // aquí que el usuario autenticado es rol=JUNTA y que su ciudad gestionada
+    // coincide con `ciudad.getId()`, lanzando 403 si no. Requiere primero que
+    // `usuarios` tenga un ciudad_id para el rol JUNTA (no existe en el Apéndice C
+    // actual) y el filtro JWT que resuelva "quién soy" en cada petición.
     public Cofradia crear(CofradiaRequest request) {
         Ciudad ciudad = ciudadService.obtener(request.ciudadId()); // 404 si la ciudad no existe
         Cofradia cofradia = new Cofradia(

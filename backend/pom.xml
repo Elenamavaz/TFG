@@ -58,9 +58,14 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- En Spring Boot 4, flyway-core suelto ya no basta para activar
+		     FlywayAutoConfiguration: hace falta el starter dedicado (mismo
+		     motivo por el que "web" pasó a llamarse "webmvc-starter"). El
+		     starter no incluye el módulo específico de PostgreSQL (obligatorio
+		     desde Flyway 10+), así que se añade aparte. -->
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-flyway</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
