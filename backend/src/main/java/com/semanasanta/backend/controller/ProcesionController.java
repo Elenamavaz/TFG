@@ -2,6 +2,7 @@ package com.semanasanta.backend.controller;
 
 import com.semanasanta.backend.dto.PosicionActualRequest;
 import com.semanasanta.backend.dto.PosicionActualResponse;
+import com.semanasanta.backend.dto.PosicionAgregadaResponse;
 import com.semanasanta.backend.dto.ProcesionRequest;
 import com.semanasanta.backend.dto.ProcesionResponse;
 import com.semanasanta.backend.model.PosicionActual;
@@ -60,11 +61,11 @@ public class ProcesionController {
     }
 
     // Nombre literal del Apéndice C: "la aplicación cliente consulta esta
-    // posición mediante GET /procesiones/{id}/ubicacion".
+    // posición mediante GET /procesiones/{id}/ubicacion". Ahora es un valor
+    // CALCULADO (promedio de pings recientes), no una fila guardada.
     @GetMapping("/{id}/ubicacion")
-    public PosicionActualResponse ubicacionActual(@PathVariable Long id) {
-        PosicionActual posicion = posicionActualService.actual(id);
-        return PosicionActualResponse.from(posicion);
+    public PosicionAgregadaResponse ubicacionActual(@PathVariable Long id) {
+        return posicionActualService.actual(id);
     }
 
     @GetMapping("/{id}/posiciones")
@@ -74,11 +75,14 @@ public class ProcesionController {
                 .toList();
     }
 
+    // Un ping anónimo: quien lo manda demuestra con su JWT (rol COFRADE) que
+    // validó un código de la cofradía de esta procesión, pero no se registra
+    // quién es (ver PosicionActualService.exigirCofradeDeLaCofradia).
     @PostMapping("/{id}/posiciones")
     @ResponseStatus(HttpStatus.CREATED)
     public PosicionActualResponse registrarPosicion(@PathVariable Long id,
                                                       @Valid @RequestBody PosicionActualRequest request) {
-        PosicionActual posicion = posicionActualService.registrar(id, request);
+        PosicionActual posicion = posicionActualService.registrarPing(id, request.latitud(), request.longitud());
         return PosicionActualResponse.from(posicion);
     }
 }

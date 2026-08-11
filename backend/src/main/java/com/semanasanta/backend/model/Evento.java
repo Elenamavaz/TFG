@@ -3,6 +3,8 @@ package com.semanasanta.backend.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 // Tabla C.6 del Apéndice C: eventos.
 // "Acto organizado por una cofradía. Una procesión sigue a un evento" (RI-03).
@@ -38,9 +40,17 @@ public class Evento {
     @Column(nullable = false)
     private EstadoEvento estado;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cofradia_id", nullable = false)
-    private Cofradia cofradia;
+    // N:M (decisión del 2026-08-11, cambia el Apéndice C): un evento/procesión
+    // puede tener más de una cofradía participando, no solo una que lo
+    // organiza. Heredado tal cual por Procesion (misma tabla eventos_cofradias,
+    // aquí en la clase base porque aplica a los dos).
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "eventos_cofradias",
+            joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "cofradia_id")
+    )
+    private Set<Cofradia> cofradias = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ubicacion_id", nullable = false)
@@ -49,12 +59,11 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(String nombre, String historia, String tradicion, LocalDateTime fecha, Cofradia cofradia, Ubicacion ubicacion) {
+    public Evento(String nombre, String historia, String tradicion, LocalDateTime fecha, Ubicacion ubicacion) {
         this.nombre = nombre;
         this.historia = historia;
         this.tradicion = tradicion;
         this.fecha = fecha;
-        this.cofradia = cofradia;
         this.ubicacion = ubicacion;
         this.estado = EstadoEvento.PROGRAMADO; // todo evento (o procesión) nace PROGRAMADO
     }
@@ -103,12 +112,18 @@ public class Evento {
         this.estado = estado;
     }
 
-    public Cofradia getCofradia() {
-        return cofradia;
+    public Set<Cofradia> getCofradias() {
+        return cofradias;
     }
 
-    public void setCofradia(Cofradia cofradia) {
-        this.cofradia = cofradia;
+    // Sin setCofradias(Set): se gestiona añadiendo/quitando de una en una,
+    // igual que Procesion.pasos.
+    public void addCofradia(Cofradia cofradia) {
+        this.cofradias.add(cofradia);
+    }
+
+    public void removeCofradia(Cofradia cofradia) {
+        this.cofradias.remove(cofradia);
     }
 
     public Ubicacion getUbicacion() {

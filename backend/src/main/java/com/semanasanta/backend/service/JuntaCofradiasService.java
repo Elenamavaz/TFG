@@ -15,10 +15,13 @@ public class JuntaCofradiasService {
 
     private final JuntaCofradiasRepository juntaCofradiasRepository;
     private final CiudadService ciudadService;
+    private final AdministradorService administradorService;
 
-    public JuntaCofradiasService(JuntaCofradiasRepository juntaCofradiasRepository, CiudadService ciudadService) {
+    public JuntaCofradiasService(JuntaCofradiasRepository juntaCofradiasRepository, CiudadService ciudadService,
+                                  AdministradorService administradorService) {
         this.juntaCofradiasRepository = juntaCofradiasRepository;
         this.ciudadService = ciudadService;
+        this.administradorService = administradorService;
     }
 
     public List<JuntaCofradias> listar() {
@@ -30,7 +33,11 @@ public class JuntaCofradiasService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe la Junta de Cofradías con id " + id));
     }
 
+    // Dar de alta/editar/dar de baja una Junta de Cofradías es cosa del
+    // Administrador (Apéndice B: "Dar de alta/Editar/Dar de baja Junta de
+    // Cofradías" son casos de uso de ese actor, igual que con Ciudad).
     public JuntaCofradias crear(JuntaCofradiasRequest request) {
+        administradorService.exigirAdministrador();
         Ciudad ciudad = ciudadService.obtener(request.ciudadId()); // 404 si la ciudad no existe
         if (juntaCofradiasRepository.existsByCiudadId(ciudad.getId())) {
             throw new RecursoDuplicadoException("La ciudad con id " + ciudad.getId() + " ya tiene una Junta de Cofradías");
@@ -40,6 +47,7 @@ public class JuntaCofradiasService {
     }
 
     public JuntaCofradias actualizar(Long id, JuntaCofradiasRequest request) {
+        administradorService.exigirAdministrador();
         JuntaCofradias junta = obtener(id);
 
         if (!junta.getCiudad().getId().equals(request.ciudadId())) {
@@ -58,6 +66,7 @@ public class JuntaCofradiasService {
     }
 
     public void eliminar(Long id) {
+        administradorService.exigirAdministrador();
         JuntaCofradias junta = obtener(id);
         juntaCofradiasRepository.delete(junta);
     }

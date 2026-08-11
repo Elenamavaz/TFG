@@ -2,8 +2,10 @@ package com.semanasanta.backend.controller;
 
 import com.semanasanta.backend.dto.JuntaCofradiasRequest;
 import com.semanasanta.backend.dto.JuntaCofradiasResponse;
+import com.semanasanta.backend.dto.MiembroJuntaCofradiaResponse;
 import com.semanasanta.backend.model.JuntaCofradias;
 import com.semanasanta.backend.service.JuntaCofradiasService;
+import com.semanasanta.backend.service.MiembroJuntaCofradiaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,12 @@ import java.util.List;
 public class JuntaCofradiasController {
 
     private final JuntaCofradiasService juntaCofradiasService;
+    private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
 
-    public JuntaCofradiasController(JuntaCofradiasService juntaCofradiasService) {
+    public JuntaCofradiasController(JuntaCofradiasService juntaCofradiasService,
+                                     MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
         this.juntaCofradiasService = juntaCofradiasService;
+        this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
     }
 
     @GetMapping
@@ -51,5 +56,12 @@ public class JuntaCofradiasController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         juntaCofradiasService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/miembros")
+    public List<MiembroJuntaCofradiaResponse> listarMiembros(@PathVariable Long id) {
+        return miembroJuntaCofradiaService.listarDeJunta(id).stream()
+                .map(MiembroJuntaCofradiaResponse::from)
+                .toList();
     }
 }

@@ -1,2 +1,17 @@
 \section{4ª Iteración}\label{cap:4_iteracion}
 
+\subsection{Analisís}
+
+\subsection{Diseño}
+
+\subsection{Implementacion}
+
+Esta cuarta iteración implementa el panel de la Junta de Cofradías: el acceso mediante credenciales propias y el mecanismo de control de acceso que restringe, entidad por entidad, qué puede gestionar cada Junta.
+
+Se implementa \texttt{MiembroJuntaCofradia} --persona con credenciales que pertenece a la Junta de una ciudad, pudiendo haber varios miembros por Junta-- y el \emph{endpoint} \texttt{POST /auth/login}, que compara el \texttt{email} y la contraseña (\emph{hash} BCrypt) recibidos y devuelve un token JWT con el identificador del miembro y su rol, siguiendo el mismo mecanismo de autenticación introducido en la Iteración 3.
+
+Sobre esa autenticación se implementa la autorización por rol que exige el requisito RNF-05: en la capa \texttt{Service} de cada entidad de contenido --\texttt{Cofradia}, \texttt{Paso}, \texttt{Evento}, \texttt{Procesion} y \texttt{CodigoAcceso}--, las operaciones de creación, edición y eliminación comprueban que quien las solicita es un miembro de la Junta que gestiona la ciudad a la que pertenece esa cofradía, antes de permitir la operación; en caso contrario, la API responde con un código \texttt{403} (prohibido). Esta comprobación se centraliza en un único método reutilizable en lugar de repetirse en cada entidad, para evitar duplicar la misma lógica de autorización varias veces. Las entidades \texttt{Recorrido}, \texttt{Ubicacion}, \texttt{PuntoRuta} y \texttt{PuntoDeInteres}, al no pertenecer a una única cofradía --se diseñaron como recursos reutilizables entre procesiones e incluso entre ciudades distintas, Sección~\ref{cap:2_iteracion}--, solo exigen que quien las gestione sea una Junta de Cofradías cualquiera, sin comparar ciudad.
+
+\subsection{Pruebas}
+
+Al igual que en las iteraciones anteriores, la verificación se ha realizado de forma manual: obtención de un token con \texttt{POST /auth/login} y comprobación de que las operaciones de gestión se aceptan o se rechazan (\texttt{403}) según la ciudad que gestiona cada Junta de prueba. La batería de pruebas automatizadas queda pendiente y se documentará en el Capítulo~\ref{cap:pruebas}.

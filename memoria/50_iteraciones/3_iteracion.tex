@@ -1,2 +1,19 @@
 \section{3ª Iteración}\label{cap:3_iteracion}
 
+\subsection{Analisís}
+
+\subsection{Diseño}
+
+\subsection{Implementacion}
+
+Esta tercera iteración implementa la geolocalización en tiempo real y el perfil de cofrade, lo que exige dos piezas que hasta ahora no hacían falta: la entidad \texttt{Procesion} propiamente dicha y, por primera vez en el proyecto, un mecanismo de autenticación --hasta este punto todos los \emph{endpoints} eran de lectura o gestión pública, ya que el ciudadano nunca se registra (RI-01)--.
+
+\texttt{Procesion} se implementa como una extensión real de \texttt{Evento} (herencia con estrategia \texttt{JOINED} de JPA, Apéndice~\ref{cap:esquemaBD}) en lugar de una simple referencia: hereda nombre, historia, fecha, estado, ubicación y cofradías participantes de \texttt{Evento}, y añade únicamente su fecha de inicio y fin y su \texttt{Recorrido} asociado (relación 1:1, opcional --una procesión puede programarse antes de tener ruta definida--).
+
+Para el acceso como cofrade (caso de uso ``Acceso como cofrade'', Sección~\ref{cap:modeloInteraccion}) se implementa \texttt{CodigoAcceso} junto con la infraestructura de autenticación: tokens \textbf{JWT} generados y validados con la biblioteca \texttt{jjwt}, un filtro de Spring Security que intercepta cada petición para comprobar el token, y el \emph{endpoint} \texttt{POST /auth/codigo-acceso}, que valida el código y devuelve directamente un token identificado con la cofradía correspondiente, sin registrar ninguna fila de usuario (Apéndice~\ref{cap:esquemaBD}, Sección~\ref{sec:usuariosBD}). La clase \texttt{Cofrade} del modelo de dominio (Figura~\ref{fig:DiagramDomain}) se implementa así como una representación construida en memoria a partir de ese token en cada petición, no como una entidad persistida.
+
+Por último, se implementa la funcionalidad de compartir ubicación (RF-15) mediante el \emph{endpoint} \texttt{POST /procesiones/\{id\}/posiciones}, que registra cada actualización de posición del cofrade como una lectura --o \emph{ping}-- anónima en \texttt{PosicionActual}, y \texttt{GET /procesiones/\{id\}/ubicacion}, que calcula la posición agregada de la procesión en ese momento como el promedio de los \emph{pings} recibidos en los últimos 60 segundos, cubriendo así el requisito RNF-08.
+
+\subsection{Pruebas}
+
+Al igual que en las iteraciones anteriores, la verificación se ha realizado de forma manual mediante springdoc-openapi (\texttt{/swagger-ui.html}), incluyendo la obtención de un token válido con \texttt{POST /auth/codigo-acceso} y su uso en las peticiones protegidas subsiguientes. La batería de pruebas automatizadas queda pendiente y se documentará en el Capítulo~\ref{cap:pruebas}.

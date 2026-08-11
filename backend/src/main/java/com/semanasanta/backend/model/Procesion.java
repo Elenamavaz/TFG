@@ -10,8 +10,9 @@ import java.util.Set;
 // Decisión del 2026-08-10: "las procesiones son eventos que tienen dos
 // atributos más (fechaInicio, fechaFin) y tres relaciones (pasos,
 // posicionActual y recorrido)". Hereda de Evento en vez de referenciarlo por
-// FK (nombre, historia, tradicion, fecha, estado, cofradia y ubicacion los
-// hereda tal cual). posicionActual se añade en el siguiente paso.
+// FK (nombre, historia, tradicion, fecha, estado, cofradias y ubicacion los
+// hereda tal cual, incluida la relación N:M con Cofradia). posicionActual se
+// añade en el siguiente paso.
 @Entity
 @Table(name = "procesiones")
 @PrimaryKeyJoinColumn(name = "id")
@@ -45,9 +46,9 @@ public class Procesion extends Evento {
     protected Procesion() {
     }
 
-    public Procesion(String nombre, String historia, String tradicion, LocalDateTime fecha, Cofradia cofradia,
+    public Procesion(String nombre, String historia, String tradicion, LocalDateTime fecha,
                       Ubicacion ubicacion, LocalDateTime fechaInicio, LocalDateTime fechaFin, Recorrido recorrido) {
-        super(nombre, historia, tradicion, fecha, cofradia, ubicacion);
+        super(nombre, historia, tradicion, fecha, ubicacion);
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.recorrido = recorrido;

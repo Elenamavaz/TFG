@@ -53,7 +53,7 @@ Junta que gestiona una ciudad. Relación 1:1 con \texttt{ciudades}.
 \section{Cofradía / Hermandad (\texttt{cofradias})}
 \textbf{Requisito:} RI-02
 
-Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad.
+Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad --nunca a la Junta de Cofradías que la gestiona--: \texttt{Ciudad} es quien agrupa estructuralmente a sus cofradías (relación 1:N), mientras que \texttt{JuntaCofradias} es solo la cuenta de gestión de esa ciudad, sustituible sin afectar a los datos de las cofradías que agrupa.
 
 \begin{table}[H]
 \centering
@@ -67,7 +67,7 @@ Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad.
 \hline
 \texttt{historia} & \texttt{TEXT} &  \\
 \hline
-\texttt{archivo\_informacion} & \texttt{VARCHAR} & URL a Firebase Storage \\
+\texttt{web} & \texttt{VARCHAR} & URL del sitio propio de la cofradía \\
 \hline
 \texttt{fecha\_creacion} & \texttt{TIMESTAMP} &  \\
 \hline
@@ -90,7 +90,9 @@ Pasos que posee la cofradía. Relación N:M con procesiones a través de \texttt
 \hline
 \texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{descripcion} & \texttt{TEXT} &  \\
+\texttt{historia} & \texttt{TEXT} &  \\
+\hline
+\texttt{analisis\_artistico} & \texttt{TEXT} &  \\
 \hline
 \texttt{imagen} & \texttt{VARCHAR} & URL a Firebase Storage \\
 \hline
@@ -116,7 +118,7 @@ Pasos que posee la cofradía. Relación N:M con procesiones a través de \texttt
 \end{table}
 
 \section{Código de Acceso (\texttt{codigos\_acceso})}
-Códigos que emite la cofradía. Un usuario valida uno para obtener el rol de cofrade y queda vinculado a esta cofradía.
+Códigos que emite la Junta de Cofradías en nombre de una cofradía de su ciudad (\texttt{Cofradia} no es un actor con cuenta propia, no puede emitir nada por sí misma). Quien lo valida obtiene un token identificado con esa cofradía y el rol de cofrade, sin que ello genere ningún registro de usuario --ver la explicación completa en la Sección~\ref{sec:usuariosBD}--. El código no se invalida al usarse por primera vez: sigue sirviendo para volver a autenticarse mientras no esté revocado.
 
 \begin{table}[H]
 \centering
@@ -126,7 +128,7 @@ Códigos que emite la cofradía. Un usuario valida uno para obtener el rol de co
 \hline
 \texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{codigo} & \texttt{VARCHAR} & \texttt{UNIQUE} \\
+\texttt{codigo} & \texttt{VARCHAR} & \texttt{UNIQUE}, generado por el servidor \\
 \hline
 \texttt{estado} & \texttt{ENUM} & \texttt{EMITIDO}, \texttt{VALIDADO}, \texttt{REVOCADO} \\
 \hline
@@ -136,10 +138,31 @@ Códigos que emite la cofradía. Un usuario valida uno para obtener el rol de co
 \caption{Campos de \texttt{codigos\_acceso}}
 \end{table}
 
-\section{Evento (\texttt{eventos})}
+\section{Ubicación (\texttt{ubicaciones})}
+Punto geográfico reutilizable (latitud, longitud y dirección textual), referenciado por \texttt{eventos} y por \texttt{puntos\_ruta}. Se modela como tabla independiente, en lugar de como columnas repetidas en cada entidad que necesita una posición, para poder compartir la misma ubicación entre varias entidades --por ejemplo, la sede de una cofradía y un punto de interés del recorrido que coincidan en el mismo templo-- sin duplicar datos.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
+\hline
+\texttt{latitud} & \texttt{DOUBLE PRECISION} &  \\
+\hline
+\texttt{longitud} & \texttt{DOUBLE PRECISION} &  \\
+\hline
+\texttt{direccion} & \texttt{VARCHAR} &  \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{ubicaciones}}
+\end{table}
+
+\section{Evento (\texttt{eventos})}\label{sec:eventosBD}
 \textbf{Requisito:} RI-03
 
-Acto organizado por una cofradía. Una procesión sigue a un evento.
+Acto que puede tener más de una cofradía participando (por ejemplo, un Vía Crucis conjunto o una procesión con pasos de varias hermandades): la relación con \texttt{cofradias} es N:M, no 1:N, resuelta mediante la tabla intermedia \texttt{eventos\_cofradias}. \texttt{Evento} es además la tabla raíz de la que \texttt{procesiones} hereda sus columnas comunes (Sección~\ref{sec:procesionesBD}).
 
 \begin{table}[H]
 \centering
@@ -151,22 +174,60 @@ Acto organizado por una cofradía. Una procesión sigue a un evento.
 \hline
 \texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
-\texttt{descripcion} & \texttt{TEXT} &  \\
+\texttt{historia} & \texttt{TEXT} &  \\
+\hline
+\texttt{tradicion} & \texttt{TEXT} &  \\
 \hline
 \texttt{fecha} & \texttt{TIMESTAMP} &  \\
 \hline
 \texttt{estado} & \texttt{ENUM} & \texttt{PROGRAMADO}, \texttt{EN\_CURSO}, \texttt{FINALIZADO}, \texttt{CANCELADO} \\
 \hline
-\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
+\texttt{ubicacion\_id} & \texttt{BIGINT} & FK $\to$ \texttt{ubicaciones(id)} \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{eventos}}
 \end{table}
 
-\section{Procesión (\texttt{procesiones})}
+\subsection{Evento-Cofradía (\texttt{eventos\_cofradias}) --- tabla intermedia N:M}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{evento\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{eventos(id)} \\
+\hline
+\texttt{cofradia\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{cofradias(id)} \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{eventos\_cofradias}}
+\end{table}
+
+\section{Procesión (\texttt{procesiones})}\label{sec:procesionesBD}
 \textbf{Requisito:} RI-04
 
-Datos estables de la procesión (horario, recorrido, pasos). La posición en vivo se aísla en una tabla aparte para no reescribir estos datos.
+A diferencia del planteamiento inicial, en el que \texttt{procesiones} referenciaba a \texttt{eventos} mediante una clave foránea 1:N, la traducción final a PostgreSQL usa \textbf{herencia real de tablas} (estrategia \texttt{JOINED} de JPA): \texttt{Procesion} \emph{es} un \texttt{Evento} --hereda \texttt{nombre}, \texttt{historia}, \texttt{tradicion}, \texttt{fecha}, \texttt{estado}, \texttt{ubicacion\_id} y sus cofradías participantes (\texttt{eventos\_cofradias})-- y añade únicamente sus columnas propias en esta tabla. El \texttt{id} de \texttt{procesiones} es a la vez su clave primaria y una clave foránea a \texttt{eventos(id)}: al guardar una procesión, el motor inserta primero la fila común en \texttt{eventos} y reutiliza el identificador generado para la fila de \texttt{procesiones}, en lugar de generar uno nuevo. Esta decisión evita mantener columnas duplicadas (\texttt{cofradia\_id}, \texttt{estado}...) sincronizadas manualmente entre las dos tablas.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{id} & \texttt{BIGINT} & PK y FK $\to$ \texttt{eventos(id)} \\
+\hline
+\texttt{fecha\_inicio} & \texttt{TIMESTAMP} &  \\
+\hline
+\texttt{fecha\_fin} & \texttt{TIMESTAMP} &  \\
+\hline
+\texttt{recorrido\_id} & \texttt{BIGINT} & FK $\to$ \texttt{recorridos(id)}, \texttt{UNIQUE} (1:1), opcional --puede programarse una procesión antes de tener ruta definida-- \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{procesiones}}
+\end{table}
+
+\subsection{Posiciones actuales (\texttt{posiciones\_actuales}) --- histórico de pings anónimos}
+A diferencia del planteamiento inicial, esta tabla no guarda una única fila por procesión que se sobrescribe con cada actualización (\texttt{UPSERT}), sino un \textbf{histórico de lecturas GPS sueltas} (\emph{pings}): cada vez que un cofrade comparte su ubicación se inserta una fila nueva, sin sobrescribir ninguna anterior. Cada fila es además \textbf{anónima}: no lleva ninguna referencia a la persona que la envió, solo a la procesión (Sección~\ref{sec:usuariosBD} explica por qué). La ``posición actual'' de una procesión ya no es un dato guardado como tal, sino un valor \textbf{calculado} en el momento de la consulta: el promedio de latitud y longitud de los \emph{pings} recibidos en los últimos 60 segundos, siendo el número de \emph{pings} recientes una aproximación al número de cofrades compartiendo ubicación en ese instante. La aplicación cliente consulta este valor calculado mediante la API propia (\texttt{GET~/procesiones/\{id\}/ubicacion}) con la cadencia que exige el requisito RNF-08, tal y como se explica en el apartado \nameref{sec:decisionesTecnologicas}.
 
 \begin{table}[H]
 \centering
@@ -175,33 +236,6 @@ Datos estables de la procesión (horario, recorrido, pasos). La posición en viv
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
 \texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
-\hline
-\texttt{fecha\_inicio} & \texttt{TIMESTAMP} &  \\
-\hline
-\texttt{fecha\_fin} & \texttt{TIMESTAMP} &  \\
-\hline
-\texttt{estado} & \texttt{ENUM} & \texttt{PROGRAMADA}, \texttt{EN\_CURSO}, \texttt{FINALIZADA}, \texttt{CANCELADA} \\
-\hline
-\texttt{evento\_id} & \texttt{BIGINT} & FK $\to$ \texttt{eventos(id)} \\
-\hline
-\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
-\hline
-\texttt{recorrido\_id} & \texttt{BIGINT} & FK $\to$ \texttt{recorridos(id)}, \texttt{UNIQUE} (1:1) \\
-\hline
-\end{tabular}
-\caption{Campos de \texttt{procesiones}}
-\end{table}
-
-\subsection{Posición Actual (\texttt{posicion\_actual}) --- relación 1:1 con \texttt{procesiones}}
-Fila única por procesión que se sobrescribe (\texttt{UPSERT}) con la posición agregada de los cofrades. El cliente la consulta mediante \texttt{GET~/procesiones/\{id\}/ubicacion}.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|p{7cm}|}
-\hline
-\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
-\hline
-\texttt{procesion\_id} & \texttt{BIGINT} & PK y FK $\to$ \texttt{procesiones(id)} \\
 \hline
 \texttt{latitud} & \texttt{DOUBLE PRECISION} &  \\
 \hline
@@ -209,16 +243,16 @@ Fila única por procesión que se sobrescribe (\texttt{UPSERT}) con la posición
 \hline
 \texttt{timestamp} & \texttt{TIMESTAMP} & instante de la lectura \\
 \hline
-\texttt{cofrades\_activos} & \texttt{INTEGER} & número de ubicaciones agregadas \\
+\texttt{procesion\_id} & \texttt{BIGINT} & FK $\to$ \texttt{procesiones(id)} \\
 \hline
 \end{tabular}
-\caption{Campos de \texttt{posicion\_actual}}
+\caption{Campos de \texttt{posiciones\_actuales}}
 \end{table}
 
 \section{Recorrido (\texttt{recorridos})}
 \textbf{Requisito:} RI-05, RI-06
 
-Itinerario asociado a una procesión, compuesto por puntos de ruta ordenados.
+Itinerario compuesto por puntos de ruta ordenados. Sin campo \texttt{nombre}: un recorrido se identifica por la procesión a la que pertenece, no por un nombre propio.
 
 \begin{table}[H]
 \centering
@@ -227,8 +261,6 @@ Itinerario asociado a una procesión, compuesto por puntos de ruta ordenados.
 \textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
 \hline
 \texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
-\hline
-\texttt{nombre} & \texttt{VARCHAR} &  \\
 \hline
 \texttt{distancia\_total} & \texttt{DOUBLE PRECISION} & metros \\
 \hline
@@ -239,7 +271,7 @@ Itinerario asociado a una procesión, compuesto por puntos de ruta ordenados.
 \end{table}
 
 \subsection{Punto de Ruta (\texttt{puntos\_ruta})}
-Puntos que componen el recorrido. Puede ser de tipo \texttt{UBICACION} o \texttt{PUNTO\_DE\_INTERES} (RI-06).
+A diferencia del planteamiento inicial, un mismo punto de ruta puede formar parte de \textbf{varios} recorridos --varias procesiones pueden compartir un mismo tramo de calle o pasar por el mismo templo--, así que \texttt{puntos\_ruta} ya no referencia directamente a un \texttt{recorrido}: la relación es N:M y se resuelve en la tabla intermedia \texttt{recorrido\_puntos\_ruta} (Sección~\ref{sec:recorridoPuntosRutaBD}). \texttt{PuntoRuta} es además la tabla raíz de una segunda jerarquía de herencia real de tablas: un punto ``de paso'' simple se guarda directamente aquí, mientras que un punto ``de interés'' con detalle añade sus columnas propias en \texttt{puntos\_de\_interes} (Sección~\ref{sec:puntosDeInteresBD}).
 
 \begin{table}[H]
 \centering
@@ -249,28 +281,37 @@ Puntos que componen el recorrido. Puede ser de tipo \texttt{UBICACION} o \texttt
 \hline
 \texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{tipo} & \texttt{ENUM} & \texttt{UBICACION}, \texttt{PUNTO\_DE\_INTERES} \\
-\hline
-\texttt{latitud} & \texttt{DOUBLE PRECISION} &  \\
-\hline
-\texttt{longitud} & \texttt{DOUBLE PRECISION} &  \\
-\hline
-\texttt{direccion} & \texttt{VARCHAR} &  \\
-\hline
-\texttt{hora\_prevista} & \texttt{TIMESTAMP} & hora prevista de paso \\
-\hline
-\texttt{orden} & \texttt{INTEGER} &  \\
-\hline
-\texttt{recorrido\_id} & \texttt{BIGINT} & FK $\to$ \texttt{recorridos(id)} \\
+\texttt{ubicacion\_id} & \texttt{BIGINT} & FK $\to$ \texttt{ubicaciones(id)} \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{puntos\_ruta}}
 \end{table}
 
-\section{Usuario (\texttt{usuarios})}
-\textbf{Requisito:} RI-01
+\subsection{Punto de Interés (\texttt{puntos\_de\_interes})}\label{sec:puntosDeInteresBD}
+Subtipo de \texttt{PuntoRuta} con detalle: nombre, descripción, imagen y una categoría (RI-06). El tipo enumerado se llama \texttt{TipoPuntoInteres} --es una categoría de punto de interés, no de cualquier punto de ruta-- e incluye tanto categorías de interés turístico o religioso como puntos operativos del propio recorrido de una procesión (inicio y fin de la salida procesional, o el lugar donde se celebra el evento asociado).
 
-Solo perfiles de rol elevado (cofrade, junta, administrador). El ciudadano no se registra y no genera fila.
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{id} & \texttt{BIGINT} & PK y FK $\to$ \texttt{puntos\_ruta(id)} \\
+\hline
+\texttt{tipo} & \texttt{ENUM} & \texttt{MONUMENTO}, \texttt{IGLESIA}, \texttt{ENCUENTRO}, \texttt{ORACCION}, \texttt{ENTRADAPROCESION}, \texttt{SALIDAPROCESION}, \texttt{UBICACIONEVENTO} \\
+\hline
+\texttt{nombre} & \texttt{VARCHAR} &  \\
+\hline
+\texttt{descripcion} & \texttt{TEXT} &  \\
+\hline
+\texttt{imagen} & \texttt{VARCHAR} & URL a Firebase Storage \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{puntos\_de\_interes}}
+\end{table}
+
+\subsection{Recorrido-Punto de Ruta (\texttt{recorrido\_puntos\_ruta}) --- tabla intermedia N:M}\label{sec:recorridoPuntosRutaBD}
+El orden de un punto dentro de un recorrido y la hora prevista de paso ya no son propiedades del punto en sí (un mismo punto puede estar en la posición 3 de un recorrido y en la posición 7 de otro, a horas distintas), sino de \textbf{esta relación}. Lleva un identificador propio en lugar de una clave primaria compuesta --a diferencia de \texttt{pasos\_procesiones} o \texttt{eventos\_cofradias}-- porque, además de las dos claves foráneas, tiene columnas propias; dos restricciones \texttt{UNIQUE} garantizan que un punto no se repita dentro del mismo recorrido y que dos puntos no compartan posición.
 
 \begin{table}[H]
 \centering
@@ -280,34 +321,81 @@ Solo perfiles de rol elevado (cofrade, junta, administrador). El ciudadano no se
 \hline
 \texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{email} & \texttt{VARCHAR} & \texttt{UNIQUE}, nulo si \texttt{rol = COFRADE} \\
+\texttt{recorrido\_id} & \texttt{BIGINT} & FK $\to$ \texttt{recorridos(id)} \\
 \hline
-\texttt{password\_hash} & \texttt{VARCHAR} & \emph{hash} BCrypt, nulo si \texttt{rol = COFRADE} (el cofrade se autentica con el código de acceso, no con contraseña) \\
+\texttt{punto\_ruta\_id} & \texttt{BIGINT} & FK $\to$ \texttt{puntos\_ruta(id)} \\
 \hline
-\texttt{rol} & \texttt{ENUM} & \texttt{COFRADE}, \texttt{JUNTA}, \texttt{ADMIN} \\
+\texttt{orden} & \texttt{INTEGER} & \texttt{UNIQUE} junto con \texttt{recorrido\_id} \\
 \hline
-\texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)}, nulo si no es cofrade \\
+\texttt{hora\_prevista} & \texttt{TIMESTAMP} & hora prevista de paso \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{recorrido\_puntos\_ruta}}
+\end{table}
+
+\section{Usuario (\texttt{usuarios})}\label{sec:usuariosBD}
+\textbf{Requisito:} RI-01
+
+A diferencia del planteamiento inicial, en el que \texttt{usuarios} era una única tabla con una columna \texttt{rol} que distinguía entre cofrade, junta de cofradías y administrador, la traducción final a PostgreSQL usa de nuevo \textbf{herencia real de tablas}: \texttt{usuarios} es la tabla raíz, con las columnas que de verdad comparten sus subtipos, y cada subtipo añade sus propias columnas en su propia tabla. Sin columna \texttt{rol}: con herencia real el tipo de usuario lo determina en qué tabla de subtipo tiene fila, no un valor guardado.
+
+El cambio más relevante respecto al planteamiento inicial es que \textbf{el cofrade ha dejado de ser un \texttt{Usuario}}: ya no se guarda ninguna fila --ni en \texttt{usuarios} ni en ninguna tabla propia-- para las personas que comparten ubicación durante una procesión. Validar un código de acceso (Sección~\ref{cap:esquemaBD}, \texttt{codigos\_acceso}) no registra a nadie: el servidor comprueba que el código no está revocado y devuelve directamente un token JWT identificado con la \textbf{cofradía} cuyo código se validó, no con una persona. Esta decisión responde a que la aplicación no necesita conocer la identidad de cada cofrade para cumplir su función --agregar y mostrar la posición de una procesión--, y evita cargar el sistema con el registro de personas cuya participación es, además, estacional (solo durante los días de procesión). \texttt{Cofrade} sigue existiendo como clase en el modelo de dominio (Figura~\ref{fig:DiagramDomain}) y en el código del backend, pero como una representación construida en memoria a partir del token en cada petición, nunca persistida.
+
+Por tanto, \texttt{usuarios} solo contiene los perfiles con credenciales propias --junta de cofradías y administrador--, que sí se autentican con \texttt{email} y una contraseña almacenada como \emph{hash}\footnote{Hash: transformación irreversible de una contraseña en una cadena de caracteres, de forma que el sistema pueda comprobar que una contraseña es correcta sin necesidad de guardarla en texto plano.} mediante BCrypt, el algoritmo utilizado por defecto por Spring Security \cite{springsecurity}. El ciudadano tampoco se registra, igual que en el planteamiento inicial.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
+\hline
+\texttt{email} & \texttt{VARCHAR} & \texttt{UNIQUE} \\
+\hline
+\texttt{password\_hash} & \texttt{VARCHAR} & \emph{hash} BCrypt \\
 \hline
 \texttt{fecha\_ingreso} & \texttt{TIMESTAMP} &  \\
-\hline
-\texttt{compartiendo\_ubicacion} & \texttt{BOOLEAN} &  \\
-\hline
-\texttt{latitud} & \texttt{DOUBLE PRECISION} & mientras comparte ubicación \\
-\hline
-\texttt{longitud} & \texttt{DOUBLE PRECISION} & mientras comparte ubicación \\
-\hline
-\texttt{timestamp\_posicion} & \texttt{TIMESTAMP} & mientras comparte ubicación \\
-\hline
-\texttt{procesion\_en\_vivo\_id} & \texttt{BIGINT} & FK $\to$ \texttt{procesiones(id)}, nulo si no comparte \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{usuarios}}
 \end{table}
 
+\subsection{Miembro de Junta de Cofradías (\texttt{miembros\_junta\_cofradia})}
+Persona con credenciales que pertenece a la Junta de Cofradías de una ciudad --una Junta puede tener varios miembros, cada uno con su propio inicio de sesión--. La referencia es a la \texttt{JuntaCofradias}, no directamente a la \texttt{Ciudad}: así se reutiliza la relación 1:1 ya existente entre \texttt{JuntaCofradias} y \texttt{Ciudad} en lugar de duplicarla, y de ahí --\texttt{miembro.juntaCofradias.ciudad}-- es de donde la capa de servicio de la API obtiene qué ciudad gestiona cada miembro a la hora de comprobar la autorización por rol (RNF-05).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{id} & \texttt{BIGINT} & PK y FK $\to$ \texttt{usuarios(id)} \\
+\hline
+\texttt{junta\_cofradias\_id} & \texttt{BIGINT} & FK $\to$ \texttt{juntas\_cofradias(id)} \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{miembros\_junta\_cofradia}}
+\end{table}
+
+\subsection{Administrador (\texttt{administradores})}
+Rol global del sistema, sin ninguna columna propia ni referencia a \texttt{Ciudad}: cualquier administrador puede gestionar cualquier ciudad, no tiene sentido atarlo de antemano a una que todavía no exista.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Nota} \\
+\hline
+\texttt{id} & PK y FK $\to$ \texttt{usuarios(id)}; sin columnas propias \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{administradores}}
+\end{table}
+
 \section{Notificación (\texttt{notificaciones})}
 \textbf{Requisito:} RI-08
 
-Dos tipos: Aviso (informativo, con expiración) y Alerta (con tipo y prioridad).
+Dos tipos: Aviso (informativo, con expiración) y Alerta (con tipo y prioridad). Pendiente de implementar en el backend.
 
 \begin{table}[H]
 \centering
@@ -334,7 +422,7 @@ Dos tipos: Aviso (informativo, con expiración) y Alerta (con tipo y prioridad).
 \end{table}
 
 \subsection{Notificación Entregada (\texttt{notificaciones\_entregadas}) --- tabla intermedia N:M}
-Registra si el usuario ha leído cada notificación y cuándo.
+Registra si el usuario ha leído cada notificación y cuándo. Pendiente de implementar en el backend; su columna \texttt{usuario\_id} deberá revisarse cuando se implemente, dado que \texttt{usuarios} ya no incluye al cofrade (Sección~\ref{sec:usuariosBD}).
 
 \begin{table}[H]
 \centering
@@ -366,27 +454,33 @@ La Tabla~\ref{tab:relacionesBD} recoge las relaciones entre tablas de este esque
 \hline
 \texttt{ciudades} & \texttt{juntas\_cofradias} & gestionada por & 1:1 \\
 \hline
-\texttt{cofradias} & \texttt{eventos} & organiza & 1:N \\
+\texttt{juntas\_cofradias} & \texttt{miembros\_junta\_cofradia} & tiene & 1:N \\
 \hline
-\texttt{cofradias} & \texttt{procesiones} & organiza & 1:N \\
+\texttt{cofradias} & \texttt{eventos} & participa en & N:M \\
 \hline
 \texttt{cofradias} & \texttt{pasos} & posee & 1:N \\
 \hline
 \texttt{cofradias} & \texttt{codigos\_acceso} & emite & 1:N \\
 \hline
-\texttt{eventos} & \texttt{procesiones} & es seguido por & 1:N \\
+\texttt{eventos} & \texttt{procesiones} & es extendido por (herencia) & 1:1 \\
+\hline
+\texttt{eventos} & \texttt{ubicaciones} & se celebra en & N:1 \\
 \hline
 \texttt{procesiones} & \texttt{recorridos} & tiene & 1:1 \\
 \hline
-\texttt{procesiones} & \texttt{posicion\_actual} & tiene & 1:1 \\
+\texttt{procesiones} & \texttt{posiciones\_actuales} & recibe & 1:N \\
 \hline
-\texttt{recorridos} & \texttt{puntos\_ruta} & compuesto por & 1:N \\
+\texttt{recorridos} & \texttt{puntos\_ruta} & compuesto por & N:M \\
+\hline
+\texttt{puntos\_ruta} & \texttt{puntos\_de\_interes} & es extendido por (herencia) & 1:1 \\
+\hline
+\texttt{puntos\_ruta} & \texttt{ubicaciones} & está en & N:1 \\
 \hline
 \texttt{pasos} & \texttt{procesiones} & desfila en & N:M \\
 \hline
-\texttt{usuarios} & \texttt{cofradias} & pertenece a & N:1 \\
+\texttt{miembros\_junta\_cofradia} & \texttt{usuarios} & es extendido por (herencia) & 1:1 \\
 \hline
-\texttt{usuarios} & \texttt{procesiones} & sigue en vivo & N:1 \\
+\texttt{administradores} & \texttt{usuarios} & es extendido por (herencia) & 1:1 \\
 \hline
 \texttt{notificaciones} & \texttt{usuarios} & se entrega a & N:M \\
 \hline

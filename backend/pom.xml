@@ -76,6 +76,28 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+		<!-- jjwt: generación/validación de JWT (Sección 4.1 "Security" de la
+		     memoria). No es de Spring Boot, no tiene starter: se añaden los
+		     3 módulos sueltos como recomienda la propia documentación de jjwt,
+		     api en compile, impl+jackson en runtime (implementación interna,
+		     el código de la app solo depende de la API pública). -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.6</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa-test</artifactId>

@@ -5,9 +5,11 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 // Tabla C.7.1 del Apéndice C: posicion_actual (renombrada posiciones_actuales).
-// Decisión del 2026-08-10: histórico de posiciones de una procesión (una fila
-// por cada lectura agregada, no una fila que se sobrescribe). "Posición
-// actual" = la fila más reciente de una procesión (ver PosicionActualService).
+// Decisión del 2026-08-11: cada fila es un PING ANÓNIMO -una lectura GPS
+// suelta de "alguien" en la procesión, sin ligar a ninguna persona ni sesión
+// (no se registra a quién comparte ubicación). La "posición actual" no es un
+// campo guardado, se CALCULA leyendo los pings recientes (ver
+// PosicionActualService.actual).
 @Entity
 @Table(name = "posiciones_actuales")
 public class PosicionActual {
@@ -25,9 +27,6 @@ public class PosicionActual {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    @Column(name = "cofrades_activos")
-    private Integer cofradesActivos;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "procesion_id", nullable = false)
     private Procesion procesion;
@@ -35,10 +34,9 @@ public class PosicionActual {
     protected PosicionActual() {
     }
 
-    public PosicionActual(Double latitud, Double longitud, Integer cofradesActivos, Procesion procesion) {
+    public PosicionActual(Double latitud, Double longitud, Procesion procesion) {
         this.latitud = latitud;
         this.longitud = longitud;
-        this.cofradesActivos = cofradesActivos;
         this.procesion = procesion;
         this.timestamp = LocalDateTime.now(); // el instante de la lectura lo fija el servidor
     }
@@ -57,10 +55,6 @@ public class PosicionActual {
 
     public LocalDateTime getTimestamp() {
         return timestamp;
-    }
-
-    public Integer getCofradesActivos() {
-        return cofradesActivos;
     }
 
     public Procesion getProcesion() {

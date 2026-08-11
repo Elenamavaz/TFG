@@ -1,8 +1,12 @@
 package com.semanasanta.backend.controller;
 
+import com.semanasanta.backend.dto.CodigoAccesoRequest;
+import com.semanasanta.backend.dto.CodigoAccesoResponse;
 import com.semanasanta.backend.dto.CofradiaRequest;
 import com.semanasanta.backend.dto.CofradiaResponse;
 import com.semanasanta.backend.model.Cofradia;
+import com.semanasanta.backend.model.CodigoAcceso;
+import com.semanasanta.backend.service.CodigoAccesoService;
 import com.semanasanta.backend.service.CofradiaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,9 +20,11 @@ import java.util.List;
 public class CofradiaController {
 
     private final CofradiaService cofradiaService;
+    private final CodigoAccesoService codigoAccesoService;
 
-    public CofradiaController(CofradiaService cofradiaService) {
+    public CofradiaController(CofradiaService cofradiaService, CodigoAccesoService codigoAccesoService) {
         this.cofradiaService = cofradiaService;
+        this.codigoAccesoService = codigoAccesoService;
     }
 
     @GetMapping
@@ -51,5 +57,19 @@ public class CofradiaController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         cofradiaService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/codigos-acceso")
+    public List<CodigoAccesoResponse> listarCodigosAcceso(@PathVariable Long id) {
+        return codigoAccesoService.listarDeCofradia(id).stream()
+                .map(CodigoAccesoResponse::from)
+                .toList();
+    }
+
+    @PostMapping("/{id}/codigos-acceso")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CodigoAccesoResponse emitirCodigoAcceso(@PathVariable Long id) {
+        CodigoAcceso codigoAcceso = codigoAccesoService.emitir(new CodigoAccesoRequest(id));
+        return CodigoAccesoResponse.from(codigoAcceso);
     }
 }

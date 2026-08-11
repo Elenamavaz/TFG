@@ -12,9 +12,11 @@ import java.util.List;
 public class RecorridoService {
 
     private final RecorridoRepository recorridoRepository;
+    private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
 
-    public RecorridoService(RecorridoRepository recorridoRepository) {
+    public RecorridoService(RecorridoRepository recorridoRepository, MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
         this.recorridoRepository = recorridoRepository;
+        this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
     }
 
     public List<Recorrido> listar() {
@@ -26,12 +28,17 @@ public class RecorridoService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe el recorrido con id " + id));
     }
 
+    // Recorrido no tiene dueño único (se reutiliza entre procesiones, incluso
+    // de ciudades distintas): basta con ser cualquier Junta, sin comparar
+    // ciudad -igual que Administrador con Ciudad.
     public Recorrido crear(RecorridoRequest request) {
+        miembroJuntaCofradiaService.exigirJunta();
         Recorrido recorrido = new Recorrido(request.distanciaTotal(), request.tiempoEstimado());
         return recorridoRepository.save(recorrido);
     }
 
     public Recorrido actualizar(Long id, RecorridoRequest request) {
+        miembroJuntaCofradiaService.exigirJunta();
         Recorrido recorrido = obtener(id);
         recorrido.setDistanciaTotal(request.distanciaTotal());
         recorrido.setTiempoEstimado(request.tiempoEstimado());
@@ -39,6 +46,7 @@ public class RecorridoService {
     }
 
     public void eliminar(Long id) {
+        miembroJuntaCofradiaService.exigirJunta();
         Recorrido recorrido = obtener(id);
         recorridoRepository.delete(recorrido);
     }

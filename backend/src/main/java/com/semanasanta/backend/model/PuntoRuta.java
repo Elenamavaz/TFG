@@ -2,14 +2,20 @@ package com.semanasanta.backend.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 // Tabla C.8.1 del Apéndice C: puntos_ruta.
-// "Puntos que componen el recorrido. Puede ser de tipo UBICACION o
-// PUNTO_DE_INTERES" (RI-06).
-// ubicacion (relación) en vez de latitud/longitud/direccion propias: hueco
-// detectado el 2026-08-10, no está así en el Apéndice C del PDF.
+// Decisión del 2026-08-10, cambia el diseño del Apéndice C: raíz de una
+// jerarquía de herencia real (JOINED, igual que Evento/Procesion), no
+// abstracta como en el diagrama de dominio -- aquí sí se pueden guardar
+// puntos "de paso" simples directamente como PuntoRuta (sin nombre/tipo).
+// PuntoDeInteres extiende esta clase y añade tipo/nombre/descripcion/imagen
+// en su propia tabla "puntos_de_interes".
+//
+// Ya no referencia a Recorrido ni tiene orden/horaPrevista: un mismo punto
+// (misma iglesia, misma plaza) puede formar parte de varios recorridos, y
+// esos dos datos dependen de EN QUÉ recorrido esté, no del punto en sí -
+// viven en RecorridoPuntoRuta (tabla intermedia N:M).
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "puntos_ruta")
 public class PuntoRuta {
 
@@ -17,48 +23,19 @@ public class PuntoRuta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TipoPuntoRuta tipo;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ubicacion_id", nullable = false)
     private Ubicacion ubicacion;
 
-    @Column(name = "hora_prevista")
-    private LocalDateTime horaPrevista;
-
-    // Posición del punto dentro del recorrido (0, 1, 2...); determina el orden
-    // en que se recorren, no es un id.
-    @Column(nullable = false)
-    private Integer orden;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "recorrido_id", nullable = false)
-    private Recorrido recorrido;
-
     protected PuntoRuta() {
     }
 
-    public PuntoRuta(TipoPuntoRuta tipo, Ubicacion ubicacion, LocalDateTime horaPrevista,
-                      Integer orden, Recorrido recorrido) {
-        this.tipo = tipo;
+    public PuntoRuta(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
-        this.horaPrevista = horaPrevista;
-        this.orden = orden;
-        this.recorrido = recorrido;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public TipoPuntoRuta getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoPuntoRuta tipo) {
-        this.tipo = tipo;
     }
 
     public Ubicacion getUbicacion() {
@@ -67,29 +44,5 @@ public class PuntoRuta {
 
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
-    }
-
-    public LocalDateTime getHoraPrevista() {
-        return horaPrevista;
-    }
-
-    public void setHoraPrevista(LocalDateTime horaPrevista) {
-        this.horaPrevista = horaPrevista;
-    }
-
-    public Integer getOrden() {
-        return orden;
-    }
-
-    public void setOrden(Integer orden) {
-        this.orden = orden;
-    }
-
-    public Recorrido getRecorrido() {
-        return recorrido;
-    }
-
-    public void setRecorrido(Recorrido recorrido) {
-        this.recorrido = recorrido;
     }
 }

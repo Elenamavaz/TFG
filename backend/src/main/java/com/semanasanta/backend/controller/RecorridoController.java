@@ -1,10 +1,12 @@
 package com.semanasanta.backend.controller;
 
-import com.semanasanta.backend.dto.PuntoRutaResponse;
+import com.semanasanta.backend.dto.PuntoEnRecorridoRequest;
+import com.semanasanta.backend.dto.PuntoEnRecorridoResponse;
 import com.semanasanta.backend.dto.RecorridoRequest;
 import com.semanasanta.backend.dto.RecorridoResponse;
 import com.semanasanta.backend.model.Recorrido;
-import com.semanasanta.backend.service.PuntoRutaService;
+import com.semanasanta.backend.model.RecorridoPuntoRuta;
+import com.semanasanta.backend.service.RecorridoPuntoRutaService;
 import com.semanasanta.backend.service.RecorridoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,11 @@ import java.util.List;
 public class RecorridoController {
 
     private final RecorridoService recorridoService;
-    private final PuntoRutaService puntoRutaService;
+    private final RecorridoPuntoRutaService recorridoPuntoRutaService;
 
-    public RecorridoController(RecorridoService recorridoService, PuntoRutaService puntoRutaService) {
+    public RecorridoController(RecorridoService recorridoService, RecorridoPuntoRutaService recorridoPuntoRutaService) {
         this.recorridoService = recorridoService;
-        this.puntoRutaService = puntoRutaService;
+        this.recorridoPuntoRutaService = recorridoPuntoRutaService;
     }
 
     @GetMapping
@@ -38,15 +40,28 @@ public class RecorridoController {
         return RecorridoResponse.from(recorrido);
     }
 
-    // Anidado bajo /recorridos porque un punto de ruta solo tiene sentido
-    // "dentro de" un recorrido concreto y ordenado (a diferencia de crear un
-    // punto, que sigue siendo POST /puntos-ruta con recorridoId en el body,
-    // igual que el resto de entidades).
+    // Los puntos en sí se crean aparte (POST /puntos-ruta o /puntos-de-interes,
+    // reutilizables entre recorridos); aquí solo se engancha/consulta/quita la
+    // relación con ESTE recorrido (con su propio orden/hora).
     @GetMapping("/{id}/puntos-ruta")
-    public List<PuntoRutaResponse> listarPuntosRuta(@PathVariable Long id) {
-        return puntoRutaService.listarDeRecorrido(id).stream()
-                .map(PuntoRutaResponse::from)
+    public List<PuntoEnRecorridoResponse> listarPuntosRuta(@PathVariable Long id) {
+        return recorridoPuntoRutaService.listar(id).stream()
+                .map(PuntoEnRecorridoResponse::from)
                 .toList();
+    }
+
+    @PostMapping("/{id}/puntos-ruta")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PuntoEnRecorridoResponse agregarPuntoRuta(@PathVariable Long id,
+                                                       @Valid @RequestBody PuntoEnRecorridoRequest request) {
+        RecorridoPuntoRuta relacion = recorridoPuntoRutaService.agregar(id, request);
+        return PuntoEnRecorridoResponse.from(relacion);
+    }
+
+    @DeleteMapping("/{id}/puntos-ruta/{relacionId}")
+    public ResponseEntity<Void> quitarPuntoRuta(@PathVariable Long id, @PathVariable Long relacionId) {
+        recorridoPuntoRutaService.quitar(id, relacionId);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping

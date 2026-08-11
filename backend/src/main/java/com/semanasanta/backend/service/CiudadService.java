@@ -12,9 +12,11 @@ import java.util.List;
 public class CiudadService {
 
     private final CiudadRepository ciudadRepository;
+    private final AdministradorService administradorService;
 
-    public CiudadService(CiudadRepository ciudadRepository) {
+    public CiudadService(CiudadRepository ciudadRepository, AdministradorService administradorService) {
         this.ciudadRepository = ciudadRepository;
+        this.administradorService = administradorService;
     }
 
     public List<Ciudad> listar() {
@@ -27,11 +29,13 @@ public class CiudadService {
     }
 
     public Ciudad crear(CiudadRequest request) {
+        administradorService.exigirAdministrador();
         Ciudad ciudad = new Ciudad(request.nombre(), request.comunidadAutonoma(), request.descripcion());
         return ciudadRepository.save(ciudad);
     }
 
     public Ciudad actualizar(Long id, CiudadRequest request) {
+        administradorService.exigirAdministrador();
         Ciudad ciudad = obtener(id);
         ciudad.setNombre(request.nombre());
         ciudad.setComunidadAutonoma(request.comunidadAutonoma());
@@ -40,6 +44,7 @@ public class CiudadService {
     }
 
     public void eliminar(Long id) {
+        administradorService.exigirAdministrador();
         Ciudad ciudad = obtener(id);
         ciudadRepository.delete(ciudad);
     }

@@ -1,0 +1,17 @@
+\section{5ª Iteración}\label{cap:5_iteracion}
+
+\subsection{Analisís}
+
+\subsection{Diseño}
+
+\subsection{Implementacion}
+
+Esta quinta y última iteración implementa el panel de administrador global del sistema. El sistema de notificaciones previsto para esta misma iteración queda pendiente de implementar.
+
+Se implementa \texttt{Administrador} --rol global del sistema, sin ninguna referencia a \texttt{Ciudad}, ya que cualquier administrador puede gestionar cualquier ciudad-- y su acceso mediante el mismo \emph{endpoint} \texttt{POST /auth/login} ya utilizado por la Junta de Cofradías en la Iteración 4, que distingue el rol a partir del tipo de cuenta encontrado.
+
+Sobre esa autenticación se completa el mecanismo de control de acceso por rol: las operaciones de creación, edición y eliminación de \texttt{Ciudad} pasan a exigir que quien las solicita sea un Administrador, sin comparar ninguna ciudad concreta --a diferencia de la comprobación introducida en la Iteración 4 para la Junta de Cofradías, aquí no hay ninguna instancia con la que comparar--. De igual forma, dar de alta, editar o dar de baja una \texttt{JuntaCofradias}, y dar de alta o dar de baja a sus \texttt{MiembroJuntaCofradia}, quedan restringidos también al Administrador, que es quien gestiona qué personas tienen acceso al panel de cada Junta.
+
+\subsection{Pruebas}
+
+Al igual que en las iteraciones anteriores, la verificación se ha realizado de forma manual: obtención de un token de Administrador con \texttt{POST /auth/login} y comprobación de que las operaciones sobre \texttt{Ciudad}, \texttt{JuntaCofradias} y \texttt{MiembroJuntaCofradia} se aceptan únicamente con ese rol. La batería de pruebas automatizadas queda pendiente y se documentará en el Capítulo~\ref{cap:pruebas}.

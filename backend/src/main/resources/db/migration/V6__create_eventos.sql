@@ -1,5 +1,7 @@
 -- Tabla C.6 del Apéndice C: eventos.
--- Relación 1:N con cofradias.
+-- Relación con cofradias cambiada de 1:N a N:M el 2026-08-11 (ver
+-- eventos_cofradias, V19): un evento/procesión puede tener más de una
+-- cofradía participando. Ya no tiene cofradia_id en esta tabla.
 --
 -- El "ENUM" del Apéndice C se implementa como VARCHAR + CHECK, no como tipo
 -- ENUM nativo de PostgreSQL: es más simple de mantener (añadir un valor nuevo
@@ -18,6 +20,5 @@ CREATE TABLE eventos (
     fecha          TIMESTAMP NOT NULL,
     estado         VARCHAR(20) NOT NULL DEFAULT 'PROGRAMADO'
                        CHECK (estado IN ('PROGRAMADO', 'EN_CURSO', 'FINALIZADO', 'CANCELADO')),
-    cofradia_id    BIGINT NOT NULL REFERENCES cofradias(id),
     ubicacion_id   BIGINT NOT NULL REFERENCES ubicaciones(id)
 );

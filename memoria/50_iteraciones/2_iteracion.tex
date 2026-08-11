@@ -1,2 +1,17 @@
 \section{2ª Iteración}\label{cap:2_iteracion}
 
+\subsection{Analisís}
+
+\subsection{Diseño}
+
+\subsection{Implementacion}
+
+Esta segunda iteración implementa en el backend las entidades necesarias para el sistema de mapas: \texttt{Recorrido}, \texttt{Ubicacion} y \texttt{PuntoRuta}, siguiendo la misma estructura de cuatro capas ya establecida en la Iteración 1 y documentada a nivel de campo en el Apéndice~\ref{cap:esquemaBD}.
+
+\texttt{Ubicacion} es una tabla nueva, sin equivalente directo en el modelo de dominio original (Figura~\ref{fig:DiagramDomain}): agrupa en un único lugar la latitud, la longitud y la dirección que necesitan tanto \texttt{Evento} como \texttt{PuntoRuta}, para poder reutilizar el mismo punto geográfico desde varias entidades sin duplicar datos --por ejemplo, la sede de una cofradía y un punto de interés del recorrido que coincidan en el mismo templo--.
+
+\texttt{PuntoRuta} es, además, la raíz de una jerarquía de herencia real de tablas (estrategia \texttt{JOINED} de JPA): un punto ``de paso'' simple se guarda directamente en \texttt{puntos\_ruta}, mientras que un punto ``de interés'', con nombre, descripción, imagen y una categoría, extiende esa tabla en \texttt{PuntoDeInteres}. Durante esta implementación se detectó, además, que un mismo punto de ruta puede formar parte de \textbf{varios} recorridos --varias procesiones pueden compartir un mismo tramo de calle--, así que la relación entre \texttt{Recorrido} y \texttt{PuntoRuta} se resolvió como una relación N:M mediante la tabla intermedia \texttt{recorrido\_puntos\_ruta}, que además guarda el orden del punto y su hora prevista de paso \emph{en ese recorrido concreto}, ya que un mismo punto puede ocupar posiciones y horas distintas según el recorrido del que forme parte.
+
+\subsection{Pruebas}
+
+Al igual que en la Iteración 1, la verificación de estas entidades se ha realizado de forma manual mediante la documentación interactiva de springdoc-openapi (\texttt{/swagger-ui.html}). La batería de pruebas automatizadas queda pendiente y se documentará en el Capítulo~\ref{cap:pruebas}.
