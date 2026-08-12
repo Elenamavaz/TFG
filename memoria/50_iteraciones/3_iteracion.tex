@@ -4,6 +4,21 @@
 
 \subsection{Diseño}
 
+\subsubsection{Interfaces de usuario}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta tercera iteración cubre la geolocalización en tiempo real y el perfil de cofrade, por lo que la pantalla que se diseña en Figma \cite{figma} en esta iteración es el perfil, ya con su variante de modo cofrade, sobre los mismos criterios visuales fijados en la Iteración 1 (Sección~\ref{cap:1_iteracion}).
+
+\paragraph{Perfil}
+
+Reúne la ciudad seleccionada y las cofradías/procesiones favoritas del ciudadano, el cambio entre el modo ciudadano y el modo cofrade, y las preferencias de notificaciones (avisos de procesiones en curso, alertas de tráfico y retrasos), estas últimas implementadas en una iteración posterior. En modo cofrade se añade además el botón para activar la ubicación compartida durante una procesión.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/perfiles.png}
+    \caption{Mockup de la pantalla de perfil, en modo ciudadano y en modo cofrade}
+    \label{fig:mockupPerfil}
+\end{figure}
+
 \subsection{Implementacion}
 
 Esta tercera iteración implementa la geolocalización en tiempo real y el perfil de cofrade, lo que exige dos piezas que hasta ahora no hacían falta: la entidad \texttt{Procesion} propiamente dicha y, por primera vez en el proyecto, un mecanismo de autenticación --hasta este punto todos los \emph{endpoints} eran de lectura o gestión pública, ya que el ciudadano nunca se registra (RI-01)--.

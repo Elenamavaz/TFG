@@ -4,6 +4,21 @@
 
 \subsection{Diseño}
 
+\subsubsection{Interfaces de usuario}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta segunda iteración se centra en el sistema de mapas, por lo que la única pantalla nueva que se diseña en Figma \cite{figma} en esta iteración es el mapa en vivo, apoyada en los mismos criterios visuales (color, tipografía y navegación) ya fijados en la Iteración 1 (Sección~\ref{cap:1_iteracion}).
+
+\paragraph{Mapa en Vivo}
+
+Muestra sobre un mapa de Google Maps la posición en tiempo real de las procesiones en curso y la ubicación del propio ciudadano, junto con un listado de las procesiones actualmente en movimiento desde el que centrar el mapa sobre una de ellas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/mapaEnVivo.png}
+    \caption{Mockup del mapa en vivo}
+    \label{fig:mockupMapa}
+\end{figure}
+
 \subsection{Implementacion}
 
 Esta segunda iteración implementa en el backend las entidades necesarias para el sistema de mapas: \texttt{Recorrido}, \texttt{Ubicacion} y \texttt{PuntoRuta}, siguiendo la misma estructura de cuatro capas ya establecida en la Iteración 1 y documentada a nivel de campo en el Apéndice~\ref{cap:esquemaBD}.

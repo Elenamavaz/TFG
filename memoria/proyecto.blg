@@ -5,9 +5,10 @@ Reallocating 'name_of_file' (item size: 1) to 7 items.
 The style file: ieeetr.bst
 Reallocating 'name_of_file' (item size: 1) to 26 items.
 Database file #1: bibliografia/bibliografia.bib
+Warning--I didn't find a database entry for "flyway"
 You've used 50 entries,
             1876 wiz_defined-function locations,
-            712 strings with 10393 characters,
+            713 strings with 10399 characters,
 and the built_in function-call counts, 6965 in all, are:
 = -- 716
 > -- 210
@@ -46,3 +47,4 @@ warning$ -- 0
 while$ -- 50
 width$ -- 52
 write$ -- 508
+(There was 1 warning)

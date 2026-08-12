@@ -7,29 +7,29 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Diagrama de Gantt general completo del proyecto}}{10}{figure.caption.10}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagrama de caso de uso Ciudadano}}{29}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de caso de uso Cofrade}}{29}{figure.caption.37}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagrama de caso de uso Junta de Cofradías}}{30}{figure.caption.38}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagrama de caso de uso Administrador}}{30}{figure.caption.39}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagrama de dominio del proyecto}}{36}{figure.caption.45}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrama de secuencia del CU ``Visualizar procesión en tiempo real''}}{38}{figure.caption.46}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Diagrama de secuencia del CU ``Compartir ubicación durante procesión''}}{39}{figure.caption.47}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagrama de secuencia del CU ``Acceso como cofrade''}}{40}{figure.caption.48}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Diagrama de secuencia del CU ``Dar de alta ciudad''}}{41}{figure.caption.49}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagrama de caso de uso Ciudadano}}{27}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de caso de uso Cofrade}}{27}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagrama de caso de uso Junta de Cofradías}}{28}{figure.caption.38}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagrama de caso de uso Administrador}}{28}{figure.caption.39}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagrama de dominio del proyecto}}{34}{figure.caption.45}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrama de secuencia del CU ``Visualizar procesión en tiempo real''}}{36}{figure.caption.46}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Diagrama de secuencia del CU ``Compartir ubicación durante procesión''}}{37}{figure.caption.47}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagrama de secuencia del CU ``Acceso como cofrade''}}{38}{figure.caption.48}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Diagrama de secuencia del CU ``Dar de alta ciudad''}}{39}{figure.caption.49}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagrama de paquetes de la aplicación cliente}}{46}{figure.caption.53}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama de paquetes del backend propio}}{48}{figure.caption.55}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Diagrama de despliegue de la aplicación}}{49}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Diagrama entidad-relación de la base de datos}}{51}{figure.caption.59}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Mockup de la pantalla de selección de ciudad}}{53}{figure.caption.62}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Mockup de la pantalla de inicio: aviso de retraso, procesión en curso, estadísticas y agenda del día}}{54}{figure.caption.64}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Mockup de la pantalla de calendario: vista mensual y agenda del día seleccionado}}{55}{figure.caption.66}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Mockup del menú de la pantalla de inicio y de los listados de procesiones, pasos, eventos y cofradías}}{56}{figure.caption.68}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Mockup del detalle de un paso y de una cofradía}}{57}{figure.caption.70}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Mockup del detalle de una procesión (programada y en curso) y de su información ampliada}}{58}{figure.caption.72}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Mockup de la pantalla de búsqueda con filtros por día y estado}}{59}{figure.caption.74}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Mockup del mapa en vivo}}{60}{figure.caption.76}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Mockup de la pantalla de perfil, en modo ciudadano y en modo cofrade}}{61}{figure.caption.78}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagrama de paquetes de la aplicación cliente}}{44}{figure.caption.53}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama de paquetes del backend propio}}{46}{figure.caption.55}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Diagrama de despliegue de la aplicación}}{47}{figure.caption.57}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Diagrama entidad-relación de la base de datos}}{49}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Mockup de la pantalla de selección de ciudad}}{51}{figure.caption.62}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Mockup de la pantalla de inicio: aviso de retraso, procesión en curso, estadísticas y agenda del día}}{52}{figure.caption.64}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Mockup de la pantalla de calendario: vista mensual y agenda del día seleccionado}}{53}{figure.caption.66}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Mockup del menú de la pantalla de inicio y de los listados de procesiones, pasos, eventos y cofradías}}{54}{figure.caption.68}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Mockup del detalle de un paso y de una cofradía}}{55}{figure.caption.70}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Mockup del detalle de una procesión (programada y en curso) y de su información ampliada}}{56}{figure.caption.72}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Mockup de la pantalla de búsqueda con filtros por día y estado}}{57}{figure.caption.74}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Mockup del mapa en vivo}}{61}{figure.caption.78}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Mockup de la pantalla de perfil, en modo ciudadano y en modo cofrade}}{63}{figure.caption.81}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
