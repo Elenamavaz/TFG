@@ -2,10 +2,12 @@ package com.semanasanta.backend.service;
 
 import com.semanasanta.backend.dto.AuthResponse;
 import com.semanasanta.backend.exception.CredencialesInvalidasException;
+import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.*;
 import com.semanasanta.backend.repository.CodigoAccesoRepository;
 import com.semanasanta.backend.repository.UsuarioRepository;
 import com.semanasanta.backend.security.JwtService;
+import com.semanasanta.backend.security.SecurityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +61,23 @@ public class AuthService {
         Long cofradiaId = codigoAcceso.getCofradia().getId();
         String token = jwtService.generarToken(cofradiaId, "COFRADE");
         return new AuthResponse(token, "COFRADE", cofradiaId);
+    }
+
+    // Para Administrador y MiembroJuntaCofradia -el Cofrade no tiene
+    // contraseña que cambiar, entra con código de acceso. Pensado sobre todo
+    // para el Miembro de Junta recién creado: la contraseña que le llega por
+    // correo (ver CorreoService) es provisional, esto es lo que la reemplaza.
+    public void cambiarPassword(String passwordActual, String passwordNueva) {
+        Long usuarioId = SecurityUtils.usuarioActual().id();
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("No existe el usuario con id " + usuarioId));
+
+        if (!passwordEncoder.matches(passwordActual, usuario.getPasswordHash())) {
+            throw new CredencialesInvalidasException("La contraseña actual no es correcta");
+        }
+
+        usuario.setPasswordHash(passwordEncoder.encode(passwordNueva));
+        usuarioRepository.save(usuario);
     }
 
     private String rolDe(Usuario usuario) {

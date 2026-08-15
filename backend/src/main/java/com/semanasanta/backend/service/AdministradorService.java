@@ -1,11 +1,15 @@
 package com.semanasanta.backend.service;
 
+import com.semanasanta.backend.dto.AdministradorBootstrapRequest;
 import com.semanasanta.backend.dto.AdministradorRequest;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
+import com.semanasanta.backend.exception.CredencialesInvalidasException;
+import com.semanasanta.backend.exception.RecursoDuplicadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Administrador;
 import com.semanasanta.backend.repository.AdministradorRepository;
 import com.semanasanta.backend.security.SecurityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +18,13 @@ public class AdministradorService {
 
     private final AdministradorRepository administradorRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String bootstrapSecret;
 
-    public AdministradorService(AdministradorRepository administradorRepository, PasswordEncoder passwordEncoder) {
+    public AdministradorService(AdministradorRepository administradorRepository, PasswordEncoder passwordEncoder,
+                                 @Value("${admin.bootstrap-secret}") String bootstrapSecret) {
         this.administradorRepository = administradorRepository;
         this.passwordEncoder = passwordEncoder;
+        this.bootstrapSecret = bootstrapSecret;
     }
 
     public Administrador obtener(Long id) {
@@ -25,12 +32,35 @@ public class AdministradorService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe el administrador con id " + id));
     }
 
-    // TODO(bootstrap): si se exige exigirAdministrador() aquí, el primer
-    // Administrador del sistema no se podría crear nunca (nadie autenticado
-    // como ADMIN existe todavía). Necesita una vía aparte para el primero
-    // (seed manual en la base de datos, o un endpoint de un solo uso protegido
-    // por otro secreto) antes de poder cerrar este hueco.
+    // Cierra el hueco de escalada de privilegios que había hasta ahora: como
+    // SecurityConfig solo exige "estar autenticado" (no un rol concreto) para
+    // cualquier escritura, CUALQUIER usuario autenticado -una Junta, incluso
+    // un Cofrade con solo un código de acceso- podía llamar a este endpoint y
+    // crearse un Administrador. Ver crearBootstrap para el primero, que por
+    // definición no puede pasar por aquí (nadie autenticado como ADMIN existe
+    // todavía).
     public Administrador crear(AdministradorRequest request) {
+        exigirAdministrador();
+        String passwordHash = passwordEncoder.encode(request.password());
+        Administrador administrador = new Administrador(request.email(), passwordHash);
+        return administradorRepository.save(administrador);
+    }
+
+    // Crea el PRIMER Administrador del sistema, cuando aún no hay ninguno con
+    // quien autenticarse para pasar por crear() -este método es la única
+    // puerta abierta a un llamante sin JWT (ver el permitAll específico en
+    // SecurityConfig), así que se protege con dos comprobaciones en vez de
+    // una: el secreto de despliegue (prueba de acceso al servidor, no de ser
+    // un usuario concreto) Y que no exista ya ningún Administrador -pasado el
+    // primero, esta vía se autodesactiva pase lo que pase con el secreto.
+    public Administrador crearBootstrap(AdministradorBootstrapRequest request) {
+        if (!bootstrapSecret.equals(request.secreto())) {
+            throw new CredencialesInvalidasException("Secreto de bootstrap incorrecto");
+        }
+        if (administradorRepository.count() > 0) {
+            throw new RecursoDuplicadoException(
+                    "Ya existe al menos un Administrador; el bootstrap solo funciona para crear el primero");
+        }
         String passwordHash = passwordEncoder.encode(request.password());
         Administrador administrador = new Administrador(request.email(), passwordHash);
         return administradorRepository.save(administrador);

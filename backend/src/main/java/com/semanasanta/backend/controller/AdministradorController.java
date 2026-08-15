@@ -1,5 +1,6 @@
 package com.semanasanta.backend.controller;
 
+import com.semanasanta.backend.dto.AdministradorBootstrapRequest;
 import com.semanasanta.backend.dto.AdministradorRequest;
 import com.semanasanta.backend.dto.AdministradorResponse;
 import com.semanasanta.backend.model.Administrador;
@@ -29,6 +30,17 @@ public class AdministradorController {
     @ResponseStatus(HttpStatus.CREATED)
     public AdministradorResponse crear(@Valid @RequestBody AdministradorRequest request) {
         Administrador administrador = administradorService.crear(request);
+        return AdministradorResponse.from(administrador);
+    }
+
+    // Sin JWT a propósito (ver el permitAll específico en SecurityConfig y
+    // los comentarios de AdministradorService.crearBootstrap): solo sirve
+    // para el primer Administrador, protegido por ADMIN_BOOTSTRAP_SECRET en
+    // vez de por rol.
+    @PostMapping("/bootstrap")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AdministradorResponse crearBootstrap(@Valid @RequestBody AdministradorBootstrapRequest request) {
+        Administrador administrador = administradorService.crearBootstrap(request);
         return AdministradorResponse.from(administrador);
     }
 

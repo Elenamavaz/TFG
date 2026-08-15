@@ -23,6 +23,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // público aunque sea un GET -si no, cualquiera podría leer códigos ajenos-,
 // así que sus rutas se excluyen ANTES de la regla general (el orden importa:
 // gana el primer matcher que encaja).
+//
+// Excepción simétrica para escrituras: /administradores/bootstrap es
+// permitAll aunque sea un POST -es la única vía para crear el primer
+// Administrador, cuando literalmente nadie puede autenticarse todavía (ver
+// AdministradorService.crearBootstrap, que se autoprotege con un secreto de
+// despliegue y se autodesactiva en cuanto existe ya un Administrador).
 @Configuration
 public class SecurityConfig {
 
@@ -49,6 +55,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/administradores/bootstrap").permitAll()
                         .requestMatchers(HttpMethod.GET, "/codigos-acceso/**", "/cofradias/*/codigos-acceso").authenticated()
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .anyRequest().authenticated()

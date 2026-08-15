@@ -46,6 +46,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
+		<!-- Correo de bienvenida al Miembro de Junta recién creado, con su
+		     contraseña (ver MiembroJuntaCofradiaService): JavaMailSender contra
+		     SMTP de Gmail, credenciales en application.properties vía variables
+		     de entorno (mismo patrón que la URL de la BD y el secreto JWT). -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

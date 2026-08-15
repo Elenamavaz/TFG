@@ -12,6 +12,9 @@ import jakarta.persistence.*;
 @PrimaryKeyJoinColumn(name = "id")
 public class MiembroJuntaCofradia extends Usuario {
 
+    @Column(nullable = false)
+    private String nombre;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "junta_cofradias_id", nullable = false)
     private JuntaCofradias juntaCofradias;
@@ -19,9 +22,14 @@ public class MiembroJuntaCofradia extends Usuario {
     protected MiembroJuntaCofradia() {
     }
 
-    public MiembroJuntaCofradia(String email, String passwordHash, JuntaCofradias juntaCofradias) {
+    public MiembroJuntaCofradia(String nombre, String email, String passwordHash, JuntaCofradias juntaCofradias) {
         super(email, passwordHash);
+        this.nombre = nombre;
         this.juntaCofradias = juntaCofradias;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public JuntaCofradias getJuntaCofradias() {

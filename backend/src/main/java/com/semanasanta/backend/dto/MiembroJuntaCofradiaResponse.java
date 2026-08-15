@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 // Sin password ni passwordHash: nunca se devuelve, ni siquiera hasheada.
 public record MiembroJuntaCofradiaResponse(
         Long id,
+        String nombre,
         String email,
         LocalDateTime fechaIngreso,
         Long juntaCofradiasId
@@ -14,6 +15,7 @@ public record MiembroJuntaCofradiaResponse(
     public static MiembroJuntaCofradiaResponse from(MiembroJuntaCofradia miembro) {
         return new MiembroJuntaCofradiaResponse(
                 miembro.getId(),
+                miembro.getNombre(),
                 miembro.getEmail(),
                 miembro.getFechaIngreso(),
                 miembro.getJuntaCofradias().getId()

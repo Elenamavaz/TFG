@@ -10,8 +10,10 @@ import com.semanasanta.backend.security.SecurityUtils;
 import com.semanasanta.backend.security.UsuarioPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MiembroJuntaCofradiaService {
@@ -20,14 +22,17 @@ public class MiembroJuntaCofradiaService {
     private final JuntaCofradiasService juntaCofradiasService;
     private final AdministradorService administradorService;
     private final PasswordEncoder passwordEncoder;
+    private final CorreoService correoService;
 
     public MiembroJuntaCofradiaService(MiembroJuntaCofradiaRepository miembroJuntaCofradiaRepository,
                                         JuntaCofradiasService juntaCofradiasService,
-                                        AdministradorService administradorService, PasswordEncoder passwordEncoder) {
+                                        AdministradorService administradorService, PasswordEncoder passwordEncoder,
+                                        CorreoService correoService) {
         this.miembroJuntaCofradiaRepository = miembroJuntaCofradiaRepository;
         this.juntaCofradiasService = juntaCofradiasService;
         this.administradorService = administradorService;
         this.passwordEncoder = passwordEncoder;
+        this.correoService = correoService;
     }
 
     public MiembroJuntaCofradia obtener(Long id) {
@@ -44,12 +49,28 @@ public class MiembroJuntaCofradiaService {
     // dijiste tú misma: "el administrador... tiene permisos de hacer cosas de
     // las ciudades o de los miembros de la junta, añadir/eliminar/actualizar
     // uno existente"), no de la propia Junta.
+    //
+    // @Transactional: el correo con la contraseña (ver CorreoService) es la
+    // única vía por la que el miembro llega a conocerla -si el envío falla,
+    // no queremos dejar creada una cuenta cuya contraseña nadie ha visto
+    // nunca; mejor deshacer el alta entero y que el Administrador reintente.
+    @Transactional
     public MiembroJuntaCofradia crear(MiembroJuntaCofradiaRequest request) {
         administradorService.exigirAdministrador();
         JuntaCofradias junta = juntaCofradiasService.obtener(request.juntaCofradiasId()); // 404 si no existe
-        String passwordHash = passwordEncoder.encode(request.password());
-        MiembroJuntaCofradia miembro = new MiembroJuntaCofradia(request.email(), passwordHash, junta);
-        return miembroJuntaCofradiaRepository.save(miembro);
+        String passwordGenerada = generarPassword();
+        String passwordHash = passwordEncoder.encode(passwordGenerada);
+        MiembroJuntaCofradia miembro = new MiembroJuntaCofradia(request.nombre(), request.email(), passwordHash, junta);
+        miembro = miembroJuntaCofradiaRepository.save(miembro);
+        correoService.enviarBienvenidaMiembroJunta(request.nombre(), request.email(), passwordGenerada);
+        return miembro;
+    }
+
+    // 12 caracteres hexadecimales de un UUID aleatorio (mismo generador que
+    // CodigoAccesoService.emitir): entropía de sobra para una contraseña
+    // provisional que el miembro cambiará en cuanto inicie sesión.
+    private String generarPassword() {
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 12);
     }
 
     public void eliminar(Long id) {
