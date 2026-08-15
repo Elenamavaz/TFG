@@ -21,9 +21,21 @@ public class EventoController {
         this.eventoService = eventoService;
     }
 
+    // ciudadId y cofradiaId opcionales y mutuamente excluyentes en la
+    // práctica (el cliente usa uno u otro según la pantalla); sin ninguno,
+    // todos -se mantiene por compatibilidad con quien ya llamara sin filtro.
     @GetMapping
-    public List<EventoResponse> listar() {
-        return eventoService.listar().stream()
+    public List<EventoResponse> listar(@RequestParam(required = false) Long ciudadId,
+                                        @RequestParam(required = false) Long cofradiaId) {
+        List<Evento> eventos;
+        if (ciudadId != null) {
+            eventos = eventoService.listarDeCiudad(ciudadId);
+        } else if (cofradiaId != null) {
+            eventos = eventoService.listarDeCofradia(cofradiaId);
+        } else {
+            eventos = eventoService.listar();
+        }
+        return eventos.stream()
                 .map(EventoResponse::from)
                 .toList();
     }

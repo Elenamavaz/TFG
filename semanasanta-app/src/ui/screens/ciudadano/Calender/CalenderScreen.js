@@ -106,18 +106,22 @@ export function CalendarioScreen({ navigation }) {
       ? procesiones.filter((p) => p.dia === diaSemanaSantaDeAgenda.nombre)
       : [];
     const eventosDelDia = eventos.filter((e) => e.fecha === diaAgenda);
+    // Un evento/procesión puede tener varias cofradías participantes (N:M
+    // real en el backend): se muestran todas, separadas por coma.
+    const nombresDeCofradias = (cofradiaIds) =>
+      cofradiaIds.map((id) => cofradiasPorId[id]).filter(Boolean).join(', ');
 
     return [
       ...procesionesDelDia.map((p) => ({
         ...p,
         categoria: 'procesion',
-        cofradiaNombre: cofradiasPorId[p.cofradiaId],
+        cofradiaNombre: nombresDeCofradias(p.cofradiaIds),
       })),
       ...eventosDelDia.map((e) => ({
         ...e,
         categoria: 'evento',
         horaSalida: e.hora,
-        cofradiaNombre: cofradiasPorId[e.cofradiaId],
+        cofradiaNombre: nombresDeCofradias(e.cofradiaIds),
       })),
     ].sort((a, b) => (a.horaSalida ?? '').localeCompare(b.horaSalida ?? ''));
   }, [diaAgenda, diaSemanaSantaDeAgenda, procesiones, eventos, cofradiasPorId]);

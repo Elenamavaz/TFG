@@ -1,16 +1,22 @@
-import { pasosMock } from '../mock/pasos';
+import { apiFetch } from '../../infrastructure/api/apiClient';
+import { Paso } from '../models';
 
-// TODO(iteración 2+): sustituir por lecturas a Firestore (subcolección `cofradias/{id}/pasos`).
+// GET /pasos?cofradiaId= y GET /pasos/{id} son públicos (RI-01).
 
-export function getPasosPorCofradia(cofradiaId) {
-  return Promise.resolve(pasosMock.filter((p) => p.cofradiaId === cofradiaId));
+export async function getPasosPorCofradia(cofradiaId) {
+  const pasos = await apiFetch(`/pasos?cofradiaId=${cofradiaId}`);
+  return pasos.map((p) => new Paso(p));
 }
 
-export function getPasosPorIds(pasoIds) {
-  return Promise.resolve(pasosMock.filter((p) => pasoIds.includes(p.id)));
+// Sin endpoint "por lista de ids" en el backend: una petición por id, en
+// paralelo. Se usa con pocos elementos a la vez (los pasos de una
+// procesión concreta), no con listados grandes.
+export async function getPasosPorIds(pasoIds) {
+  const pasos = await Promise.all(pasoIds.map((id) => getPasoPorId(id)));
+  return pasos;
 }
 
-export function getPasoPorId(pasoId) {
-  const paso = pasosMock.find((p) => p.id === pasoId) ?? null;
-  return Promise.resolve(paso);
+export async function getPasoPorId(pasoId) {
+  const paso = await apiFetch(`/pasos/${pasoId}`);
+  return new Paso(paso);
 }

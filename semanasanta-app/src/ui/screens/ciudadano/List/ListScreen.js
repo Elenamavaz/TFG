@@ -10,9 +10,8 @@ import {
   getProcesionPorId,
   getEventoPorId,
   getPasoPorId,
+  getPasosPorCofradia,
 } from '../../../../data/services';
-import { pasosMock } from '../../../../data/mock/pasos';
-import { cofradiasMock } from '../../../../data/mock/cofradias';
 import { styles } from './ListScreen.styles';
 
 const CONFIG_POR_TIPO = {
@@ -42,10 +41,13 @@ const CONFIG_POR_TIPO = {
     detalle: 'DetallePaso',
     idParam: 'pasoId',
     icono: 'cross',
-    // los pasos no guardan ciudadId directamente: se resuelven vía la cofradía a la que pertenecen
-    cargar: (ciudadId) => {
-      const cofradiaIds = cofradiasMock.filter((c) => c.ciudadId === ciudadId).map((c) => c.id);
-      return Promise.resolve(pasosMock.filter((p) => cofradiaIds.includes(p.cofradiaId)));
+    // Paso no tiene ciudadId directo ni el backend admite ese filtro para
+    // pasos: se resuelve vía las cofradías de la ciudad (ambos servicios ya
+    // son reales, ver memoria del TFG 2026-08-15).
+    cargar: async (ciudadId) => {
+      const cofradias = await getCofradiasPorCiudad(ciudadId);
+      const listas = await Promise.all(cofradias.map((c) => getPasosPorCofradia(c.id)));
+      return listas.flat();
     },
   },
   // Mezcla procesiones y eventos: no viene de un servicio por ciudad, sino

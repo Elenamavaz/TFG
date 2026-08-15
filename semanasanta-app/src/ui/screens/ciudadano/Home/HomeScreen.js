@@ -68,8 +68,11 @@ export function InicioScreen({ navigation }) {
         setNumCofradias(cofradias.length);
         setNumProcesionesTotal(procesiones.length);
         if (enCurso) {
-          const cofradia = cofradias.find((c) => c.id === enCurso.cofradiaId);
-          setProcesionEnCurso({ ...enCurso, cofradiaNombre: cofradia?.nombre });
+          const nombres = enCurso.cofradiaIds
+            .map((id) => cofradias.find((c) => c.id === id)?.nombre)
+            .filter(Boolean)
+            .join(', ');
+          setProcesionEnCurso({ ...enCurso, cofradiaNombre: nombres });
         } else {
           setProcesionEnCurso(null);
         }
@@ -90,17 +93,21 @@ export function InicioScreen({ navigation }) {
         getCofradiasPorCiudad(ciudadId),
       ]).then(([procesiones, eventos, cofradias]) => {
         const nombrePorCofradiaId = Object.fromEntries(cofradias.map((c) => [c.id, c.nombre]));
+        // Un evento/procesión puede tener varias cofradías participantes
+        // (N:M real en el backend): se muestran todas, separadas por coma.
+        const nombresDeCofradias = (cofradiaIds) =>
+          cofradiaIds.map((id) => nombrePorCofradiaId[id]).filter(Boolean).join(', ');
         const items = [
           ...procesiones
             .filter((p) => p.dia === diaSeleccionado.nombre)
-            .map((p) => ({ ...p, categoria: 'procesion', cofradiaNombre: nombrePorCofradiaId[p.cofradiaId] })),
+            .map((p) => ({ ...p, categoria: 'procesion', cofradiaNombre: nombresDeCofradias(p.cofradiaIds) })),
           ...eventos
             .filter((e) => e.fecha === diaSeleccionado.fecha)
             .map((e) => ({
               ...e,
               categoria: 'evento',
               horaSalida: e.hora,
-              cofradiaNombre: nombrePorCofradiaId[e.cofradiaId],
+              cofradiaNombre: nombresDeCofradias(e.cofradiaIds),
             })),
         ];
         setAgenda(items);

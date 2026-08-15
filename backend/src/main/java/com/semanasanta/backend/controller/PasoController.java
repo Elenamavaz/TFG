@@ -21,9 +21,12 @@ public class PasoController {
         this.pasoService = pasoService;
     }
 
+    // cofradiaId opcional -Paso no es N:M, tiene una única cofradía dueña,
+    // así que el filtro es directo. Sin él, todos.
     @GetMapping
-    public List<PasoResponse> listar() {
-        return pasoService.listar().stream()
+    public List<PasoResponse> listar(@RequestParam(required = false) Long cofradiaId) {
+        List<Paso> pasos = cofradiaId != null ? pasoService.listarDeCofradia(cofradiaId) : pasoService.listar();
+        return pasos.stream()
                 .map(PasoResponse::from)
                 .toList();
     }

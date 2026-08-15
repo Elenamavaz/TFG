@@ -28,6 +28,10 @@ public class PasoService {
         return pasoRepository.findAll();
     }
 
+    public List<Paso> listarDeCofradia(Long cofradiaId) {
+        return pasoRepository.findByCofradiaId(cofradiaId);
+    }
+
     public Paso obtener(Long id) {
         return pasoRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe el paso con id " + id));

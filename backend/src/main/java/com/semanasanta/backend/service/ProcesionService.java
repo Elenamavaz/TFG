@@ -36,6 +36,15 @@ public class ProcesionService {
         return procesionRepository.findAll();
     }
 
+    // Mismo patrón que EventoService.listarDeCiudad/listarDeCofradia.
+    public List<Procesion> listarDeCiudad(Long ciudadId) {
+        return procesionRepository.findDistinctByCofradias_Ciudad_Id(ciudadId);
+    }
+
+    public List<Procesion> listarDeCofradia(Long cofradiaId) {
+        return procesionRepository.findDistinctByCofradias_Id(cofradiaId);
+    }
+
     public Procesion obtener(Long id) {
         return procesionRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe la procesión con id " + id));

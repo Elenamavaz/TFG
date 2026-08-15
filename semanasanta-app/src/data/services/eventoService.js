@@ -1,22 +1,19 @@
-import { eventosMock } from '../mock/eventos';
-import { cofradiasMock } from '../mock/cofradias';
+import { apiFetch } from '../../infrastructure/api/apiClient';
+import { Evento } from '../models';
 
-// TODO(iteración 2+): sustituir por lecturas a Firestore (colección `eventos`).
+// GET /eventos (con ciudadId o cofradiaId) y GET /eventos/{id} son públicos (RI-01).
 
-function cofradiaIdsDe(ciudadId) {
-  return cofradiasMock.filter((c) => c.ciudadId === ciudadId).map((c) => c.id);
+export async function getEventosPorCiudad(ciudadId) {
+  const eventos = await apiFetch(`/eventos?ciudadId=${ciudadId}`);
+  return eventos.map((e) => new Evento(e));
 }
 
-export function getEventosPorCiudad(ciudadId) {
-  const ids = cofradiaIdsDe(ciudadId);
-  return Promise.resolve(eventosMock.filter((e) => ids.includes(e.cofradiaId)));
+export async function getEventosPorCofradia(cofradiaId) {
+  const eventos = await apiFetch(`/eventos?cofradiaId=${cofradiaId}`);
+  return eventos.map((e) => new Evento(e));
 }
 
-export function getEventoPorId(eventoId) {
-  const evento = eventosMock.find((e) => e.id === eventoId) ?? null;
-  return Promise.resolve(evento);
-}
-
-export function getEventosPorCofradia(cofradiaId) {
-  return Promise.resolve(eventosMock.filter((e) => e.cofradiaId === cofradiaId));
+export async function getEventoPorId(eventoId) {
+  const evento = await apiFetch(`/eventos/${eventoId}`);
+  return new Evento(evento);
 }

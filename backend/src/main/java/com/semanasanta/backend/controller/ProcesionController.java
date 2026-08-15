@@ -28,9 +28,19 @@ public class ProcesionController {
         this.posicionActualService = posicionActualService;
     }
 
+    // Mismo patrón que EventoController.listar.
     @GetMapping
-    public List<ProcesionResponse> listar() {
-        return procesionService.listar().stream()
+    public List<ProcesionResponse> listar(@RequestParam(required = false) Long ciudadId,
+                                           @RequestParam(required = false) Long cofradiaId) {
+        List<Procesion> procesiones;
+        if (ciudadId != null) {
+            procesiones = procesionService.listarDeCiudad(ciudadId);
+        } else if (cofradiaId != null) {
+            procesiones = procesionService.listarDeCofradia(cofradiaId);
+        } else {
+            procesiones = procesionService.listar();
+        }
+        return procesiones.stream()
                 .map(ProcesionResponse::from)
                 .toList();
     }

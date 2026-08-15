@@ -32,13 +32,17 @@ export function DetalleProcesionScreen({ route, navigation }) {
         headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
       });
 
-      // .catch: Procesion sigue en mock (pendiente de conectar) y su
-      // cofradiaId no es un id real -getCofradiaPorId sí lo es desde el
-      // 2026-08-15-, así que fallará hasta que también se conecte; mejor no
-      // mostrar nombre de cofradía que dejar una promesa rechazada sin capturar.
-      getCofradiaPorId(data.cofradiaId)
-        .then((cofradia) => setCofradiaNombre(cofradia?.nombre))
-        .catch(() => setCofradiaNombre(null));
+      // Una procesión puede tener varias cofradías participantes (N:M real
+      // en el backend): se muestran todas, separadas por coma (decisión del
+      // 2026-08-15).
+      Promise.all(data.cofradiaIds.map((id) => getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+        setCofradiaNombre(
+          cofradias
+            .map((c) => c?.nombre)
+            .filter(Boolean)
+            .join(', ')
+        )
+      );
       getPasosPorIds(data.pasoIds).then(setPasos);
     });
   }, [procesionId]);
@@ -70,16 +74,14 @@ export function DetalleProcesionScreen({ route, navigation }) {
             <Text style={styles.infoValue}>{procesion.horaSalida}</Text>
           </View>
         </View>
-        <View style={styles.infoRow}>
-          <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>Duración</Text>
-            <Text style={styles.infoValue}>{formatearDuracion(procesion.duracionMin)}</Text>
+        {procesion.duracionMin ? (
+          <View style={styles.infoRow}>
+            <View style={styles.infoBox}>
+              <Text style={styles.infoLabel}>Duración</Text>
+              <Text style={styles.infoValue}>{formatearDuracion(procesion.duracionMin)}</Text>
+            </View>
           </View>
-          <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>Nazarenos</Text>
-            <Text style={styles.infoValue}>{procesion.nazarenos}</Text>
-          </View>
-        </View>
+        ) : null}
 
         {pasos.length > 0 ? (
           <>

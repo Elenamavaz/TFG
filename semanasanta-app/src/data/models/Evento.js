@@ -1,31 +1,35 @@
 import { Favoriteable } from './Favoriteable';
+import { partirFechaHora } from '../utils/fechaSemanaSanta';
 
+// Campos alineados con EventoResponse del backend -- 2026-08-15:
+// - "descripcion" no existe en el backend (solo historia + tradicion, este
+//   último nuevo); se quita.
+// - "cofradiaId" único pasa a "cofradiaIds" (N:M real: un evento puede tener
+//   varias cofradías participantes, no solo una que lo organiza).
+// - "ubicacion" (objeto completo en el mock) pasa a "ubicacionId": el
+//   backend solo da el id, resolver el objeto completo queda pendiente
+//   (igual que Recorrido en Procesion).
+// - "duracionMin" no tiene de dónde salir (el backend solo da un único
+//   `fecha`, sin fechaFin para Evento -sí lo tiene Procesion-); se queda
+//   siempre null, ya estaba tratado como opcional en las pantallas.
+// - fecha/dia/hora se derivan del único `fecha` del backend (ver
+//   partirFechaHora) para que HomeScreen/CalenderScreen sigan funcionando
+//   sin tocarlas.
 export class Evento extends Favoriteable {
-  constructor({
-    id,
-    cofradiaId,
-    nombre,
-    descripcion = null,
-    historia = null,
-    fecha,
-    dia,
-    hora = null,
-    duracionMin = null,
-    estado,
-    ubicacion = null,
-  }) {
+  constructor({ id, cofradiaIds = [], nombre, historia = null, tradicion = null, fecha, estado, ubicacionId = null }) {
     super();
+    const partida = partirFechaHora(fecha);
     this.id = id;
-    this.cofradiaId = cofradiaId; // organiza: 1 Cofradia
+    this.cofradiaIds = cofradiaIds; // participan: N Cofradia
     this.nombre = nombre;
-    this.descripcion = descripcion;
     this.historia = historia;
-    this.fecha = fecha;
-    this.dia = dia;
-    this.hora = hora;
-    this.duracionMin = duracionMin;
+    this.tradicion = tradicion;
+    this.fecha = partida.fecha;
+    this.dia = partida.dia;
+    this.hora = partida.hora;
+    this.duracionMin = null;
     this.estado = estado;
-    this.ubicacion = ubicacion; // seCelebraEn: 0..1 Ubicacion
+    this.ubicacionId = ubicacionId; // seCelebraEn: 0..1 Ubicacion
   }
 
   getFavoritoRef() {

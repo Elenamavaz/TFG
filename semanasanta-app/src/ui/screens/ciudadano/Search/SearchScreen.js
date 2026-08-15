@@ -71,6 +71,11 @@ export function BuscarScreen({ navigation }) {
   const idPorNombreDia = useMemo(() => new Map(diasSemanaSanta.map((d) => [d.nombre, d.id])), [diasSemanaSanta]);
   const diaPorFecha = useMemo(() => new Map(diasSemanaSanta.map((d) => [d.fecha, d])), [diasSemanaSanta]);
 
+  // Una procesión/evento puede tener varias cofradías participantes (N:M
+  // real en el backend): se muestran todas, separadas por coma.
+  const nombresDeCofradias = (cofradiaIds) =>
+    cofradiaIds.map((id) => cofradiasPorId[id]).filter(Boolean).join(', ');
+
   const resultados = useMemo(() => {
     const items = [
       ...procesiones.map((p) => ({
@@ -81,7 +86,7 @@ export function BuscarScreen({ navigation }) {
         diaNombre: p.dia,
         hora: p.horaSalida,
         estado: p.estado,
-        cofradiaNombre: cofradiasPorId[p.cofradiaId],
+        cofradiaNombre: nombresDeCofradias(p.cofradiaIds),
         rutaTexto: p.recorrido?.puntos?.map((punto) => punto.nombre).join(' → ') ?? null,
         onPress: () => navigation.navigate('DetalleProcesion', { procesionId: p.id }),
       })),
@@ -95,7 +100,7 @@ export function BuscarScreen({ navigation }) {
           diaNombre: dia?.nombre ?? null,
           hora: e.hora,
           estado: e.estado,
-          cofradiaNombre: cofradiasPorId[e.cofradiaId],
+          cofradiaNombre: nombresDeCofradias(e.cofradiaIds),
           rutaTexto: e.ubicacion?.direccion ?? null,
           onPress: null,
         };

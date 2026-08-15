@@ -32,6 +32,17 @@ public class EventoService {
         return eventoRepository.findAll();
     }
 
+    // Filtrados para el ciudadano (RI-01, GET público) y para
+    // DetailCofradiaScreen del cliente -mismo patrón que
+    // CofradiaService.listarDeCiudad. listar() sin filtro se mantiene.
+    public List<Evento> listarDeCiudad(Long ciudadId) {
+        return eventoRepository.findDistinctByCofradias_Ciudad_Id(ciudadId);
+    }
+
+    public List<Evento> listarDeCofradia(Long cofradiaId) {
+        return eventoRepository.findDistinctByCofradias_Id(cofradiaId);
+    }
+
     public Evento obtener(Long id) {
         return eventoRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe el evento con id " + id));

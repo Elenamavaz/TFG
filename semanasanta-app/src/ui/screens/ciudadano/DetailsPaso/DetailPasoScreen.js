@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, InfoSection, LinkBox } from '../../../components/common';
+import { ScreenContainer, InfoSection } from '../../../components/common';
 import { getPasoPorId, getCofradiaPorId } from '../../../../data/services';
 import { colors } from '../../../../theme';
 import { styles } from './DetailPasoScreen.styles';
@@ -59,21 +59,15 @@ export function DetallePasoScreen({ route, navigation }) {
           )}
         </View>
 
-        {paso.descripcion ? (
+        {paso.historia ? (
           <InfoSection title="Historia y Origen">
-            <Text style={styles.body}>{paso.descripcion}</Text>
+            <Text style={styles.body}>{paso.historia}</Text>
           </InfoSection>
         ) : null}
 
-        {paso.analisis ? (
+        {paso.analisisArtistico ? (
           <InfoSection title="Análisis Artístico y Detalles">
-            <Text style={styles.body}>{paso.analisis}</Text>
-          </InfoSection>
-        ) : null}
-
-        {paso.webOficial ? (
-          <InfoSection title="Web oficial">
-            <LinkBox url={paso.webOficial} />
+            <Text style={styles.body}>{paso.analisisArtistico}</Text>
           </InfoSection>
         ) : null}
       </ScrollView>

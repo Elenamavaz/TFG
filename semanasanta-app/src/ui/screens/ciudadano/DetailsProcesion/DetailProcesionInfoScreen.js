@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, InfoSection, LinkBox } from '../../../components/common';
+import { ScreenContainer, InfoSection } from '../../../components/common';
 import { getProcesionPorId, getCofradiaPorId } from '../../../../data/services';
 import { colors } from '../../../../theme';
 import { styles } from './DetailProcesionInfoScreen.styles';
@@ -29,13 +29,17 @@ export function DetalleProcesionInfoScreen({ route, navigation }) {
     getProcesionPorId(procesionId).then((data) => {
       setProcesion(data);
       if (!data) return;
-      // .catch: Procesion sigue en mock (pendiente de conectar) y su
-      // cofradiaId no es un id real -getCofradiaPorId sí lo es desde el
-      // 2026-08-15-, así que fallará hasta que también se conecte; mejor no
-      // mostrar nombre de cofradía que dejar una promesa rechazada sin capturar.
-      getCofradiaPorId(data.cofradiaId)
-        .then((cofradia) => setCofradiaNombre(cofradia?.nombre))
-        .catch(() => setCofradiaNombre(null));
+      // Una procesión puede tener varias cofradías participantes (N:M real
+      // en el backend): se muestran todas, separadas por coma (decisión del
+      // 2026-08-15).
+      Promise.all(data.cofradiaIds.map((id) => getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+        setCofradiaNombre(
+          cofradias
+            .map((c) => c?.nombre)
+            .filter(Boolean)
+            .join(', ')
+        )
+      );
     });
   }, [procesionId]);
 
@@ -53,15 +57,9 @@ export function DetalleProcesionInfoScreen({ route, navigation }) {
           </InfoSection>
         ) : null}
 
-        {procesion.origen ? (
-          <InfoSection title="Origen">
-            <Text style={styles.body}>{procesion.origen}</Text>
-          </InfoSection>
-        ) : null}
-
-        {procesion.webOficial ? (
-          <InfoSection title="Web oficial">
-            <LinkBox url={procesion.webOficial} />
+        {procesion.tradicion ? (
+          <InfoSection title="Tradición">
+            <Text style={styles.body}>{procesion.tradicion}</Text>
           </InfoSection>
         ) : null}
       </ScrollView>
