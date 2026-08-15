@@ -32,7 +32,13 @@ export function DetalleProcesionScreen({ route, navigation }) {
         headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
       });
 
-      getCofradiaPorId(data.cofradiaId).then((cofradia) => setCofradiaNombre(cofradia?.nombre));
+      // .catch: Procesion sigue en mock (pendiente de conectar) y su
+      // cofradiaId no es un id real -getCofradiaPorId sí lo es desde el
+      // 2026-08-15-, así que fallará hasta que también se conecte; mejor no
+      // mostrar nombre de cofradía que dejar una promesa rechazada sin capturar.
+      getCofradiaPorId(data.cofradiaId)
+        .then((cofradia) => setCofradiaNombre(cofradia?.nombre))
+        .catch(() => setCofradiaNombre(null));
       getPasosPorIds(data.pasoIds).then(setPasos);
     });
   }, [procesionId]);

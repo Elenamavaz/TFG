@@ -11,9 +11,15 @@ const CLAVE_CIUDAD_ID = '@semanasanta/ciudadId';
 // muestra la primera vez.
 const CLAVE_MODO_ACCESO = '@semanasanta/modoAcceso';
 
+// AsyncStorage solo guarda strings; ciudad.id es un Long numérico desde que
+// viene del backend real (antes, con el mock, era un slug de texto y
+// "funcionaba" por casualidad). Se convierte aquí en los dos sentidos para
+// que la comparación en arranqueCiudadano.js (ciudad.id === idGuardada)
+// siga comparando number contra number.
 export async function getCiudadIdGuardada() {
   try {
-    return await AsyncStorage.getItem(CLAVE_CIUDAD_ID);
+    const valor = await AsyncStorage.getItem(CLAVE_CIUDAD_ID);
+    return valor !== null ? Number(valor) : null;
   } catch {
     return null;
   }
@@ -21,7 +27,7 @@ export async function getCiudadIdGuardada() {
 
 export async function guardarCiudadId(ciudadId) {
   try {
-    await AsyncStorage.setItem(CLAVE_CIUDAD_ID, ciudadId);
+    await AsyncStorage.setItem(CLAVE_CIUDAD_ID, String(ciudadId));
   } catch {
     // Si falla el guardado no bloqueamos la navegación; en el próximo arranque se
     // volverá a preguntar, lo cual es un fallback aceptable.

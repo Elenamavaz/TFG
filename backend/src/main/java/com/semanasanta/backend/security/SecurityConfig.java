@@ -9,6 +9,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 // Reglas reales (sustituye al permitAll temporal): todo GET queda público
 // -el ciudadano nunca se registra, consulta todo sin token (RI-01)-, y
@@ -46,10 +51,37 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // Sin esto, cualquier llamada desde un navegador (Expo Web -el cliente
+    // React Native también compila a web-, o Swagger UI si se sirve aparte)
+    // la bloquea el propio navegador por CORS antes de que le dé tiempo a
+    // llegar aquí: app y API corren en orígenes distintos (puertos
+    // distintos, como mínimo). Android/iOS nativos no pasan por el motor
+    // CORS de un navegador, así que a ellos nunca les afectó -por eso no se
+    // notó hasta conectar Expo Web (2026-08-15).
+    //
+    // allowedOriginPattern("*") en vez de una lista concreta: no hay un
+    // dominio de producción fijo todavía (Railway pendiente) y, sobre todo,
+    // esta API no usa cookies de sesión (JWT en el header Authorization, que
+    // el navegador nunca adjunta solo por cross-origin) -el origen abierto
+    // no habilita el robo de sesión ajena que sí sería un problema con auth
+    // por cookies.
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuracion = new CorsConfiguration();
+        configuracion.setAllowedOriginPatterns(List.of("*"));
+        configuracion.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuracion.setAllowedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuracion);
+        return source;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // API stateless: cada petición se autentica con su propio JWT,
                 // no hay sesión de servidor que mantener entre peticiones.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

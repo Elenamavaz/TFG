@@ -32,6 +32,14 @@ public class CofradiaService {
         return cofradiaRepository.findAll();
     }
 
+    // Filtrado por ciudad para el listado del ciudadano (RI-01, GET público
+    // en SecurityConfig) -mismo patrón que NotificacionService.listarDeCiudad.
+    // listar() (sin filtro) se queda igual para quien necesite todas.
+    public List<Cofradia> listarDeCiudad(Long ciudadId) {
+        ciudadService.obtener(ciudadId); // 404 si la ciudad no existe
+        return cofradiaRepository.findByCiudadId(ciudadId);
+    }
+
     public Cofradia obtener(Long id) {
         return cofradiaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe la cofradía con id " + id));

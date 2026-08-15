@@ -1,13 +1,15 @@
-import { ciudadesMock } from '../mock/ciudades';
+import { apiFetch } from '../../infrastructure/api/apiClient';
+import { Ciudad } from '../models';
 
-// TODO(iteración 2+): sustituir por lecturas a Firestore (colección `ciudades`),
-// manteniendo esta misma firma para no tener que tocar las pantallas (patrón Repository).
+// GET /ciudades y GET /ciudades/{id} son públicos (RI-01, ver SecurityConfig
+// del backend): el ciudadano los consulta sin login.
 
-export function getCiudades() {
-  return Promise.resolve(ciudadesMock);
+export async function getCiudades() {
+  const ciudades = await apiFetch('/ciudades');
+  return ciudades.map((c) => new Ciudad(c));
 }
 
-export function getCiudadPorId(ciudadId) {
-  const ciudad = ciudadesMock.find((c) => c.id === ciudadId) ?? null;
-  return Promise.resolve(ciudad);
+export async function getCiudadPorId(ciudadId) {
+  const ciudad = await apiFetch(`/ciudades/${ciudadId}`);
+  return new Ciudad(ciudad);
 }

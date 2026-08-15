@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
 import { ScreenContainer, SearchInput } from '../../../components/common';
 import { useCiudad } from '../../../../application/context';
 import { getCiudades, guardarCiudadId } from '../../../../data/services';
@@ -7,12 +8,8 @@ import { styles } from './SeleccionCiudadScreen.styles';
 
 export function SeleccionCiudadScreen({ navigation }) {
   const { seleccionarCiudad } = useCiudad();
-  const [ciudades, setCiudades] = useState([]);
+  const { data: ciudades = [] } = useQuery({ queryKey: ['ciudades'], queryFn: getCiudades });
   const [busqueda, setBusqueda] = useState('');
-
-  useEffect(() => {
-    getCiudades().then(setCiudades);
-  }, []);
 
   const ciudadesFiltradas = useMemo(() => {
     const texto = busqueda.trim().toLowerCase();
@@ -41,7 +38,7 @@ export function SeleccionCiudadScreen({ navigation }) {
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.card} onPress={() => onSeleccionar(item)} activeOpacity={0.8}>
             <Text style={styles.cardTitle}>{item.nombre}</Text>
-            <Text style={styles.cardMeta}>{item.numProcesiones} procesiones</Text>
+            <Text style={styles.cardMeta}>{item.comunidadAutonoma}</Text>
           </TouchableOpacity>
         )}
       />

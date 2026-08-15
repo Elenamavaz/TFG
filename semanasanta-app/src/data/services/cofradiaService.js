@@ -1,12 +1,14 @@
-import { cofradiasMock } from '../mock/cofradias';
+import { apiFetch } from '../../infrastructure/api/apiClient';
+import { Cofradia } from '../models';
 
-// TODO(iteración 2+): sustituir por lecturas a Firestore (colección `cofradias`).
+// GET /cofradias?ciudadId= y GET /cofradias/{id} son públicos (RI-01).
 
-export function getCofradiasPorCiudad(ciudadId) {
-  return Promise.resolve(cofradiasMock.filter((c) => c.ciudadId === ciudadId));
+export async function getCofradiasPorCiudad(ciudadId) {
+  const cofradias = await apiFetch(`/cofradias?ciudadId=${ciudadId}`);
+  return cofradias.map((c) => new Cofradia(c));
 }
 
-export function getCofradiaPorId(cofradiaId) {
-  const cofradia = cofradiasMock.find((c) => c.id === cofradiaId) ?? null;
-  return Promise.resolve(cofradia);
+export async function getCofradiaPorId(cofradiaId) {
+  const cofradia = await apiFetch(`/cofradias/${cofradiaId}`);
+  return new Cofradia(cofradia);
 }

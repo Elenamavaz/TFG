@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
 import {
   ScreenContainer,
   InfoSection,
@@ -22,7 +23,10 @@ import { styles } from './DetailCofradiaScreen.styles';
 export function DetalleCofradiaScreen({ route, navigation }) {
   const { cofradiaId } = route.params;
   const { esFavorito, alternarFavorito } = useFavoritos();
-  const [cofradia, setCofradia] = useState(null);
+  const { data: cofradia = null } = useQuery({
+    queryKey: ['cofradia', cofradiaId],
+    queryFn: () => getCofradiaPorId(cofradiaId),
+  });
   const [procesiones, setProcesiones] = useState([]);
   const [eventos, setEventos] = useState([]);
   const [pasos, setPasos] = useState([]);
@@ -42,14 +46,15 @@ export function DetalleCofradiaScreen({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    getCofradiaPorId(cofradiaId).then((data) => {
-      setCofradia(data);
-      if (!data) return;
-      getProcesionesPorCofradia(cofradiaId).then(setProcesiones);
-      getEventosPorCofradia(cofradiaId).then(setEventos);
-      getPasosPorCofradia(cofradiaId).then(setPasos);
-    });
-  }, [cofradiaId]);
+    if (!cofradia) return;
+    // Procesion/Evento/Paso siguen en mock (ver memoria del TFG, pendiente
+    // de conectar): cofradiaId real de esta cofradía no va a encontrar
+    // coincidencias en esos mocks, así que estas listas saldrán vacías hasta
+    // que también se conecten.
+    getProcesionesPorCofradia(cofradiaId).then(setProcesiones);
+    getEventosPorCofradia(cofradiaId).then(setEventos);
+    getPasosPorCofradia(cofradiaId).then(setPasos);
+  }, [cofradia, cofradiaId]);
 
   if (!cofradia) return null;
 
@@ -62,9 +67,9 @@ export function DetalleCofradiaScreen({ route, navigation }) {
           <Text style={styles.body}>{cofradia.historia}</Text>
         </InfoSection>
 
-        {cofradia.webOficial ? (
+        {cofradia.web ? (
           <InfoSection title="Web oficial">
-            <LinkBox url={cofradia.webOficial} />
+            <LinkBox url={cofradia.web} />
           </InfoSection>
         ) : null}
 

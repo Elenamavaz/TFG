@@ -27,9 +27,13 @@ public class CofradiaController {
         this.codigoAccesoService = codigoAccesoService;
     }
 
+    // ciudadId opcional: con él, las cofradías de esa ciudad (lo que usa el
+    // ciudadano en la app); sin él, todas -se mantiene por compatibilidad
+    // con quien ya llamara a este GET sin filtro.
     @GetMapping
-    public List<CofradiaResponse> listar() {
-        return cofradiaService.listar().stream()
+    public List<CofradiaResponse> listar(@RequestParam(required = false) Long ciudadId) {
+        List<Cofradia> cofradias = ciudadId != null ? cofradiaService.listarDeCiudad(ciudadId) : cofradiaService.listar();
+        return cofradias.stream()
                 .map(CofradiaResponse::from)
                 .toList();
     }

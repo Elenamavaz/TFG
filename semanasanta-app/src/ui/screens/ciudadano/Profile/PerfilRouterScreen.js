@@ -1,4 +1,4 @@
-import { PerfilScreen } from './ciudadano/Profile/PerfilScreen';
+import { PerfilScreen } from './ciudadanoCofrade/PerfilScreen';
 import { PerfilAdministradorScreen } from './administrador/PerfilAdministradorScreen';
 import { PerfilJuntaCofradiaScreen } from './juntaCofradia/PerfilJuntaCofradiaScreen';
 
