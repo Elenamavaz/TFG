@@ -9,6 +9,10 @@ export const colors = {
   borderRed: '#8A1B1B',
   redText: '#E35757',
 
+  backgroundOrange: '#4B2E0D',
+  borderOrange: '#8A5A1B',
+  orangeText: '#E3A157',
+
   gold: '#C9A84C',
   subtitle: '#9A7D60',
 

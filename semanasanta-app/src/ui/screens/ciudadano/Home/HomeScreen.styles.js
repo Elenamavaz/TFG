@@ -45,22 +45,39 @@ export const styles = StyleSheet.create({
   menuButton: {
     padding: spacing.xs,
   },
+  avisoCarrusel: {
+    marginTop: spacing.lg,
+  },
+  // Sin backgroundColor/borderColor aquí: los pone HomeScreen según
+  // Alerta.colorCategoria/Aviso.colorCategoria (roja/naranja/verde).
   avisoCard: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    backgroundColor: colors.backgroundRed,
     borderRadius: radii.md,
     borderWidth: 0.5,
-    borderColor: colors.borderRed,
     padding: spacing.md,
-    marginTop: spacing.lg,
   },
   avisoTexto: {
     flex: 1,
     color: colors.cream,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 12,
+  },
+  avisoDots: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    marginTop: spacing.sm,
+  },
+  avisoDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.surfaceAlt,
+  },
+  avisoDotActivo: {
+    backgroundColor: colors.gold,
   },
   enCursoCard: {
     flexDirection: 'row',

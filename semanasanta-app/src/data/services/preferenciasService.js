@@ -11,6 +11,13 @@ const CLAVE_CIUDAD_ID = '@semanasanta/ciudadId';
 // muestra la primera vez.
 const CLAVE_MODO_ACCESO = '@semanasanta/modoAcceso';
 
+// Ids de las notificaciones (Aviso o Alerta) que el usuario descartó a mano
+// en Inicio (icono de papelera, ver HomeScreen): no se borra nada en el
+// backend -el ciudadano no tiene sesión ni permisos para eso-, solo se dejan
+// de mostrar en ESTE dispositivo. Puede haber varias a la vez desde que
+// Inicio muestra un carrusel deslizable, no una sola.
+const CLAVE_NOTIFICACIONES_DESCARTADAS_IDS = '@semanasanta/notificacionesDescartadasIds';
+
 // AsyncStorage solo guarda strings; ciudad.id es un Long numérico desde que
 // viene del backend real (antes, con el mock, era un slug de texto y
 // "funcionaba" por casualidad). Se convierte aquí en los dos sentidos para
@@ -48,5 +55,30 @@ export async function guardarModoAcceso(modoAcceso) {
   } catch {
     // Igual que con la ciudad: si falla, en el próximo arranque se vuelve a
     // mostrar la bienvenida, que es un fallback razonable.
+  }
+}
+
+// Lista de ids (Long del backend, JSON en vez de un único string -mismo
+// motivo que ciudadId, pero ahora son varios a la vez).
+export async function getNotificacionesDescartadasIds() {
+  try {
+    const valor = await AsyncStorage.getItem(CLAVE_NOTIFICACIONES_DESCARTADAS_IDS);
+    return valor ? JSON.parse(valor) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function descartarNotificacion(notificacionId) {
+  try {
+    const actuales = await getNotificacionesDescartadasIds();
+    if (actuales.includes(notificacionId)) return;
+    await AsyncStorage.setItem(
+      CLAVE_NOTIFICACIONES_DESCARTADAS_IDS,
+      JSON.stringify([...actuales, notificacionId])
+    );
+  } catch {
+    // Si falla el guardado, en el próximo arranque volvería a mostrarse la
+    // misma notificación -molesto, pero no rompe nada.
   }
 }

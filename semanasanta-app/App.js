@@ -8,6 +8,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { CiudadProvider } from './src/application/context/CiudadContext';
 import { DiaProvider } from './src/application/context/DiaContext';
 import { FavoritosProvider } from './src/application/context/FavoritosContext';
+import { AuthProvider } from './src/application/context/AuthContext';
 import { RootNavigator } from './src/ui/navigation/RootNavigator';
 import { colors, fontsToLoad } from './src/theme';
 import { queryClient, persistOptions } from './src/infrastructure/api/queryClient';
@@ -26,15 +27,17 @@ export default function App() {
   return (
     <View style={styles.container}>
       <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
-        <CiudadProvider>
-          <DiaProvider>
-            <FavoritosProvider>
-              <NavigationContainer>
-                <RootNavigator />
-              </NavigationContainer>
-            </FavoritosProvider>
-          </DiaProvider>
-        </CiudadProvider>
+        <AuthProvider>
+          <CiudadProvider>
+            <DiaProvider>
+              <FavoritosProvider>
+                <NavigationContainer>
+                  <RootNavigator />
+                </NavigationContainer>
+              </FavoritosProvider>
+            </DiaProvider>
+          </CiudadProvider>
+        </AuthProvider>
       </PersistQueryClientProvider>
       <StatusBar style="light" />
     </View>

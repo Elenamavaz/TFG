@@ -41,7 +41,7 @@ export function WelcomeScreen({ navigation }) {
           {cargando ? (
             <ActivityIndicator color={colors.background} />
           ) : (
-            <Text style={styles.botonPrimarioTexto}>Continuar como Ciudadano o Cofrade</Text>
+            <Text style={styles.botonPrimarioTexto}>Continuar como Ciudadano</Text>
           )}
         </TouchableOpacity>
 
@@ -54,7 +54,9 @@ export function WelcomeScreen({ navigation }) {
           <Text style={styles.botonSecundarioTexto}>Iniciar sesión</Text>
         </TouchableOpacity>
 
-        <Text style={styles.nota}>Juntas de Cofradía y Administradores acceden aquí con su cuenta.</Text>
+        <Text style={styles.nota}>
+          Miembros de las Juntas de Cofradía y Administradores acceden aquí con su cuenta.
+        </Text>
       </View>
     </ScreenContainer>
   );

@@ -4,6 +4,8 @@ export {
   guardarCiudadId,
   getModoAccesoGuardado,
   guardarModoAcceso,
+  getNotificacionesDescartadasIds,
+  descartarNotificacion,
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
 export { getCofradiasPorCiudad, getCofradiaPorId } from './cofradiaService';
@@ -16,4 +18,6 @@ export {
   getProcesionesPorCofradia,
 } from './procesionService';
 export { getDiasSemanaSanta } from './diaService';
-export { getAlertaDelDia } from './alertaService';
+export { getNotificacionesActivas } from './alertaService';
+export { login } from './authService';
+export { getSesionGuardada, guardarSesion, borrarSesion } from './sesionService';

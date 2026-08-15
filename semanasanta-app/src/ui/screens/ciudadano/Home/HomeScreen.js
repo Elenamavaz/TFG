@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScreenContainer, ListItemCard, StatusBadge } from '../../../components/common';
 import { useCiudad, useDia, useFavoritos } from '../../../../application/context';
@@ -10,10 +10,12 @@ import {
   getProcesionEnCurso,
   getEventosPorCiudad,
   getDiasSemanaSanta,
-  getAlertaDelDia,
+  getNotificacionesActivas,
+  getNotificacionesDescartadasIds,
+  descartarNotificacion,
 } from '../../../../data/services';
 import { formatearDuracion, MESES } from '../../../utils/tiempo';
-import { colors } from '../../../../theme';
+import { colors, spacing } from '../../../../theme';
 import { styles } from './HomeScreen.styles';
 
 const OPCIONES_MENU = [
@@ -23,6 +25,20 @@ const OPCIONES_MENU = [
   { tipo: 'eventos', label: 'Eventos', icon: 'church' },
   { tipo: 'favoritos', label: 'Tus Favoritos', icon: 'heart-outline' },
 ];
+
+// Tarjeta roja/naranja/verde según Alerta.colorCategoria/Aviso.colorCategoria
+// (decisión de Elena, 2026-08-15): ALTA/URGENTE grave, MEDIA a medias,
+// BAJA/Aviso informativo.
+const COLOR_POR_CATEGORIA = {
+  roja: { background: colors.backgroundRed, border: colors.borderRed, icono: colors.redText },
+  naranja: { background: colors.backgroundOrange, border: colors.borderOrange, icono: colors.orangeText },
+  verde: { background: colors.greenBackground, border: colors.greenBorder, icono: colors.lightGreenText },
+};
+
+// Ancho de cada tarjeta = ancho de pantalla menos el padding horizontal del
+// contenedor (styles.container, spacing.lg a cada lado): así cada "página"
+// del carrusel ocupa el mismo hueco que ya ocupaba la tarjeta única de antes.
+const ANCHO_TARJETA = Dimensions.get('window').width - spacing.lg * 2;
 
 function formatearFechaCorta(fechaIso) {
   const [, mes, dia] = fechaIso.split('-').map(Number);
@@ -42,7 +58,8 @@ export function InicioScreen({ navigation }) {
   const [numCofradias, setNumCofradias] = useState(0);
   const [numProcesionesTotal, setNumProcesionesTotal] = useState(0);
   const [procesionEnCurso, setProcesionEnCurso] = useState(null);
-  const [alerta, setAlerta] = useState(null);
+  const [notificaciones, setNotificaciones] = useState([]);
+  const [indiceNotificacion, setIndiceNotificacion] = useState(0);
   const [dias, setDias] = useState([]);
   const [agenda, setAgenda] = useState([]);
   const { esFavorito, alternarFavorito } = useFavoritos();
@@ -77,6 +94,17 @@ export function InicioScreen({ navigation }) {
           setProcesionEnCurso(null);
         }
       });
+
+      // Las notificaciones ya no dependen del día seleccionado (el backend no
+      // liga ninguna a un día de Semana Santa, ver alertaService): solo de la
+      // ciudad. Las que el usuario ya descartó a mano (icono de papelera) no
+      // se vuelven a mostrar -pero sí una nueva, si llega.
+      Promise.all([getNotificacionesActivas(ciudadId), getNotificacionesDescartadasIds()]).then(
+        ([activas, descartadasIds]) => {
+          setNotificaciones(activas.filter((n) => !descartadasIds.includes(n.id)));
+          setIndiceNotificacion(0);
+        }
+      );
     }, [ciudadSeleccionada])
   );
 
@@ -84,8 +112,6 @@ export function InicioScreen({ navigation }) {
     useCallback(() => {
       if (!ciudadSeleccionada || !diaSeleccionado) return;
       const ciudadId = ciudadSeleccionada.id;
-
-      getAlertaDelDia(ciudadId, diaSeleccionado.nombre).then(setAlerta);
 
       Promise.all([
         getProcesionesPorCiudad(ciudadId),
@@ -129,12 +155,11 @@ export function InicioScreen({ navigation }) {
     }
   }
 
-  function abrirAlerta() {
-    if (alerta?.procesionId) {
-      navigation.navigate('DetalleProcesion', { procesionId: alerta.procesionId });
-    } else if (alerta?.eventoId) {
-      navigation.navigate('DetalleEvento', { eventoId: alerta.eventoId });
-    }
+  // Solo desaparece de este dispositivo (preferenciasService), no borra nada
+  // en el backend -el ciudadano no tiene sesión ni permisos para eso.
+  function descartarNotif(notificacion) {
+    descartarNotificacion(notificacion.id);
+    setNotificaciones((actuales) => actuales.filter((n) => n.id !== notificacion.id));
   }
 
   function seleccionarDia(dia) {
@@ -172,13 +197,54 @@ export function InicioScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {alerta ? (
-          <TouchableOpacity style={styles.avisoCard} onPress={abrirAlerta} activeOpacity={0.8}>
-            <Ionicons name="alarm-outline" size={20} color={colors.subtitle} />
-            <Text style={styles.avisoTexto} numberOfLines={2}>
-              {alerta.texto}
-            </Text>
-          </TouchableOpacity>
+        {notificaciones.length > 0 ? (
+          <View style={styles.avisoCarrusel}>
+            <FlatList
+              data={notificaciones}
+              keyExtractor={(item) => `${item.tipo}-${item.id}`}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              snapToInterval={ANCHO_TARJETA + spacing.sm}
+              decelerationRate="fast"
+              contentContainerStyle={{ gap: spacing.sm }}
+              onMomentumScrollEnd={(evento) => {
+                const indice = Math.round(evento.nativeEvent.contentOffset.x / (ANCHO_TARJETA + spacing.sm));
+                setIndiceNotificacion(indice);
+              }}
+              renderItem={({ item }) => {
+                const color = COLOR_POR_CATEGORIA[item.colorCategoria];
+                return (
+                  <View
+                    style={[
+                      styles.avisoCard,
+                      { width: ANCHO_TARJETA, backgroundColor: color.background, borderColor: color.border },
+                    ]}
+                  >
+                    <TouchableOpacity
+                      onPress={() => descartarNotif(item)}
+                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    >
+                      <Ionicons name="trash-outline" size={20} color={color.icono} />
+                    </TouchableOpacity>
+                    <Text style={styles.avisoTexto} numberOfLines={2}>
+                      {item.titulo}
+                    </Text>
+                  </View>
+                );
+              }}
+            />
+            {notificaciones.length > 1 ? (
+              <View style={styles.avisoDots}>
+                {notificaciones.map((item, indice) => (
+                  <View
+                    key={`${item.tipo}-${item.id}`}
+                    style={[styles.avisoDot, indice === indiceNotificacion && styles.avisoDotActivo]}
+                  />
+                ))}
+              </View>
+            ) : null}
+          </View>
         ) : null}
 
         {procesionEnCurso ? (
