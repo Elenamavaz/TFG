@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
 import { ScreenContainer, StatusBadge, PasoListItem } from '../../../components/common';
-import { getProcesionPorId, getPasosPorIds, getCofradiaPorId } from '../../../../data/services';
+import { getProcesionPorId, getPasosPorIds, getCofradiaPorId, getRecorridoCompleto } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
 import { useFavoritos } from '../../../../application/context';
 import { colors } from '../../../../theme';
@@ -14,6 +15,14 @@ export function DetalleProcesionScreen({ route, navigation }) {
   const [procesion, setProcesion] = useState(null);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
+  // Sin mapa real todavía (pendiente de development build + API key, ver
+  // memoria del TFG): de momento se muestra la lista ordenada de puntos en
+  // vez del mapa en sí.
+  const { data: recorrido } = useQuery({
+    queryKey: ['recorrido', procesion?.recorridoId],
+    queryFn: () => getRecorridoCompleto(procesion.recorridoId),
+    enabled: !!procesion?.recorridoId,
+  });
 
   useEffect(() => {
     getProcesionPorId(procesionId).then((data) => {
@@ -100,9 +109,22 @@ export function DetalleProcesionScreen({ route, navigation }) {
         ) : null}
 
         <Text style={styles.sectionTitle}>Recorrido</Text>
-        <View style={styles.mapPlaceholder}>
-          <Text style={styles.mapPlaceholderText}>Mapa del recorrido (Iteración 2)</Text>
-        </View>
+        {recorrido?.puntos.length > 0 ? (
+          <View style={styles.recorridoLista}>
+            {recorrido.puntos.map((punto, indice) => (
+              <View key={punto.id} style={styles.recorridoPunto}>
+                <View style={styles.recorridoNumero}>
+                  <Text style={styles.recorridoNumeroTexto}>{indice + 1}</Text>
+                </View>
+                <Text style={styles.recorridoPuntoTexto}>{punto.nombre ?? 'Punto de paso'}</Text>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <View style={styles.mapPlaceholder}>
+            <Text style={styles.mapPlaceholderText}>Recorrido por confirmar</Text>
+          </View>
+        )}
 
         <TouchableOpacity
           style={[styles.cta, procesion.estado !== 'EN_CURSO' && styles.ctaDisabled]}

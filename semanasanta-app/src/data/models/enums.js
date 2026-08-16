@@ -36,13 +36,19 @@ export const TipoNotificacion = Object.freeze({
   RECORDATORIO: 'RECORDATORIO',
 });
 
+// Valores alineados con TipoPuntoInteres del backend -- 2026-08-15: incluye
+// "ORACCION" (con doble C) tal cual, es un typo real del backend, no del
+// frontend; corregirlo es cosa de otra sesión, no de esta conexión. También
+// se renombraron ENTRADA/SALIDA a ENTRADAPROCESION/SALIDAPROCESION y se
+// añadió UBICACIONEVENTO, que no existía en el frontend.
 export const TipoPuntoInteres = Object.freeze({
   MONUMENTO: 'MONUMENTO',
   IGLESIA: 'IGLESIA',
   ENCUENTRO: 'ENCUENTRO',
-  ORACION: 'ORACION',
-  ENTRADA: 'ENTRADA',
-  SALIDA: 'SALIDA',
+  ORACCION: 'ORACCION',
+  ENTRADAPROCESION: 'ENTRADAPROCESION',
+  SALIDAPROCESION: 'SALIDAPROCESION',
+  UBICACIONEVENTO: 'UBICACIONEVENTO',
 });
 
 export const TipoAlerta = Object.freeze({

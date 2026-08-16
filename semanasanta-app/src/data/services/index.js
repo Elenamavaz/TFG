@@ -8,6 +8,8 @@ export {
   descartarNotificacion,
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
+export { getUbicacionPorId } from './lugarService';
+export { getRecorridoCompleto } from './recorridoService';
 export { getCofradiasPorCiudad, getCofradiaPorId } from './cofradiaService';
 export { getPasosPorCofradia, getPasosPorIds, getPasoPorId } from './pasoService';
 export { getEventosPorCiudad, getEventoPorId, getEventosPorCofradia } from './eventoService';

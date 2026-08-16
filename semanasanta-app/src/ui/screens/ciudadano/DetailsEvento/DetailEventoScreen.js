@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
 import { ScreenContainer, StatusBadge, InfoSection } from '../../../components/common';
-import { getEventoPorId, getCofradiaPorId } from '../../../../data/services';
+import { getEventoPorId, getCofradiaPorId, getUbicacionPorId } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
 import { colors } from '../../../../theme';
 import { styles } from './DetailEventoScreen.styles';
@@ -11,6 +12,11 @@ export function DetalleEventoScreen({ route, navigation }) {
   const { eventoId } = route.params;
   const [evento, setEvento] = useState(null);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
+  const { data: ubicacion } = useQuery({
+    queryKey: ['ubicacion', evento?.ubicacionId],
+    queryFn: () => getUbicacionPorId(evento.ubicacionId),
+    enabled: !!evento?.ubicacionId,
+  });
 
   useEffect(() => {
     navigation.setOptions({
@@ -87,9 +93,7 @@ export function DetalleEventoScreen({ route, navigation }) {
           <View style={styles.mapPin}>
             <Ionicons name="location" size={18} color={colors.gold} />
           </View>
-          <Text style={styles.mapPlaceholderText}>
-            {evento.ubicacion?.direccion ?? 'Ubicación por confirmar'}
-          </Text>
+          <Text style={styles.mapPlaceholderText}>{ubicacion?.direccion ?? 'Ubicación por confirmar'}</Text>
         </View>
 
       </ScrollView>

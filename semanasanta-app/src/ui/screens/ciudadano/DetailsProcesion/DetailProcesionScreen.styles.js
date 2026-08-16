@@ -97,6 +97,33 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
   },
+  recorridoLista: {
+    gap: spacing.sm,
+  },
+  recorridoPunto: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  recorridoNumero: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: colors.surfaceAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  recorridoNumeroTexto: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 12,
+  },
+  recorridoPuntoTexto: {
+    flex: 1,
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 14,
+  },
   cta: {
     backgroundColor: colors.backgroundRed,
     borderWidth: 0.5,

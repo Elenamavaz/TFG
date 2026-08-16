@@ -12,3 +12,8 @@ npm start
 el back : ./mvnw spring-boot:run
 
 miras el back en el enlace : http://localhost:8080/swagger-ui.html
+
+script para popblar la base de datos
+
+cd backend
+mvn spring-boot:run "-Dspring-boot.run.profiles=seed"
