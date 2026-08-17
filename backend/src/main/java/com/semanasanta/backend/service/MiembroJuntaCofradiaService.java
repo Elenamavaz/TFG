@@ -83,6 +83,52 @@ public class MiembroJuntaCofradiaService {
         MiembroJuntaCofradia miembro = obtener(id);
         miembro.setNombre(request.nombre());
         miembro.setActivo(request.activo());
+        // Reactivar a mano desde aquí también resuelve cualquier solicitud
+        // que hubiera pendiente -si no, se quedaría "pidiendo reactivación"
+        // aun ya reactivado.
+        if (request.activo()) {
+            miembro.setSolicitudReactivacionPendiente(false);
+        }
+        return miembroJuntaCofradiaRepository.save(miembro);
+    }
+
+    // Autoservicio del propio miembro desactivado (ver CuentaDesactivadaScreen
+    // del frontend) -NO pasa por exigirJunta() a propósito: ese método
+    // rechaza precisamente a quien está desactivado, y es justo quien
+    // necesita poder llamar a esto.
+    public void solicitarReactivacion() {
+        UsuarioPrincipal actual = SecurityUtils.usuarioActual();
+        if (!"JUNTA".equals(actual.rol())) {
+            throw new AccesoDenegadoException("Esta operación solo puede realizarla un miembro de Junta");
+        }
+        MiembroJuntaCofradia miembro = obtener(actual.id());
+        if (miembro.isActivo()) {
+            throw new IllegalStateException("Tu cuenta ya está activa");
+        }
+        miembro.setSolicitudReactivacionPendiente(true);
+        miembroJuntaCofradiaRepository.save(miembro);
+    }
+
+    public List<MiembroJuntaCofradia> listarSolicitudesReactivacion() {
+        administradorService.exigirAdministrador();
+        return miembroJuntaCofradiaRepository.findBySolicitudReactivacionPendienteTrue();
+    }
+
+    public MiembroJuntaCofradia aceptarReactivacion(Long id) {
+        administradorService.exigirAdministrador();
+        MiembroJuntaCofradia miembro = obtener(id);
+        miembro.setActivo(true);
+        miembro.setSolicitudReactivacionPendiente(false);
+        return miembroJuntaCofradiaRepository.save(miembro);
+    }
+
+    // Rechazar NO borra la solicitud sin más rastro: el miembro sigue
+    // desactivado, solo se limpia la marca de "pendiente" para que pueda
+    // volver a pedirlo más adelante si hace falta.
+    public MiembroJuntaCofradia rechazarReactivacion(Long id) {
+        administradorService.exigirAdministrador();
+        MiembroJuntaCofradia miembro = obtener(id);
+        miembro.setSolicitudReactivacionPendiente(false);
         return miembroJuntaCofradiaRepository.save(miembro);
     }
 

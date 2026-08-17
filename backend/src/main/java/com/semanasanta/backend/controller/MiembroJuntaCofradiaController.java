@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/miembros-junta")
 public class MiembroJuntaCofradiaController {
@@ -42,5 +44,30 @@ public class MiembroJuntaCofradiaController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         miembroJuntaCofradiaService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Autoservicio del propio miembro desactivado, ver
+    // MiembroJuntaCofradiaService.solicitarReactivacion.
+    @PostMapping("/solicitar-reactivacion")
+    public ResponseEntity<Void> solicitarReactivacion() {
+        miembroJuntaCofradiaService.solicitarReactivacion();
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/solicitudes-reactivacion")
+    public List<MiembroJuntaCofradiaResponse> solicitudesReactivacion() {
+        return miembroJuntaCofradiaService.listarSolicitudesReactivacion().stream()
+                .map(MiembroJuntaCofradiaResponse::from)
+                .toList();
+    }
+
+    @PostMapping("/{id}/aceptar-reactivacion")
+    public MiembroJuntaCofradiaResponse aceptarReactivacion(@PathVariable Long id) {
+        return MiembroJuntaCofradiaResponse.from(miembroJuntaCofradiaService.aceptarReactivacion(id));
+    }
+
+    @PostMapping("/{id}/rechazar-reactivacion")
+    public MiembroJuntaCofradiaResponse rechazarReactivacion(@PathVariable Long id) {
+        return MiembroJuntaCofradiaResponse.from(miembroJuntaCofradiaService.rechazarReactivacion(id));
     }
 }

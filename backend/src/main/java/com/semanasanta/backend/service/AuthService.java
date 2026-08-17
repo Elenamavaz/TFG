@@ -87,6 +87,11 @@ public class AuthService {
         if (usuario instanceof MiembroJuntaCofradia miembro && !miembro.isActivo()) {
             throw new AccesoDenegadoException("Tu cuenta de Junta está desactivada; solicita al Administrador que la reactive");
         }
+        // Con esto se completa el alta: deja de contar como "invitación
+        // pendiente" (ver MiembroJuntaCofradia.passwordProvisional).
+        if (usuario instanceof MiembroJuntaCofradia miembro) {
+            miembro.setPasswordProvisional(false);
+        }
 
         usuario.setPasswordHash(passwordEncoder.encode(passwordNueva));
         usuarioRepository.save(usuario);

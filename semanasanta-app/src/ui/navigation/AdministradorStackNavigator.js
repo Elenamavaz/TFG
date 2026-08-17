@@ -8,6 +8,7 @@ import {
   JuntasScreen,
   FormularioJuntaScreen,
   JuntaCreadaScreen,
+  SolicitudesReactivacionScreen,
 } from '../screens/administrador';
 import { colors, fontFamilies } from '../../theme';
 
@@ -24,8 +25,9 @@ const screenOptions = {
 // Flujo propio del rol Administrador (mockup del 2026-08-16): RootNavigator
 // entra aquí directamente en cuanto detecta una sesión con rol ADMIN, sin
 // pasar por MainTabs/PerfilStackNavigator (eso es solo para Ciudadano/
-// Cofrade/Junta). De momento Perfil + Ciudades + Juntas -Miembros llega en
-// una pasada posterior, ver memoria del TFG.
+// Cofrade/Junta). De momento Perfil + Ciudades + Juntas -el resto de
+// "Miembros" (listar/crear/editar) sigue aplazado, pero Solicitudes de
+// reactivación ya tiene su propia pantalla, ver memoria del TFG.
 export function AdministradorStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
@@ -37,6 +39,7 @@ export function AdministradorStackNavigator() {
       <Stack.Screen name="Juntas" component={JuntasScreen} options={{ headerShown: false }} />
       <Stack.Screen name="FormularioJunta" component={FormularioJuntaScreen} />
       <Stack.Screen name="JuntaCreada" component={JuntaCreadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SolicitudesReactivacion" component={SolicitudesReactivacionScreen} />
     </Stack.Navigator>
   );
 }

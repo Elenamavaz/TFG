@@ -24,6 +24,13 @@ const OPCIONES_GESTION = [
     ruta: 'Juntas',
   },
   {
+    id: 'solicitudes-reactivacion',
+    icono: 'account-clock-outline',
+    titulo: 'Solicitudes de reactivación',
+    subtitulo: 'Miembros de Junta desactivados que piden volver a entrar',
+    ruta: 'SolicitudesReactivacion',
+  },
+  {
     id: 'perfil',
     icono: 'account-edit-outline',
     titulo: 'Editar perfil',

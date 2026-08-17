@@ -25,6 +25,20 @@ public class MiembroJuntaCofradia extends Usuario {
     @Column(nullable = false)
     private boolean activo;
 
+    // TRUE hasta que el miembro cambia la contraseña provisional que se le
+    // generó y mandó por correo al crearlo (AuthService.cambiarPassword la
+    // pone a FALSE). Es la señal de "invitación pendiente": no bloquea nada,
+    // solo informa de que el alta no está terminada del todo.
+    @Column(name = "password_provisional", nullable = false)
+    private boolean passwordProvisional;
+
+    // Un miembro desactivado la pone a TRUE pidiendo que se le reactive (ver
+    // solicitarReactivacion); el Administrador la resuelve aceptando
+    // (activo=true) o rechazando (vuelve a FALSE, sigue desactivado) -ver
+    // aceptarReactivacion/rechazarReactivacion.
+    @Column(name = "solicitud_reactivacion_pendiente", nullable = false)
+    private boolean solicitudReactivacionPendiente;
+
     protected MiembroJuntaCofradia() {
     }
 
@@ -33,6 +47,8 @@ public class MiembroJuntaCofradia extends Usuario {
         this.nombre = nombre;
         this.juntaCofradias = juntaCofradias;
         this.activo = true;
+        this.passwordProvisional = true;
+        this.solicitudReactivacionPendiente = false;
     }
 
     public String getNombre() {
@@ -57,5 +73,21 @@ public class MiembroJuntaCofradia extends Usuario {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public boolean isPasswordProvisional() {
+        return passwordProvisional;
+    }
+
+    public void setPasswordProvisional(boolean passwordProvisional) {
+        this.passwordProvisional = passwordProvisional;
+    }
+
+    public boolean isSolicitudReactivacionPendiente() {
+        return solicitudReactivacionPendiente;
+    }
+
+    public void setSolicitudReactivacionPendiente(boolean solicitudReactivacionPendiente) {
+        this.solicitudReactivacionPendiente = solicitudReactivacionPendiente;
     }
 }

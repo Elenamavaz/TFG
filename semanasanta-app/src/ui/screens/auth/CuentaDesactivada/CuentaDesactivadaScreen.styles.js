@@ -21,6 +21,30 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: spacing.xs,
   },
+  error: {
+    color: colors.redText,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    textAlign: 'center',
+    marginTop: spacing.sm,
+  },
+  reactivarButton: {
+    backgroundColor: colors.gold,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xl,
+    alignItems: 'center',
+    marginTop: spacing.xl,
+    minWidth: 220,
+  },
+  reactivarTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 15,
+  },
+  botonDeshabilitado: {
+    opacity: 0.7,
+  },
   cerrarSesionButton: {
     backgroundColor: colors.backgroundRed,
     borderWidth: 0.5,
@@ -29,7 +53,7 @@ export const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xl,
     alignItems: 'center',
-    marginTop: spacing.xl,
+    marginTop: spacing.md,
   },
   cerrarSesionTexto: {
     color: colors.cream,

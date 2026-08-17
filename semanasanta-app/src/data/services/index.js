@@ -16,6 +16,12 @@ export {
 } from './juntaCofradiasService';
 export { obtenerAdministrador, actualizarPerfilPropio } from './administradorService';
 export {
+  solicitarReactivacion,
+  getSolicitudesReactivacion,
+  aceptarReactivacion,
+  rechazarReactivacion,
+} from './miembroJuntaCofradiaService';
+export {
   getCiudadIdGuardada,
   guardarCiudadId,
   getModoAccesoGuardado,

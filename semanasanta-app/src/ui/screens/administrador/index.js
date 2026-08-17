@@ -6,3 +6,4 @@ export { CiudadCreadaScreen } from './Ciudades/CiudadCreadaScreen';
 export { JuntasScreen } from './Juntas/JuntasScreen';
 export { FormularioJuntaScreen } from './Juntas/FormularioJuntaScreen';
 export { JuntaCreadaScreen } from './Juntas/JuntaCreadaScreen';
+export { SolicitudesReactivacionScreen } from './Miembros/SolicitudesReactivacionScreen';

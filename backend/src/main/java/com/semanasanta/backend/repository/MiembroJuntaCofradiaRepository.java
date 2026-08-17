@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface MiembroJuntaCofradiaRepository extends JpaRepository<MiembroJuntaCofradia, Long> {
     List<MiembroJuntaCofradia> findByJuntaCofradiasId(Long juntaCofradiasId);
+
+    List<MiembroJuntaCofradia> findBySolicitudReactivacionPendienteTrue();
 }

@@ -5,13 +5,18 @@ import com.semanasanta.backend.model.MiembroJuntaCofradia;
 import java.time.LocalDateTime;
 
 // Sin password ni passwordHash: nunca se devuelve, ni siquiera hasheada.
+// "passwordProvisional" es la señal de "invitación pendiente" (sin cambiar
+// la contraseña generada al crear la cuenta); "solicitudReactivacionPendiente"
+// es la de "está pidiendo que se le reactive" -ver MiembroJuntaCofradia.
 public record MiembroJuntaCofradiaResponse(
         Long id,
         String nombre,
         String email,
         LocalDateTime fechaIngreso,
         Long juntaCofradiasId,
-        boolean activo
+        boolean activo,
+        boolean passwordProvisional,
+        boolean solicitudReactivacionPendiente
 ) {
     public static MiembroJuntaCofradiaResponse from(MiembroJuntaCofradia miembro) {
         return new MiembroJuntaCofradiaResponse(
@@ -20,7 +25,9 @@ public record MiembroJuntaCofradiaResponse(
                 miembro.getEmail(),
                 miembro.getFechaIngreso(),
                 miembro.getJuntaCofradias().getId(),
-                miembro.isActivo()
+                miembro.isActivo(),
+                miembro.isPasswordProvisional(),
+                miembro.isSolicitudReactivacionPendiente()
         );
     }
 }
