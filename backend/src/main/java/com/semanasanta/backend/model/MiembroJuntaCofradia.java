@@ -19,6 +19,12 @@ public class MiembroJuntaCofradia extends Usuario {
     @JoinColumn(name = "junta_cofradias_id", nullable = false)
     private JuntaCofradias juntaCofradias;
 
+    // Lo alterna el Administrador (ver MiembroJuntaCofradiaService.actualizar).
+    // Desactivado no significa "sin acceso": el login le sigue funcionando,
+    // pero el backend le rechaza cualquier escritura -ver exigirJunta().
+    @Column(nullable = false)
+    private boolean activo;
+
     protected MiembroJuntaCofradia() {
     }
 
@@ -26,10 +32,15 @@ public class MiembroJuntaCofradia extends Usuario {
         super(email, passwordHash);
         this.nombre = nombre;
         this.juntaCofradias = juntaCofradias;
+        this.activo = true;
     }
 
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public JuntaCofradias getJuntaCofradias() {
@@ -38,5 +49,13 @@ public class MiembroJuntaCofradia extends Usuario {
 
     public void setJuntaCofradias(JuntaCofradias juntaCofradias) {
         this.juntaCofradias = juntaCofradias;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

@@ -9,7 +9,7 @@ const AuthContext = createContext(null);
 // AsyncStorage al arrancar (sesionService), para no pedir login otra vez si
 // ya había una guardada.
 export function AuthProvider({ children }) {
-  const [sesion, setSesion] = useState(null); // { token, rol, usuarioId } | null
+  const [sesion, setSesion] = useState(null); // { token, rol, usuarioId, activo } | null
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -19,9 +19,12 @@ export function AuthProvider({ children }) {
     });
   }, []);
 
-  const iniciarSesion = useCallback(({ token, rol, usuarioId }) => {
-    setSesion({ token, rol, usuarioId });
-    guardarSesion({ token, rol, usuarioId });
+  // "activo" solo importa para rol JUNTA (ver AuthResponse del backend): un
+  // miembro desactivado igual recibe token, pero la app lo manda a un aviso
+  // de "cuenta desactivada" en vez de al panel, ver RootNavigator/LoginScreen.
+  const iniciarSesion = useCallback(({ token, rol, usuarioId, activo }) => {
+    setSesion({ token, rol, usuarioId, activo });
+    guardarSesion({ token, rol, usuarioId, activo });
   }, []);
 
   const cerrarSesion = useCallback(() => {

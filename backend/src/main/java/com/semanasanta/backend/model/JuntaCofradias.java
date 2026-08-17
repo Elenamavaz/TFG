@@ -9,6 +9,10 @@ import jakarta.persistence.*;
 // recomendada de hacer 1:1 en JPA (evita los problemas conocidos de @OneToOne
 // con la carga lazy del lado propietario), y la propia base de datos garantiza
 // con la restricción UNIQUE que no puede haber dos juntas para la misma ciudad.
+//
+// "activa" añadido el 2026-08-16 (mockup del panel de Administrador): NO
+// libera el hueco de la ciudad para una Junta nueva -ciudad_id sigue siendo
+// UNIQUE para siempre, desactivar no borra la fila, solo la oculta/inhabilita.
 @Entity
 @Table(name = "juntas_cofradias")
 public class JuntaCofradias {
@@ -24,6 +28,9 @@ public class JuntaCofradias {
 
     private String telefono;
 
+    @Column(nullable = false)
+    private boolean activa;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ciudad_id", nullable = false, unique = true)
     private Ciudad ciudad;
@@ -36,6 +43,7 @@ public class JuntaCofradias {
         this.email = email;
         this.telefono = telefono;
         this.ciudad = ciudad;
+        this.activa = true;
     }
 
     public Long getId() {
@@ -64,6 +72,14 @@ public class JuntaCofradias {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
     }
 
     public Ciudad getCiudad() {

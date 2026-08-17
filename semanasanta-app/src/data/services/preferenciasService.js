@@ -58,6 +58,21 @@ export async function guardarModoAcceso(modoAcceso) {
   }
 }
 
+// "Cerrar sesión" del Ciudadano/Cofrade (ver PerfilScreen): ninguno de los
+// dos tiene JWT que invalidar (el Ciudadano no se registra, RI-01; el modo
+// Cofrade de esta pantalla es solo un selector local, sin login de código de
+// acceso conectado todavía) -así que "cerrar sesión" aquí es "olvidar en
+// este dispositivo qué ciudad y qué modo había elegido", para que la
+// próxima vez vuelva a preguntar desde Bienvenida.
+export async function olvidarSesionLocal() {
+  try {
+    await AsyncStorage.multiRemove([CLAVE_CIUDAD_ID, CLAVE_MODO_ACCESO]);
+  } catch {
+    // Si falla, en el próximo arranque puede que se salte Bienvenida -no es
+    // grave, la propia pantalla ya ha navegado allí en esta sesión.
+  }
+}
+
 // Lista de ids (Long del backend, JSON en vez de un único string -mismo
 // motivo que ciudadId, pero ahora son varios a la vez).
 export async function getNotificacionesDescartadasIds() {

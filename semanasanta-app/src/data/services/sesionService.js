@@ -18,9 +18,9 @@ export async function getSesionGuardada() {
   }
 }
 
-export async function guardarSesion({ token, rol, usuarioId }) {
+export async function guardarSesion({ token, rol, usuarioId, activo }) {
   try {
-    await AsyncStorage.setItem(CLAVE_SESION, JSON.stringify({ token, rol, usuarioId }));
+    await AsyncStorage.setItem(CLAVE_SESION, JSON.stringify({ token, rol, usuarioId, activo }));
   } catch {
     // Si falla el guardado, la sesión sigue activa en memoria (AuthContext)
     // hasta cerrar la app; en el próximo arranque simplemente no se recuerda.

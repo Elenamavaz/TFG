@@ -8,6 +8,7 @@ import {
   getDiasSemanaSanta,
   getEventoPorId,
   getProcesionPorId,
+  olvidarSesionLocal,
 } from '../../../../../data/services';
 import { colors } from '../../../../../theme';
 import { styles } from './PerfilScreen.styles';
@@ -66,6 +67,15 @@ export function PerfilScreen({ navigation }) {
 
   function alternarNotificacion(id) {
     setNotificaciones((actuales) => actuales.map((n) => (n.id === id ? { ...n, activo: !n.activo } : n)));
+  }
+
+  // Ni Ciudadano ni Cofrade (en este selector local, sin login de código de
+  // acceso conectado todavía) tienen JWT que invalidar -"cerrar sesión" aquí
+  // es olvidar la ciudad/modo guardados en este dispositivo y volver a
+  // Bienvenida, como la primera vez que se abre la app (ver preferenciasService).
+  async function cerrarSesion() {
+    await olvidarSesionLocal();
+    navigation.getParent()?.reset({ index: 0, routes: [{ name: 'Welcome' }] });
   }
 
   const esCofrade = modoAcceso === 'cofrade';
@@ -190,6 +200,10 @@ export function PerfilScreen({ navigation }) {
             </View>
           ))}
         </View>
+
+        <TouchableOpacity style={styles.cerrarSesionButton} onPress={cerrarSesion} activeOpacity={0.85}>
+          <Text style={styles.cerrarSesionTexto}>Cerrar sesión</Text>
+        </TouchableOpacity>
       </ScrollView>
     </ScreenContainer>
   );

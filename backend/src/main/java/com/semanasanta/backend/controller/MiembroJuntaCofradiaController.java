@@ -32,6 +32,12 @@ public class MiembroJuntaCofradiaController {
         return MiembroJuntaCofradiaResponse.from(miembro);
     }
 
+    @PutMapping("/{id}")
+    public MiembroJuntaCofradiaResponse actualizar(@PathVariable Long id, @Valid @RequestBody MiembroJuntaCofradiaRequest request) {
+        MiembroJuntaCofradia miembro = miembroJuntaCofradiaService.actualizar(id, request);
+        return MiembroJuntaCofradiaResponse.from(miembro);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         miembroJuntaCofradiaService.eliminar(id);

@@ -19,8 +19,19 @@ public class CiudadService {
         this.administradorService = administradorService;
     }
 
+    // Solo las activas: es lo que ve el ciudadano en el selector de ciudad
+    // (GET público, RI-01). El panel de Administrador necesita ver también
+    // las desactivadas para poder reactivarlas -ver listar(boolean).
     public List<Ciudad> listar() {
-        return ciudadRepository.findAll();
+        return listar(false);
+    }
+
+    public List<Ciudad> listar(boolean incluirInactivas) {
+        List<Ciudad> ciudades = ciudadRepository.findAll();
+        if (incluirInactivas) {
+            return ciudades;
+        }
+        return ciudades.stream().filter(Ciudad::isActiva).toList();
     }
 
     public Ciudad obtener(Long id) {
@@ -30,7 +41,8 @@ public class CiudadService {
 
     public Ciudad crear(CiudadRequest request) {
         administradorService.exigirAdministrador();
-        Ciudad ciudad = new Ciudad(request.nombre(), request.comunidadAutonoma(), request.descripcion());
+        Ciudad ciudad = new Ciudad(request.nombre(), request.comunidadAutonoma(), request.provincia(),
+                request.historia(), request.patrimonio());
         return ciudadRepository.save(ciudad);
     }
 
@@ -39,7 +51,10 @@ public class CiudadService {
         Ciudad ciudad = obtener(id);
         ciudad.setNombre(request.nombre());
         ciudad.setComunidadAutonoma(request.comunidadAutonoma());
-        ciudad.setDescripcion(request.descripcion());
+        ciudad.setProvincia(request.provincia());
+        ciudad.setHistoria(request.historia());
+        ciudad.setPatrimonio(request.patrimonio());
+        ciudad.setActiva(request.activa());
         return ciudadRepository.save(ciudad);
     }
 

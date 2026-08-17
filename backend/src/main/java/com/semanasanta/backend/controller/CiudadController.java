@@ -21,9 +21,12 @@ public class CiudadController {
         this.ciudadService = ciudadService;
     }
 
+    // incluirInactivas=true es lo que usa el panel de Administrador para ver
+    // también las ciudades desactivadas (y poder reactivarlas); el
+    // ciudadano nunca lo manda, así que sigue viendo solo las activas.
     @GetMapping
-    public List<CiudadResponse> listar() {
-        return ciudadService.listar().stream()
+    public List<CiudadResponse> listar(@RequestParam(defaultValue = "false") boolean incluirInactivas) {
+        return ciudadService.listar(incluirInactivas).stream()
                 .map(CiudadResponse::from)
                 .toList();
     }

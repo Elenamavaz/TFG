@@ -1,6 +1,7 @@
 package com.semanasanta.backend.service;
 
 import com.semanasanta.backend.dto.AdministradorBootstrapRequest;
+import com.semanasanta.backend.dto.AdministradorPerfilRequest;
 import com.semanasanta.backend.dto.AdministradorRequest;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.CredencialesInvalidasException;
@@ -69,6 +70,27 @@ public class AdministradorService {
     public void eliminar(Long id) {
         Administrador administrador = obtener(id);
         administradorRepository.delete(administrador);
+    }
+
+    // "Editar perfil" (panel de Administrador): SIEMPRE pide la contraseña
+    // actual, cambie o no la contraseña -confirma que es él quien edita, no
+    // solo que tiene un JWT válido (mismo motivo que AuthService.cambiarPassword).
+    // El id sale del propio JWT (SecurityUtils), no de la URL: no hay forma
+    // de editar el perfil de OTRO Administrador por aquí, a propósito.
+    public Administrador actualizarPerfilPropio(AdministradorPerfilRequest request) {
+        exigirAdministrador();
+        Administrador administrador = obtener(SecurityUtils.usuarioActual().id());
+
+        if (!passwordEncoder.matches(request.passwordActual(), administrador.getPasswordHash())) {
+            throw new CredencialesInvalidasException("La contraseña actual no es correcta");
+        }
+
+        administrador.setNombre(request.nombre());
+        administrador.setTelefono(request.telefono());
+        if (request.passwordNueva() != null && !request.passwordNueva().isBlank()) {
+            administrador.setPasswordHash(passwordEncoder.encode(request.passwordNueva()));
+        }
+        return administradorRepository.save(administrador);
     }
 
     // Compartido entre Services (CiudadService, JuntaCofradiasService,

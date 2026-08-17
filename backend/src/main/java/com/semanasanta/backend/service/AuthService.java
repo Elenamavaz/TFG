@@ -1,6 +1,7 @@
 package com.semanasanta.backend.service;
 
 import com.semanasanta.backend.dto.AuthResponse;
+import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.CredencialesInvalidasException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.*;
@@ -37,8 +38,13 @@ public class AuthService {
         }
 
         String rol = rolDe(usuario);
+        // Un miembro de Junta desactivado SÍ puede iniciar sesión (ver
+        // AuthResponse): es el frontend quien, con este campo, le lleva a un
+        // aviso de "cuenta desactivada" en vez de al panel. El rechazo de
+        // verdad está en las escrituras, ver MiembroJuntaCofradiaService.exigirJunta.
+        boolean activo = !(usuario instanceof MiembroJuntaCofradia miembro) || miembro.isActivo();
         String token = jwtService.generarToken(usuario.getId(), rol);
-        return new AuthResponse(token, rol, usuario.getId());
+        return new AuthResponse(token, rol, usuario.getId(), activo);
     }
 
     // Decisión del 2026-08-11: sin contraseña Y sin crear ningún usuario. El
@@ -60,7 +66,7 @@ public class AuthService {
 
         Long cofradiaId = codigoAcceso.getCofradia().getId();
         String token = jwtService.generarToken(cofradiaId, "COFRADE");
-        return new AuthResponse(token, "COFRADE", cofradiaId);
+        return new AuthResponse(token, "COFRADE", cofradiaId, true);
     }
 
     // Para Administrador y MiembroJuntaCofradia -el Cofrade no tiene
@@ -74,6 +80,12 @@ public class AuthService {
 
         if (!passwordEncoder.matches(passwordActual, usuario.getPasswordHash())) {
             throw new CredencialesInvalidasException("La contraseña actual no es correcta");
+        }
+        // Mismo criterio que el resto de escrituras de Junta (ver
+        // MiembroJuntaCofradiaService.exigirJunta): desactivado no puede
+        // cambiar nada, ni siquiera su propia contraseña.
+        if (usuario instanceof MiembroJuntaCofradia miembro && !miembro.isActivo()) {
+            throw new AccesoDenegadoException("Tu cuenta de Junta está desactivada; solicita al Administrador que la reactive");
         }
 
         usuario.setPasswordHash(passwordEncoder.encode(passwordNueva));

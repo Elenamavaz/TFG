@@ -45,11 +45,25 @@ public class CodigoAccesoService {
     public CodigoAcceso emitir(CodigoAccesoRequest request) {
         Cofradia cofradia = cofradiaService.obtener(request.cofradiaId()); // 404 si la cofradía no existe
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(cofradia.getCiudad().getId());
-        // Código corto y legible (8 caracteres en mayúsculas), no un UUID entero:
-        // alguien tiene que poder teclearlo a mano si hace falta.
-        String codigo = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        CodigoAcceso codigoAcceso = new CodigoAcceso(codigo, cofradia);
+        CodigoAcceso codigoAcceso = new CodigoAcceso(generarCodigoUnico(), cofradia);
         return codigoAccesoRepository.save(codigoAcceso);
+    }
+
+    // Código corto y legible (8 caracteres en mayúsculas), no un UUID entero:
+    // alguien tiene que poder teclearlo a mano si hace falta. "codigo" es
+    // unique en la entidad (ver CodigoAcceso) SIN IMPORTAR el estado -así que
+    // aunque la colisión con solo 8 caracteres es rarísima, se comprueba y se
+    // regenera antes de guardar contra CUALQUIER código ya existente (no solo
+    // los activos): uno REVOCADO también haría fallar el guardado si
+    // coincidiera, así que comprobar solo entre los activos no bastaría para
+    // evitar el error. Mejor esto que dejar que reviente con una excepción de
+    // restricción única sin controlar.
+    private String generarCodigoUnico() {
+        String codigo;
+        do {
+            codigo = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        } while (codigoAccesoRepository.findByCodigo(codigo).isPresent());
+        return codigo;
     }
 
     public CodigoAcceso revocar(Long id) {

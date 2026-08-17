@@ -10,7 +10,8 @@ public record MiembroJuntaCofradiaResponse(
         String nombre,
         String email,
         LocalDateTime fechaIngreso,
-        Long juntaCofradiasId
+        Long juntaCofradiasId,
+        boolean activo
 ) {
     public static MiembroJuntaCofradiaResponse from(MiembroJuntaCofradia miembro) {
         return new MiembroJuntaCofradiaResponse(
@@ -18,7 +19,8 @@ public record MiembroJuntaCofradiaResponse(
                 miembro.getNombre(),
                 miembro.getEmail(),
                 miembro.getFechaIngreso(),
-                miembro.getJuntaCofradias().getId()
+                miembro.getJuntaCofradias().getId(),
+                miembro.isActivo()
         );
     }
 }

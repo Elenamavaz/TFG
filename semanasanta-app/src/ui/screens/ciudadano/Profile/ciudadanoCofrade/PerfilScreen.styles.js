@@ -206,4 +206,21 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 2,
   },
+
+  // Cerrar sesión -- mismo granate que modoButtonActivoCiudadano, para que
+  // se lea como "acción de cuenta" en toda la pantalla.
+  cerrarSesionButton: {
+    backgroundColor: colors.backgroundRed,
+    borderWidth: 0.5,
+    borderColor: colors.borderRed,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+    marginTop: spacing.xl,
+  },
+  cerrarSesionTexto: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 15,
+  },
 });

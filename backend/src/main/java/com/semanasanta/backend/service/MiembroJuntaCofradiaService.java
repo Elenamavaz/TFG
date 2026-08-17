@@ -73,6 +73,19 @@ public class MiembroJuntaCofradiaService {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 12);
     }
 
+    // Solo nombre/activo: el email no tiene setter en Usuario (no se puede
+    // reasignar) y reasignar juntaCofradiasId aquí abriría un caso raro -mover
+    // un miembro entre Juntas no está pedido, si hace falta se añade aparte.
+    // "activo" es lo importante: es como el Administrador reactiva a un
+    // miembro desactivado, ver exigirJunta().
+    public MiembroJuntaCofradia actualizar(Long id, MiembroJuntaCofradiaRequest request) {
+        administradorService.exigirAdministrador();
+        MiembroJuntaCofradia miembro = obtener(id);
+        miembro.setNombre(request.nombre());
+        miembro.setActivo(request.activo());
+        return miembroJuntaCofradiaRepository.save(miembro);
+    }
+
     public void eliminar(Long id) {
         administradorService.exigirAdministrador();
         MiembroJuntaCofradia miembro = obtener(id);
@@ -82,10 +95,19 @@ public class MiembroJuntaCofradiaService {
     // Para entidades compartidas sin dueño único (Recorrido, PuntoRuta,
     // Ubicacion...): basta con ser CUALQUIER Junta, no hay ciudad concreta
     // que comparar -la misma Ubicacion la puede reutilizar cualquier evento
-    // de cualquier ciudad, por ejemplo.
+    // de cualquier ciudad, por ejemplo. Un miembro desactivado SÍ puede
+    // iniciar sesión (ve un aviso pidiendo la reactivación, ver AuthResponse
+    // y LoginScreen del frontend), pero no puede escribir nada -de ahí el
+    // chequeo de "activo" aquí, no en AuthService.login: es la comprobación
+    // que protege TODAS las escrituras de Junta, ya use la pantalla o llame
+    // a la API directamente.
     public void exigirJunta() {
-        if (!"JUNTA".equals(SecurityUtils.usuarioActual().rol())) {
+        UsuarioPrincipal actual = SecurityUtils.usuarioActual();
+        if (!"JUNTA".equals(actual.rol())) {
             throw new AccesoDenegadoException("Esta operación solo puede realizarla una Junta de Cofradías");
+        }
+        if (!obtener(actual.id()).isActivo()) {
+            throw new AccesoDenegadoException("Tu cuenta de Junta está desactivada; solicita al Administrador que la reactive");
         }
     }
 

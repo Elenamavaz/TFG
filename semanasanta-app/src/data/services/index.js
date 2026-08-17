@@ -1,4 +1,20 @@
-export { getCiudades, getCiudadPorId } from './ciudadService';
+export {
+  getCiudades,
+  getCiudadPorId,
+  getCiudadesAdmin,
+  crearCiudad,
+  actualizarCiudad,
+  eliminarCiudad,
+} from './ciudadService';
+export {
+  getJuntasCofradias,
+  getJuntaCofradiasPorId,
+  crearJuntaCofradias,
+  actualizarJuntaCofradias,
+  eliminarJuntaCofradias,
+  getMiembrosDeJunta,
+} from './juntaCofradiasService';
+export { obtenerAdministrador, actualizarPerfilPropio } from './administradorService';
 export {
   getCiudadIdGuardada,
   guardarCiudadId,
@@ -6,6 +22,7 @@ export {
   guardarModoAcceso,
   getNotificacionesDescartadasIds,
   descartarNotificacion,
+  olvidarSesionLocal,
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
 export { getUbicacionPorId } from './lugarService';

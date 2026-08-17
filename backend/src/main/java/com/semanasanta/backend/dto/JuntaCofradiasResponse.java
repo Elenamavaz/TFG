@@ -7,7 +7,8 @@ public record JuntaCofradiasResponse(
         String nombre,
         String email,
         String telefono,
-        Long ciudadId
+        Long ciudadId,
+        boolean activa
 ) {
     public static JuntaCofradiasResponse from(JuntaCofradias junta) {
         return new JuntaCofradiasResponse(
@@ -15,7 +16,8 @@ public record JuntaCofradiasResponse(
                 junta.getNombre(),
                 junta.getEmail(),
                 junta.getTelefono(),
-                junta.getCiudad().getId()
+                junta.getCiudad().getId(),
+                junta.isActiva()
         );
     }
 }

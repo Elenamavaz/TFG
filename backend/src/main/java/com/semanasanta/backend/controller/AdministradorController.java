@@ -1,6 +1,7 @@
 package com.semanasanta.backend.controller;
 
 import com.semanasanta.backend.dto.AdministradorBootstrapRequest;
+import com.semanasanta.backend.dto.AdministradorPerfilRequest;
 import com.semanasanta.backend.dto.AdministradorRequest;
 import com.semanasanta.backend.dto.AdministradorResponse;
 import com.semanasanta.backend.model.Administrador;
@@ -48,5 +49,16 @@ public class AdministradorController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         administradorService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Sin {id}: siempre es el propio Administrador autenticado (ver
+    // AdministradorService.actualizarPerfilPropio). No colisiona con
+    // PUT /administradores/{id} porque ese endpoint no existe -dar de alta/
+    // baja Administradores es cosa de otro Administrador, pero editar el
+    // perfil (nombre/teléfono/contraseña) es cosa de uno mismo.
+    @PutMapping("/perfil")
+    public AdministradorResponse actualizarPerfilPropio(@Valid @RequestBody AdministradorPerfilRequest request) {
+        Administrador administrador = administradorService.actualizarPerfilPropio(request);
+        return AdministradorResponse.from(administrador);
     }
 }

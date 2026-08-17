@@ -34,6 +34,21 @@ function resolverBaseUrl() {
 
 const BASE_URL = resolverBaseUrl();
 
+// GlobalExceptionHandler.handleValidacion (400 de @Valid en el request de
+// un formulario) responde distinto al resto: no hay "mensaje" único, sino
+// un mapa { nombreDelCampo: "mensaje de ese campo" } -uno por cada campo que
+// falló, con el mismo nombre que la propiedad del DTO (p.ej. "nombre",
+// "passwordNueva"). "campos" lleva ese mapa cuando aplica, para que cada
+// pantalla pueda pintar el error justo debajo del TextInput que lo causó en
+// vez de un aviso genérico; en el resto de errores (404/401/403/409/500)
+// "campos" queda null y se usa el "mensaje" de siempre.
+export class ApiError extends Error {
+  constructor(mensaje, campos = null) {
+    super(mensaje);
+    this.campos = campos;
+  }
+}
+
 // TODO(iteración 3+): cuando exista login (Junta/Admin/Cofrade), añadir aquí
 // la cabecera "Authorization: Bearer <token>" leyendo el JWT guardado -las
 // llamadas públicas de ciudadano (GET sin JWT en el backend, ver
@@ -57,10 +72,13 @@ export async function apiFetch(path, options = {}) {
   const datos = texto ? JSON.parse(texto) : null;
 
   if (!response.ok) {
+    if (response.status === 400 && datos && datos.mensaje === undefined) {
+      throw new ApiError('Revisa los campos marcados.', datos);
+    }
     // GlobalExceptionHandler del backend siempre responde { mensaje: "..." }
-    // en los errores que traduce a propósito (404/401/403/409/400); para el
-    // resto (500 sin traducir), no hay "mensaje" y se cae al texto genérico.
-    throw new Error(datos?.mensaje ?? `Error ${response.status} al llamar a ${path}`);
+    // en el resto de errores que traduce a propósito (404/401/403/409); para
+    // los que no (500 sin traducir), no hay "mensaje" y se cae al genérico.
+    throw new ApiError(datos?.mensaje ?? `Error ${response.status} al llamar a ${path}`);
   }
 
   return datos;

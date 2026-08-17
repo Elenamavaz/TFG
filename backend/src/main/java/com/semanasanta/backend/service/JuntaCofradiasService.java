@@ -62,6 +62,7 @@ public class JuntaCofradiasService {
         junta.setNombre(request.nombre());
         junta.setEmail(request.email());
         junta.setTelefono(request.telefono());
+        junta.setActiva(request.activa());
         return juntaCofradiasRepository.save(junta);
     }
 

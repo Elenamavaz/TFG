@@ -97,19 +97,22 @@ public class DataSeeder implements CommandLineRunner {
 
         // Las 10 ciudades pedidas. Solo Valladolid recibe datos de Semana
         // Santa completos; el resto se queda con el registro básico -tal
-        // como se pidió explícitamente.
-        Ciudad valladolid = ciudad("Valladolid", "Castilla y León",
+        // como se pidió explícitamente. provincia coincide con el nombre de
+        // la ciudad en estas diez (todas son capital de su provincia), dato
+        // geográfico básico, no algo inventado.
+        Ciudad valladolid = ciudad("Valladolid", "Castilla y León", "Valladolid",
                 "Ciudad de Castilla y León. Su Semana Santa está declarada Fiesta de Interés Turístico "
-                        + "Internacional y se organiza cada año en torno a las procesiones de sus cofradías y hermandades.");
-        ciudad("Sevilla", "Andalucía", null);
-        ciudad("Málaga", "Andalucía", null);
-        ciudad("Zamora", "Castilla y León", null);
-        ciudad("Cuenca", "Castilla-La Mancha", null);
-        ciudad("León", "Castilla y León", null);
-        ciudad("Salamanca", "Castilla y León", null);
-        ciudad("Toledo", "Castilla-La Mancha", null);
-        ciudad("Murcia", "Región de Murcia", null);
-        ciudad("Granada", "Andalucía", null);
+                        + "Internacional y se organiza cada año en torno a las procesiones de sus cofradías y hermandades.",
+                null);
+        ciudad("Sevilla", "Andalucía", "Sevilla", null, null);
+        ciudad("Málaga", "Andalucía", "Málaga", null, null);
+        ciudad("Zamora", "Castilla y León", "Zamora", null, null);
+        ciudad("Cuenca", "Castilla-La Mancha", "Cuenca", null, null);
+        ciudad("León", "Castilla y León", "León", null, null);
+        ciudad("Salamanca", "Castilla y León", "Salamanca", null, null);
+        ciudad("Toledo", "Castilla-La Mancha", "Toledo", null, null);
+        ciudad("Murcia", "Región de Murcia", "Murcia", null, null);
+        ciudad("Granada", "Andalucía", "Granada", null, null);
 
         sembrarSemanaSantaDeValladolid(valladolid);
 
@@ -249,13 +252,13 @@ public class DataSeeder implements CommandLineRunner {
 
     // ---- Helpers "buscar antes de crear" (idempotencia) ----
 
-    private Ciudad ciudad(String nombre, String comunidadAutonoma, String descripcion) {
+    private Ciudad ciudad(String nombre, String comunidadAutonoma, String provincia, String historia, String patrimonio) {
         return ciudadRepository.findAll().stream()
                 .filter(c -> c.getNombre().equalsIgnoreCase(nombre))
                 .findFirst()
                 .orElseGet(() -> {
                     log.info("Creando ciudad '{}'", nombre);
-                    return ciudadRepository.save(new Ciudad(nombre, comunidadAutonoma, descripcion));
+                    return ciudadRepository.save(new Ciudad(nombre, comunidadAutonoma, provincia, historia, patrimonio));
                 });
     }
 
