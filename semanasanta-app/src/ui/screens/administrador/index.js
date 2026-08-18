@@ -7,3 +7,6 @@ export { JuntasScreen } from './Juntas/JuntasScreen';
 export { FormularioJuntaScreen } from './Juntas/FormularioJuntaScreen';
 export { JuntaCreadaScreen } from './Juntas/JuntaCreadaScreen';
 export { SolicitudesReactivacionScreen } from './Miembros/SolicitudesReactivacionScreen';
+export { MiembrosScreen } from './Miembros/MiembrosScreen';
+export { FormularioMiembroScreen } from './Miembros/FormularioMiembroScreen';
+export { MiembroCreadoScreen } from './Miembros/MiembroCreadoScreen';

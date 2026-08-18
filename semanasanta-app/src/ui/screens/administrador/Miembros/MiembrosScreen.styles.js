@@ -1,0 +1,110 @@
+import { StyleSheet } from 'react-native';
+import { colors, fontFamilies, radii, spacing } from '../../../../theme';
+
+export const styles = StyleSheet.create({
+  container: {
+    padding: spacing.lg,
+    paddingBottom: spacing.xl,
+  },
+  title: {
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.titleBold,
+    fontSize: 28,
+  },
+  subtitle: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+    marginTop: 2,
+    marginBottom: spacing.md,
+  },
+  nuevoButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    backgroundColor: colors.gold,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.md,
+  },
+  nuevoButtonTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 15,
+  },
+  sectionTitle: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+    marginTop: spacing.lg,
+    marginBottom: spacing.sm,
+  },
+  card: {
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
+    borderColor: colors.subtitle,
+    borderRadius: radii.md,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.surfaceAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarTexto: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
+  cardNombre: {
+    flex: 1,
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 16,
+  },
+  cardAcciones: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    marginTop: spacing.sm,
+  },
+  accionUnica: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: spacing.sm,
+  },
+  accionEditar: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
+  accionDesactivar: {
+    color: colors.redText,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
+  badge: {
+    borderRadius: radii.sm,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+  },
+  badgeTexto: {
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 11,
+  },
+  empty: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 13,
+    marginTop: spacing.sm,
+  },
+});

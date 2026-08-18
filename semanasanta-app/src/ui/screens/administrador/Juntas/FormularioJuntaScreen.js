@@ -100,7 +100,7 @@ export function FormularioJuntaScreen({ route, navigation }) {
         navigation.goBack();
       } else {
         const juntaCreada = await crearJuntaCofradias(datos);
-        navigation.replace('JuntaCreada', { nombreJunta: juntaCreada.nombre });
+        navigation.replace('JuntaCreada', { nombreJunta: juntaCreada.nombre, juntaId: juntaCreada.id });
       }
     } catch (err) {
       if (err.campos) {
@@ -185,15 +185,19 @@ export function FormularioJuntaScreen({ route, navigation }) {
             </View>
 
             <Text style={styles.etiqueta}>Equipo</Text>
-            <View style={styles.equipoBox}>
+            <TouchableOpacity
+              style={styles.equipoBox}
+              onPress={() => navigation.navigate('Miembros', { juntaId })}
+              activeOpacity={0.8}
+            >
               <View>
                 <Text style={styles.equipoTitulo}>Miembros de la Junta</Text>
                 <Text style={styles.equipoMeta}>
                   {numMiembros ?? 0} miembro{numMiembros === 1 ? '' : 's'}
                 </Text>
               </View>
-              <Text style={styles.equipoVerLista}>Ver Lista · Próximamente</Text>
-            </View>
+              <Text style={styles.equipoVerLista}>Ver Lista</Text>
+            </TouchableOpacity>
           </>
         ) : null}
 

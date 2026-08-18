@@ -12,10 +12,15 @@ export {
   crearJuntaCofradias,
   actualizarJuntaCofradias,
   eliminarJuntaCofradias,
-  getMiembrosDeJunta,
 } from './juntaCofradiasService';
 export { obtenerAdministrador, actualizarPerfilPropio } from './administradorService';
 export {
+  getMiembrosDeJunta,
+  getMiembroJuntaCofradiaPorId,
+  crearMiembroJuntaCofradia,
+  actualizarMiembroJuntaCofradia,
+  eliminarMiembroJuntaCofradia,
+  reenviarInvitacion,
   solicitarReactivacion,
   getSolicitudesReactivacion,
   aceptarReactivacion,

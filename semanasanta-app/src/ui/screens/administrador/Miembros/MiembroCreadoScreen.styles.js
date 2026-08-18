@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   title: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleBold,
-    fontSize: 26,
+    fontSize: 28,
     textAlign: 'center',
   },
   subtitle: {
@@ -33,6 +33,20 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
   },
   boton: {
+    backgroundColor: colors.gold,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xl,
+    alignItems: 'center',
+    marginTop: spacing.xl,
+    alignSelf: 'stretch',
+  },
+  botonTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 16,
+  },
+  botonSecundario: {
     borderWidth: 0.5,
     borderColor: colors.subtitle,
     borderRadius: radii.lg,
@@ -41,22 +55,9 @@ export const styles = StyleSheet.create({
     marginTop: spacing.sm,
     alignSelf: 'stretch',
   },
-  botonTexto: {
+  botonSecundarioTexto: {
     color: colors.cream,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 16,
-  },
-  botonPrimario: {
-    backgroundColor: colors.gold,
-    borderRadius: radii.lg,
-    paddingVertical: spacing.md,
-    alignItems: 'center',
-    marginTop: spacing.xl,
-    alignSelf: 'stretch',
-  },
-  botonPrimarioTexto: {
-    color: colors.background,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 15,
   },
 });

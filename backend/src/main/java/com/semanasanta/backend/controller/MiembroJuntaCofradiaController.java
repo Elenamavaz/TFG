@@ -70,4 +70,9 @@ public class MiembroJuntaCofradiaController {
     public MiembroJuntaCofradiaResponse rechazarReactivacion(@PathVariable Long id) {
         return MiembroJuntaCofradiaResponse.from(miembroJuntaCofradiaService.rechazarReactivacion(id));
     }
+
+    @PostMapping("/{id}/reenviar-invitacion")
+    public MiembroJuntaCofradiaResponse reenviarInvitacion(@PathVariable Long id) {
+        return MiembroJuntaCofradiaResponse.from(miembroJuntaCofradiaService.reenviarInvitacion(id));
+    }
 }

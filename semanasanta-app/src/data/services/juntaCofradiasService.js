@@ -30,9 +30,3 @@ export async function actualizarJuntaCofradias(id, datos) {
 export async function eliminarJuntaCofradias(id) {
   await apiFetch(`/juntas-cofradias/${id}`, { method: 'DELETE' });
 }
-
-// Solo el recuento (para el resumen "Equipo" de Editar Junta) -la lista
-// completa de miembros es de la pasada siguiente, ver memoria del TFG.
-export async function getMiembrosDeJunta(juntaId) {
-  return apiFetch(`/juntas-cofradias/${juntaId}/miembros`);
-}

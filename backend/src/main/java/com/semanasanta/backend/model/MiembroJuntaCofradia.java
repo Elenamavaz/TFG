@@ -15,6 +15,8 @@ public class MiembroJuntaCofradia extends Usuario {
     @Column(nullable = false)
     private String nombre;
 
+    private String telefono;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "junta_cofradias_id", nullable = false)
     private JuntaCofradias juntaCofradias;
@@ -42,9 +44,10 @@ public class MiembroJuntaCofradia extends Usuario {
     protected MiembroJuntaCofradia() {
     }
 
-    public MiembroJuntaCofradia(String nombre, String email, String passwordHash, JuntaCofradias juntaCofradias) {
+    public MiembroJuntaCofradia(String nombre, String email, String telefono, String passwordHash, JuntaCofradias juntaCofradias) {
         super(email, passwordHash);
         this.nombre = nombre;
+        this.telefono = telefono;
         this.juntaCofradias = juntaCofradias;
         this.activo = true;
         this.passwordProvisional = true;
@@ -57,6 +60,14 @@ public class MiembroJuntaCofradia extends Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public JuntaCofradias getJuntaCofradias() {

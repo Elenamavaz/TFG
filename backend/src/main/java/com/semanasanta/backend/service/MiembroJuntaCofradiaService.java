@@ -60,7 +60,8 @@ public class MiembroJuntaCofradiaService {
         JuntaCofradias junta = juntaCofradiasService.obtener(request.juntaCofradiasId()); // 404 si no existe
         String passwordGenerada = generarPassword();
         String passwordHash = passwordEncoder.encode(passwordGenerada);
-        MiembroJuntaCofradia miembro = new MiembroJuntaCofradia(request.nombre(), request.email(), passwordHash, junta);
+        MiembroJuntaCofradia miembro =
+                new MiembroJuntaCofradia(request.nombre(), request.email(), request.telefono(), passwordHash, junta);
         miembro = miembroJuntaCofradiaRepository.save(miembro);
         correoService.enviarBienvenidaMiembroJunta(request.nombre(), request.email(), passwordGenerada);
         return miembro;
@@ -73,7 +74,7 @@ public class MiembroJuntaCofradiaService {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 12);
     }
 
-    // Solo nombre/activo: el email no tiene setter en Usuario (no se puede
+    // Nombre/teléfono/activo: el email no tiene setter en Usuario (no se puede
     // reasignar) y reasignar juntaCofradiasId aquí abriría un caso raro -mover
     // un miembro entre Juntas no está pedido, si hace falta se añade aparte.
     // "activo" es lo importante: es como el Administrador reactiva a un
@@ -82,6 +83,7 @@ public class MiembroJuntaCofradiaService {
         administradorService.exigirAdministrador();
         MiembroJuntaCofradia miembro = obtener(id);
         miembro.setNombre(request.nombre());
+        miembro.setTelefono(request.telefono());
         miembro.setActivo(request.activo());
         // Reactivar a mano desde aquí también resuelve cualquier solicitud
         // que hubiera pendiente -si no, se quedaría "pidiendo reactivación"
@@ -136,6 +138,24 @@ public class MiembroJuntaCofradiaService {
         administradorService.exigirAdministrador();
         MiembroJuntaCofradia miembro = obtener(id);
         miembroJuntaCofradiaRepository.delete(miembro);
+    }
+
+    // Para un miembro con "invitación pendiente" (passwordProvisional=true)
+    // que no encuentra el correo original, o simplemente lo perdió: genera
+    // una contraseña provisional nueva -invalida la anterior, aunque no la
+    // hubiera usado- y la vuelve a mandar. Mismo motivo de @Transactional
+    // que crear(): si el correo falla, no dejar cambiada la contraseña de
+    // una cuenta cuyo dueño no ha visto la nueva.
+    @Transactional
+    public MiembroJuntaCofradia reenviarInvitacion(Long id) {
+        administradorService.exigirAdministrador();
+        MiembroJuntaCofradia miembro = obtener(id);
+        String passwordGenerada = generarPassword();
+        miembro.setPasswordHash(passwordEncoder.encode(passwordGenerada));
+        miembro.setPasswordProvisional(true);
+        miembro = miembroJuntaCofradiaRepository.save(miembro);
+        correoService.enviarBienvenidaMiembroJunta(miembro.getNombre(), miembro.getEmail(), passwordGenerada);
+        return miembro;
     }
 
     // Para entidades compartidas sin dueño único (Recorrido, PuntoRuta,
