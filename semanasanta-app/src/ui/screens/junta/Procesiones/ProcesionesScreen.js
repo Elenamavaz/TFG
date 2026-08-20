@@ -1,11 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getCiudadPorId, getCofradiasPorCiudad, getProcesionesPorCiudad, cancelarProcesion } from '../../../../data/services';
+import { Prioridad } from '../../../../data/models';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { styles } from './ProcesionesScreen.styles';
+
+// Mismo criterio de color que Notificacion.colorCategoria (ver HomeScreen):
+// ALTA/URGENTE grave, MEDIA a medias, BAJA informativo.
+const OPCIONES_PRIORIDAD = [
+  { valor: Prioridad.BAJA, etiqueta: 'Baja', background: colors.greenBackground, texto: colors.lightGreenText },
+  { valor: Prioridad.MEDIA, etiqueta: 'Media', background: colors.backgroundOrange, texto: colors.orangeText },
+  { valor: Prioridad.ALTA, etiqueta: 'Alta', background: colors.backgroundRed, texto: colors.redText },
+  { valor: Prioridad.URGENTE, etiqueta: 'Urgente', background: colors.backgroundRed, texto: colors.redText },
+];
 
 const COLOR_POR_ESTADO = {
   Programada: { background: colors.backgroundOrange, texto: colors.orangeText },
@@ -47,6 +57,9 @@ export function ProcesionesScreen({ route, navigation }) {
   const [filtroCofradiaId, setFiltroCofradiaId] = useState(null); // null = "Todos"
   const [modalFiltroVisible, setModalFiltroVisible] = useState(false);
   const [procesandoId, setProcesandoId] = useState(null);
+  const [procesionACancelar, setProcesionACancelar] = useState(null); // null = modal cerrado
+  const [mensajeCancelar, setMensajeCancelar] = useState('');
+  const [prioridadCancelar, setPrioridadCancelar] = useState(null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -69,11 +82,23 @@ export function ProcesionesScreen({ route, navigation }) {
 
   useFocusEffect(cargar);
 
-  async function cancelar(procesion) {
-    if (procesandoId) return;
-    setProcesandoId(procesion.id);
+  function abrirCancelar(procesion) {
+    setProcesionACancelar(procesion);
+    setMensajeCancelar('');
+    setPrioridadCancelar(null);
+  }
+
+  function cerrarCancelar() {
+    if (procesandoId) return; // no cerrar a medio guardar
+    setProcesionACancelar(null);
+  }
+
+  async function confirmarCancelar() {
+    if (!prioridadCancelar || procesandoId) return;
+    setProcesandoId(procesionACancelar.id);
     try {
-      await cancelarProcesion(procesion.id);
+      await cancelarProcesion(procesionACancelar.id, { mensaje: mensajeCancelar.trim(), prioridad: prioridadCancelar });
+      setProcesionACancelar(null);
       cargar();
     } finally {
       setProcesandoId(null);
@@ -124,7 +149,7 @@ export function ProcesionesScreen({ route, navigation }) {
               <TouchableOpacity onPress={() => navigation.navigate('FormularioProcesion', { ciudadId, procesionId: procesion.id })}>
                 <Text style={styles.accionEditar}>Editar</Text>
               </TouchableOpacity>
-              <TouchableOpacity disabled={procesandoId === procesion.id} onPress={() => cancelar(procesion)}>
+              <TouchableOpacity disabled={procesandoId === procesion.id} onPress={() => abrirCancelar(procesion)}>
                 <Text style={styles.accionCancelar}>Cancelar</Text>
               </TouchableOpacity>
             </View>
@@ -158,6 +183,60 @@ export function ProcesionesScreen({ route, navigation }) {
               </TouchableOpacity>
             ))}
           </View>
+        </Pressable>
+      </Modal>
+
+      <Modal transparent visible={procesionACancelar !== null} animationType="fade" onRequestClose={cerrarCancelar}>
+        <Pressable style={styles.overlay} onPress={cerrarCancelar}>
+          <Pressable style={styles.modalCancelar} onPress={() => {}}>
+            <Text style={styles.modalCancelarTitulo}>Cancelar procesión</Text>
+            <Text style={styles.modalCancelarSubtitulo}>
+              {procesionACancelar ? `Se avisará a los ciudadanos de que "${procesionACancelar.nombre}" se cancela.` : ''}
+            </Text>
+
+            <Text style={styles.etiquetaCancelar}>Motivo (opcional)</Text>
+            <TextInput
+              style={[styles.inputCancelar, styles.inputCancelarMultilinea]}
+              value={mensajeCancelar}
+              onChangeText={setMensajeCancelar}
+              placeholder="Ej. corte de calle por aforo"
+              placeholderTextColor={colors.subtitle}
+              multiline
+            />
+
+            <Text style={styles.etiquetaCancelar}>Prioridad</Text>
+            <View style={styles.prioridadRow}>
+              {OPCIONES_PRIORIDAD.map((opcion) => {
+                const seleccionada = prioridadCancelar === opcion.valor;
+                return (
+                  <TouchableOpacity
+                    key={opcion.valor}
+                    style={[
+                      styles.prioridadChip,
+                      { backgroundColor: opcion.background },
+                      seleccionada && { borderColor: opcion.texto },
+                    ]}
+                    onPress={() => setPrioridadCancelar(opcion.valor)}
+                  >
+                    <Text style={[styles.prioridadChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <View style={styles.modalCancelarAcciones}>
+              <TouchableOpacity style={styles.volverButton} onPress={cerrarCancelar} disabled={procesandoId !== null}>
+                <Text style={styles.volverTexto}>Volver</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.confirmarCancelarButton, !prioridadCancelar && styles.botonDeshabilitado]}
+                onPress={confirmarCancelar}
+                disabled={!prioridadCancelar || procesandoId !== null}
+              >
+                <Text style={styles.confirmarCancelarTexto}>Confirmar cancelación</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
         </Pressable>
       </Modal>
     </ScreenContainer>

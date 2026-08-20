@@ -1,5 +1,6 @@
 package com.semanasanta.backend.controller;
 
+import com.semanasanta.backend.dto.CancelarProcesionRequest;
 import com.semanasanta.backend.dto.PosicionActualRequest;
 import com.semanasanta.backend.dto.PosicionActualResponse;
 import com.semanasanta.backend.dto.PosicionAgregadaResponse;
@@ -71,10 +72,11 @@ public class ProcesionController {
     }
 
     // La procesión sigue existiendo, solo cambia de estado -distinto de
-    // eliminar(), ver ProcesionService.cancelar.
+    // eliminar(), ver ProcesionService.cancelar. El cuerpo lleva el
+    // mensaje/prioridad de la Notificacion que se genera de paso.
     @PostMapping("/{id}/cancelar")
-    public ProcesionResponse cancelar(@PathVariable Long id) {
-        Procesion procesion = procesionService.cancelar(id);
+    public ProcesionResponse cancelar(@PathVariable Long id, @Valid @RequestBody CancelarProcesionRequest request) {
+        Procesion procesion = procesionService.cancelar(id, request);
         return ProcesionResponse.from(procesion);
     }
 

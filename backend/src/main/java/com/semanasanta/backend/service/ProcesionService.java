@@ -1,5 +1,7 @@
 package com.semanasanta.backend.service;
 
+import com.semanasanta.backend.dto.CancelarProcesionRequest;
+import com.semanasanta.backend.dto.NotificacionRequest;
 import com.semanasanta.backend.dto.ProcesionRequest;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.RecursoDuplicadoException;
@@ -20,16 +22,19 @@ public class ProcesionService {
     private final RecorridoService recorridoService;
     private final PasoService pasoService;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final NotificacionService notificacionService;
 
     public ProcesionService(ProcesionRepository procesionRepository, CofradiaService cofradiaService,
                              UbicacionService ubicacionService, RecorridoService recorridoService,
-                             PasoService pasoService, MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+                             PasoService pasoService, MiembroJuntaCofradiaService miembroJuntaCofradiaService,
+                             NotificacionService notificacionService) {
         this.procesionRepository = procesionRepository;
         this.cofradiaService = cofradiaService;
         this.ubicacionService = ubicacionService;
         this.recorridoService = recorridoService;
         this.pasoService = pasoService;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.notificacionService = notificacionService;
     }
 
     public List<Procesion> listar() {
@@ -114,12 +119,29 @@ public class ProcesionService {
     // que se canceló, no desaparece sin más). Es el endpoint que el
     // comentario de actualizar() ya anticipaba ("lo cambiará un endpoint
     // propio más adelante").
-    public Procesion cancelar(Long id) {
+    //
+    // Genera también la Notificacion CANCELACION (mismo día, tras revisar con
+    // Elena qué notificaciones tienen sentido de verdad): antes de esto,
+    // cancelar cambiaba el estado pero no avisaba a nadie -el ciudadano no se
+    // enteraba por la app. exigirJuntaDeLaCiudad se comprueba aquí Y dentro
+    // de notificacionService.crear (redundante pero no falso: mismo actor,
+    // misma ciudad; no compensa una vía interna que se salte esa comprobación
+    // solo para ahorrarse una consulta).
+    public Procesion cancelar(Long id, CancelarProcesionRequest request) {
         Procesion procesion = obtener(id);
         Long ciudadActualId = procesion.getCofradias().iterator().next().getCiudad().getId();
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudadActualId);
         procesion.setEstado(EstadoEvento.CANCELADO);
-        return procesionRepository.save(procesion);
+        Procesion cancelada = procesionRepository.save(procesion);
+        notificacionService.crear(new NotificacionRequest(
+                "Cancelada: " + procesion.getNombre(),
+                request.mensaje(),
+                ciudadActualId,
+                TipoNotificacion.CANCELACION,
+                request.prioridad(),
+                null
+        ));
+        return cancelada;
     }
 
     // ubicacionId es opcional para una Procesion (a diferencia de Evento,

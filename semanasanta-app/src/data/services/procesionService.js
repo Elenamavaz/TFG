@@ -46,8 +46,13 @@ export async function eliminarProcesion(id) {
 }
 
 // "Cancelar" de la lista de Procesiones: la procesión sigue existiendo, solo
-// cambia de estado -distinto de eliminarProcesion.
-export async function cancelarProcesion(id) {
-  const procesion = await apiFetch(`/procesiones/${id}/cancelar`, { method: 'POST' });
+// cambia de estado -distinto de eliminarProcesion. mensaje/prioridad son los
+// de la Notificacion CANCELACION que el backend genera de paso (2026-08-20):
+// antes de esto cancelar no avisaba a nadie.
+export async function cancelarProcesion(id, { mensaje, prioridad }) {
+  const procesion = await apiFetch(`/procesiones/${id}/cancelar`, {
+    method: 'POST',
+    body: { mensaje: mensaje || null, prioridad },
+  });
   return new Procesion(procesion);
 }
