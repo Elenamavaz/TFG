@@ -21,6 +21,7 @@ public record EventoRequest(
         @NotEmpty(message = "Al menos una cofradía debe participar en el evento")
         List<Long> cofradiaIds,
         @NotNull(message = "ubicacionId es obligatorio")
-        Long ubicacionId
+        Long ubicacionId,
+        String web
 ) {
 }

@@ -53,7 +53,8 @@ public class EventoService {
         // Resuelve y autoriza en un paso: todas las cofradiaIds deben ser de
         // la misma ciudad, y la Junta que las gestiona es quien puede crear.
         Set<Cofradia> cofradias = cofradiaService.resolverYExigirJuntaDeCofradiasEnLaMismaCiudad(request.cofradiaIds());
-        Evento evento = new Evento(request.nombre(), request.historia(), request.tradicion(), request.fecha(), ubicacion);
+        Evento evento = new Evento(request.nombre(), request.historia(), request.tradicion(), request.fecha(), ubicacion,
+                request.web());
         cofradias.forEach(evento::addCofradia);
         return eventoRepository.save(evento);
     }
@@ -77,6 +78,7 @@ public class EventoService {
         evento.setTradicion(request.tradicion());
         evento.setFecha(request.fecha());
         evento.setUbicacion(ubicacion);
+        evento.setWeb(request.web());
         evento.getCofradias().clear();
         nuevasCofradias.forEach(evento::addCofradia);
         // estado no se toca aquí: lo cambiará un endpoint propio más adelante.

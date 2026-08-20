@@ -47,8 +47,9 @@ public class Procesion extends Evento {
     }
 
     public Procesion(String nombre, String historia, String tradicion, LocalDateTime fecha,
-                      Ubicacion ubicacion, LocalDateTime fechaInicio, LocalDateTime fechaFin, Recorrido recorrido) {
-        super(nombre, historia, tradicion, fecha, ubicacion);
+                      Ubicacion ubicacion, String web, LocalDateTime fechaInicio, LocalDateTime fechaFin,
+                      Recorrido recorrido) {
+        super(nombre, historia, tradicion, fecha, ubicacion, web);
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.recorrido = recorrido;

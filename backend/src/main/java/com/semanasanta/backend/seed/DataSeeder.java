@@ -298,7 +298,7 @@ public class DataSeeder implements CommandLineRunner {
             return;
         }
         log.info("Creando evento '{}'", nombre);
-        Evento evento = new Evento(nombre, historia, tradicion, fecha, ubicacion);
+        Evento evento = new Evento(nombre, historia, tradicion, fecha, ubicacion, null);
         evento.addCofradia(organiza);
         eventoRepository.save(evento);
     }
@@ -324,7 +324,7 @@ public class DataSeeder implements CommandLineRunner {
 
         // "fecha" (heredado de Evento) se hace coincidir con la salida real:
         // para una procesión ya en marcha no tiene sentido que difieran.
-        Procesion procesion = new Procesion(nombre, historia, tradicion, fechaInicio, ubicacionSalida,
+        Procesion procesion = new Procesion(nombre, historia, tradicion, fechaInicio, ubicacionSalida, null,
                 fechaInicio, fechaFin, recorrido);
         procesion.addCofradia(cofradia);
         pasos.forEach(procesion::addPaso);

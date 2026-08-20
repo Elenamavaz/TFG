@@ -36,6 +36,10 @@ public class Evento {
     @Column(nullable = false)
     private LocalDateTime fecha;
 
+    // "Web Oficial" del mockup del panel de Junta (2026-08-20), mismo patrón
+    // que Cofradia.web.
+    private String web;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoEvento estado;
@@ -52,19 +56,24 @@ public class Evento {
     )
     private Set<Cofradia> cofradias = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ubicacion_id", nullable = false)
+    // Nullable a propósito (ver migración V32): un Evento suelto sí necesita
+    // un sitio fijo (lo exige EventoRequest con @NotNull, a nivel de
+    // aplicación), pero una Procesion -que hereda esta misma tabla- no
+    // siempre lo tiene, su extensión real es el Recorrido.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
 
     protected Evento() {
     }
 
-    public Evento(String nombre, String historia, String tradicion, LocalDateTime fecha, Ubicacion ubicacion) {
+    public Evento(String nombre, String historia, String tradicion, LocalDateTime fecha, Ubicacion ubicacion, String web) {
         this.nombre = nombre;
         this.historia = historia;
         this.tradicion = tradicion;
         this.fecha = fecha;
         this.ubicacion = ubicacion;
+        this.web = web;
         this.estado = EstadoEvento.PROGRAMADO; // todo evento (o procesión) nace PROGRAMADO
     }
 
@@ -102,6 +111,14 @@ public class Evento {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
     }
 
     public EstadoEvento getEstado() {

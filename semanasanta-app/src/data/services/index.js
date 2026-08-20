@@ -38,7 +38,7 @@ export {
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
 export { getUbicacionPorId } from './lugarService';
-export { getRecorridoCompleto } from './recorridoService';
+export { getRecorridoCompleto, importarGpxRecorrido } from './recorridoService';
 export { getCofradiasPorCiudad, getCofradiaPorId } from './cofradiaService';
 export { getPasosPorCofradia, getPasosPorIds, getPasoPorId } from './pasoService';
 export { getEventosPorCiudad, getEventoPorId, getEventosPorCofradia } from './eventoService';
@@ -47,6 +47,10 @@ export {
   getProcesionPorId,
   getProcesionEnCurso,
   getProcesionesPorCofradia,
+  crearProcesion,
+  actualizarProcesion,
+  eliminarProcesion,
+  cancelarProcesion,
 } from './procesionService';
 export { getDiasSemanaSanta } from './diaService';
 export { getNotificacionesActivas } from './alertaService';

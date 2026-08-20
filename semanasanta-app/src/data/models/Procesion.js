@@ -32,6 +32,7 @@ export class Procesion extends Favoriteable {
     fechaFin = null,
     estado,
     ubicacionId = null,
+    web = null,
   }) {
     super();
     const partida = partirFechaHora(fecha);
@@ -48,7 +49,11 @@ export class Procesion extends Favoriteable {
     this.estado = estado;
     this.fechaInicio = fechaInicio;
     this.fechaFin = fechaFin;
+    // Opcional a diferencia de Evento (2026-08-20, migración V32 del
+    // backend): una procesión no tiene un único punto -tiene un recorrido-,
+    // así que puede venir a null.
     this.ubicacionId = ubicacionId;
+    this.web = web;
   }
 
   getFavoritoRef() {

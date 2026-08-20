@@ -14,14 +14,19 @@ import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { styles } from './PerfilJuntaScreen.styles';
 
-// "Próximamente" a propósito: solo Editar perfil tiene mockup completo
-// todavía (2026-08-18) -Cofradías/Procesiones/Eventos/Pasos son la lista de
-// Gestión del mockup, pero sin pantallas de alta/edición propias aún, ver
-// memoria del TFG (mismo criterio que el resto del panel Admin: no se
-// construye una sección a medias).
+// "Próximamente" a propósito: Cofradías/Eventos/Pasos siguen sin mockup de
+// alta/edición propio -mismo criterio que el resto del panel, no se
+// construye una sección a medias. Procesiones (mockup del 2026-08-20) ya
+// tiene pantallas reales.
 const OPCIONES_GESTION = [
   { id: 'cofradias', icono: 'church', titulo: 'Cofradias', subtitulo: 'Crear, editar y eliminar cofradias', ruta: null },
-  { id: 'procesiones', icono: 'walk', titulo: 'Procesiones', subtitulo: 'Crear, editar y eliminar procesiones', ruta: null },
+  {
+    id: 'procesiones',
+    icono: 'walk',
+    titulo: 'Procesiones',
+    subtitulo: 'Crear, editar y eliminar procesiones',
+    ruta: 'Procesiones',
+  },
   { id: 'eventos', icono: 'calendar-star', titulo: 'Eventos', subtitulo: 'Crear, editar y eliminar eventos', ruta: null },
   { id: 'pasos', icono: 'cross', titulo: 'Pasos', subtitulo: 'Crear, editar y eliminar pasos', ruta: null },
   {
@@ -62,7 +67,9 @@ export function PerfilJuntaScreen({ navigation }) {
 
   function abrirOpcion(opcion) {
     if (!opcion.ruta) return;
-    navigation.navigate(opcion.ruta);
+    // Procesiones necesita saber de qué ciudad -la misma que ya está
+    // resuelta aquí para "Ciudad gestionada", no hace falta volver a elegirla.
+    navigation.navigate(opcion.ruta, opcion.ruta === 'Procesiones' ? { ciudadId: ciudad?.id } : undefined);
   }
 
   async function salir() {

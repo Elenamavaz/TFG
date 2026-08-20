@@ -51,13 +51,13 @@ public class ProcesionService {
     }
 
     public Procesion crear(ProcesionRequest request) {
-        Ubicacion ubicacion = ubicacionService.obtener(request.ubicacionId());
+        Ubicacion ubicacion = resolverUbicacion(request.ubicacionId());
         Recorrido recorrido = resolverRecorrido(request.recorridoId(), null);
         // Resuelve y autoriza en un paso: todas las cofradiaIds deben ser de
         // la misma ciudad, y la Junta que las gestiona es quien puede crear.
         Set<Cofradia> cofradias = cofradiaService.resolverYExigirJuntaDeCofradiasEnLaMismaCiudad(request.cofradiaIds());
         Procesion procesion = new Procesion(
-                request.nombre(), request.historia(), request.tradicion(), request.fecha(), ubicacion,
+                request.nombre(), request.historia(), request.tradicion(), request.fecha(), ubicacion, request.web(),
                 request.fechaInicio(), request.fechaFin(), recorrido
         );
         cofradias.forEach(procesion::addCofradia);
@@ -78,7 +78,7 @@ public class ProcesionService {
             throw new AccesoDenegadoException("Una procesión no puede moverse a otra ciudad");
         }
 
-        Ubicacion ubicacion = ubicacionService.obtener(request.ubicacionId());
+        Ubicacion ubicacion = resolverUbicacion(request.ubicacionId());
         Long recorridoActualId = procesion.getRecorrido() != null ? procesion.getRecorrido().getId() : null;
         Recorrido recorrido = resolverRecorrido(request.recorridoId(), recorridoActualId);
 
@@ -87,6 +87,7 @@ public class ProcesionService {
         procesion.setTradicion(request.tradicion());
         procesion.setFecha(request.fecha());
         procesion.setUbicacion(ubicacion);
+        procesion.setWeb(request.web());
         procesion.setFechaInicio(request.fechaInicio());
         procesion.setFechaFin(request.fechaFin());
         procesion.setRecorrido(recorrido);
@@ -105,6 +106,27 @@ public class ProcesionService {
         Long ciudadActualId = procesion.getCofradias().iterator().next().getCiudad().getId();
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudadActualId);
         procesionRepository.delete(procesion);
+    }
+
+    // "Cancelar" del mockup del panel de Junta (2026-08-20): a diferencia de
+    // eliminar(), la procesión sigue existiendo -solo cambia su estado-, así
+    // que sigue siendo consultable (p.ej. el ciudadano puede seguir viendo
+    // que se canceló, no desaparece sin más). Es el endpoint que el
+    // comentario de actualizar() ya anticipaba ("lo cambiará un endpoint
+    // propio más adelante").
+    public Procesion cancelar(Long id) {
+        Procesion procesion = obtener(id);
+        Long ciudadActualId = procesion.getCofradias().iterator().next().getCiudad().getId();
+        miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudadActualId);
+        procesion.setEstado(EstadoEvento.CANCELADO);
+        return procesionRepository.save(procesion);
+    }
+
+    // ubicacionId es opcional para una Procesion (a diferencia de Evento,
+    // ver ProcesionRequest): sin ella, la procesión simplemente no tiene
+    // punto de partida fijo -su extensión real es el Recorrido.
+    private Ubicacion resolverUbicacion(Long ubicacionId) {
+        return ubicacionId != null ? ubicacionService.obtener(ubicacionId) : null;
     }
 
     private void asignarPasos(Procesion procesion, List<Long> pasosIds) {

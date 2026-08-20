@@ -55,13 +55,15 @@ export class ApiError extends Error {
 // SecurityConfig) seguirán funcionando igual sin tocar nada.
 export async function apiFetch(path, options = {}) {
   const { body, headers, ...resto } = options;
+  // Subida de archivos (ver recorridoService.importarGpxRecorrido): un
+  // FormData va tal cual, SIN "Content-Type": application/json ni
+  // JSON.stringify -fetch le pone su propio Content-Type multipart con el
+  // boundary correcto solo si se lo dejamos poner a él.
+  const esFormData = typeof FormData !== 'undefined' && body instanceof FormData;
   const response = await fetch(`${BASE_URL}${path}`, {
     ...resto,
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    headers: esFormData ? headers : { 'Content-Type': 'application/json', ...headers },
+    body: esFormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
   });
 
   if (response.status === 204) {

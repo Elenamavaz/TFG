@@ -27,3 +27,27 @@ export async function getProcesionEnCurso(ciudadId) {
   const procesiones = await getProcesionesPorCiudad(ciudadId);
   return procesiones.find((p) => p.estado === 'EN_CURSO') ?? null;
 }
+
+// Gestión (panel de Junta, mockup del 2026-08-20): las escrituras exigen JWT
+// de Junta de la ciudad en el backend.
+
+export async function crearProcesion(datos) {
+  const procesion = await apiFetch('/procesiones', { method: 'POST', body: datos });
+  return new Procesion(procesion);
+}
+
+export async function actualizarProcesion(id, datos) {
+  const procesion = await apiFetch(`/procesiones/${id}`, { method: 'PUT', body: datos });
+  return new Procesion(procesion);
+}
+
+export async function eliminarProcesion(id) {
+  await apiFetch(`/procesiones/${id}`, { method: 'DELETE' });
+}
+
+// "Cancelar" de la lista de Procesiones: la procesión sigue existiendo, solo
+// cambia de estado -distinto de eliminarProcesion.
+export async function cancelarProcesion(id) {
+  const procesion = await apiFetch(`/procesiones/${id}/cancelar`, { method: 'POST' });
+  return new Procesion(procesion);
+}

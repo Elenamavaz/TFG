@@ -70,6 +70,14 @@ public class ProcesionController {
         return ResponseEntity.noContent().build();
     }
 
+    // La procesión sigue existiendo, solo cambia de estado -distinto de
+    // eliminar(), ver ProcesionService.cancelar.
+    @PostMapping("/{id}/cancelar")
+    public ProcesionResponse cancelar(@PathVariable Long id) {
+        Procesion procesion = procesionService.cancelar(id);
+        return ProcesionResponse.from(procesion);
+    }
+
     // Nombre literal del Apéndice C: "la aplicación cliente consulta esta
     // posición mediante GET /procesiones/{id}/ubicacion". Ahora es un valor
     // CALCULADO (promedio de pings recientes), no una fila guardada.
