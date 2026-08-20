@@ -1,7 +1,9 @@
 package com.semanasanta.backend.service;
 
+import com.semanasanta.backend.dto.MiembroJuntaCofradiaPerfilRequest;
 import com.semanasanta.backend.dto.MiembroJuntaCofradiaRequest;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
+import com.semanasanta.backend.exception.CredencialesInvalidasException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.JuntaCofradias;
 import com.semanasanta.backend.model.MiembroJuntaCofradia;
@@ -90,6 +92,32 @@ public class MiembroJuntaCofradiaService {
         // aun ya reactivado.
         if (request.activo()) {
             miembro.setSolicitudReactivacionPendiente(false);
+        }
+        return miembroJuntaCofradiaRepository.save(miembro);
+    }
+
+    // "Editar perfil" del panel de Junta -mismo patrón que
+    // AdministradorService.actualizarPerfilPropio, pero SÍ pasa por
+    // exigirJunta(): a diferencia de solicitarReactivacion (pensado
+    // justamente para quien está desactivado), esto es "hacer cambios" de
+    // verdad, y un miembro desactivado no puede hacer ninguno -ni siquiera
+    // en su propio nombre/teléfono/contraseña.
+    public MiembroJuntaCofradia actualizarPerfilPropio(MiembroJuntaCofradiaPerfilRequest request) {
+        exigirJunta();
+        MiembroJuntaCofradia miembro = obtener(SecurityUtils.usuarioActual().id());
+
+        if (!passwordEncoder.matches(request.passwordActual(), miembro.getPasswordHash())) {
+            throw new CredencialesInvalidasException("La contraseña actual no es correcta");
+        }
+
+        miembro.setNombre(request.nombre());
+        miembro.setTelefono(request.telefono());
+        if (request.passwordNueva() != null && !request.passwordNueva().isBlank()) {
+            miembro.setPasswordHash(passwordEncoder.encode(request.passwordNueva()));
+            // Termina el alta si todavía estaba "pendiente" (ver
+            // AuthService.cambiarPassword, mismo criterio: cambiar la
+            // contraseña -por el camino que sea- es lo que cuenta).
+            miembro.setPasswordProvisional(false);
         }
         return miembroJuntaCofradiaRepository.save(miembro);
     }

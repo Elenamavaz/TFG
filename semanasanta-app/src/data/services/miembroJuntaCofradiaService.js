@@ -33,6 +33,14 @@ export async function eliminarMiembroJuntaCofradia(id) {
   await apiFetch(`/miembros-junta/${id}`, { method: 'DELETE' });
 }
 
+// "Editar perfil" del panel de Junta (mockup del 2026-08-18): el propio
+// miembro editando SUS datos -mismo patrón que actualizarPerfilPropio de
+// administradorService, sin {id} en la URL, siempre el del JWT.
+export async function actualizarPerfilPropioJunta(datos) {
+  const miembro = await apiFetch('/miembros-junta/perfil', { method: 'PUT', body: datos });
+  return new MiembroJuntaCofradia(miembro);
+}
+
 // Genera una contraseña provisional nueva y la reenvía por correo -para un
 // miembro con "invitación pendiente" que no la encuentra o la perdió.
 export async function reenviarInvitacion(id) {

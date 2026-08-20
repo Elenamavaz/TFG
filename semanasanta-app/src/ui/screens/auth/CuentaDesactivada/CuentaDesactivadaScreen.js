@@ -10,11 +10,11 @@ import { styles } from './CuentaDesactivadaScreen.styles';
 // Destino tras un login correcto de un Miembro de Junta desactivado (ver
 // AuthResponse.activo del backend, MiembroJuntaCofradiaService.exigirJunta):
 // el login funciona igual -las credenciales son correctas-, pero en vez de
-// llevarle al panel de Junta (todavía "próximamente", ver
-// PanelProximamenteScreen), se le deja aquí. "Solicitar reactivación" es la
-// única escritura que se le permite (MiembroJuntaCofradiaService la deja
-// pasar aposta, sin pasar por exigirJunta): crea una solicitud que el
-// Administrador ve y acepta/rechaza, ver SolicitudesReactivacionScreen.
+// llevarle al panel de Junta real (JuntaStackNavigator), se le deja aquí.
+// "Solicitar reactivación" es la única escritura que se le permite
+// (MiembroJuntaCofradiaService la deja pasar aposta, sin pasar por
+// exigirJunta): crea una solicitud que el Administrador ve y acepta/rechaza,
+// ver SolicitudesReactivacionScreen.
 export function CuentaDesactivadaScreen({ navigation }) {
   const { cerrarSesion } = useAuth();
   const [enviando, setEnviando] = useState(false);

@@ -58,17 +58,15 @@ export function LoginScreen({ navigation }) {
         return;
       }
       iniciarSesion(respuesta);
-      // Administrador tiene panel real propio; una Junta desactivada
-      // (respuesta.activo === false, ver AuthResponse del backend) va a un
-      // aviso de que no puede hacer cambios, no al panel; una Junta activa
-      // sigue en "próximamente" (su panel real es una pasada posterior, ver
-      // memoria del TFG).
+      // Administrador y Junta tienen cada uno su propio panel real; una
+      // Junta desactivada (respuesta.activo === false, ver AuthResponse del
+      // backend) va a un aviso de que no puede hacer cambios, no al panel.
       const destino =
         respuesta.rol === 'ADMIN'
           ? 'AdministradorStack'
           : respuesta.activo === false
             ? 'CuentaDesactivada'
-            : 'PanelProximamente';
+            : 'JuntaStack';
       navigation.reset({ index: 0, routes: [{ name: destino }] });
     } catch (err) {
       setError(err.message);

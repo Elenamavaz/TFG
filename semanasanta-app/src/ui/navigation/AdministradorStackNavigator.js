@@ -29,8 +29,10 @@ const screenOptions = {
 // entra aquí directamente en cuanto detecta una sesión con rol ADMIN, sin
 // pasar por MainTabs/PerfilStackNavigator (eso es solo para Ciudadano/
 // Cofrade/Junta). Perfil + Ciudades + Juntas + Miembros (mockup del
-// 2026-08-17, última pieza) ya completos; falta la barra de pestañas del
-// panel Admin, ver memoria del TFG.
+// 2026-08-17, última pieza) ya completos. Deliberadamente sin barra de
+// pestañas inferior (Elena, 2026-08-18: "si quieren consultar información
+// como un ciudadano que cierren sesión y entren como ciudadano") -mismo
+// criterio en JuntaStackNavigator.
 export function AdministradorStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>

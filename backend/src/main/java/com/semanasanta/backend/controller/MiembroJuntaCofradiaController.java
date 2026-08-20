@@ -1,5 +1,6 @@
 package com.semanasanta.backend.controller;
 
+import com.semanasanta.backend.dto.MiembroJuntaCofradiaPerfilRequest;
 import com.semanasanta.backend.dto.MiembroJuntaCofradiaRequest;
 import com.semanasanta.backend.dto.MiembroJuntaCofradiaResponse;
 import com.semanasanta.backend.model.MiembroJuntaCofradia;
@@ -44,6 +45,15 @@ public class MiembroJuntaCofradiaController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         miembroJuntaCofradiaService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Sin {id}: siempre es el propio miembro autenticado, ver
+    // MiembroJuntaCofradiaService.actualizarPerfilPropio -mismo patrón que
+    // PUT /administradores/perfil.
+    @PutMapping("/perfil")
+    public MiembroJuntaCofradiaResponse actualizarPerfilPropio(@Valid @RequestBody MiembroJuntaCofradiaPerfilRequest request) {
+        MiembroJuntaCofradia miembro = miembroJuntaCofradiaService.actualizarPerfilPropio(request);
+        return MiembroJuntaCofradiaResponse.from(miembro);
     }
 
     // Autoservicio del propio miembro desactivado, ver

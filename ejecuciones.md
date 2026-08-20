@@ -17,3 +17,8 @@ script para popblar la base de datos
 
 cd backend
 mvn spring-boot:run "-Dspring-boot.run.profiles=seed"
+
+
+
+
+user asdmin admin@semanasanta-app.local / Admin1234!

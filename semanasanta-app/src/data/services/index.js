@@ -20,6 +20,7 @@ export {
   crearMiembroJuntaCofradia,
   actualizarMiembroJuntaCofradia,
   eliminarMiembroJuntaCofradia,
+  actualizarPerfilPropioJunta,
   reenviarInvitacion,
   solicitarReactivacion,
   getSolicitudesReactivacion,
