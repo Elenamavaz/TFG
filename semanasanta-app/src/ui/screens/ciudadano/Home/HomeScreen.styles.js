@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     marginTop: spacing.lg,
   },
   // Sin backgroundColor/borderColor aquí: los pone HomeScreen según
-  // Alerta.colorCategoria/Aviso.colorCategoria (roja/naranja/verde).
+  // Notificacion.colorCategoria (roja/naranja/verde).
   avisoCard: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -1,50 +1,34 @@
 package com.semanasanta.backend.dto;
 
-import com.semanasanta.backend.model.Alerta;
-import com.semanasanta.backend.model.Aviso;
 import com.semanasanta.backend.model.Notificacion;
 
 import java.time.LocalDateTime;
 
-// Vista unificada de Notificacion y sus subtipos Aviso/Alerta (mismo patrón
-// que PuntoRutaResponse con PuntoRuta/PuntoDeInteres): los campos que no
-// aplican al subtipo concreto quedan a null.
+// Sustituye a la versión con instanceof Aviso/Alerta (2026-08-20, ver
+// Notificacion): ya no hay dos subtipos que distinguir, es una vista directa
+// de la única clase. tipo/prioridad ya no son String -el cliente los recibe
+// como el name() del enum, igual que antes, pero aquí no hace falta
+// reconstruirlos a mano por subtipo.
 public record NotificacionResponse(
         Long id,
-        String tipo,
         String titulo,
+        String mensaje,
         LocalDateTime fechaCreacion,
         Long ciudadId,
-        LocalDateTime fechaExpiracion,
-        String tipoAlerta,
-        String prioridad
+        String tipo,
+        String prioridad,
+        LocalDateTime fechaExpiracion
 ) {
     public static NotificacionResponse from(Notificacion notificacion) {
-        String tipo;
-        LocalDateTime fechaExpiracion = null;
-        String tipoAlerta = null;
-        String prioridad = null;
-        if (notificacion instanceof Aviso aviso) {
-            tipo = "AVISO";
-            fechaExpiracion = aviso.getFechaExpiracion();
-        } else if (notificacion instanceof Alerta alerta) {
-            tipo = "ALERTA";
-            tipoAlerta = alerta.getTipoAlerta().name();
-            prioridad = alerta.getPrioridad().name();
-        } else {
-            // No debería llegar a pasar: Notificacion es abstracta, solo
-            // existen instancias de sus dos subtipos.
-            throw new IllegalStateException("Tipo de notificación desconocido: " + notificacion.getClass());
-        }
         return new NotificacionResponse(
                 notificacion.getId(),
-                tipo,
                 notificacion.getTitulo(),
+                notificacion.getMensaje(),
                 notificacion.getFechaCreacion(),
                 notificacion.getCiudad().getId(),
-                fechaExpiracion,
-                tipoAlerta,
-                prioridad
+                notificacion.getTipo().name(),
+                notificacion.getPrioridad() != null ? notificacion.getPrioridad().name() : null,
+                notificacion.getFechaExpiracion()
         );
     }
 }

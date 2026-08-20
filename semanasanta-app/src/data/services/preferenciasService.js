@@ -11,7 +11,7 @@ const CLAVE_CIUDAD_ID = '@semanasanta/ciudadId';
 // muestra la primera vez.
 const CLAVE_MODO_ACCESO = '@semanasanta/modoAcceso';
 
-// Ids de las notificaciones (Aviso o Alerta) que el usuario descartó a mano
+// Ids de las notificaciones que el usuario descartó a mano
 // en Inicio (icono de papelera, ver HomeScreen): no se borra nada en el
 // backend -el ciudadano no tiene sesión ni permisos para eso-, solo se dejan
 // de mostrar en ESTE dispositivo. Puede haber varias a la vez desde que

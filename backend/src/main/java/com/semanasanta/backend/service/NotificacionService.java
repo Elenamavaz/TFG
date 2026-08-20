@@ -1,35 +1,31 @@
 package com.semanasanta.backend.service;
 
-import com.semanasanta.backend.dto.AlertaRequest;
-import com.semanasanta.backend.dto.AvisoRequest;
+import com.semanasanta.backend.dto.NotificacionRequest;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
-import com.semanasanta.backend.model.Alerta;
-import com.semanasanta.backend.model.Aviso;
+import com.semanasanta.backend.exception.SolicitudInvalidaException;
 import com.semanasanta.backend.model.Ciudad;
 import com.semanasanta.backend.model.Notificacion;
-import com.semanasanta.backend.repository.AlertaRepository;
-import com.semanasanta.backend.repository.AvisoRepository;
+import com.semanasanta.backend.model.TipoNotificacion;
 import com.semanasanta.backend.repository.NotificacionRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class NotificacionService {
 
+    // INICIO/FIN no son creables a mano por la Junta -los genera el propio
+    // sistema (ver crearAutomatica) cuando Evento.estado cambia.
+    private static final Set<TipoNotificacion> TIPOS_AUTOMATICOS = Set.of(TipoNotificacion.INICIO, TipoNotificacion.FIN);
+
     private final NotificacionRepository notificacionRepository;
-    private final AvisoRepository avisoRepository;
-    private final AlertaRepository alertaRepository;
     private final CiudadService ciudadService;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
 
-    public NotificacionService(NotificacionRepository notificacionRepository, AvisoRepository avisoRepository,
-                                AlertaRepository alertaRepository, CiudadService ciudadService,
+    public NotificacionService(NotificacionRepository notificacionRepository, CiudadService ciudadService,
                                 MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
         this.notificacionRepository = notificacionRepository;
-        this.avisoRepository = avisoRepository;
-        this.alertaRepository = alertaRepository;
         this.ciudadService = ciudadService;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
     }
@@ -46,22 +42,24 @@ public class NotificacionService {
         return notificacionRepository.findByCiudadIdOrderByFechaCreacionDesc(ciudadId);
     }
 
-    public Aviso crearAviso(AvisoRequest request) {
+    // La única vía de creación a mano (la Junta redactando una incidencia,
+    // cambio de horario o cancelación). INICIO/FIN quedan fuera a propósito.
+    public Notificacion crear(NotificacionRequest request) {
+        if (TIPOS_AUTOMATICOS.contains(request.tipo())) {
+            throw new SolicitudInvalidaException(
+                    "El tipo " + request.tipo() + " lo genera el sistema, no se puede crear a mano");
+        }
+        if (request.prioridad() == null) {
+            throw new SolicitudInvalidaException("La prioridad es obligatoria para este tipo de notificación");
+        }
         Ciudad ciudad = ciudadService.obtener(request.ciudadId()); // 404 si la ciudad no existe
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudad.getId());
-        Aviso aviso = new Aviso(request.titulo(), ciudad, request.fechaExpiracion());
-        return avisoRepository.save(aviso);
-    }
-
-    public Alerta crearAlerta(AlertaRequest request) {
-        Ciudad ciudad = ciudadService.obtener(request.ciudadId()); // 404 si la ciudad no existe
-        miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudad.getId());
-        Alerta alerta = new Alerta(request.titulo(), ciudad, request.tipoAlerta(), request.prioridad());
-        return alertaRepository.save(alerta);
+        Notificacion notificacion = new Notificacion(request.titulo(), request.mensaje(), ciudad, request.tipo(),
+                request.prioridad(), request.fechaExpiracion());
+        return notificacionRepository.save(notificacion);
     }
 
     // Retractar una notificación ya enviada (no hay "editar": ver Notificacion).
-    @Transactional
     public void eliminar(Long id) {
         Notificacion notificacion = obtener(id);
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(notificacion.getCiudad().getId());

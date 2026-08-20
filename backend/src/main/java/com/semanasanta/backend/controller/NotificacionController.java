@@ -1,7 +1,6 @@
 package com.semanasanta.backend.controller;
 
-import com.semanasanta.backend.dto.AlertaRequest;
-import com.semanasanta.backend.dto.AvisoRequest;
+import com.semanasanta.backend.dto.NotificacionRequest;
 import com.semanasanta.backend.dto.NotificacionResponse;
 import com.semanasanta.backend.model.Notificacion;
 import com.semanasanta.backend.service.NotificacionService;
@@ -40,16 +39,14 @@ public class NotificacionController {
         return NotificacionResponse.from(notificacion);
     }
 
-    @PostMapping("/avisos")
+    // Sustituye a POST /notificaciones/avisos + POST /notificaciones/alertas
+    // (2026-08-20, ver Notificacion): un único endpoint, tipo dentro del
+    // cuerpo. No admite tipo=INICIO/FIN -- NotificacionService.crear lo
+    // rechaza, esos los genera el sistema (ver TipoNotificacion).
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public NotificacionResponse crearAviso(@Valid @RequestBody AvisoRequest request) {
-        return NotificacionResponse.from(notificacionService.crearAviso(request));
-    }
-
-    @PostMapping("/alertas")
-    @ResponseStatus(HttpStatus.CREATED)
-    public NotificacionResponse crearAlerta(@Valid @RequestBody AlertaRequest request) {
-        return NotificacionResponse.from(notificacionService.crearAlerta(request));
+    public NotificacionResponse crear(@Valid @RequestBody NotificacionRequest request) {
+        return NotificacionResponse.from(notificacionService.crear(request));
     }
 
     // No hay PUT: una notificación ya enviada no se edita (ver Notificacion).

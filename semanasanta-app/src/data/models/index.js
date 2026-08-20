@@ -13,9 +13,6 @@ export { Favoriteable } from './Favoriteable';
 export { Favorito } from './Favorito';
 
 export { Notificacion } from './Notificacion';
-export { Aviso } from './Aviso';
-export { Alerta } from './Alerta';
-export { EntregaNotificacion } from './EntregaNotificacion';
 
 export { Ubicacion } from './Ubicacion';
 export { PosicionActual } from './PosicionActual';
