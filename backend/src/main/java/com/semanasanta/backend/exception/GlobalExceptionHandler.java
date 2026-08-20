@@ -38,6 +38,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(ex.getMessage()));
     }
 
+    @ExceptionHandler(ArchivoInvalidoException.class)
+    public ResponseEntity<ErrorResponse> handleArchivoInvalido(ArchivoInvalidoException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage()));
+    }
+
     // Estado inválido para la operación pedida (p.ej. actualizar ubicación sin
     // haber empezado a compartir antes). 409, igual que un recurso duplicado:
     // la petición está bien formada, pero choca con el estado actual.

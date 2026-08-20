@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -68,6 +69,17 @@ public class RecorridoController {
     @ResponseStatus(HttpStatus.CREATED)
     public RecorridoResponse crear(@Valid @RequestBody RecorridoRequest request) {
         Recorrido recorrido = recorridoService.crear(request);
+        return RecorridoResponse.from(recorrido);
+    }
+
+    // Alternativa a crear "a mano" + agregarPuntoRuta punto a punto: sube un
+    // GPX (dibujado en gpx.studio/Wikiloc/etc, o grabado caminando la ruta)
+    // y se crea el Recorrido entero con todos sus puntos ya en orden, ver
+    // RecorridoService.importarGpx.
+    @PostMapping("/importar-gpx")
+    @ResponseStatus(HttpStatus.CREATED)
+    public RecorridoResponse importarGpx(@RequestParam("archivo") MultipartFile archivo) {
+        Recorrido recorrido = recorridoService.importarGpx(archivo);
         return RecorridoResponse.from(recorrido);
     }
 
