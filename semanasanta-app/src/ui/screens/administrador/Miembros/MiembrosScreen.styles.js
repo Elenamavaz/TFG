@@ -32,6 +32,66 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 15,
   },
+  // Filtro "Junta:" (2026-08-21, ver MiembrosScreen): mismo patrón que el
+  // filtro por Cofradía de ProcesionesScreen.
+  filtroRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginTop: spacing.md,
+  },
+  filtroEtiqueta: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+  },
+  filtroSelector: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: radii.md,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  filtroTexto: {
+    flex: 1,
+    color: colors.cream,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.lg,
+  },
+  modalLista: {
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
+    borderRadius: radii.md,
+    borderColor: colors.subtitle,
+    paddingVertical: spacing.xs,
+    width: '100%',
+    maxWidth: 320,
+    maxHeight: 360,
+  },
+  modalItem: {
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+  },
+  modalItemTexto: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiMedium,
+    fontSize: 15,
+  },
+  nuevoButtonDeshabilitado: {
+    opacity: 0.5,
+  },
   sectionTitle: {
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,

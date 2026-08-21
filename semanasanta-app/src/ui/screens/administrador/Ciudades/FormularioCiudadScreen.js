@@ -24,11 +24,11 @@ export function FormularioCiudadScreen({ route, navigation }) {
 
   const [cargandoDatos, setCargandoDatos] = useState(editando);
   const [nombre, setNombre] = useState('');
-  const [provincia, setProvincia] = useState('');
+  const [comunidadAutonoma, setComunidadAutonoma] = useState('');
+  const [provincia, setProvincia] = useState(''); // no está en el mockup (ver comentario abajo), se conserva tal cual venía
   const [historia, setHistoria] = useState('');
   const [patrimonio, setPatrimonio] = useState('');
   const [activa, setActiva] = useState(true);
-  const [comunidadAutonoma, setComunidadAutonoma] = useState(null); // no está en el mockup, se conserva tal cual venía
   const [junta, setJunta] = useState(null);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
@@ -54,11 +54,11 @@ export function FormularioCiudadScreen({ route, navigation }) {
     if (!editando) return;
     Promise.all([getCiudadPorId(ciudadId), getJuntasCofradias()]).then(([ciudad, juntas]) => {
       setNombre(ciudad.nombre);
+      setComunidadAutonoma(ciudad.comunidadAutonoma ?? '');
       setProvincia(ciudad.provincia ?? '');
       setHistoria(ciudad.historia ?? '');
       setPatrimonio(ciudad.patrimonio ?? '');
       setActiva(ciudad.activa);
-      setComunidadAutonoma(ciudad.comunidadAutonoma);
       setJunta(juntas.find((j) => j.ciudadId === ciudad.id) ?? null);
       setCargandoDatos(false);
     });
@@ -67,7 +67,7 @@ export function FormularioCiudadScreen({ route, navigation }) {
   function datosFormulario() {
     return {
       nombre: nombre.trim(),
-      comunidadAutonoma,
+      comunidadAutonoma: comunidadAutonoma.trim() || null,
       provincia: provincia.trim() || null,
       historia: historia.trim() || null,
       patrimonio: patrimonio.trim() || null,
@@ -131,8 +131,8 @@ export function FormularioCiudadScreen({ route, navigation }) {
         </View>
 
         <View style={styles.campo}>
-          <Text style={styles.etiqueta}>Provincia</Text>
-          <TextInput value={provincia} onChangeText={setProvincia} style={styles.input} />
+          <Text style={styles.etiqueta}>Comunidad Autónoma:</Text>
+          <TextInput value={comunidadAutonoma} onChangeText={setComunidadAutonoma} style={styles.input} />
         </View>
 
         <View style={styles.campo}>

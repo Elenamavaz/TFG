@@ -27,9 +27,12 @@ export function MiembroCreadoScreen({ route, navigation }) {
       >
         <Text style={styles.botonTexto}>Añadir otro miembro ahora</Text>
       </TouchableOpacity>
+      {/* replace, no navigate (2026-08-21, mismo motivo que
+          JuntaCreadaScreen "Hacerlo más tarde"): "atrás" desde Miembros no
+          debe volver a enseñar esta pantalla de confirmación. */}
       <TouchableOpacity
         style={styles.botonSecundario}
-        onPress={() => navigation.navigate('Miembros', { juntaId })}
+        onPress={() => navigation.replace('Miembros', { juntaId })}
         activeOpacity={0.85}
       >
         <Text style={styles.botonSecundarioTexto}>Ok</Text>

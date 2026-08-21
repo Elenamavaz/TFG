@@ -11,7 +11,7 @@ import { styles } from './PerfilAdministradorScreen.styles';
 const OPCIONES_GESTION = [
   {
     id: 'ciudades',
-    icono: 'location-city',
+    icono: 'city',
     titulo: 'Ciudades',
     subtitulo: 'Crear, editar y gestionar ciudades',
     ruta: 'Ciudades',
@@ -22,6 +22,16 @@ const OPCIONES_GESTION = [
     titulo: 'Juntas de Cofradías',
     subtitulo: 'Creación y eliminación de Juntas de Cofradía',
     ruta: 'Juntas',
+  },
+  {
+    id: 'miembros',
+    icono: 'account-multiple-outline',
+    titulo: 'Miembros de las Juntas',
+    subtitulo: 'Crear, editar y eliminar miembros de las juntas',
+    // Sin juntaId por params (mockup del 2026-08-21, ver MiembrosScreen):
+    // entra con el filtro "Junta:" en "Todos", no atado a una Junta concreta
+    // -distinto del acceso vía "Equipo" de una Junta, que sí preselecciona.
+    ruta: 'Miembros',
   },
   {
     id: 'solicitudes-reactivacion',

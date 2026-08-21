@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -8,6 +8,7 @@ import {
   getProcesionPorId,
   crearProcesion,
   actualizarProcesion,
+  eliminarProcesion,
   importarGpxRecorrido,
 } from '../../../../data/services';
 import { combinarFechaHora, sumarMinutos, formatearDuracionCorta, parsearDuracionCorta } from '../../../../data/utils/fechaSemanaSanta';
@@ -53,6 +54,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
   const [importandoGpx, setImportandoGpx] = useState(false);
   const [errorGpx, setErrorGpx] = useState(null);
   const [guardando, setGuardando] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
   const [error, setError] = useState(null);
   const [erroresCampos, setErroresCampos] = useState({});
 
@@ -159,6 +161,31 @@ export function FormularioProcesionScreen({ route, navigation }) {
     } finally {
       setGuardando(false);
     }
+  }
+
+  // Mismo patrón que FormularioMiembroScreen (2026-08-20, ver memoria del
+  // TFG): alineado con Ciudad/Junta/Miembro -Elena quería "Eliminar" en el
+  // formulario, no solo en la lista (que tampoco lo tenía). A diferencia de
+  // Miembro, aquí "Cancelar" (descartar el formulario) se queda visible en
+  // los dos modos -decisión ya tomada el mismo día para Procesion-, así que
+  // en edición conviven Crear/Cancelar/Eliminar, no es mutuamente excluyente.
+  function confirmarEliminar() {
+    Alert.alert('Eliminar procesión', `¿Seguro que quieres eliminar "${nombre}"? Esta acción no se puede deshacer.`, [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Eliminar',
+        style: 'destructive',
+        onPress: async () => {
+          setEliminando(true);
+          try {
+            await eliminarProcesion(procesionId);
+            navigation.navigate('Procesiones', { ciudadId });
+          } finally {
+            setEliminando(false);
+          }
+        },
+      },
+    ]);
   }
 
   if (cargandoDatos) {
@@ -288,14 +315,30 @@ export function FormularioProcesionScreen({ route, navigation }) {
           style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || !nombre.trim() || !cofradiaSeleccionada}
+          disabled={guardando || eliminando || !nombre.trim() || !cofradiaSeleccionada}
         >
           {guardando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>Crear</Text>}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.cancelarButton} onPress={() => navigation.goBack()} activeOpacity={0.85}>
+        <TouchableOpacity
+          style={[styles.cancelarButton, (guardando || eliminando) && styles.botonDeshabilitado]}
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.85}
+          disabled={guardando || eliminando}
+        >
           <Text style={styles.cancelarTexto}>Cancelar</Text>
         </TouchableOpacity>
+
+        {editando ? (
+          <TouchableOpacity
+            style={[styles.eliminarButton, eliminando && styles.botonDeshabilitado]}
+            onPress={confirmarEliminar}
+            activeOpacity={0.85}
+            disabled={guardando || eliminando}
+          >
+            {eliminando ? <ActivityIndicator color={colors.cream} /> : <Text style={styles.eliminarTexto}>Eliminar</Text>}
+          </TouchableOpacity>
+        ) : null}
       </ScrollView>
 
       <Modal transparent visible={modalCofradiaVisible} animationType="fade" onRequestClose={() => setModalCofradiaVisible(false)}>

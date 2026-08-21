@@ -100,7 +100,18 @@ export function FormularioJuntaScreen({ route, navigation }) {
         navigation.goBack();
       } else {
         const juntaCreada = await crearJuntaCofradias(datos);
-        navigation.replace('JuntaCreada', { nombreJunta: juntaCreada.nombre, juntaId: juntaCreada.id });
+        // reset, no replace (2026-08-21, Elena: "atrás" desde aquí en
+        // adelante -o desde el alta de Miembro que sigue- no debe volver a
+        // enseñar "Junta de Cofradías creada" ni la lista de Juntas, mejor
+        // Mi Perfil directamente): borra "Juntas"/"FormularioJunta" del
+        // historial de este stack, deja solo Perfil debajo de JuntaCreada.
+        navigation.reset({
+          index: 1,
+          routes: [
+            { name: 'PerfilAdministrador' },
+            { name: 'JuntaCreada', params: { nombreJunta: juntaCreada.nombre, juntaId: juntaCreada.id } },
+          ],
+        });
       }
     } catch (err) {
       if (err.campos) {

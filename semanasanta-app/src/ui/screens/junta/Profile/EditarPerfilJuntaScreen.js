@@ -135,6 +135,9 @@ export function EditarPerfilJuntaScreen({ navigation }) {
               autoCapitalize="none"
               style={styles.inputTexto}
             />
+            <TouchableOpacity onPress={() => setPasswordVisible((v) => !v)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+              <Ionicons name={passwordVisible ? 'eye-off-outline' : 'eye-outline'} size={18} color={colors.subtitle} />
+            </TouchableOpacity>
           </View>
           {erroresCampos.passwordNueva ? <Text style={styles.errorCampo}>{erroresCampos.passwordNueva}</Text> : null}
         </View>

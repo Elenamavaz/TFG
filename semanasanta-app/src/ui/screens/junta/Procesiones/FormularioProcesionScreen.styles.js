@@ -180,6 +180,23 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 15,
   },
+  // Solo visible editando (2026-08-20, ver confirmarEliminar): mismo aspecto
+  // que cancelarButton -misma gravedad visual-, nombre propio porque es una
+  // acción distinta (borra de verdad, no descarta el formulario).
+  eliminarButton: {
+    backgroundColor: colors.backgroundRed,
+    borderWidth: 0.5,
+    borderColor: colors.borderRed,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+    marginTop: spacing.sm,
+  },
+  eliminarTexto: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 15,
+  },
 
   // Modal selector (Cofradía / Día)
   overlay: {

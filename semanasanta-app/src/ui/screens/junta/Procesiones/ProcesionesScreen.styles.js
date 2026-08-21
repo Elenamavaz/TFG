@@ -153,8 +153,11 @@ export const styles = StyleSheet.create({
     fontSize: 15,
   },
 
-  // Modal "Cancelar procesión" (2026-08-20, ver ProcesionesScreen.confirmarCancelar)
-  modalCancelar: {
+  // Modal genérico de acción sobre una procesión -"Cancelar" y "Notificar"
+  // (2026-08-20, ver ProcesionesScreen.confirmarCancelar/confirmarNotificar):
+  // mismo contenedor y campos (mensaje+prioridad), solo cambia el título/
+  // subtítulo y qué botón de confirmar se usa.
+  modalAccion: {
     backgroundColor: colors.backgroundAlt,
     borderWidth: 0.5,
     borderColor: colors.subtitle,
@@ -163,25 +166,25 @@ export const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 360,
   },
-  modalCancelarTitulo: {
+  modalAccionTitulo: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleSemiBold,
     fontSize: 18,
   },
-  modalCancelarSubtitulo: {
+  modalAccionSubtitulo: {
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
     marginTop: 4,
     marginBottom: spacing.md,
   },
-  etiquetaCancelar: {
+  etiquetaModal: {
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 12,
     marginBottom: spacing.xs,
   },
-  inputCancelar: {
+  inputModal: {
     backgroundColor: colors.background,
     borderRadius: radii.md,
     borderWidth: 0.5,
@@ -193,10 +196,12 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: spacing.md,
   },
-  inputCancelarMultilinea: {
+  inputModalMultilinea: {
     minHeight: 70,
     textAlignVertical: 'top',
   },
+  // Reutilizado tanto para elegir prioridad como para elegir tipo (Cambio de
+  // horario / Incidencia) en el modal "Notificar".
   prioridadRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -214,7 +219,7 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 12,
   },
-  modalCancelarAcciones: {
+  modalAccionAcciones: {
     flexDirection: 'row',
     gap: spacing.sm,
   },
@@ -244,6 +249,25 @@ export const styles = StyleSheet.create({
     color: colors.redText,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 14,
+  },
+  // Distinto color que confirmarCancelarButton: Notificar no cambia el
+  // estado de la procesión, es solo un aviso -menos grave que cancelar.
+  confirmarNotificarButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    borderRadius: radii.lg,
+    backgroundColor: colors.gold,
+  },
+  confirmarNotificarTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  accionNotificar: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
   },
   botonDeshabilitado: {
     opacity: 0.5,

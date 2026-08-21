@@ -1,5 +1,9 @@
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
+// Import directo del archivo, no del barrel de data/services: ese barrel
+// también reexporta servicios que importan este mismo apiClient (ciudadService,
+// etc.) -pasar por él aquí crearía una dependencia circular en tiempo de carga.
+import { getSesionGuardada } from '../../data/services/sesionService';
 
 // Puerto por defecto de Spring Boot (backend/src/main/resources/application.properties
 // no fija server.port, así que es el 8080 de siempre).
@@ -49,10 +53,19 @@ export class ApiError extends Error {
   }
 }
 
-// TODO(iteración 3+): cuando exista login (Junta/Admin/Cofrade), añadir aquí
-// la cabecera "Authorization: Bearer <token>" leyendo el JWT guardado -las
-// llamadas públicas de ciudadano (GET sin JWT en el backend, ver
-// SecurityConfig) seguirán funcionando igual sin tocar nada.
+// Cierra el TODO que había aquí desde antes de que existiera login real
+// (2026-08-21, encontrado al dar 403 en /juntas-cofradias con sesión de
+// Administrador iniciada): el JWT se guardaba (sesionService/AuthContext)
+// pero apiFetch nunca lo mandaba -toda escritura autenticada de Junta/Admin
+// llevaba fallando con 403 desde que existen esos paneles, no solo esta.
+// getSesionGuardada() lee de AsyncStorage en vez de venir de un argumento:
+// apiFetch es una función suelta (la usan los data/services, fuera de
+// cualquier componente), no puede leer el AuthContext de React directamente.
+async function cabeceraAutorizacion() {
+  const sesion = await getSesionGuardada();
+  return sesion?.token ? { Authorization: `Bearer ${sesion.token}` } : {};
+}
+
 export async function apiFetch(path, options = {}) {
   const { body, headers, ...resto } = options;
   // Subida de archivos (ver recorridoService.importarGpxRecorrido): un
@@ -60,9 +73,10 @@ export async function apiFetch(path, options = {}) {
   // JSON.stringify -fetch le pone su propio Content-Type multipart con el
   // boundary correcto solo si se lo dejamos poner a él.
   const esFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+  const auth = await cabeceraAutorizacion();
   const response = await fetch(`${BASE_URL}${path}`, {
     ...resto,
-    headers: esFormData ? headers : { 'Content-Type': 'application/json', ...headers },
+    headers: esFormData ? { ...auth, ...headers } : { 'Content-Type': 'application/json', ...auth, ...headers },
     body: esFormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
   });
 

@@ -42,6 +42,63 @@ export const styles = StyleSheet.create({
   inputDeshabilitado: {
     opacity: 0.5,
   },
+  // Selector "Junta de Cofradías asignada" (2026-08-21, ver
+  // FormularioMiembroScreen): mismo patrón que el selector de Ciudad de
+  // FormularioJuntaScreen.
+  selector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: radii.md,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  selectorTexto: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 14,
+  },
+  selectorPlaceholder: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 14,
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.lg,
+  },
+  modalLista: {
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
+    borderRadius: radii.md,
+    borderColor: colors.subtitle,
+    paddingVertical: spacing.xs,
+    width: '100%',
+    maxWidth: 320,
+    maxHeight: 360,
+  },
+  modalItem: {
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+  },
+  modalItemTexto: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiMedium,
+    fontSize: 15,
+  },
+  modalVacio: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 13,
+    padding: spacing.md,
+    textAlign: 'center',
+  },
   ayuda: {
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,

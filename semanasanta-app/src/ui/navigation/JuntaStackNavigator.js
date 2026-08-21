@@ -32,7 +32,11 @@ export function JuntaStackNavigator() {
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="PerfilJunta" component={PerfilJuntaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EditarPerfilJunta" component={EditarPerfilJuntaScreen} />
-      <Stack.Screen name="Procesiones" component={ProcesionesScreen} options={{ headerShown: false }} />
+      {/* Sin headerShown: false (mismo bug ya corregido en
+          AdministradorStackNavigator, 2026-08-21: apagaba la flecha de
+          volver entera): ProcesionesScreen pone su propio título por dentro
+          con navigation.setOptions. */}
+      <Stack.Screen name="Procesiones" component={ProcesionesScreen} />
       <Stack.Screen name="FormularioProcesion" component={FormularioProcesionScreen} />
       <Stack.Screen name="ProcesionCreada" component={ProcesionCreadaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ProcesionActualizada" component={ProcesionActualizadaScreen} options={{ headerShown: false }} />

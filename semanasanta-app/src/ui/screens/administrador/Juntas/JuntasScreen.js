@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -29,6 +29,17 @@ function EstadoBadge({ estado }) {
 export function JuntasScreen({ navigation }) {
   const [filas, setFilas] = useState([]);
   const [cargando, setCargando] = useState(true);
+
+  // Header con título propio (2026-08-21, ver memoria del TFG): mismo
+  // patrón que MiembrosScreen/SolicitudesReactivacionScreen, ver
+  // CiudadesScreen para el detalle de por qué hacía falta.
+  useEffect(() => {
+    navigation.setOptions({
+      headerTintColor: colors.subtitle,
+      headerTitleStyle: { color: colors.textPrimary },
+      title: 'Juntas de Cofradías',
+    });
+  }, [navigation]);
 
   const cargar = useCallback(() => {
     Promise.all([getJuntasCofradias(), getCiudadesAdmin()]).then(([juntas, ciudades]) => {

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -34,6 +34,18 @@ function EstadoBadge({ estado }) {
 export function CiudadesScreen({ navigation }) {
   const [ciudades, setCiudades] = useState([]);
   const [cargando, setCargando] = useState(true);
+
+  // Header con título propio (2026-08-21, ver memoria del TFG): mismo
+  // patrón que MiembrosScreen/SolicitudesReactivacionScreen -sin esto, un
+  // header con title:'' pero sin setOptions dejaba un hueco raro encima del
+  // título grande del cuerpo, distinto del resto de pantallas del panel.
+  useEffect(() => {
+    navigation.setOptions({
+      headerTintColor: colors.subtitle,
+      headerTitleStyle: { color: colors.textPrimary },
+      title: 'Ciudades',
+    });
+  }, [navigation]);
 
   const cargar = useCallback(() => {
     Promise.all([getCiudadesAdmin(), getJuntasCofradias()]).then(([listaCiudades, juntas]) => {

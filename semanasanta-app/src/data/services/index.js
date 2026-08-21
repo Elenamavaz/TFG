@@ -53,6 +53,6 @@ export {
   cancelarProcesion,
 } from './procesionService';
 export { getDiasSemanaSanta } from './diaService';
-export { getNotificacionesActivas } from './alertaService';
+export { getNotificacionesActivas, crearNotificacion } from './alertaService';
 export { login } from './authService';
 export { getSesionGuardada, guardarSesion, borrarSesion } from './sesionService';

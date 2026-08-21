@@ -38,14 +38,22 @@ export function AdministradorStackNavigator() {
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="PerfilAdministrador" component={PerfilAdministradorScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EditarPerfilAdministrador" component={EditarPerfilScreen} />
-      <Stack.Screen name="Ciudades" component={CiudadesScreen} options={{ headerShown: false }} />
+      {/* Sin headerShown: false (no como PerfilAdministrador): SÍ necesitan
+          la flecha de volver del header nativo -mockup del panel Admin,
+          corregido 2026-08-21 tras detectar que faltaba comparando con el
+          mockup. Sin "title" aquí tampoco: cada una pone el suyo por dentro
+          con navigation.setOptions (mismo patrón que MiembrosScreen/
+          SolicitudesReactivacionScreen ya usaban) -dejarlo solo en el
+          navigator con title:'' dejaba un hueco raro encima del título
+          grande del cuerpo, distinto del resto de pantallas del panel. */}
+      <Stack.Screen name="Ciudades" component={CiudadesScreen} />
       <Stack.Screen name="FormularioCiudad" component={FormularioCiudadScreen} />
       <Stack.Screen name="CiudadCreada" component={CiudadCreadaScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Juntas" component={JuntasScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Juntas" component={JuntasScreen} />
       <Stack.Screen name="FormularioJunta" component={FormularioJuntaScreen} />
       <Stack.Screen name="JuntaCreada" component={JuntaCreadaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SolicitudesReactivacion" component={SolicitudesReactivacionScreen} />
-      <Stack.Screen name="Miembros" component={MiembrosScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Miembros" component={MiembrosScreen} />
       <Stack.Screen name="FormularioMiembro" component={FormularioMiembroScreen} />
       <Stack.Screen name="MiembroCreado" component={MiembroCreadoScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
