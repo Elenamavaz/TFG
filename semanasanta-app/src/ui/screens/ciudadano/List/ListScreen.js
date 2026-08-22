@@ -20,6 +20,7 @@ const CONFIG_POR_TIPO = {
     detalle: 'DetalleCofradia',
     idParam: 'cofradiaId',
     icono: 'account-multiple',
+    categoria: 'cofradia',
     cargar: (ciudadId) => getCofradiasPorCiudad(ciudadId),
   },
   procesiones: {
@@ -27,6 +28,7 @@ const CONFIG_POR_TIPO = {
     detalle: 'DetalleProcesion',
     idParam: 'procesionId',
     icono: 'candle',
+    categoria: 'procesion',
     cargar: (ciudadId) => getProcesionesPorCiudad(ciudadId),
   },
   eventos: {
@@ -34,6 +36,7 @@ const CONFIG_POR_TIPO = {
     detalle: 'DetalleEvento',
     idParam: 'eventoId',
     icono: 'church',
+    categoria: 'evento',
     cargar: (ciudadId) => getEventosPorCiudad(ciudadId),
   },
   pasos: {
@@ -41,6 +44,7 @@ const CONFIG_POR_TIPO = {
     detalle: 'DetallePaso',
     idParam: 'pasoId',
     icono: 'cross',
+    categoria: 'paso',
     // Paso no tiene ciudadId directo ni el backend admite ese filtro para
     // pasos: se resuelve vía las cofradías de la ciudad (ambos servicios ya
     // son reales, ver memoria del TFG 2026-08-15).
@@ -57,6 +61,7 @@ const CONFIG_POR_TIPO = {
     detalle: null,
     idParam: null,
     icono: 'heart',
+    categoria: null,
     cargar: null,
   },
 };
@@ -105,6 +110,13 @@ export function ListadoScreen({ route, navigation }) {
     return config.detalle;
   }
 
+  // La categoría para el FavoritosContext -en "favoritos" cada item ya trae
+  // la suya (mezcla procesiones/eventos/pasos/cofradías); en el resto, todos
+  // los items de la lista son de la misma categoría (config.categoria).
+  function categoriaDe(item) {
+    return tipo === 'favoritos' ? item.categoria : config.categoria;
+  }
+
   function onPressItem(item) {
     const detalle = detalleDe(item);
     if (!detalle) return;
@@ -128,9 +140,9 @@ export function ListadoScreen({ route, navigation }) {
             icon={tipo === 'favoritos' ? item.icono : config.icono}
             title={item.nombre}
             badge={item.estado ? <StatusBadge estado={item.estado} /> : null}
-            mostrarFavorito={tipo === 'favoritos'}
-            esFavorito={tipo === 'favoritos' ? esFavorito(item.id, item.categoria) : false}
-            onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
+            mostrarFavorito
+            esFavorito={esFavorito(item.id, categoriaDe(item))}
+            onToggleFavorito={() => alternarFavorito(item.id, categoriaDe(item))}
             onPress={() => onPressItem(item)}
             rightIcon={detalleDe(item) ? 'chevron-forward' : null}
           />

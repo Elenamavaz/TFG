@@ -192,9 +192,18 @@ export function InicioScreen({ navigation }) {
               {formatearFechaCorta(diaSeleccionado.fecha)} · {agenda.filter((a) => a.categoria === 'procesion').length} procesiones
             </Text>
           </View>
-          <TouchableOpacity onPress={() => setMenuVisible(true)} style={styles.menuButton}>
-            <Ionicons name="ellipsis-vertical" size={22} color={colors.gold} />
-          </TouchableOpacity>
+          <View style={styles.headerButtons}>
+            <TouchableOpacity onPress={() => setMenuVisible(true)} style={styles.menuButton}>
+              <Ionicons name="ellipsis-vertical" size={22} color={colors.gold} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('DetalleCiudad')}
+              style={styles.infoButton}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="book-outline" size={18} color={colors.gold} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {notificaciones.length > 0 ? (

@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   InicioScreen,
   ListadoScreen,
+  DetalleCiudadScreen,
   DetalleCofradiaScreen,
   DetallePasoScreen,
   DetalleProcesionScreen,
@@ -25,6 +26,7 @@ export function InicioStackNavigator() {
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="InicioHome" component={InicioScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Listado" component={ListadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="DetalleCiudad" component={DetalleCiudadScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleCofradia" component={DetalleCofradiaScreen} options={{ title: '' }} />
       <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />

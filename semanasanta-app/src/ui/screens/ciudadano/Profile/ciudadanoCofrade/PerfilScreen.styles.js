@@ -207,6 +207,109 @@ export const styles = StyleSheet.create({
     marginTop: 2,
   },
 
+  // Modal de código de acceso / elegir procesión (2026-08-21, ver
+  // CofradeContext).
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.lg,
+  },
+  modalCodigo: {
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
+    borderColor: colors.subtitle,
+    borderRadius: radii.md,
+    padding: spacing.lg,
+    width: '100%',
+    maxWidth: 360,
+  },
+  modalTitulo: {
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 18,
+  },
+  modalSubtitulo: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+    marginTop: 4,
+    marginBottom: spacing.md,
+    lineHeight: 18,
+  },
+  modalInput: {
+    backgroundColor: colors.background,
+    borderRadius: radii.md,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 16,
+    letterSpacing: 1,
+  },
+  modalError: {
+    color: colors.redText,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    marginTop: spacing.sm,
+  },
+  modalAcciones: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.lg,
+  },
+  modalVolverButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    borderRadius: radii.lg,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+  },
+  modalVolverTexto: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  modalConfirmarButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.sm,
+    borderRadius: radii.lg,
+    backgroundColor: colors.gold,
+  },
+  modalConfirmarButtonDeshabilitado: {
+    opacity: 0.5,
+  },
+  modalConfirmarTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  modalProcesionItem: {
+    backgroundColor: colors.background,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+    borderRadius: radii.md,
+    padding: spacing.md,
+    marginTop: spacing.sm,
+  },
+  modalProcesionNombre: {
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 15,
+  },
+  modalProcesionMeta: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    marginTop: 2,
+  },
+
   // Cerrar sesión -- mismo granate que modoButtonActivoCiudadano, para que
   // se lea como "acción de cuenta" en toda la pantalla.
   cerrarSesionButton: {

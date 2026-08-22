@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Modal,
+  Pressable,
+  ScrollView,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import { ScreenContainer, StatusBadge } from '../../../../components/common';
-import { useCiudad, useFavoritos } from '../../../../../application/context';
+import { useCiudad, useCofrade, useFavoritos } from '../../../../../application/context';
 import {
   getCofradiasPorCiudad,
   getDiasSemanaSanta,
@@ -14,17 +24,28 @@ import { colors } from '../../../../../theme';
 import { styles } from './PerfilScreen.styles';
 
 const NOTIFICACIONES_INICIALES = [
-  { id: 'procesiones-en-curso', titulo: 'Procesiones en curso', descripcion: 'Aviso cuando una procesión comienza', activo: false },
-  { id: 'alertas-trafico', titulo: 'Alertas de tráfico', descripcion: 'Cortes de calle y desvíos', activo: true },
-  { id: 'retrasos', titulo: 'Retrasos', descripcion: 'Cambios en el horario', activo: true },
+  { id: 'procesiones', titulo: 'Notificaciones procesiones', descripcion: 'Aviso cuando una procesión comienza', activo: true },
+  { id: 'eventos', titulo: 'Notificaciones eventos', descripcion: 'Cortes de calle y desvíos', activo: true },
 ];
 
 export function PerfilScreen({ navigation }) {
   const { ciudadSeleccionada } = useCiudad();
   const { favoritos } = useFavoritos();
+  const {
+    compartiendo,
+    cargando: validandoCodigo,
+    error: errorCofrade,
+    procesionNombre,
+    procesionesPendientes,
+    validarCodigo,
+    elegirProcesion,
+    detenerCompartir,
+    limpiarError,
+  } = useCofrade();
 
   const [modoAcceso, setModoAcceso] = useState('ciudadano');
-  const [compartiendoUbicacion, setCompartiendoUbicacion] = useState(false);
+  const [modalCodigoVisible, setModalCodigoVisible] = useState(false);
+  const [codigoTexto, setCodigoTexto] = useState('');
   const [numCofradias, setNumCofradias] = useState(0);
   const [diasSemanaSanta, setDiasSemanaSanta] = useState([]);
   const [favoritosResueltos, setFavoritosResueltos] = useState([]);
@@ -57,6 +78,29 @@ export function PerfilScreen({ navigation }) {
       )
     ).then((lista) => setFavoritosResueltos(lista.filter(Boolean)));
   }, [favoritos, diasSemanaSanta]);
+
+  // Cierra el modal en cuanto empieza a compartir de verdad -tanto si se
+  // resolvió sola (código válido, procesión evidente) como si hizo falta
+  // elegir procesión a mano (ver elegirProcesion en CofradeContext).
+  useEffect(() => {
+    if (compartiendo) setModalCodigoVisible(false);
+  }, [compartiendo]);
+
+  function abrirModalCodigo() {
+    limpiarError();
+    setCodigoTexto('');
+    setModalCodigoVisible(true);
+  }
+
+  function cerrarModalCodigo() {
+    if (validandoCodigo) return; // no cerrar a medio validar
+    setModalCodigoVisible(false);
+  }
+
+  function confirmarCodigo() {
+    if (!codigoTexto.trim() || validandoCodigo) return;
+    validarCodigo(codigoTexto.trim());
+  }
 
   function abrirFavorito(favorito) {
     if (favorito.tipo === 'procesion') {
@@ -111,20 +155,22 @@ export function PerfilScreen({ navigation }) {
           <View style={styles.cofradeBanner}>
             <Text style={styles.cofradeTitulo}>Modo Cofrade activo</Text>
             <Text style={styles.cofradeTexto}>
-              Puedes compartir tu ubicación durante la procesión en tiempo real con tu cofradía.
+              {compartiendo && procesionNombre
+                ? `Compartiendo tu ubicación en "${procesionNombre}".`
+                : 'Puedes compartir tu ubicación durante la procesión en tiempo real con tu cofradía.'}
             </Text>
             <TouchableOpacity
-              style={[styles.ubicacionButton, compartiendoUbicacion && styles.ubicacionButtonActivo]}
-              onPress={() => setCompartiendoUbicacion((actual) => !actual)}
+              style={[styles.ubicacionButton, compartiendo && styles.ubicacionButtonActivo]}
+              onPress={compartiendo ? detenerCompartir : abrirModalCodigo}
               activeOpacity={0.8}
             >
               <Ionicons
-                name={compartiendoUbicacion ? 'checkmark-circle' : 'navigate-outline'}
+                name={compartiendo ? 'checkmark-circle' : 'navigate-outline'}
                 size={18}
-                color={compartiendoUbicacion ? colors.lightGreenText : colors.background}
+                color={compartiendo ? colors.lightGreenText : colors.background}
               />
-              <Text style={[styles.ubicacionButtonTexto, compartiendoUbicacion && styles.ubicacionButtonTextoActivo]}>
-                {compartiendoUbicacion ? 'Compartiendo ubicación' : 'Activar ubicación compartida'}
+              <Text style={[styles.ubicacionButtonTexto, compartiendo && styles.ubicacionButtonTextoActivo]}>
+                {compartiendo ? 'Compartiendo ubicación · Dejar de compartir' : 'Activar ubicación compartida'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -180,31 +226,101 @@ export function PerfilScreen({ navigation }) {
           </Text>
         )}
 
-        <Text style={styles.sectionTitle}>Notificaciones</Text>
-        <View style={styles.notificacionesCard}>
-          {notificaciones.map((notificacion, indice) => (
-            <View
-              key={notificacion.id}
-              style={[styles.notificacionRow, indice > 0 && styles.notificacionRowConBorde]}
-            >
-              <View style={styles.notificacionTextBlock}>
-                <Text style={styles.notificacionTitulo}>{notificacion.titulo}</Text>
-                <Text style={styles.notificacionDescripcion}>{notificacion.descripcion}</Text>
-              </View>
-              <Switch
-                value={notificacion.activo}
-                onValueChange={() => alternarNotificacion(notificacion.id)}
-                trackColor={{ false: colors.surfaceAlt, true: colors.gold }}
-                thumbColor={colors.cream}
-              />
+        {/* Solo en modo Ciudadano (2026-08-21, Elena): como Cofrade la única
+            acción de este perfil es compartir ubicación -no tiene sentido
+            ofrecer preferencias de notificación de un actor que en la
+            práctica navega la app como Ciudadano en cuanto no está
+            compartiendo. */}
+        {!esCofrade ? (
+          <>
+            <Text style={styles.sectionTitle}>Notificaciones</Text>
+            <View style={styles.notificacionesCard}>
+              {notificaciones.map((notificacion, indice) => (
+                <View
+                  key={notificacion.id}
+                  style={[styles.notificacionRow, indice > 0 && styles.notificacionRowConBorde]}
+                >
+                  <View style={styles.notificacionTextBlock}>
+                    <Text style={styles.notificacionTitulo}>{notificacion.titulo}</Text>
+                    <Text style={styles.notificacionDescripcion}>{notificacion.descripcion}</Text>
+                  </View>
+                  <Switch
+                    value={notificacion.activo}
+                    onValueChange={() => alternarNotificacion(notificacion.id)}
+                    trackColor={{ false: colors.surfaceAlt, true: colors.gold }}
+                    thumbColor={colors.cream}
+                  />
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
+          </>
+        ) : null}
 
         <TouchableOpacity style={styles.cerrarSesionButton} onPress={cerrarSesion} activeOpacity={0.85}>
           <Text style={styles.cerrarSesionTexto}>Cerrar sesión</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <Modal transparent visible={modalCodigoVisible} animationType="fade" onRequestClose={cerrarModalCodigo}>
+        <Pressable style={styles.overlay} onPress={cerrarModalCodigo}>
+          <Pressable style={styles.modalCodigo} onPress={() => {}}>
+            {procesionesPendientes.length > 0 ? (
+              <>
+                <Text style={styles.modalTitulo}>¿A qué procesión te unes?</Text>
+                <Text style={styles.modalSubtitulo}>
+                  Tu cofradía tiene más de una procesión en curso ahora mismo -elige a cuál te unes.
+                </Text>
+                {procesionesPendientes.map((procesion) => (
+                  <TouchableOpacity
+                    key={procesion.id}
+                    style={styles.modalProcesionItem}
+                    onPress={() => elegirProcesion(procesion)}
+                  >
+                    <Text style={styles.modalProcesionNombre}>{procesion.nombre}</Text>
+                    <Text style={styles.modalProcesionMeta}>
+                      {procesion.dia} · {procesion.horaSalida}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </>
+            ) : (
+              <>
+                <Text style={styles.modalTitulo}>Código de acceso</Text>
+                <Text style={styles.modalSubtitulo}>
+                  Introduce el código que te dio tu cofradía para compartir tu ubicación durante la procesión.
+                </Text>
+                <TextInput
+                  value={codigoTexto}
+                  onChangeText={setCodigoTexto}
+                  placeholder="Código de acceso"
+                  placeholderTextColor={colors.subtitle}
+                  autoCapitalize="characters"
+                  autoCorrect={false}
+                  style={styles.modalInput}
+                />
+                {errorCofrade ? <Text style={styles.modalError}>{errorCofrade}</Text> : null}
+
+                <View style={styles.modalAcciones}>
+                  <TouchableOpacity style={styles.modalVolverButton} onPress={cerrarModalCodigo} disabled={validandoCodigo}>
+                    <Text style={styles.modalVolverTexto}>Cancelar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.modalConfirmarButton, !codigoTexto.trim() && styles.modalConfirmarButtonDeshabilitado]}
+                    onPress={confirmarCodigo}
+                    disabled={!codigoTexto.trim() || validandoCodigo}
+                  >
+                    {validandoCodigo ? (
+                      <ActivityIndicator color={colors.background} />
+                    ) : (
+                      <Text style={styles.modalConfirmarTexto}>Validar</Text>
+                    )}
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+          </Pressable>
+        </Pressable>
+      </Modal>
     </ScreenContainer>
   );
 }

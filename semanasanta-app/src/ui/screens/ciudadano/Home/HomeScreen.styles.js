@@ -42,8 +42,24 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 10,
   },
+  // Columna a la derecha del header: "···" arriba (altura de ciudadRow) y el
+  // botón de info debajo, alineado aprox. con diaRow (2026-08-21, mockup del
+  // icono de libro "ver detalles" -> DetalleCiudad).
+  headerButtons: {
+    alignItems: 'flex-end',
+  },
   menuButton: {
     padding: spacing.xs,
+  },
+  infoButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: spacing.sm,
   },
   avisoCarrusel: {
     marginTop: spacing.lg,

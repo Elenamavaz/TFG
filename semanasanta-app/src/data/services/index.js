@@ -37,6 +37,7 @@ export {
   olvidarSesionLocal,
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
+export { registrarPosicion } from './posicionActualService';
 export { getUbicacionPorId } from './lugarService';
 export { getRecorridoCompleto, importarGpxRecorrido } from './recorridoService';
 export { getCofradiasPorCiudad, getCofradiaPorId } from './cofradiaService';
@@ -54,5 +55,5 @@ export {
 } from './procesionService';
 export { getDiasSemanaSanta } from './diaService';
 export { getNotificacionesActivas, crearNotificacion } from './alertaService';
-export { login } from './authService';
+export { login, loginConCodigoAcceso } from './authService';
 export { getSesionGuardada, guardarSesion, borrarSesion } from './sesionService';

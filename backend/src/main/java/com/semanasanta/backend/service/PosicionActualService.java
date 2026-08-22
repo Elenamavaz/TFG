@@ -4,6 +4,7 @@ import com.semanasanta.backend.dto.PosicionAgregadaResponse;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Cofrade;
+import com.semanasanta.backend.model.EstadoEvento;
 import com.semanasanta.backend.model.PosicionActual;
 import com.semanasanta.backend.model.Procesion;
 import com.semanasanta.backend.repository.PosicionActualRepository;
@@ -41,6 +42,16 @@ public class PosicionActualService {
         // real de negocio para poder registrar el ping, no un detalle interno.
         if (!cofrade.compartiendoUbicacion()) {
             throw new AccesoDenegadoException("Este cofrade no está compartiendo ubicación");
+        }
+        // Defensa en el backend, no solo en el cliente (2026-08-21, a
+        // petición de Elena): mandar un ping solo tiene sentido mientras la
+        // procesión está pasando de verdad -antes de EN_CURSO todavía no ha
+        // salido, después ya terminó. La app ya no deja llegar hasta aquí sin
+        // que esté EN_CURSO (CofradeContext.validarCodigo), pero un cliente
+        // modificado podría saltarse esa comprobación si solo viviera ahí.
+        if (procesion.getEstado() != EstadoEvento.EN_CURSO) {
+            throw new IllegalStateException(
+                    "Solo se puede compartir ubicación mientras la procesión está en curso");
         }
         PosicionActual ping = new PosicionActual(latitud, longitud, procesion);
         return posicionActualRepository.save(ping);
