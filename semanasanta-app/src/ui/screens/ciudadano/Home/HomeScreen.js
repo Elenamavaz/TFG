@@ -28,7 +28,7 @@ const OPCIONES_MENU = [
 
 // Tarjeta roja/naranja/verde según Notificacion.colorCategoria (decisión de
 // Elena, 2026-08-15, generalizada el 2026-08-20 al colapsar Aviso/Alerta):
-// ALTA/URGENTE grave, MEDIA a medias, BAJA/sin prioridad informativo.
+// ALTA grave, MEDIA a medias, BAJA/sin prioridad informativo.
 const COLOR_POR_CATEGORIA = {
   roja: { background: colors.backgroundRed, border: colors.borderRed, icono: colors.redText },
   naranja: { background: colors.backgroundOrange, border: colors.borderOrange, icono: colors.orangeText },

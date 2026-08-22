@@ -20,15 +20,6 @@ mvn spring-boot:run "-Dspring-boot.run.profiles=seed"
 
 
 
-
-user asdmin 
-admin@semanasanta-app.local
-Admin1234!
-
-Ve directamente a myaccount.google.com/apppasswords. Aqui genereo la contrasela de la app
- 
-$env:MAIL_USERNAME = "elenamavaz@gmail.com"
-$env:MAIL_PASSWORD = "auxo mbdh luxa ywhp"
 .\mvnw spring-boot:run
 Esas dos variables solo viven en esa ventana de PowerShell mientras esté abierta — ciérrala y desaparecen, no quedan guardadas en ningún sitio. Si luego quieres levantarlo otra vez sin mandar correos de verdad, basta con abrir una terminal nueva sin esas variables y volver a .\mvnw spring-boot:run.
 

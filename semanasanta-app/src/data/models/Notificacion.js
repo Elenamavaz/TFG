@@ -23,11 +23,13 @@ export class Notificacion {
   }
 
   // Decisión de Elena (2026-08-15, generalizada aquí el 2026-08-20): color de
-  // la tarjeta según prioridad, no según tipo -ALTA/URGENTE es lo grave,
-  // MEDIA un aviso a medias. Sin prioridad (INICIO/FIN, automáticas) se trata
-  // como informativo, igual que antes hacía Aviso.colorCategoria siempre.
+  // la tarjeta según prioridad, no según tipo -ALTA es lo grave, MEDIA un
+  // aviso a medias. Sin prioridad (INICIO/FIN, automáticas) se trata como
+  // informativo, igual que antes hacía Aviso.colorCategoria siempre. Sin
+  // URGENTE desde el 2026-08-22 -ya pintaba el mismo rojo que ALTA, no
+  // aportaba un nivel realmente distinto.
   get colorCategoria() {
-    if (this.prioridad === 'ALTA' || this.prioridad === 'URGENTE') return 'roja';
+    if (this.prioridad === 'ALTA') return 'roja';
     if (this.prioridad === 'MEDIA') return 'naranja';
     return 'verde';
   }

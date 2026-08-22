@@ -15,20 +15,24 @@ import { colors } from '../../../../theme';
 import { styles } from './ProcesionesScreen.styles';
 
 // Mismo criterio de color que Notificacion.colorCategoria (ver HomeScreen):
-// ALTA/URGENTE grave, MEDIA a medias, BAJA informativo.
+// ALTA grave, MEDIA a medias, BAJA informativo. Sin URGENTE desde el
+// 2026-08-22 (ver Prioridad.java) -con estas tres queda completo.
 const OPCIONES_PRIORIDAD = [
   { valor: Prioridad.BAJA, etiqueta: 'Baja', background: colors.greenBackground, texto: colors.lightGreenText },
   { valor: Prioridad.MEDIA, etiqueta: 'Media', background: colors.backgroundOrange, texto: colors.orangeText },
   { valor: Prioridad.ALTA, etiqueta: 'Alta', background: colors.backgroundRed, texto: colors.redText },
-  { valor: Prioridad.URGENTE, etiqueta: 'Urgente', background: colors.backgroundRed, texto: colors.redText },
 ];
 
-// "Notificar" (2026-08-20, ver ProcesionesScreen.confirmarNotificar): avisos
-// puntuales sin cambio de estado asociado -distinto de "Cancelar", que
-// además cambia el estado (ver ProcesionService.cancelar). INICIO/FIN no
-// aparecen aquí -los genera el sistema, no la Junta a mano (ver
+// "Notificar" (2026-08-20, unificado el 2026-08-22 en un solo botón/modal
+// -antes "Notificar" y "Cancelar" eran dos acciones de fila separadas, a
+// petición de Elena pasan a ser una sola con el tipo como primer paso).
+// CANCELACION es distinta de las otras dos por dentro -además de la
+// Notificacion, cambia el estado de la procesión (ver
+// ProcesionService.cancelar, confirmarAccion la reconoce por tipo). INICIO/
+// FIN no aparecen aquí -los genera el sistema, no la Junta a mano (ver
 // NotificacionService.crear, que los rechaza explícitamente).
-const OPCIONES_TIPO_NOTIFICAR = [
+const OPCIONES_TIPO_ACCION = [
+  { valor: TipoNotificacion.CANCELACION, etiqueta: 'Cancelar', prefijoTitulo: 'Cancelada' },
   { valor: TipoNotificacion.CAMBIO_HORARIO, etiqueta: 'Cambio de horario', prefijoTitulo: 'Cambio de horario' },
   { valor: TipoNotificacion.INCIDENCIA, etiqueta: 'Incidencia', prefijoTitulo: 'Incidencia' },
 ];
@@ -73,13 +77,10 @@ export function ProcesionesScreen({ route, navigation }) {
   const [filtroCofradiaId, setFiltroCofradiaId] = useState(null); // null = "Todos"
   const [modalFiltroVisible, setModalFiltroVisible] = useState(false);
   const [procesandoId, setProcesandoId] = useState(null);
-  const [procesionACancelar, setProcesionACancelar] = useState(null); // null = modal cerrado
-  const [mensajeCancelar, setMensajeCancelar] = useState('');
-  const [prioridadCancelar, setPrioridadCancelar] = useState(null);
-  const [procesionANotificar, setProcesionANotificar] = useState(null); // null = modal cerrado
-  const [tipoNotificar, setTipoNotificar] = useState(null);
-  const [mensajeNotificar, setMensajeNotificar] = useState('');
-  const [prioridadNotificar, setPrioridadNotificar] = useState(null);
+  const [procesionAccion, setProcesionAccion] = useState(null); // null = modal cerrado
+  const [tipoAccion, setTipoAccion] = useState(null);
+  const [mensajeAccion, setMensajeAccion] = useState('');
+  const [prioridadAccion, setPrioridadAccion] = useState(null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -102,56 +103,42 @@ export function ProcesionesScreen({ route, navigation }) {
 
   useFocusEffect(cargar);
 
-  function abrirCancelar(procesion) {
-    setProcesionACancelar(procesion);
-    setMensajeCancelar('');
-    setPrioridadCancelar(null);
+  function abrirAccion(procesion) {
+    setProcesionAccion(procesion);
+    setTipoAccion(null);
+    setMensajeAccion('');
+    setPrioridadAccion(null);
   }
 
-  function cerrarCancelar() {
+  function cerrarAccion() {
     if (procesandoId) return; // no cerrar a medio guardar
-    setProcesionACancelar(null);
+    setProcesionAccion(null);
   }
 
-  async function confirmarCancelar() {
-    if (!prioridadCancelar || procesandoId) return;
-    setProcesandoId(procesionACancelar.id);
+  // CANCELACION es la única que además cambia el estado de la procesión (ver
+  // ProcesionService.cancelar, que crea la Notificacion por dentro); las
+  // otras dos son solo la Notificacion, vía POST /notificaciones genérico
+  // -por eso solo CANCELACION recarga la lista al terminar (el badge de
+  // estado cambia), y las otras no hacen falta.
+  async function confirmarAccion() {
+    if (!tipoAccion || !prioridadAccion || procesandoId) return;
+    const opcion = OPCIONES_TIPO_ACCION.find((o) => o.valor === tipoAccion);
+    const mensaje = mensajeAccion.trim();
+    setProcesandoId(procesionAccion.id);
     try {
-      await cancelarProcesion(procesionACancelar.id, { mensaje: mensajeCancelar.trim(), prioridad: prioridadCancelar });
-      setProcesionACancelar(null);
-      cargar();
-    } finally {
-      setProcesandoId(null);
-    }
-  }
-
-  function abrirNotificar(procesion) {
-    setProcesionANotificar(procesion);
-    setTipoNotificar(null);
-    setMensajeNotificar('');
-    setPrioridadNotificar(null);
-  }
-
-  function cerrarNotificar() {
-    if (procesandoId) return; // no cerrar a medio guardar
-    setProcesionANotificar(null);
-  }
-
-  // No cambia el estado de la procesión (a diferencia de confirmarCancelar):
-  // es solo la Notificacion, vía POST /notificaciones genérico.
-  async function confirmarNotificar() {
-    if (!tipoNotificar || !prioridadNotificar || procesandoId) return;
-    const opcion = OPCIONES_TIPO_NOTIFICAR.find((o) => o.valor === tipoNotificar);
-    setProcesandoId(procesionANotificar.id);
-    try {
-      await crearNotificacion({
-        titulo: `${opcion.prefijoTitulo}: ${procesionANotificar.nombre}`,
-        mensaje: mensajeNotificar.trim(),
-        ciudadId,
-        tipo: tipoNotificar,
-        prioridad: prioridadNotificar,
-      });
-      setProcesionANotificar(null);
+      if (tipoAccion === TipoNotificacion.CANCELACION) {
+        await cancelarProcesion(procesionAccion.id, { mensaje, prioridad: prioridadAccion });
+        cargar();
+      } else {
+        await crearNotificacion({
+          titulo: `${opcion.prefijoTitulo}: ${procesionAccion.nombre}`,
+          mensaje,
+          ciudadId,
+          tipo: tipoAccion,
+          prioridad: prioridadAccion,
+        });
+      }
+      setProcesionAccion(null);
     } finally {
       setProcesandoId(null);
     }
@@ -201,11 +188,8 @@ export function ProcesionesScreen({ route, navigation }) {
               <TouchableOpacity onPress={() => navigation.navigate('FormularioProcesion', { ciudadId, procesionId: procesion.id })}>
                 <Text style={styles.accionEditar}>Editar</Text>
               </TouchableOpacity>
-              <TouchableOpacity disabled={procesandoId === procesion.id} onPress={() => abrirNotificar(procesion)}>
+              <TouchableOpacity disabled={procesandoId === procesion.id} onPress={() => abrirAccion(procesion)}>
                 <Text style={styles.accionNotificar}>Notificar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity disabled={procesandoId === procesion.id} onPress={() => abrirCancelar(procesion)}>
-                <Text style={styles.accionCancelar}>Cancelar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -241,72 +225,20 @@ export function ProcesionesScreen({ route, navigation }) {
         </Pressable>
       </Modal>
 
-      <Modal transparent visible={procesionACancelar !== null} animationType="fade" onRequestClose={cerrarCancelar}>
-        <Pressable style={styles.overlay} onPress={cerrarCancelar}>
-          <Pressable style={styles.modalAccion} onPress={() => {}}>
-            <Text style={styles.modalAccionTitulo}>Cancelar procesión</Text>
-            <Text style={styles.modalAccionSubtitulo}>
-              {procesionACancelar ? `Se avisará a los ciudadanos de que "${procesionACancelar.nombre}" se cancela.` : ''}
-            </Text>
-
-            <Text style={styles.etiquetaModal}>Motivo (opcional)</Text>
-            <TextInput
-              style={[styles.inputModal, styles.inputModalMultilinea]}
-              value={mensajeCancelar}
-              onChangeText={setMensajeCancelar}
-              placeholder="Ej. corte de calle por aforo"
-              placeholderTextColor={colors.subtitle}
-              multiline
-            />
-
-            <Text style={styles.etiquetaModal}>Prioridad</Text>
-            <View style={styles.prioridadRow}>
-              {OPCIONES_PRIORIDAD.map((opcion) => {
-                const seleccionada = prioridadCancelar === opcion.valor;
-                return (
-                  <TouchableOpacity
-                    key={opcion.valor}
-                    style={[
-                      styles.prioridadChip,
-                      { backgroundColor: opcion.background },
-                      seleccionada && { borderColor: opcion.texto },
-                    ]}
-                    onPress={() => setPrioridadCancelar(opcion.valor)}
-                  >
-                    <Text style={[styles.prioridadChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            <View style={styles.modalAccionAcciones}>
-              <TouchableOpacity style={styles.volverButton} onPress={cerrarCancelar} disabled={procesandoId !== null}>
-                <Text style={styles.volverTexto}>Volver</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.confirmarCancelarButton, !prioridadCancelar && styles.botonDeshabilitado]}
-                onPress={confirmarCancelar}
-                disabled={!prioridadCancelar || procesandoId !== null}
-              >
-                <Text style={styles.confirmarCancelarTexto}>Confirmar cancelación</Text>
-              </TouchableOpacity>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
-
-      <Modal transparent visible={procesionANotificar !== null} animationType="fade" onRequestClose={cerrarNotificar}>
-        <Pressable style={styles.overlay} onPress={cerrarNotificar}>
+      <Modal transparent visible={procesionAccion !== null} animationType="fade" onRequestClose={cerrarAccion}>
+        <Pressable style={styles.overlay} onPress={cerrarAccion}>
           <Pressable style={styles.modalAccion} onPress={() => {}}>
             <Text style={styles.modalAccionTitulo}>Notificar</Text>
             <Text style={styles.modalAccionSubtitulo}>
-              {procesionANotificar ? `Aviso para los ciudadanos sobre "${procesionANotificar.nombre}".` : ''}
+              {procesionAccion
+                ? `Este aviso será visible para los ciudadanos e informará de los cambios en "${procesionAccion.nombre}".`
+                : ''}
             </Text>
 
             <Text style={styles.etiquetaModal}>Tipo</Text>
             <View style={styles.prioridadRow}>
-              {OPCIONES_TIPO_NOTIFICAR.map((opcion) => {
-                const seleccionado = tipoNotificar === opcion.valor;
+              {OPCIONES_TIPO_ACCION.map((opcion) => {
+                const seleccionado = tipoAccion === opcion.valor;
                 return (
                   <TouchableOpacity
                     key={opcion.valor}
@@ -315,7 +247,7 @@ export function ProcesionesScreen({ route, navigation }) {
                       { backgroundColor: colors.backgroundAlt, borderColor: colors.surfaceAlt },
                       seleccionado && { borderColor: colors.gold },
                     ]}
-                    onPress={() => setTipoNotificar(opcion.valor)}
+                    onPress={() => setTipoAccion(opcion.valor)}
                   >
                     <Text style={[styles.prioridadChipTexto, { color: seleccionado ? colors.gold : colors.cream }]}>
                       {opcion.etiqueta}
@@ -325,12 +257,12 @@ export function ProcesionesScreen({ route, navigation }) {
               })}
             </View>
 
-            <Text style={styles.etiquetaModal}>Motivo (opcional)</Text>
+            <Text style={styles.etiquetaModal}>Motivos</Text>
             <TextInput
               style={[styles.inputModal, styles.inputModalMultilinea]}
-              value={mensajeNotificar}
-              onChangeText={setMensajeNotificar}
-              placeholder="Ej. sale con 15 min de retraso"
+              value={mensajeAccion}
+              onChangeText={setMensajeAccion}
+              placeholder="Ej. cancelación de la procesión por lluvias"
               placeholderTextColor={colors.subtitle}
               multiline
             />
@@ -338,7 +270,7 @@ export function ProcesionesScreen({ route, navigation }) {
             <Text style={styles.etiquetaModal}>Prioridad</Text>
             <View style={styles.prioridadRow}>
               {OPCIONES_PRIORIDAD.map((opcion) => {
-                const seleccionada = prioridadNotificar === opcion.valor;
+                const seleccionada = prioridadAccion === opcion.valor;
                 return (
                   <TouchableOpacity
                     key={opcion.valor}
@@ -347,7 +279,7 @@ export function ProcesionesScreen({ route, navigation }) {
                       { backgroundColor: opcion.background },
                       seleccionada && { borderColor: opcion.texto },
                     ]}
-                    onPress={() => setPrioridadNotificar(opcion.valor)}
+                    onPress={() => setPrioridadAccion(opcion.valor)}
                   >
                     <Text style={[styles.prioridadChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
                   </TouchableOpacity>
@@ -356,15 +288,15 @@ export function ProcesionesScreen({ route, navigation }) {
             </View>
 
             <View style={styles.modalAccionAcciones}>
-              <TouchableOpacity style={styles.volverButton} onPress={cerrarNotificar} disabled={procesandoId !== null}>
-                <Text style={styles.volverTexto}>Volver</Text>
+              <TouchableOpacity style={styles.volverButton} onPress={cerrarAccion} disabled={procesandoId !== null}>
+                <Text style={styles.volverTexto}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.confirmarNotificarButton, (!tipoNotificar || !prioridadNotificar) && styles.botonDeshabilitado]}
-                onPress={confirmarNotificar}
-                disabled={!tipoNotificar || !prioridadNotificar || procesandoId !== null}
+                style={[styles.confirmarNotificarButton, (!tipoAccion || !prioridadAccion) && styles.botonDeshabilitado]}
+                onPress={confirmarAccion}
+                disabled={!tipoAccion || !prioridadAccion || procesandoId !== null}
               >
-                <Text style={styles.confirmarNotificarTexto}>Enviar notificación</Text>
+                <Text style={styles.confirmarNotificarTexto}>Enviar notificaciones</Text>
               </TouchableOpacity>
             </View>
           </Pressable>

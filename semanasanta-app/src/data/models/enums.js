@@ -23,11 +23,13 @@ export const EstadoProcesion = Object.freeze({
 });
 
 // Ya no es "PrioridadAlerta" -no hay clase Alerta aparte, ver Notificacion.js.
+// Sin URGENTE (quitado el 2026-08-22, ver Prioridad.java del backend): en la
+// práctica ya era indistinguible de ALTA en la UI (mismo rojo, ver
+// Notificacion.colorCategoria), no se ganaba su sitio como cuarto nivel.
 export const Prioridad = Object.freeze({
   BAJA: 'BAJA',
   MEDIA: 'MEDIA',
   ALTA: 'ALTA',
-  URGENTE: 'URGENTE',
 });
 
 // Alineado con TipoNotificacion del backend (2026-08-20, sustituye a los

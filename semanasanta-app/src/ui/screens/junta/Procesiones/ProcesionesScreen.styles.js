@@ -104,11 +104,6 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 13,
   },
-  accionCancelar: {
-    color: colors.redText,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 13,
-  },
   badge: {
     borderRadius: radii.sm,
     paddingHorizontal: spacing.sm,
@@ -236,22 +231,9 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 14,
   },
-  confirmarCancelarButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: spacing.sm,
-    borderRadius: radii.lg,
-    backgroundColor: colors.backgroundRed,
-    borderWidth: 0.5,
-    borderColor: colors.borderRed,
-  },
-  confirmarCancelarTexto: {
-    color: colors.redText,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 14,
-  },
-  // Distinto color que confirmarCancelarButton: Notificar no cambia el
-  // estado de la procesión, es solo un aviso -menos grave que cancelar.
+  // Único botón de confirmar del modal "Notificar" (2026-08-22, ya no
+  // cambia de color/texto según el tipo elegido -antes "Cancelar" tenía su
+  // propio estilo rojo, quitado al unificar el texto del modal).
   confirmarNotificarButton: {
     flex: 1,
     alignItems: 'center',
