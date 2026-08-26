@@ -7,6 +7,7 @@ import com.semanasanta.backend.model.Recorrido;
 import com.semanasanta.backend.model.PuntoRuta;
 import com.semanasanta.backend.model.RecorridoPuntoRuta;
 import com.semanasanta.backend.repository.RecorridoPuntoRutaRepository;
+import com.semanasanta.backend.util.GeometriaRuta;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,16 @@ public class RecorridoPuntoRutaService {
     public List<RecorridoPuntoRuta> listar(Long recorridoId) {
         recorridoService.obtener(recorridoId); // 404 si el recorrido no existe
         return recorridoPuntoRutaRepository.findByRecorridoIdOrderByOrdenAsc(recorridoId);
+    }
+
+    // Los puntos del recorrido, en orden, como coordenadas planas -para los
+    // cálculos geométricos de PosicionActualService (filtrar pings fuera de
+    // ruta, calcular el progreso de la procesión para la estela en vivo).
+    public List<GeometriaRuta.PuntoGeo> puntosGeo(Long recorridoId) {
+        return listar(recorridoId).stream()
+                .map(relacion -> relacion.getPuntoRuta().getUbicacion())
+                .map(ubicacion -> new GeometriaRuta.PuntoGeo(ubicacion.getLatitud(), ubicacion.getLongitud()))
+                .toList();
     }
 
     // Recorrido/PuntoRuta no tienen dueño único: basta con ser cualquier Junta.

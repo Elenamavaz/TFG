@@ -106,6 +106,17 @@ public class ProcesionService {
         return procesionRepository.save(procesion);
     }
 
+    // Avanza la marca de agua de la estela en vivo (2026-08-22, ver
+    // PosicionActualService.estela). No pasa por actualizar(): no es una
+    // edición de la Junta, es un dato calculado que solo crece, y no debe
+    // pasar por las comprobaciones de autoría/ciudad de una edición normal
+    // -lo llama el propio cofrade compartiendo ubicación, no una Junta.
+    public void guardarProgresoEstela(Procesion procesion, double progresoCola, double progresoCabeza) {
+        procesion.setProgresoColaAlcanzado(progresoCola);
+        procesion.setProgresoCabezaAlcanzado(progresoCabeza);
+        procesionRepository.save(procesion);
+    }
+
     public void eliminar(Long id) {
         Procesion procesion = obtener(id);
         Long ciudadActualId = procesion.getCofradias().iterator().next().getCiudad().getId();

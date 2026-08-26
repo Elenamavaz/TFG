@@ -1,12 +1,12 @@
 package com.semanasanta.backend.controller;
 
 import com.semanasanta.backend.dto.CancelarProcesionRequest;
+import com.semanasanta.backend.dto.EstelaProcesionResponse;
 import com.semanasanta.backend.dto.PosicionActualRequest;
 import com.semanasanta.backend.dto.PosicionActualResponse;
 import com.semanasanta.backend.dto.PosicionAgregadaResponse;
 import com.semanasanta.backend.dto.ProcesionRequest;
 import com.semanasanta.backend.dto.ProcesionResponse;
-import com.semanasanta.backend.model.PosicionActual;
 import com.semanasanta.backend.model.Procesion;
 import com.semanasanta.backend.service.PosicionActualService;
 import com.semanasanta.backend.service.ProcesionService;
@@ -95,14 +95,27 @@ public class ProcesionController {
                 .toList();
     }
 
+    // La "estela" en vivo -tramo del recorrido entre el cofrade que menos y
+    // el que más ha avanzado, no un único punto- para pintar el recorrido ya
+    // andado en un color apagado y el tramo ocupado ahora mismo en uno
+    // fuerte. Ver PosicionActualService.estela.
+    @GetMapping("/{id}/estela")
+    public EstelaProcesionResponse estela(@PathVariable Long id) {
+        return posicionActualService.estela(id);
+    }
+
     // Un ping anónimo: quien lo manda demuestra con su JWT (rol COFRADE) que
     // validó un código de la cofradía de esta procesión, pero no se registra
     // quién es (ver PosicionActualService.exigirCofradeDeLaCofradia).
+    // Status dinámico: 201 si el ping se ha guardado, 200 si se ha
+    // descartado en silencio por caer fuera del recorrido (ver
+    // PosicionActualResponse.descartadoFueraDeRecorrido) -en ambos casos es
+    // una respuesta correcta, no un error.
     @PostMapping("/{id}/posiciones")
-    @ResponseStatus(HttpStatus.CREATED)
-    public PosicionActualResponse registrarPosicion(@PathVariable Long id,
-                                                      @Valid @RequestBody PosicionActualRequest request) {
-        PosicionActual posicion = posicionActualService.registrarPing(id, request.latitud(), request.longitud());
-        return PosicionActualResponse.from(posicion);
+    public ResponseEntity<PosicionActualResponse> registrarPosicion(@PathVariable Long id,
+                                                                      @Valid @RequestBody PosicionActualRequest request) {
+        PosicionActualResponse respuesta = posicionActualService.registrarPing(id, request.latitud(), request.longitud());
+        HttpStatus status = respuesta.guardado() ? HttpStatus.CREATED : HttpStatus.OK;
+        return ResponseEntity.status(status).body(respuesta);
     }
 }

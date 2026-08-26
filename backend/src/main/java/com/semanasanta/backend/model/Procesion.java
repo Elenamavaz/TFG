@@ -43,6 +43,17 @@ public class Procesion extends Evento {
     )
     private Set<Paso> pasos = new HashSet<>();
 
+    // Marca de agua de la estela en vivo (2026-08-22, ver
+    // PosicionActualService.estela): fracción 0..1 del recorrido hasta donde
+    // ha llegado ya el cofrade más atrasado/más adelantado. Solo AVANZAN,
+    // nunca se guarda un valor menor -así un corte de cobertura puntual no
+    // hace retroceder la estela pintada. NULL hasta el primer ping.
+    @Column(name = "progreso_cola_alcanzado")
+    private Double progresoColaAlcanzado;
+
+    @Column(name = "progreso_cabeza_alcanzado")
+    private Double progresoCabezaAlcanzado;
+
     protected Procesion() {
     }
 
@@ -92,5 +103,21 @@ public class Procesion extends Evento {
 
     public void removePaso(Paso paso) {
         this.pasos.remove(paso);
+    }
+
+    public Double getProgresoColaAlcanzado() {
+        return progresoColaAlcanzado;
+    }
+
+    public void setProgresoColaAlcanzado(Double progresoColaAlcanzado) {
+        this.progresoColaAlcanzado = progresoColaAlcanzado;
+    }
+
+    public Double getProgresoCabezaAlcanzado() {
+        return progresoCabezaAlcanzado;
+    }
+
+    public void setProgresoCabezaAlcanzado(Double progresoCabezaAlcanzado) {
+        this.progresoCabezaAlcanzado = progresoCabezaAlcanzado;
     }
 }
