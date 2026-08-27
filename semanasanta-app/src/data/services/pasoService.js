@@ -20,3 +20,20 @@ export async function getPasoPorId(pasoId) {
   const paso = await apiFetch(`/pasos/${pasoId}`);
   return new Paso(paso);
 }
+
+// -- Gestión (panel de Junta, mockup del 2026-08-22): las escrituras exigen
+// JWT de Junta de la ciudad (dueña de la cofradía del paso) en el backend.
+
+export async function crearPaso(datos) {
+  const paso = await apiFetch('/pasos', { method: 'POST', body: datos });
+  return new Paso(paso);
+}
+
+export async function actualizarPaso(pasoId, datos) {
+  const paso = await apiFetch(`/pasos/${pasoId}`, { method: 'PUT', body: datos });
+  return new Paso(paso);
+}
+
+export async function eliminarPaso(pasoId) {
+  await apiFetch(`/pasos/${pasoId}`, { method: 'DELETE' });
+}

@@ -10,7 +10,8 @@ public record CofradiaResponse(
         String historia,
         String web,
         LocalDateTime fechaCreacion,
-        Long ciudadId
+        Long ciudadId,
+        boolean activa
 ) {
     public static CofradiaResponse from(Cofradia cofradia) {
         return new CofradiaResponse(
@@ -19,7 +20,8 @@ public record CofradiaResponse(
                 cofradia.getHistoria(),
                 cofradia.getWeb(),
                 cofradia.getFechaCreacion(),
-                cofradia.getCiudad().getId()
+                cofradia.getCiudad().getId(),
+                cofradia.isActiva()
         );
     }
 }

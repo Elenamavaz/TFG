@@ -6,6 +6,17 @@ import {
   FormularioProcesionScreen,
   ProcesionCreadaScreen,
   ProcesionActualizadaScreen,
+  CofradiasScreen,
+  FormularioCofradiaScreen,
+  CofradiaCreadaScreen,
+  EventosScreen,
+  FormularioEventoScreen,
+  EventoCreadoScreen,
+  EventoActualizadoScreen,
+  PasosScreen,
+  FormularioPasoScreen,
+  PasoCreadoScreen,
+  PasoActualizadoScreen,
 } from '../screens/junta';
 import { colors, fontFamilies } from '../../theme';
 
@@ -19,14 +30,13 @@ const screenOptions = {
   contentStyle: { backgroundColor: colors.background },
 };
 
-// Flujo propio del rol Junta (mockup del 2026-08-18): RootNavigator entra
-// aquí directamente en cuanto detecta una sesión con rol JUNTA activa (si
-// está desactivada, va a CuentaDesactivada en su lugar) -antes de esto era
-// PanelProximamenteScreen, ya no existe. Perfil + Editar perfil + Procesiones
-// (mockup del 2026-08-20) ya completos; Cofradías/Eventos/Pasos siguen
-// aplazados -mismo criterio que el resto del panel, no se construye una
-// sección sin sus propios mockups de alta/edición. Sin barra de pestañas
-// inferior a propósito, igual que AdministradorStackNavigator.
+// Flujo propio del rol Junta: RootNavigator entra aquí directamente en
+// cuanto detecta una sesión con rol JUNTA activa (si está desactivada, va a
+// CuentaDesactivada en su lugar). Perfil + Editar perfil + Procesiones
+// (mockup del 2026-08-20), y desde el 2026-08-22 también Cofradías/Eventos/
+// Pasos (con sus propios mockups de alta/edición ya recibidos -antes
+// quedaban aplazados por el mismo criterio que el resto del panel). Sin
+// barra de pestañas inferior a propósito, igual que AdministradorStackNavigator.
 export function JuntaStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
@@ -34,12 +44,26 @@ export function JuntaStackNavigator() {
       <Stack.Screen name="EditarPerfilJunta" component={EditarPerfilJuntaScreen} />
       {/* Sin headerShown: false (mismo bug ya corregido en
           AdministradorStackNavigator, 2026-08-21: apagaba la flecha de
-          volver entera): ProcesionesScreen pone su propio título por dentro
-          con navigation.setOptions. */}
+          volver entera): cada lista pone su propio título por dentro con
+          navigation.setOptions. */}
       <Stack.Screen name="Procesiones" component={ProcesionesScreen} />
       <Stack.Screen name="FormularioProcesion" component={FormularioProcesionScreen} />
       <Stack.Screen name="ProcesionCreada" component={ProcesionCreadaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ProcesionActualizada" component={ProcesionActualizadaScreen} options={{ headerShown: false }} />
+
+      <Stack.Screen name="Cofradias" component={CofradiasScreen} />
+      <Stack.Screen name="FormularioCofradia" component={FormularioCofradiaScreen} />
+      <Stack.Screen name="CofradiaCreada" component={CofradiaCreadaScreen} options={{ headerShown: false }} />
+
+      <Stack.Screen name="Eventos" component={EventosScreen} />
+      <Stack.Screen name="FormularioEvento" component={FormularioEventoScreen} />
+      <Stack.Screen name="EventoCreado" component={EventoCreadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="EventoActualizado" component={EventoActualizadoScreen} options={{ headerShown: false }} />
+
+      <Stack.Screen name="Pasos" component={PasosScreen} />
+      <Stack.Screen name="FormularioPaso" component={FormularioPasoScreen} />
+      <Stack.Screen name="PasoCreado" component={PasoCreadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="PasoActualizado" component={PasoActualizadoScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

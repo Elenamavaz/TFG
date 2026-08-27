@@ -38,11 +38,32 @@ export {
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
 export { registrarPosicion } from './posicionActualService';
-export { getUbicacionPorId } from './lugarService';
+export { getUbicacionPorId, crearUbicacion, actualizarUbicacion } from './lugarService';
 export { getRecorridoCompleto, importarGpxRecorrido } from './recorridoService';
-export { getCofradiasPorCiudad, getCofradiaPorId } from './cofradiaService';
-export { getPasosPorCofradia, getPasosPorIds, getPasoPorId } from './pasoService';
-export { getEventosPorCiudad, getEventoPorId, getEventosPorCofradia } from './eventoService';
+export {
+  getCofradiasPorCiudad,
+  getCofradiaPorId,
+  getCofradiasGestion,
+  crearCofradia,
+  actualizarCofradia,
+  eliminarCofradia,
+} from './cofradiaService';
+export {
+  getPasosPorCofradia,
+  getPasosPorIds,
+  getPasoPorId,
+  crearPaso,
+  actualizarPaso,
+  eliminarPaso,
+} from './pasoService';
+export {
+  getEventosPorCiudad,
+  getEventoPorId,
+  getEventosPorCofradia,
+  crearEvento,
+  actualizarEvento,
+  eliminarEvento,
+} from './eventoService';
 export {
   getProcesionesPorCiudad,
   getProcesionPorId,

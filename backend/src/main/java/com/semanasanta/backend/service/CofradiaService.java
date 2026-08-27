@@ -28,16 +28,34 @@ public class CofradiaService {
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
     }
 
+    // Solo las activas: es lo que ve el ciudadano (GET público, RI-01). El
+    // panel de Junta necesita ver también las suyas desactivadas -mismo
+    // patrón que CiudadService.listar(boolean).
     public List<Cofradia> listar() {
-        return cofradiaRepository.findAll();
+        return listar(false);
+    }
+
+    public List<Cofradia> listar(boolean incluirInactivas) {
+        List<Cofradia> cofradias = cofradiaRepository.findAll();
+        if (incluirInactivas) {
+            return cofradias;
+        }
+        return cofradias.stream().filter(Cofradia::isActiva).toList();
     }
 
     // Filtrado por ciudad para el listado del ciudadano (RI-01, GET público
     // en SecurityConfig) -mismo patrón que NotificacionService.listarDeCiudad.
-    // listar() (sin filtro) se queda igual para quien necesite todas.
     public List<Cofradia> listarDeCiudad(Long ciudadId) {
+        return listarDeCiudad(ciudadId, false);
+    }
+
+    public List<Cofradia> listarDeCiudad(Long ciudadId, boolean incluirInactivas) {
         ciudadService.obtener(ciudadId); // 404 si la ciudad no existe
-        return cofradiaRepository.findByCiudadId(ciudadId);
+        List<Cofradia> cofradias = cofradiaRepository.findByCiudadId(ciudadId);
+        if (incluirInactivas) {
+            return cofradias;
+        }
+        return cofradias.stream().filter(Cofradia::isActiva).toList();
     }
 
     public Cofradia obtener(Long id) {
@@ -67,6 +85,7 @@ public class CofradiaService {
         cofradia.setNombre(request.nombre());
         cofradia.setHistoria(request.historia());
         cofradia.setWeb(request.web());
+        cofradia.setActiva(request.activa());
         // fechaCreacion no se toca: no tiene setter en la entidad a propósito.
         return cofradiaRepository.save(cofradia);
     }

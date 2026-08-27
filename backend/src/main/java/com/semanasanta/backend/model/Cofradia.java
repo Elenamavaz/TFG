@@ -34,6 +34,12 @@ public class Cofradia {
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
+    // Si el ciudadano la ve en los listados (ver CofradiaService.listar).
+    // Nace siempre activa: no es algo que se elija al crearla, solo al
+    // editarla -mismo patrón que Ciudad.activa (2026-08-22).
+    @Column(nullable = false)
+    private boolean activa;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ciudad_id", nullable = false)
     private Ciudad ciudad;
@@ -48,6 +54,7 @@ public class Cofradia {
         this.web = web;
         this.fechaCreacion = fechaCreacion;
         this.ciudad = ciudad;
+        this.activa = true;
     }
 
     public Long getId() {
@@ -88,5 +95,13 @@ public class Cofradia {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
     }
 }

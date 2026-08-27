@@ -14,12 +14,18 @@ import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { styles } from './PerfilJuntaScreen.styles';
 
-// "Próximamente" a propósito: Cofradías/Eventos/Pasos siguen sin mockup de
-// alta/edición propio -mismo criterio que el resto del panel, no se
-// construye una sección a medias. Procesiones (mockup del 2026-08-20) ya
-// tiene pantallas reales.
+// Cofradías/Eventos/Pasos ya tienen pantallas reales desde el 2026-08-22
+// (llegaron sus mockups de alta/edición propios -hasta entonces quedaban
+// "Próximamente", mismo criterio que el resto del panel: no se construye
+// una sección a medias).
 const OPCIONES_GESTION = [
-  { id: 'cofradias', icono: 'church', titulo: 'Cofradias', subtitulo: 'Crear, editar y eliminar cofradias', ruta: null },
+  {
+    id: 'cofradias',
+    icono: 'church',
+    titulo: 'Cofradias',
+    subtitulo: 'Crear, editar y eliminar cofradias',
+    ruta: 'Cofradias',
+  },
   {
     id: 'procesiones',
     icono: 'walk',
@@ -27,8 +33,14 @@ const OPCIONES_GESTION = [
     subtitulo: 'Crear, editar y eliminar procesiones',
     ruta: 'Procesiones',
   },
-  { id: 'eventos', icono: 'calendar-star', titulo: 'Eventos', subtitulo: 'Crear, editar y eliminar eventos', ruta: null },
-  { id: 'pasos', icono: 'cross', titulo: 'Pasos', subtitulo: 'Crear, editar y eliminar pasos', ruta: null },
+  {
+    id: 'eventos',
+    icono: 'calendar-star',
+    titulo: 'Eventos',
+    subtitulo: 'Crear, editar y eliminar eventos',
+    ruta: 'Eventos',
+  },
+  { id: 'pasos', icono: 'cross', titulo: 'Pasos', subtitulo: 'Crear, editar y eliminar pasos', ruta: 'Pasos' },
   {
     id: 'perfil',
     icono: 'account-edit-outline',
@@ -67,9 +79,12 @@ export function PerfilJuntaScreen({ navigation }) {
 
   function abrirOpcion(opcion) {
     if (!opcion.ruta) return;
-    // Procesiones necesita saber de qué ciudad -la misma que ya está
-    // resuelta aquí para "Ciudad gestionada", no hace falta volver a elegirla.
-    navigation.navigate(opcion.ruta, opcion.ruta === 'Procesiones' ? { ciudadId: ciudad?.id } : undefined);
+    // Todas las secciones de gestión (Cofradias/Procesiones/Eventos/Pasos)
+    // necesitan saber de qué ciudad -la misma que ya está resuelta aquí para
+    // "Ciudad gestionada", no hace falta volver a elegirla. "Editar perfil"
+    // es la única sin ciudadId, no la necesita.
+    const necesitaCiudad = opcion.ruta !== 'EditarPerfilJunta';
+    navigation.navigate(opcion.ruta, necesitaCiudad ? { ciudadId: ciudad?.id } : undefined);
   }
 
   async function salir() {

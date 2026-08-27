@@ -29,10 +29,16 @@ public class CofradiaController {
 
     // ciudadId opcional: con él, las cofradías de esa ciudad (lo que usa el
     // ciudadano en la app); sin él, todas -se mantiene por compatibilidad
-    // con quien ya llamara a este GET sin filtro.
+    // con quien ya llamara a este GET sin filtro. incluirInactivas=true es
+    // lo que usa el panel de Junta para ver también las suyas desactivadas
+    // (y poder reactivarlas); el ciudadano nunca lo manda, mismo patrón que
+    // CiudadController.
     @GetMapping
-    public List<CofradiaResponse> listar(@RequestParam(required = false) Long ciudadId) {
-        List<Cofradia> cofradias = ciudadId != null ? cofradiaService.listarDeCiudad(ciudadId) : cofradiaService.listar();
+    public List<CofradiaResponse> listar(@RequestParam(required = false) Long ciudadId,
+                                          @RequestParam(defaultValue = "false") boolean incluirInactivas) {
+        List<Cofradia> cofradias = ciudadId != null
+                ? cofradiaService.listarDeCiudad(ciudadId, incluirInactivas)
+                : cofradiaService.listar(incluirInactivas);
         return cofradias.stream()
                 .map(CofradiaResponse::from)
                 .toList();
