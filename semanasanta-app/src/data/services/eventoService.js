@@ -19,11 +19,7 @@ export async function getEventoPorId(eventoId) {
 }
 
 // -- Gestión (panel de Junta, mockup del 2026-08-22): las escrituras exigen
-// JWT de Junta de la ciudad en el backend. Sin cancelarEvento: a diferencia
-// de Procesion, EventoService no tiene ese endpoint todavía (ver
-// "estado no se toca aquí: lo cambiará un endpoint propio más adelante" en
-// EventoService.actualizar) -la lista de Eventos de Junta usa Eliminar en
-// su lugar, no Cancelar.
+// JWT de Junta de la ciudad en el backend.
 
 export async function crearEvento(datos) {
   const evento = await apiFetch('/eventos', { method: 'POST', body: datos });
@@ -37,4 +33,11 @@ export async function actualizarEvento(eventoId, datos) {
 
 export async function eliminarEvento(eventoId) {
   await apiFetch(`/eventos/${eventoId}`, { method: 'DELETE' });
+}
+
+// "Cancelar" (2026-08-23): mismo patrón que cancelarProcesion -el evento
+// sigue existiendo, solo cambia de estado, y genera un aviso al ciudadano.
+export async function cancelarEvento(eventoId, datos) {
+  const evento = await apiFetch(`/eventos/${eventoId}/cancelar`, { method: 'POST', body: datos });
+  return new Evento(evento);
 }

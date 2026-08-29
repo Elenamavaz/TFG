@@ -104,8 +104,8 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 13,
   },
-  accionEliminar: {
-    color: colors.redText,
+  accionNotificar: {
+    color: colors.gold,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 13,
   },
@@ -149,5 +149,99 @@ export const styles = StyleSheet.create({
     color: colors.cream,
     fontFamily: fontFamilies.uiMedium,
     fontSize: 15,
+  },
+
+  // Modal "Notificar" (2026-08-23, mismo patrón que ProcesionesScreen).
+  modalAccion: {
+    backgroundColor: colors.backgroundAlt,
+    borderWidth: 0.5,
+    borderColor: colors.subtitle,
+    borderRadius: radii.md,
+    padding: spacing.lg,
+    width: '100%',
+    maxWidth: 360,
+  },
+  modalAccionTitulo: {
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 18,
+  },
+  modalAccionSubtitulo: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+    marginTop: 4,
+    marginBottom: spacing.md,
+  },
+  etiquetaModal: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    marginBottom: spacing.xs,
+  },
+  inputModal: {
+    backgroundColor: colors.background,
+    borderRadius: radii.md,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    color: colors.cream,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 14,
+    marginBottom: spacing.md,
+  },
+  inputModalMultilinea: {
+    minHeight: 70,
+    textAlignVertical: 'top',
+  },
+  prioridadRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+    marginBottom: spacing.lg,
+  },
+  prioridadChip: {
+    borderRadius: radii.sm,
+    borderWidth: 1.5,
+    borderColor: 'transparent',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+  },
+  prioridadChipTexto: {
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 12,
+  },
+  modalAccionAcciones: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  volverButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    borderRadius: radii.lg,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+  },
+  volverTexto: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  confirmarNotificarButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    borderRadius: radii.lg,
+    backgroundColor: colors.gold,
+  },
+  confirmarNotificarTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  botonDeshabilitado: {
+    opacity: 0.5,
   },
 });

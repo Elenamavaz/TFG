@@ -15,12 +15,27 @@ import { partirFechaHora } from '../utils/fechaSemanaSanta';
 // - fecha/dia/hora se derivan del único `fecha` del backend (ver
 //   partirFechaHora) para que HomeScreen/CalenderScreen sigan funcionando
 //   sin tocarlas.
+// - pasoIds (2026-08-23): "los eventos también pueden tener pasos", no solo
+//   las procesiones -la relación se subió a Evento en el backend. Mismo
+//   nombre de campo que Procesion.js (pasoIds, no pasosIds) por consistencia
+//   entre los dos modelos -no es un typo, ya estaba así en Procesion.js.
 export class Evento extends Favoriteable {
-  constructor({ id, cofradiaIds = [], nombre, historia = null, tradicion = null, fecha, estado, ubicacionId = null }) {
+  constructor({
+    id,
+    cofradiaIds = [],
+    pasosIds = [],
+    nombre,
+    historia = null,
+    tradicion = null,
+    fecha,
+    estado,
+    ubicacionId = null,
+  }) {
     super();
     const partida = partirFechaHora(fecha);
     this.id = id;
     this.cofradiaIds = cofradiaIds; // participan: N Cofradia
+    this.pasoIds = pasosIds; // desfilan: N Paso
     this.nombre = nombre;
     this.historia = historia;
     this.tradicion = tradicion;

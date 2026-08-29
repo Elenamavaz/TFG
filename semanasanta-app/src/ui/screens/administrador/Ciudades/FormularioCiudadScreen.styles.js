@@ -43,6 +43,15 @@ export const styles = StyleSheet.create({
     minHeight: 90,
     textAlignVertical: 'top',
   },
+  // Latitud / Longitud (2026-08-23): dos campos cortos en una fila, mismo
+  // patrón compacto que otros formularios del panel.
+  filaCompacta: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  inputCompacto: {
+    flex: 1,
+  },
   activaRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

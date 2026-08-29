@@ -258,7 +258,10 @@ public class DataSeeder implements CommandLineRunner {
                 .findFirst()
                 .orElseGet(() -> {
                     log.info("Creando ciudad '{}'", nombre);
-                    return ciudadRepository.save(new Ciudad(nombre, comunidadAutonoma, provincia, historia, patrimonio));
+                    // Sin latitud/longitud: este seed no las trae por ciudad
+                    // todavía (2026-08-23, ver Ciudad.latitud) -mejor
+                    // dejarlas sin rellenar que inventar coordenadas.
+                    return ciudadRepository.save(new Ciudad(nombre, comunidadAutonoma, provincia, historia, patrimonio, null, null));
                 });
     }
 

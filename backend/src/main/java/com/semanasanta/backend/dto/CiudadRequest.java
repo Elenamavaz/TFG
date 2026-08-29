@@ -13,6 +13,8 @@ public record CiudadRequest(
         String provincia,
         String historia,
         String patrimonio,
-        boolean activa
+        boolean activa,
+        Double latitud,
+        Double longitud
 ) {
 }

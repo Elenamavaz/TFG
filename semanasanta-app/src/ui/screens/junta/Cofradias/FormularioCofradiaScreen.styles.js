@@ -46,6 +46,43 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: spacing.md,
   },
+  // "Elementos de la cofradia" (2026-08-23): tres enlaces informativos a
+  // Procesiones/Eventos/Pasos filtrados por esta cofradía -mismo patrón que
+  // "Lista de pasos" en FormularioProcesionScreen/FormularioEventoScreen,
+  // repetido tres veces.
+  elementoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: radii.md,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  elementoTitulo: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  elementoMeta: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    marginTop: 2,
+  },
+  elementoVerLista: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  elementoVerListaTexto: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
   error: {
     color: colors.redText,
     fontFamily: fontFamilies.uiRegular,

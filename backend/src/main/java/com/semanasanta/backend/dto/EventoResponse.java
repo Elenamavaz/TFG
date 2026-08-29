@@ -14,7 +14,8 @@ public record EventoResponse(
         String estado,
         List<Long> cofradiaIds,
         Long ubicacionId,
-        String web
+        String web,
+        List<Long> pasosIds
 ) {
     public static EventoResponse from(Evento evento) {
         return new EventoResponse(
@@ -26,7 +27,8 @@ public record EventoResponse(
                 evento.getEstado().name(),
                 evento.getCofradias().stream().map(cofradia -> cofradia.getId()).toList(),
                 evento.getUbicacion() != null ? evento.getUbicacion().getId() : null,
-                evento.getWeb()
+                evento.getWeb(),
+                evento.getPasos().stream().map(paso -> paso.getId()).toList()
         );
     }
 }

@@ -41,7 +41,8 @@ export function FormularioEventoScreen({ route, navigation }) {
   const [cofradiasDisponibles, setCofradiasDisponibles] = useState([]);
   const [cofradiaSeleccionada, setCofradiaSeleccionada] = useState(null);
   const [modalCofradiaVisible, setModalCofradiaVisible] = useState(false);
-  const [numPasos, setNumPasos] = useState(0);
+  const [numPasos, setNumPasos] = useState(0); // candidatos: pasos de la cofradía elegida (solo mientras se crea, ver JSX)
+  const [numPasosAsignados, setNumPasosAsignados] = useState(0); // los que YA participan en este evento (editando)
   const [diasSemanaSanta, setDiasSemanaSanta] = useState([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
   const [modalDiaVisible, setModalDiaVisible] = useState(false);
@@ -92,6 +93,7 @@ export function FormularioEventoScreen({ route, navigation }) {
         if (cofradia) {
           getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
         }
+        setNumPasosAsignados(evento.pasoIds.length);
         if (evento.ubicacionId) {
           const ubicacion = await getUbicacionPorId(evento.ubicacionId);
           setUbicacionId(ubicacion.id);
@@ -139,13 +141,17 @@ export function FormularioEventoScreen({ route, navigation }) {
         cofradiaIds: cofradiaSeleccionada ? [cofradiaSeleccionada.id] : [],
         ubicacionId: idUbicacion,
         web: webOficial.trim() || null,
+        // Los pasos se asignan aparte, en SeleccionarPasosEventoScreen
+        // (2026-08-23) -mismo patrón que FormularioProcesionScreen, que
+        // tampoco los toca aquí.
+        pasosIds: null,
       };
       if (editando) {
         await actualizarEvento(eventoId, datos);
-        navigation.replace('EventoActualizado', { ciudadId });
+        navigation.replace('EventoActualizado', { ciudadId, eventoId });
       } else {
         const eventoCreado = await crearEvento(datos);
-        navigation.replace('EventoCreado', { nombreEvento: eventoCreado.nombre, ciudadId });
+        navigation.replace('EventoCreado', { nombreEvento: eventoCreado.nombre, ciudadId, eventoId: eventoCreado.id });
       }
     } catch (err) {
       if (err.campos) {
@@ -290,9 +296,35 @@ export function FormularioEventoScreen({ route, navigation }) {
           <Text style={styles.ayuda}>Coordenadas del sitio (sin geocodificación automática todavía).</Text>
         </View>
 
-        {cofradiaSeleccionada ? (
+        {/* Editando: "Lista de pasos" muestra los que YA participan en ESTE
+            evento (pasoIds, ver SeleccionarPasosEventoScreen) -no los de una
+            sola cofradía. Un evento puede tener varias cofradías
+            (cofradiaIds), y esa pantalla ya reúne los pasos de TODAS ellas,
+            no solo de la que se ve seleccionada aquí (el selector de este
+            formulario solo deja elegir una, mismo caso que Procesion).
+            Creando: todavía no hay evento al que asignar pasos, así que se
+            muestran los de la cofradía elegida como candidatos. */}
+        {editando ? (
           <View style={styles.campo}>
-            <Text style={styles.etiqueta}>Elementos de la cofradia</Text>
+            <Text style={styles.etiqueta}>Elementos del Evento</Text>
+            <TouchableOpacity
+              style={styles.pasosRow}
+              onPress={() => navigation.navigate('SeleccionarPasosEvento', { eventoId, ciudadId })}
+              activeOpacity={0.8}
+            >
+              <View>
+                <Text style={styles.pasosTitulo}>Lista de pasos</Text>
+                <Text style={styles.pasosMeta}>{numPasosAsignados} pasos</Text>
+              </View>
+              <View style={styles.pasosVerLista}>
+                <Text style={styles.pasosVerListaTexto}>Ver Lista</Text>
+                <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : cofradiaSeleccionada ? (
+          <View style={styles.campo}>
+            <Text style={styles.etiqueta}>Pasos de la cofradia</Text>
             <TouchableOpacity
               style={styles.pasosRow}
               onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiaSeleccionada.id })}
@@ -300,7 +332,7 @@ export function FormularioEventoScreen({ route, navigation }) {
             >
               <View>
                 <Text style={styles.pasosTitulo}>Lista de pasos</Text>
-                <Text style={styles.pasosMeta}>{numPasos} pasos</Text>
+                <Text style={styles.pasosMeta}>{numPasos} pasos (se asignan al guardar)</Text>
               </View>
               <View style={styles.pasosVerLista}>
                 <Text style={styles.pasosVerListaTexto}>Ver Lista</Text>

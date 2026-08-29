@@ -32,18 +32,34 @@ export const styles = StyleSheet.create({
     marginTop: spacing.sm,
     lineHeight: 20,
   },
-  boton: {
+  // CTA principal: "Añadir/Actualizar pasos" (2026-08-23).
+  añadirPasosButton: {
     backgroundColor: colors.gold,
     borderRadius: radii.lg,
     paddingVertical: spacing.md,
-    paddingHorizontal: spacing.xl,
     alignItems: 'center',
     marginTop: spacing.xl,
     alignSelf: 'stretch',
   },
-  botonTexto: {
+  añadirPasosTexto: {
     color: colors.background,
     fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 16,
+    fontSize: 15,
+  },
+  // Secundario: "Hacerlo más tarde" (antes era el único botón, "Ok", en
+  // sólido dorado -pasa a discreto ahora que hay una acción principal).
+  boton: {
+    borderWidth: 0.5,
+    borderColor: colors.subtitle,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+    marginTop: spacing.sm,
+    alignSelf: 'stretch',
+  },
+  botonTexto: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 15,
   },
 });

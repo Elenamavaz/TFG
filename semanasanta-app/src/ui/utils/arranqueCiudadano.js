@@ -1,15 +1,22 @@
-import { getCiudades, getCiudadIdGuardada } from '../../data/services';
+import {
+  getCiudades,
+  getCiudadIdGuardada,
+  guardarCiudadId,
+  solicitarPermisoUbicacion,
+  obtenerPosicionActual,
+} from '../../data/services';
 import { queryClient } from '../../infrastructure/api/queryClient';
+import { ciudadMasCercana } from './geo';
 
 // Determina a qué pantalla ir dentro del modo Ciudadano (sin cuenta):
 // - Si ya hay una ciudad guardada de una sesión anterior, se va directa a MainTabs.
-// - Si no, se deja elegir a mano en SeleccionCiudadScreen.
-//
-// 2026-08-15: ya no se preselecciona la ciudad más cercana por GPS. Esa
-// lógica dependía de latitud/longitud en Ciudad (ver ciudadMasCercana en
-// geo.js, ahora quitada), campos que existían en el mock/diseño de Figma
-// pero nunca se implementaron en el backend real (ver Ciudad.js). Queda
-// pendiente decidir si se recupera añadiendo esos campos al backend.
+// - Si no, se intenta preseleccionar la ciudad más cercana por GPS (2026-08-23,
+//   recuperado -Ciudad ya tiene latitud/longitud en el backend real, ver
+//   geo.js). Solo si el usuario da permiso Y hay alguna ciudad activa con
+//   coordenadas cerca; si no, se deja elegir a mano en SeleccionCiudadScreen,
+//   igual que hasta ahora -nunca se fuerza el permiso ni se bloquea el arranque
+//   por él (solicitarPermisoUbicacion/obtenerPosicionActual ya devuelven
+//   false/null en vez de lanzar si el usuario lo deniega o el GPS falla).
 //
 // fetchQuery (no getCiudades directo): usa la misma caché de TanStack Query
 // que luego lee SeleccionCiudadScreen con useQuery -así, si el usuario
@@ -22,6 +29,21 @@ export async function resolverPantallaCiudadano(seleccionarCiudad) {
   if (ciudadGuardada) {
     seleccionarCiudad(ciudadGuardada);
     return 'MainTabs';
+  }
+
+  const permiso = await solicitarPermisoUbicacion();
+  if (permiso) {
+    const posicion = await obtenerPosicionActual();
+    const cercana = posicion ? ciudadMasCercana(ciudades, posicion) : null;
+    if (cercana) {
+      // guardarCiudadId (no solo seleccionarCiudad, que solo vive en memoria
+      // -ver CiudadContext): mismo paso que hace SeleccionCiudadScreen al
+      // elegir a mano, para que el próximo arranque ya la encuentre guardada
+      // y no repita el cálculo de GPS.
+      guardarCiudadId(cercana.id);
+      seleccionarCiudad(cercana);
+      return 'MainTabs';
+    }
   }
 
   return 'SeleccionCiudad';

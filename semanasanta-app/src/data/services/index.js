@@ -63,6 +63,7 @@ export {
   crearEvento,
   actualizarEvento,
   eliminarEvento,
+  cancelarEvento,
 } from './eventoService';
 export {
   getProcesionesPorCiudad,

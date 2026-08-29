@@ -4,11 +4,10 @@ import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { styles } from './ProcesionCreadaScreen.styles';
 
-// "Añadir pasos" deshabilitado a propósito: Pasos sigue sin sus propias
-// pantallas (ver PerfilJuntaScreen, "Próximamente"), igual que pasó con
-// Miembros antes de tener las suyas.
+// "Añadir pasos" habilitado desde el 2026-08-23 -lleva a SeleccionarPasosScreen
+// (antes deshabilitado, "Pasos sigue sin sus propias pantallas").
 export function ProcesionCreadaScreen({ route, navigation }) {
-  const { nombreProcesion, ciudadId } = route.params;
+  const { nombreProcesion, ciudadId, procesionId } = route.params;
 
   return (
     <ScreenContainer style={styles.container}>
@@ -21,9 +20,13 @@ export function ProcesionCreadaScreen({ route, navigation }) {
         en ella o continuar más tarde.
       </Text>
 
-      <View style={styles.botonDeshabilitado}>
-        <Text style={styles.botonDeshabilitadoTexto}>Añadir pasos · Próximamente</Text>
-      </View>
+      <TouchableOpacity
+        style={styles.añadirPasosButton}
+        onPress={() => navigation.navigate('SeleccionarPasos', { procesionId, ciudadId })}
+        activeOpacity={0.85}
+      >
+        <Text style={styles.añadirPasosTexto}>Añadir pasos</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Procesiones', { ciudadId })} activeOpacity={0.85}>
         <Text style={styles.botonTexto}>Hacerlo más tarde</Text>
       </TouchableOpacity>

@@ -5,6 +5,7 @@ export { ProcesionesScreen } from './Procesiones/ProcesionesScreen';
 export { FormularioProcesionScreen } from './Procesiones/FormularioProcesionScreen';
 export { ProcesionCreadaScreen } from './Procesiones/ProcesionCreadaScreen';
 export { ProcesionActualizadaScreen } from './Procesiones/ProcesionActualizadaScreen';
+export { SeleccionarPasosScreen } from './Procesiones/SeleccionarPasosScreen';
 
 export { CofradiasScreen } from './Cofradias/CofradiasScreen';
 export { FormularioCofradiaScreen } from './Cofradias/FormularioCofradiaScreen';
@@ -14,6 +15,7 @@ export { EventosScreen } from './Eventos/EventosScreen';
 export { FormularioEventoScreen } from './Eventos/FormularioEventoScreen';
 export { EventoCreadoScreen } from './Eventos/EventoCreadoScreen';
 export { EventoActualizadoScreen } from './Eventos/EventoActualizadoScreen';
+export { SeleccionarPasosEventoScreen } from './Eventos/SeleccionarPasosEventoScreen';
 
 export { PasosScreen } from './Pasos/PasosScreen';
 export { FormularioPasoScreen } from './Pasos/FormularioPasoScreen';

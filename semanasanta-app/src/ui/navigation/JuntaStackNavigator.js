@@ -6,6 +6,7 @@ import {
   FormularioProcesionScreen,
   ProcesionCreadaScreen,
   ProcesionActualizadaScreen,
+  SeleccionarPasosScreen,
   CofradiasScreen,
   FormularioCofradiaScreen,
   CofradiaCreadaScreen,
@@ -13,6 +14,7 @@ import {
   FormularioEventoScreen,
   EventoCreadoScreen,
   EventoActualizadoScreen,
+  SeleccionarPasosEventoScreen,
   PasosScreen,
   FormularioPasoScreen,
   PasoCreadoScreen,
@@ -50,6 +52,7 @@ export function JuntaStackNavigator() {
       <Stack.Screen name="FormularioProcesion" component={FormularioProcesionScreen} />
       <Stack.Screen name="ProcesionCreada" component={ProcesionCreadaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ProcesionActualizada" component={ProcesionActualizadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SeleccionarPasos" component={SeleccionarPasosScreen} />
 
       <Stack.Screen name="Cofradias" component={CofradiasScreen} />
       <Stack.Screen name="FormularioCofradia" component={FormularioCofradiaScreen} />
@@ -59,6 +62,7 @@ export function JuntaStackNavigator() {
       <Stack.Screen name="FormularioEvento" component={FormularioEventoScreen} />
       <Stack.Screen name="EventoCreado" component={EventoCreadoScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EventoActualizado" component={EventoActualizadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SeleccionarPasosEvento" component={SeleccionarPasosEventoScreen} />
 
       <Stack.Screen name="Pasos" component={PasosScreen} />
       <Stack.Screen name="FormularioPaso" component={FormularioPasoScreen} />

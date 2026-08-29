@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { getCofradiaPorId, crearCofradia, actualizarCofradia, eliminarCofradia } from '../../../../data/services';
+import { Ionicons } from '@expo/vector-icons';
+import {
+  getCofradiaPorId,
+  getProcesionesPorCofradia,
+  getEventosPorCofradia,
+  getPasosPorCofradia,
+  crearCofradia,
+  actualizarCofradia,
+  eliminarCofradia,
+} from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { styles } from './FormularioCofradiaScreen.styles';
@@ -26,6 +35,14 @@ export function FormularioCofradiaScreen({ route, navigation }) {
   const [web, setWeb] = useState('');
   const [historia, setHistoria] = useState('');
   const [activa, setActiva] = useState(true);
+  // "Elementos de la cofradia" (2026-08-23): igual que "Lista de pasos" en
+  // FormularioProcesionScreen/FormularioEventoScreen, pero aquí son tres
+  // enlaces (una cofradía tiene procesiones, eventos Y pasos) -inspirado en
+  // cómo lo organizan sitios reales de cofradías (p.ej. valladolidcofrade.com:
+  // la cofradía enlaza a sus pasos, y estos a las procesiones donde desfilan).
+  const [numProcesiones, setNumProcesiones] = useState(0);
+  const [numEventos, setNumEventos] = useState(0);
+  const [numPasos, setNumPasos] = useState(0);
   const [guardando, setGuardando] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [error, setError] = useState(null);
@@ -46,11 +63,19 @@ export function FormularioCofradiaScreen({ route, navigation }) {
 
   useEffect(() => {
     if (!editando) return;
-    getCofradiaPorId(cofradiaId).then((cofradia) => {
+    Promise.all([
+      getCofradiaPorId(cofradiaId),
+      getProcesionesPorCofradia(cofradiaId),
+      getEventosPorCofradia(cofradiaId),
+      getPasosPorCofradia(cofradiaId),
+    ]).then(([cofradia, procesiones, eventos, pasos]) => {
       setNombre(cofradia.nombre);
       setWeb(cofradia.web ?? '');
       setHistoria(cofradia.historia ?? '');
       setActiva(cofradia.activa);
+      setNumProcesiones(procesiones.length);
+      setNumEventos(eventos.length);
+      setNumPasos(pasos.length);
       setCargandoDatos(false);
     });
   }, [cofradiaId, editando]);
@@ -76,7 +101,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
         navigation.goBack();
       } else {
         const cofradiaCreada = await crearCofradia(datosFormulario());
-        navigation.replace('CofradiaCreada', { nombreCofradia: cofradiaCreada.nombre, ciudadId });
+        navigation.replace('CofradiaCreada', { nombreCofradia: cofradiaCreada.nombre, ciudadId, cofradiaId: cofradiaCreada.id });
       }
     } catch (err) {
       if (err.campos) {
@@ -150,6 +175,57 @@ export function FormularioCofradiaScreen({ route, navigation }) {
               trackColor={{ false: colors.surfaceAlt, true: colors.gold }}
               thumbColor={colors.cream}
             />
+          </View>
+        ) : null}
+
+        {editando ? (
+          <View style={styles.campo}>
+            <Text style={styles.etiqueta}>Elementos de la cofradia</Text>
+
+            <TouchableOpacity
+              style={styles.elementoRow}
+              onPress={() => navigation.navigate('Procesiones', { ciudadId, cofradiaIdInicial: cofradiaId })}
+              activeOpacity={0.8}
+            >
+              <View>
+                <Text style={styles.elementoTitulo}>Lista de procesiones</Text>
+                <Text style={styles.elementoMeta}>{numProcesiones} procesiones</Text>
+              </View>
+              <View style={styles.elementoVerLista}>
+                <Text style={styles.elementoVerListaTexto}>Ver Lista</Text>
+                <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.elementoRow}
+              onPress={() => navigation.navigate('Eventos', { ciudadId, cofradiaIdInicial: cofradiaId })}
+              activeOpacity={0.8}
+            >
+              <View>
+                <Text style={styles.elementoTitulo}>Lista de eventos</Text>
+                <Text style={styles.elementoMeta}>{numEventos} eventos</Text>
+              </View>
+              <View style={styles.elementoVerLista}>
+                <Text style={styles.elementoVerListaTexto}>Ver Lista</Text>
+                <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.elementoRow}
+              onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiaId })}
+              activeOpacity={0.8}
+            >
+              <View>
+                <Text style={styles.elementoTitulo}>Lista de pasos</Text>
+                <Text style={styles.elementoMeta}>{numPasos} pasos</Text>
+              </View>
+              <View style={styles.elementoVerLista}>
+                <Text style={styles.elementoVerListaTexto}>Ver Lista</Text>
+                <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              </View>
+            </TouchableOpacity>
           </View>
         ) : null}
 

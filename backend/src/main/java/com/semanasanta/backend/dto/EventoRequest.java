@@ -11,6 +11,8 @@ import java.util.List;
 // (ver Evento.java). Cambiar el estado será un endpoint propio, no este DTO.
 // cofradiaIds (no cofradiaId): un evento puede tener más de una cofradía
 // participando (decisión del 2026-08-11), al menos una es obligatoria.
+// pasosIds es opcional (2026-08-23, mismo patrón que ProcesionRequest: un
+// evento puede crearse sin pasos asignados todavía y añadirlos después).
 public record EventoRequest(
         @NotBlank(message = "El nombre del evento es obligatorio")
         String nombre,
@@ -22,6 +24,7 @@ public record EventoRequest(
         List<Long> cofradiaIds,
         @NotNull(message = "ubicacionId es obligatorio")
         Long ubicacionId,
-        String web
+        String web,
+        List<Long> pasosIds
 ) {
 }

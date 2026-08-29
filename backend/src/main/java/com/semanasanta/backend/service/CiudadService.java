@@ -42,7 +42,7 @@ public class CiudadService {
     public Ciudad crear(CiudadRequest request) {
         administradorService.exigirAdministrador();
         Ciudad ciudad = new Ciudad(request.nombre(), request.comunidadAutonoma(), request.provincia(),
-                request.historia(), request.patrimonio());
+                request.historia(), request.patrimonio(), request.latitud(), request.longitud());
         return ciudadRepository.save(ciudad);
     }
 
@@ -55,6 +55,8 @@ public class CiudadService {
         ciudad.setHistoria(request.historia());
         ciudad.setPatrimonio(request.patrimonio());
         ciudad.setActiva(request.activa());
+        ciudad.setLatitud(request.latitud());
+        ciudad.setLongitud(request.longitud());
         return ciudadRepository.save(ciudad);
     }
 

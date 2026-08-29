@@ -10,7 +10,9 @@ public record CiudadResponse(
         String provincia,
         String historia,
         String patrimonio,
-        boolean activa
+        boolean activa,
+        Double latitud,
+        Double longitud
 ) {
     public static CiudadResponse from(Ciudad ciudad) {
         return new CiudadResponse(
@@ -20,7 +22,9 @@ public record CiudadResponse(
                 ciudad.getProvincia(),
                 ciudad.getHistoria(),
                 ciudad.getPatrimonio(),
-                ciudad.isActiva()
+                ciudad.isActiva(),
+                ciudad.getLatitud(),
+                ciudad.getLongitud()
         );
     }
 }

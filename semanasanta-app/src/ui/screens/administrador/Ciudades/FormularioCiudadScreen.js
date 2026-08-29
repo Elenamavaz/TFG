@@ -29,6 +29,12 @@ export function FormularioCiudadScreen({ route, navigation }) {
   const [historia, setHistoria] = useState('');
   const [patrimonio, setPatrimonio] = useState('');
   const [activa, setActiva] = useState(true);
+  // Tampoco estaban en el mockup original: latitud/longitud recuperadas el
+  // 2026-08-23 para la preselección de "ciudad más cercana" por GPS del
+  // Ciudadano (ver arranqueCiudadano.js/geo.js) -opcionales, sin ellas esta
+  // ciudad simplemente no entra en ese cálculo.
+  const [latitud, setLatitud] = useState('');
+  const [longitud, setLongitud] = useState('');
   const [junta, setJunta] = useState(null);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
@@ -59,12 +65,17 @@ export function FormularioCiudadScreen({ route, navigation }) {
       setHistoria(ciudad.historia ?? '');
       setPatrimonio(ciudad.patrimonio ?? '');
       setActiva(ciudad.activa);
+      setLatitud(ciudad.latitud != null ? String(ciudad.latitud) : '');
+      setLongitud(ciudad.longitud != null ? String(ciudad.longitud) : '');
       setJunta(juntas.find((j) => j.ciudadId === ciudad.id) ?? null);
       setCargandoDatos(false);
     });
   }, [ciudadId, editando]);
 
   function datosFormulario() {
+    const latitudNumero = Number(latitud.replace(',', '.'));
+    const longitudNumero = Number(longitud.replace(',', '.'));
+    const coordenadasValidas = latitud.trim() !== '' && longitud.trim() !== '' && !Number.isNaN(latitudNumero) && !Number.isNaN(longitudNumero);
     return {
       nombre: nombre.trim(),
       comunidadAutonoma: comunidadAutonoma.trim() || null,
@@ -72,6 +83,8 @@ export function FormularioCiudadScreen({ route, navigation }) {
       historia: historia.trim() || null,
       patrimonio: patrimonio.trim() || null,
       activa,
+      latitud: coordenadasValidas ? latitudNumero : null,
+      longitud: coordenadasValidas ? longitudNumero : null,
     };
   }
 
@@ -133,6 +146,28 @@ export function FormularioCiudadScreen({ route, navigation }) {
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Comunidad Autónoma:</Text>
           <TextInput value={comunidadAutonoma} onChangeText={setComunidadAutonoma} style={styles.input} />
+        </View>
+
+        <View style={styles.campo}>
+          <Text style={styles.etiqueta}>Coordenadas (para "ciudad más cercana" por GPS, opcional)</Text>
+          <View style={styles.filaCompacta}>
+            <TextInput
+              value={latitud}
+              onChangeText={setLatitud}
+              placeholder="Latitud"
+              placeholderTextColor={colors.subtitle}
+              keyboardType="numbers-and-punctuation"
+              style={[styles.input, styles.inputCompacto]}
+            />
+            <TextInput
+              value={longitud}
+              onChangeText={setLongitud}
+              placeholder="Longitud"
+              placeholderTextColor={colors.subtitle}
+              keyboardType="numbers-and-punctuation"
+              style={[styles.input, styles.inputCompacto]}
+            />
+          </View>
         </View>
 
         <View style={styles.campo}>

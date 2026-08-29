@@ -6,9 +6,11 @@ import { styles } from './CofradiaCreadaScreen.styles';
 
 // A diferencia de ProcesionCreadaScreen (que tenía "Añadir pasos ·
 // Próximamente"), aquí los tres botones sí llevan a pantallas reales:
-// Procesiones/Eventos/Pasos ya existen (mockup del 2026-08-22).
+// Procesiones/Eventos/Pasos ya existen (mockup del 2026-08-22). Van con
+// cofradiaIdInicial (2026-08-23): la cofradía recién creada es justo la que
+// tiene sentido tener ya filtrada al llegar, en vez del listado sin filtrar.
 export function CofradiaCreadaScreen({ route, navigation }) {
-  const { nombreCofradia, ciudadId } = route.params;
+  const { nombreCofradia, ciudadId, cofradiaId } = route.params;
 
   return (
     <ScreenContainer style={styles.container}>
@@ -21,13 +23,25 @@ export function CofradiaCreadaScreen({ route, navigation }) {
         pasos, o continuar más tarde.
       </Text>
 
-      <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Procesiones', { ciudadId })} activeOpacity={0.85}>
+      <TouchableOpacity
+        style={styles.boton}
+        onPress={() => navigation.navigate('Procesiones', { ciudadId, cofradiaIdInicial: cofradiaId })}
+        activeOpacity={0.85}
+      >
         <Text style={styles.botonTexto}>Añadir procesiones</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Eventos', { ciudadId })} activeOpacity={0.85}>
+      <TouchableOpacity
+        style={styles.boton}
+        onPress={() => navigation.navigate('Eventos', { ciudadId, cofradiaIdInicial: cofradiaId })}
+        activeOpacity={0.85}
+      >
         <Text style={styles.botonTexto}>Añadir eventos</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Pasos', { ciudadId })} activeOpacity={0.85}>
+      <TouchableOpacity
+        style={styles.boton}
+        onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiaId })}
+        activeOpacity={0.85}
+      >
         <Text style={styles.botonTexto}>Añadir pasos</Text>
       </TouchableOpacity>
       <TouchableOpacity

@@ -145,6 +145,42 @@ export const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
 
+  // "Lista de pasos" (informativo, 2026-08-23, mismo patrón que
+  // FormularioEventoScreen -no es un campo del formulario, enlaza a
+  // PasosScreen filtrado por la cofradía elegida).
+  pasosRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: radii.md,
+    borderWidth: 0.5,
+    borderColor: colors.surfaceAlt,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+  },
+  pasosTitulo: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
+  pasosMeta: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    marginTop: 2,
+  },
+  pasosVerLista: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  pasosVerListaTexto: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
+
   error: {
     color: colors.redText,
     fontFamily: fontFamilies.uiRegular,

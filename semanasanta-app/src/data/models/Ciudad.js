@@ -4,9 +4,9 @@
 // Administrador (mockup del 2026-08-16). "numCofradiasEstimado" se añadió
 // ese mismo día y se quitó también ese mismo día (V25 luego V28): el número
 // real de cofradías ya se ve en vivo contando GET /cofradias?ciudadId=, un
-// campo aparte solo podía quedar desactualizado. Sigue sin latitud/longitud
-// -pendiente si se recupera la preselección por GPS más adelante, ver
-// arranqueCiudadano.js.
+// campo aparte solo podía quedar desactualizado. latitud/longitud recuperadas
+// el 2026-08-23 (ver arranqueCiudadano.js/geo.js): pueden venir a null, una
+// ciudad creada sin coordenadas simplemente no entra en "ciudad más cercana".
 export class Ciudad {
   constructor({
     id,
@@ -16,6 +16,8 @@ export class Ciudad {
     historia = null,
     patrimonio = null,
     activa = true,
+    latitud = null,
+    longitud = null,
   }) {
     this.id = id;
     this.nombre = nombre;
@@ -24,5 +26,7 @@ export class Ciudad {
     this.historia = historia;
     this.patrimonio = patrimonio;
     this.activa = activa;
+    this.latitud = latitud;
+    this.longitud = longitud;
   }
 }

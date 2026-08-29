@@ -5,9 +5,10 @@ import { colors } from '../../../../theme';
 import { styles } from './EventoCreadoScreen.styles';
 
 // Mockup del 2026-08-22 ("Evento Actualizado"). Reutiliza los estilos de
-// EventoCreadoScreen -misma pantalla de confirmación simple, un botón.
+// EventoCreadoScreen. "Actualizar pasos" (2026-08-23) lleva a
+// SeleccionarPasosEventoScreen -mismo patrón que ProcesionActualizadaScreen.
 export function EventoActualizadoScreen({ route, navigation }) {
-  const { ciudadId } = route.params;
+  const { ciudadId, eventoId } = route.params;
 
   return (
     <ScreenContainer style={styles.container}>
@@ -17,8 +18,15 @@ export function EventoActualizadoScreen({ route, navigation }) {
       <Text style={styles.title}>Evento Actualizado</Text>
       <Text style={styles.subtitle}>El evento se ha actualizado correctamente.</Text>
 
+      <TouchableOpacity
+        style={styles.añadirPasosButton}
+        onPress={() => navigation.navigate('SeleccionarPasosEvento', { eventoId, ciudadId })}
+        activeOpacity={0.85}
+      >
+        <Text style={styles.añadirPasosTexto}>Actualizar pasos</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Eventos', { ciudadId })} activeOpacity={0.85}>
-        <Text style={styles.botonTexto}>Ok</Text>
+        <Text style={styles.botonTexto}>Hacerlo más tarde</Text>
       </TouchableOpacity>
     </ScreenContainer>
   );

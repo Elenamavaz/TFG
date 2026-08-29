@@ -43,17 +43,28 @@ public class Ciudad {
     @Column(nullable = false)
     private boolean activa;
 
+    // Centro de la ciudad, para que el cliente pueda preseleccionar "la
+    // ciudad más cercana" por GPS al entrar como Ciudadano (2026-08-23).
+    // Nullable a propósito: una ciudad puede crearse sin coordenadas -sin
+    // ellas, el cliente simplemente no la tiene en cuenta para ese cálculo.
+    private Double latitud;
+
+    private Double longitud;
+
     protected Ciudad() {
         // Constructor sin argumentos requerido por JPA.
     }
 
-    public Ciudad(String nombre, String comunidadAutonoma, String provincia, String historia, String patrimonio) {
+    public Ciudad(String nombre, String comunidadAutonoma, String provincia, String historia, String patrimonio,
+                  Double latitud, Double longitud) {
         this.nombre = nombre;
         this.comunidadAutonoma = comunidadAutonoma;
         this.provincia = provincia;
         this.historia = historia;
         this.patrimonio = patrimonio;
         this.activa = true;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public Long getId() {
@@ -106,5 +117,21 @@ public class Ciudad {
 
     public void setActiva(boolean activa) {
         this.activa = activa;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 }

@@ -3,8 +3,6 @@ package com.semanasanta.backend.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 // Tabla C.7 del Apéndice C: procesiones.
 // Decisión del 2026-08-10: "las procesiones son eventos que tienen dos
@@ -12,7 +10,10 @@ import java.util.Set;
 // posicionActual y recorrido)". Hereda de Evento en vez de referenciarlo por
 // FK (nombre, historia, tradicion, fecha, estado, cofradias y ubicacion los
 // hereda tal cual, incluida la relación N:M con Cofradia). posicionActual se
-// añade en el siguiente paso.
+// añade en el siguiente paso. La relación con pasos, aunque la describía
+// aquí el Apéndice C, se ha subido a Evento el 2026-08-23 -ver Evento.java-
+// porque un Evento suelto también puede tener pasos, no solo una Procesion;
+// getPasos()/addPaso()/removePaso() siguen funcionando igual aquí, heredados.
 @Entity
 @Table(name = "procesiones")
 @PrimaryKeyJoinColumn(name = "id")
@@ -30,18 +31,6 @@ public class Procesion extends Evento {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recorrido_id", unique = true)
     private Recorrido recorrido;
-
-    // Relación N:M con Paso (Tabla C.4.1 del Apéndice C, tabla intermedia
-    // pasos_procesiones). Set, no List: es la forma habitual de mapear
-    // @ManyToMany en JPA (evita duplicados y problemas de rendimiento que
-    // puede dar List con varias colecciones "a la vez" cargadas ansiosamente).
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "pasos_procesiones",
-            joinColumns = @JoinColumn(name = "procesion_id"),
-            inverseJoinColumns = @JoinColumn(name = "paso_id")
-    )
-    private Set<Paso> pasos = new HashSet<>();
 
     // Marca de agua de la estela en vivo (2026-08-22, ver
     // PosicionActualService.estela): fracción 0..1 del recorrido hasta donde
@@ -88,21 +77,6 @@ public class Procesion extends Evento {
 
     public void setRecorrido(Recorrido recorrido) {
         this.recorrido = recorrido;
-    }
-
-    public Set<Paso> getPasos() {
-        return pasos;
-    }
-
-    // Sin setPasos(Set<Paso>): se gestiona con añadir/quitar de uno en uno,
-    // no reemplazando la colección entera (evita perder el control de qué
-    // cambió realmente en una actualización).
-    public void addPaso(Paso paso) {
-        this.pasos.add(paso);
-    }
-
-    public void removePaso(Paso paso) {
-        this.pasos.remove(paso);
     }
 
     public Double getProgresoColaAlcanzado() {

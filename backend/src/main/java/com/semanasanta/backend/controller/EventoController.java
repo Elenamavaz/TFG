@@ -1,5 +1,6 @@
 package com.semanasanta.backend.controller;
 
+import com.semanasanta.backend.dto.CancelarProcesionRequest;
 import com.semanasanta.backend.dto.EventoRequest;
 import com.semanasanta.backend.dto.EventoResponse;
 import com.semanasanta.backend.model.Evento;
@@ -63,5 +64,13 @@ public class EventoController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         eventoService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // El evento sigue existiendo, solo cambia de estado -mismo patrón que
+    // ProcesionController.cancelar (2026-08-23).
+    @PostMapping("/{id}/cancelar")
+    public EventoResponse cancelar(@PathVariable Long id, @Valid @RequestBody CancelarProcesionRequest request) {
+        Evento evento = eventoService.cancelar(id, request);
+        return EventoResponse.from(evento);
     }
 }

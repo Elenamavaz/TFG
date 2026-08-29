@@ -46,16 +46,17 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 16,
   },
-  botonDeshabilitado: {
+  // CTA principal: "Actualizar pasos" (habilitado desde el 2026-08-23, antes
+  // era un botonDeshabilitado de mentira con "· Próximamente").
+  añadirPasosButton: {
     backgroundColor: colors.gold,
     borderRadius: radii.lg,
     paddingVertical: spacing.md,
     alignItems: 'center',
     marginTop: spacing.xl,
     alignSelf: 'stretch',
-    opacity: 0.5,
   },
-  botonDeshabilitadoTexto: {
+  añadirPasosTexto: {
     color: colors.background,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 15,

@@ -6,6 +6,7 @@ import {
   getCofradiasPorCiudad,
   getDiasSemanaSanta,
   getProcesionPorId,
+  getPasosPorCofradia,
   crearProcesion,
   actualizarProcesion,
   eliminarProcesion,
@@ -41,6 +42,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
   const [cofradiasDisponibles, setCofradiasDisponibles] = useState([]);
   const [cofradiaSeleccionada, setCofradiaSeleccionada] = useState(null);
   const [modalCofradiaVisible, setModalCofradiaVisible] = useState(false);
+  const [numPasos, setNumPasos] = useState(0); // candidatos: pasos de la cofradía elegida (solo mientras se crea, ver JSX)
+  const [numPasosAsignados, setNumPasosAsignados] = useState(0); // los que YA participan en esta procesión (editando)
   const [diasSemanaSanta, setDiasSemanaSanta] = useState([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
   const [modalDiaVisible, setModalDiaVisible] = useState(false);
@@ -83,8 +86,12 @@ export function FormularioProcesionScreen({ route, navigation }) {
       setDiasSemanaSanta(dias);
 
       if (procesion) {
+        const cofradia = cofradias.find((c) => procesion.cofradiaIds.includes(c.id)) ?? null;
         setNombre(procesion.nombre);
-        setCofradiaSeleccionada(cofradias.find((c) => procesion.cofradiaIds.includes(c.id)) ?? null);
+        setCofradiaSeleccionada(cofradia);
+        if (cofradia) {
+          getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+        }
         setDiaSeleccionado(dias.find((d) => d.nombre === procesion.dia) ?? null);
         setHoraSalida(procesion.horaSalida ?? '');
         setDuracionTexto(formatearDuracionCorta(procesion.duracionMin ?? 0));
@@ -95,10 +102,17 @@ export function FormularioProcesionScreen({ route, navigation }) {
         if (procesion.recorridoId) {
           setRecorridoInfo(`Recorrido ya importado (id ${procesion.recorridoId})`);
         }
+        setNumPasosAsignados(procesion.pasoIds.length);
       }
       setCargandoDatos(false);
     });
   }, [ciudadId, procesionId, editando]);
+
+  function seleccionarCofradia(cofradia) {
+    setCofradiaSeleccionada(cofradia);
+    setModalCofradiaVisible(false);
+    getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+  }
 
   async function importarGpx() {
     if (importandoGpx) return;
@@ -309,6 +323,53 @@ export function FormularioProcesionScreen({ route, navigation }) {
           {errorGpx ? <Text style={styles.errorCampo}>{errorGpx}</Text> : null}
         </View>
 
+        {/* Editando: "Lista de pasos" muestra los que YA participan en ESTA
+            procesión (pasoIds, ver SeleccionarPasosScreen) -no los de una
+            sola cofradía. Una procesión puede tener varias cofradías
+            (cofradiaIds), y SeleccionarPasosScreen ya reúne los pasos de
+            TODAS ellas, no solo de la que se ve seleccionada aquí (el
+            selector de este formulario solo deja elegir una, pero el
+            backend admite más -ver comentario de arriba). Creando: todavía
+            no hay procesión a la que asignar pasos, así que se muestran los
+            de la cofradía elegida como candidatos a título informativo. */}
+        {editando ? (
+          <View style={styles.campo}>
+            <Text style={styles.etiqueta}>Elementos de la Procesion</Text>
+            <TouchableOpacity
+              style={styles.pasosRow}
+              onPress={() => navigation.navigate('SeleccionarPasos', { procesionId, ciudadId })}
+              activeOpacity={0.8}
+            >
+              <View>
+                <Text style={styles.pasosTitulo}>Lista de pasos</Text>
+                <Text style={styles.pasosMeta}>{numPasosAsignados} pasos</Text>
+              </View>
+              <View style={styles.pasosVerLista}>
+                <Text style={styles.pasosVerListaTexto}>Ver Lista</Text>
+                <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : cofradiaSeleccionada ? (
+          <View style={styles.campo}>
+            <Text style={styles.etiqueta}>Pasos de la cofradia</Text>
+            <TouchableOpacity
+              style={styles.pasosRow}
+              onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiaSeleccionada.id })}
+              activeOpacity={0.8}
+            >
+              <View>
+                <Text style={styles.pasosTitulo}>Lista de pasos</Text>
+                <Text style={styles.pasosMeta}>{numPasos} pasos (se asignan al guardar)</Text>
+              </View>
+              <View style={styles.pasosVerLista}>
+                <Text style={styles.pasosVerListaTexto}>Ver Lista</Text>
+                <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
         <TouchableOpacity
@@ -348,14 +409,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
               <Text style={styles.modalVacio}>No hay cofradías todavía en esta ciudad.</Text>
             ) : (
               cofradiasDisponibles.map((cofradia) => (
-                <TouchableOpacity
-                  key={cofradia.id}
-                  style={styles.modalItem}
-                  onPress={() => {
-                    setCofradiaSeleccionada(cofradia);
-                    setModalCofradiaVisible(false);
-                  }}
-                >
+                <TouchableOpacity key={cofradia.id} style={styles.modalItem} onPress={() => seleccionarCofradia(cofradia)}>
                   <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
                 </TouchableOpacity>
               ))

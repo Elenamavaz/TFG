@@ -74,7 +74,11 @@ export function ProcesionesScreen({ route, navigation }) {
   const [cofradias, setCofradias] = useState([]);
   const [procesiones, setProcesiones] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [filtroCofradiaId, setFiltroCofradiaId] = useState(null); // null = "Todos"
+  // cofradiaIdInicial (opcional, 2026-08-23): llegando desde "Añadir
+  // procesiones" en CofradiaCreadaScreen, con el filtro ya puesto en la
+  // cofradía recién creada -mismo mecanismo que PasosScreen. El usuario
+  // puede quitarlo igualmente, es solo el punto de partida.
+  const [filtroCofradiaId, setFiltroCofradiaId] = useState(route.params?.cofradiaIdInicial ?? null); // null = "Todos"
   const [modalFiltroVisible, setModalFiltroVisible] = useState(false);
   const [procesandoId, setProcesandoId] = useState(null);
   const [procesionAccion, setProcesionAccion] = useState(null); // null = modal cerrado

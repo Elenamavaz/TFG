@@ -1,10 +1,14 @@
 package com.semanasanta.backend.service;
 
+import com.semanasanta.backend.dto.CancelarProcesionRequest;
 import com.semanasanta.backend.dto.EventoRequest;
+import com.semanasanta.backend.dto.NotificacionRequest;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Cofradia;
+import com.semanasanta.backend.model.EstadoEvento;
 import com.semanasanta.backend.model.Evento;
+import com.semanasanta.backend.model.TipoNotificacion;
 import com.semanasanta.backend.model.Ubicacion;
 import com.semanasanta.backend.repository.EventoRepository;
 import org.springframework.stereotype.Service;
@@ -18,14 +22,19 @@ public class EventoService {
     private final EventoRepository eventoRepository;
     private final CofradiaService cofradiaService;
     private final UbicacionService ubicacionService;
+    private final PasoService pasoService;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final NotificacionService notificacionService;
 
     public EventoService(EventoRepository eventoRepository, CofradiaService cofradiaService,
-                          UbicacionService ubicacionService, MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+                          UbicacionService ubicacionService, PasoService pasoService,
+                          MiembroJuntaCofradiaService miembroJuntaCofradiaService, NotificacionService notificacionService) {
         this.eventoRepository = eventoRepository;
         this.cofradiaService = cofradiaService;
         this.ubicacionService = ubicacionService;
+        this.pasoService = pasoService;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.notificacionService = notificacionService;
     }
 
     public List<Evento> listar() {
@@ -56,6 +65,7 @@ public class EventoService {
         Evento evento = new Evento(request.nombre(), request.historia(), request.tradicion(), request.fecha(), ubicacion,
                 request.web());
         cofradias.forEach(evento::addCofradia);
+        asignarPasos(evento, request.pasosIds());
         return eventoRepository.save(evento);
     }
 
@@ -82,6 +92,10 @@ public class EventoService {
         evento.getCofradias().clear();
         nuevasCofradias.forEach(evento::addCofradia);
         // estado no se toca aquí: lo cambiará un endpoint propio más adelante.
+        if (request.pasosIds() != null) {
+            evento.getPasos().clear();
+            asignarPasos(evento, request.pasosIds());
+        }
         return eventoRepository.save(evento);
     }
 
@@ -90,5 +104,40 @@ public class EventoService {
         Long ciudadActualId = evento.getCofradias().iterator().next().getCiudad().getId();
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudadActualId);
         eventoRepository.delete(evento);
+    }
+
+    // "Cancelar" del panel de Junta (2026-08-23): mismo patrón que
+    // ProcesionService.cancelar -el evento sigue existiendo, solo cambia de
+    // estado, y genera la Notificacion CANCELACION para avisar al ciudadano.
+    // Reutiliza CancelarProcesionRequest (mismo cuerpo: mensaje+prioridad,
+    // nada específico de Procesion) en vez de duplicar un DTO idéntico.
+    public Evento cancelar(Long id, CancelarProcesionRequest request) {
+        Evento evento = obtener(id);
+        Long ciudadActualId = evento.getCofradias().iterator().next().getCiudad().getId();
+        miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudadActualId);
+        evento.setEstado(EstadoEvento.CANCELADO);
+        Evento cancelado = eventoRepository.save(evento);
+        notificacionService.crear(new NotificacionRequest(
+                "Cancelado: " + evento.getNombre(),
+                request.mensaje(),
+                ciudadActualId,
+                TipoNotificacion.CANCELACION,
+                request.prioridad(),
+                null
+        ));
+        return cancelado;
+    }
+
+    // pasosIds es opcional: si viene null, no se toca nada (ni al crear -el
+    // evento nace sin pasos- ni al actualizar -actualizar() ya comprueba el
+    // null antes de llamar aquí y de vaciar la colección). Mismo patrón que
+    // ProcesionService.asignarPasos.
+    private void asignarPasos(Evento evento, List<Long> pasosIds) {
+        if (pasosIds == null) {
+            return;
+        }
+        for (Long pasoId : pasosIds) {
+            evento.addPaso(pasoService.obtener(pasoId)); // 404 si algún paso no existe
+        }
     }
 }

@@ -4,10 +4,11 @@ import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { styles } from './EventoCreadoScreen.styles';
 
-// Mismo patrón simple que CiudadCreadaScreen/PasoCreadoScreen (confirmación
-// con un solo botón).
+// "Añadir pasos" (2026-08-23, "los eventos también pueden tener pasos", no
+// solo las procesiones) lleva a SeleccionarPasosEventoScreen -mismo patrón
+// que ProcesionCreadaScreen.
 export function EventoCreadoScreen({ route, navigation }) {
-  const { nombreEvento, ciudadId } = route.params;
+  const { nombreEvento, ciudadId, eventoId } = route.params;
 
   return (
     <ScreenContainer style={styles.container}>
@@ -17,8 +18,15 @@ export function EventoCreadoScreen({ route, navigation }) {
       <Text style={styles.title}>Evento creado</Text>
       <Text style={styles.subtitle}>El evento "{nombreEvento}" se ha creado correctamente.</Text>
 
+      <TouchableOpacity
+        style={styles.añadirPasosButton}
+        onPress={() => navigation.navigate('SeleccionarPasosEvento', { eventoId, ciudadId })}
+        activeOpacity={0.85}
+      >
+        <Text style={styles.añadirPasosTexto}>Añadir pasos</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Eventos', { ciudadId })} activeOpacity={0.85}>
-        <Text style={styles.botonTexto}>Ok</Text>
+        <Text style={styles.botonTexto}>Hacerlo más tarde</Text>
       </TouchableOpacity>
     </ScreenContainer>
   );

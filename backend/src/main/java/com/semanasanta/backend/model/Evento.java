@@ -56,6 +56,20 @@ public class Evento {
     )
     private Set<Cofradia> cofradias = new HashSet<>();
 
+    // N:M con Paso (tabla pasos_eventos). Vivía solo en Procesion hasta el
+    // 2026-08-23 ("los eventos también pueden tener pasos", no es exclusivo
+    // de las procesiones) -mismo motivo que cofradias, sube a la clase base
+    // para que cualquier Evento pueda tener pasos asociados, no solo
+    // Procesion. Set, no List: mismo motivo que cofradias (evita duplicados
+    // y colecciones "a la vez" cargadas ansiosamente).
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "pasos_eventos",
+            joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "paso_id")
+    )
+    private Set<Paso> pasos = new HashSet<>();
+
     // Nullable a propósito (ver migración V32): un Evento suelto sí necesita
     // un sitio fijo (lo exige EventoRequest con @NotNull, a nivel de
     // aplicación), pero una Procesion -que hereda esta misma tabla- no
@@ -141,6 +155,20 @@ public class Evento {
 
     public void removeCofradia(Cofradia cofradia) {
         this.cofradias.remove(cofradia);
+    }
+
+    public Set<Paso> getPasos() {
+        return pasos;
+    }
+
+    // Sin setPasos(Set<Paso>): se gestiona añadiendo/quitando de uno en uno,
+    // igual que cofradias.
+    public void addPaso(Paso paso) {
+        this.pasos.add(paso);
+    }
+
+    public void removePaso(Paso paso) {
+        this.pasos.remove(paso);
     }
 
     public Ubicacion getUbicacion() {
