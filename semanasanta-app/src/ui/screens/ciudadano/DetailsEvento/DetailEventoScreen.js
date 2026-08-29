@@ -2,16 +2,23 @@ import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
-import { ScreenContainer, StatusBadge, InfoSection } from '../../../components/common';
-import { getEventoPorId, getCofradiaPorId, getUbicacionPorId } from '../../../../data/services';
+import { ScreenContainer, StatusBadge, InfoSection, PasoListItem } from '../../../components/common';
+import { getEventoPorId, getPasosPorIds, getCofradiaPorId, getUbicacionPorId } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
+import { useFavoritos } from '../../../../application/context';
 import { colors } from '../../../../theme';
 import { styles } from './DetailEventoScreen.styles';
 
+// Pasos añadidos el 2026-08-23 (mismo patrón que DetailProcesionScreen,
+// getPasosPorIds + PasoListItem): Evento ganó su propia relación con Paso
+// ese mismo día (ver Evento.java), esta pantalla se había quedado sin
+// mostrarlos -Evento no los tenía cuando se escribió originalmente.
 export function DetalleEventoScreen({ route, navigation }) {
   const { eventoId } = route.params;
+  const { esFavorito, alternarFavorito } = useFavoritos();
   const [evento, setEvento] = useState(null);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
+  const [pasos, setPasos] = useState([]);
   const { data: ubicacion } = useQuery({
     queryKey: ['ubicacion', evento?.ubicacionId],
     queryFn: () => getUbicacionPorId(evento.ubicacionId),
@@ -47,6 +54,7 @@ export function DetalleEventoScreen({ route, navigation }) {
             .join(', ')
         )
       );
+      getPasosPorIds(data.pasoIds).then(setPasos);
     });
   }, [eventoId]);
 
@@ -86,6 +94,22 @@ export function DetalleEventoScreen({ route, navigation }) {
           <InfoSection title="Tradición">
             <Text style={styles.body}>{evento.tradicion}</Text>
           </InfoSection>
+        ) : null}
+
+        {pasos.length > 0 ? (
+          <>
+            <Text style={styles.sectionTitle}>Pasos</Text>
+            {pasos.map((paso) => (
+              <PasoListItem
+                key={paso.id}
+                label={paso.tipo}
+                title={paso.nombre}
+                esFavorito={esFavorito(paso.id, 'paso')}
+                onToggleFavorito={() => alternarFavorito(paso.id, 'paso')}
+                onPress={() => navigation.navigate('DetallePaso', { pasoId: paso.id })}
+              />
+            ))}
+          </>
         ) : null}
 
         <Text style={styles.sectionTitle}>Ubicación</Text>
