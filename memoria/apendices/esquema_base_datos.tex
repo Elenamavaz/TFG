@@ -395,7 +395,7 @@ Rol global del sistema, sin ninguna columna propia ni referencia a \texttt{Ciuda
 \section{Notificación (\texttt{notificaciones})}
 \textbf{Requisito:} RI-08
 
-Dos tipos: Aviso (informativo, con expiración) y Alerta (con tipo y prioridad). Pendiente de implementar en el backend.
+A diferencia del planteamiento inicial, no hay una jerarquía Aviso/Alerta: una única clase cubre los dos casos, con un tipo y una prioridad en vez de una distinción de subtipos --al revisar qué se usaba de verdad se vio que el cliente pinta cada notificación solo a partir de su prioridad, nunca de un subtipo más fino, así que esa jerarquía no se estaba ganando su sitio--. Pertenece a una \texttt{Ciudad}: es el ámbito con el que el ciudadano filtra qué notificaciones ver, y con el que la Junta que las crea comprueba su autorización.
 
 \begin{table}[H]
 \centering
@@ -405,42 +405,25 @@ Dos tipos: Aviso (informativo, con expiración) y Alerta (con tipo y prioridad).
 \hline
 \texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
 \hline
-\texttt{tipo} & \texttt{ENUM} & \texttt{AVISO}, \texttt{ALERTA} \\
-\hline
 \texttt{titulo} & \texttt{VARCHAR} &  \\
+\hline
+\texttt{mensaje} & \texttt{TEXT} & opcional \\
 \hline
 \texttt{fecha\_creacion} & \texttt{TIMESTAMP} &  \\
 \hline
-\texttt{fecha\_expiracion} & \texttt{TIMESTAMP} & solo Aviso, nulo en caso contrario \\
+\texttt{ciudad\_id} & \texttt{BIGINT} & FK $\to$ \texttt{ciudades(id)} \\
 \hline
-\texttt{tipo\_alerta} & \texttt{ENUM} & solo Alerta: \texttt{INCIDENCIA}, \texttt{CAMBIO\_HORARIO}, \texttt{CANCELACION}, \texttt{CORTE\_CALLE}, \texttt{METEOROLOGIA}, \texttt{SEGURIDAD} \\
+\texttt{tipo} & \texttt{ENUM} & \texttt{INICIO}, \texttt{FIN} (los genera el propio sistema al cambiar el estado de un \texttt{Evento}), \texttt{INCIDENCIA}, \texttt{CAMBIO\_HORARIO}, \texttt{CANCELACION} (los crea la Junta a mano) \\
 \hline
-\texttt{prioridad} & \texttt{ENUM} & solo Alerta: \texttt{BAJA}, \texttt{MEDIA}, \texttt{ALTA}, \texttt{URGENTE} \\
+\texttt{prioridad} & \texttt{ENUM} & \texttt{BAJA}, \texttt{MEDIA}, \texttt{ALTA}; obligatoria salvo en \texttt{INICIO}/\texttt{FIN} \\
+\hline
+\texttt{fecha\_expiracion} & \texttt{TIMESTAMP} & opcional, para cualquier tipo \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{notificaciones}}
 \end{table}
 
-\subsection{Notificación Entregada (\texttt{notificaciones\_entregadas}) --- tabla intermedia N:M}
-Registra si el usuario ha leído cada notificación y cuándo. Pendiente de implementar en el backend; su columna \texttt{usuario\_id} deberá revisarse cuando se implemente, dado que \texttt{usuarios} ya no incluye al cofrade (Sección~\ref{sec:usuariosBD}).
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|l|p{7cm}|}
-\hline
-\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
-\hline
-\texttt{usuario\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{usuarios(id)} \\
-\hline
-\texttt{notificacion\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{notificaciones(id)} \\
-\hline
-\texttt{leida} & \texttt{BOOLEAN} &  \\
-\hline
-\texttt{fecha\_lectura} & \texttt{TIMESTAMP} &  \\
-\hline
-\end{tabular}
-\caption{Campos de \texttt{notificaciones\_entregadas}}
-\end{table}
+Sin tabla de notificación entregada: no se registra si un ciudadano concreto ha leído cada notificación o no --no tiene cuenta con la que asociar esa lectura (Sección~\ref{sec:usuariosBD})--, simplemente se consulta la lista de notificaciones vigentes de su ciudad.
 
 \section{Relaciones entre tablas}
 La Tabla~\ref{tab:relacionesBD} recoge las relaciones entre tablas de este esquema, todas ellas garantizadas por claves foráneas con restricción de integridad referencial.
@@ -482,7 +465,7 @@ La Tabla~\ref{tab:relacionesBD} recoge las relaciones entre tablas de este esque
 \hline
 \texttt{administradores} & \texttt{usuarios} & es extendido por (herencia) & 1:1 \\
 \hline
-\texttt{notificaciones} & \texttt{usuarios} & se entrega a & N:M \\
+\texttt{ciudades} & \texttt{notificaciones} & recibe & 1:N \\
 \hline
 \end{tabular}
 \caption{Relaciones entre tablas de PostgreSQL}

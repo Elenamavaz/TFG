@@ -30,8 +30,6 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
     \item \textbf{RF-11} \prioridad{Alta} El sistema debe permitir al usuario seleccionar la ciudad que desea consultar.
 
     \item \textbf{RF-13} \prioridad{Alta} El sistema debe enviar notificaciones al usuario sobre los eventos o procesiones, de acuerdo con sus preferencias de notificación.
- 
-    \item \textbf{RF-14} \prioridad{Alta} El sistema debe enviar siempre las alertas sobre los eventos o procesiones.
 
     \item \textbf{RF-17} \prioridad{Alta} El sistema debe mostrar la información detallada de las procesiones (recorrido, horarios, pasos, ...).
 
@@ -77,7 +75,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-21} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear y eliminar cofradías, eventos y procesiones.
 
-    \item \textbf{RF-27} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear y eliminar alertas dirigidas a todos los usuarios sobre incidencias o cambios en eventos y procesiones; las notificaciones, en cambio, dependen de la suscripción de cada usuario (RF-22).
+    \item \textbf{RF-27} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear y eliminar notificaciones dirigidas a todos los usuarios sobre incidencias o cambios en eventos y procesiones.
 
     \item \textbf{RF-28} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías actualizar el estado de las procesiones en tiempo real (programada, en curso, finalizada o cancelada).
 
@@ -163,13 +161,14 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Puntos de ruta que lo componen (ubicaciones y puntos de interés), cada uno con la hora prevista de paso.
     \end{itemize}
  
-    \item \textbf{RI-08} \prioridad{Alta} El sistema debe almacenar la información sobre las alertas:
+    \item \textbf{RI-08} \prioridad{Alta} El sistema debe almacenar la información sobre las notificaciones:
     \begin{itemize}
         \item Identificador.
         \item Título.
         \item Fecha de creación.
-        \item Tipo de alerta (incidencia, cambio de horario, cancelación, corte de calle, meteorología o seguridad).
-        \item Prioridad (baja, media, alta o urgente).
+        \item Tipo de notificaciones (inicio, fin, incidencia, cambio de horario, cancelación).
+        \item Prioridad (baja, media o alta).
+        \item Texto.
         \item Para cada usuario al que se entrega: si ha sido leída y la fecha de lectura.
     \end{itemize}
  
@@ -227,7 +226,7 @@ Los requisitos no funcionales describen las características de calidad del sist
 
     \item \textbf{RNF-08} \prioridad{Alta} El sistema debe actualizar la posición de las procesiones con una frecuencia mínima de 30 segundos\footnote{Este intervalo se ha elegido como equilibrio entre ofrecer una posición suficientemente precisa para el usuario y evitar un consumo excesivo de batería y datos móviles en los dispositivos de los cofrades que comparten su ubicación.}.
 
-    \item \textbf{RNF-03} \prioridad{Media} El sistema debe funcionar correctamente en dispositivos móviles con conexión a internet. Sin conexión, únicamente estará disponible la información estática de la aplicación (previamente almacenada en local), quedando inoperativas la geolocalización en tiempo real, las notificaciones y las alertas.
+    \item \textbf{RNF-03} \prioridad{Media} El sistema debe funcionar correctamente en dispositivos móviles con conexión a internet. Sin conexión, únicamente estará disponible la información estática de la aplicación (previamente almacenada en local), quedando inoperativas la geolocalización en tiempo real, las notificaciones.
 
     \item \textbf{RNF-04} \prioridad{Media} El sistema debe gestionar de forma eficiente la carga del mapa, garantizando tiempos de respuesta menores a 10 segundos\footnote{Valor tomado como referencia habitual de usabilidad para evitar que el usuario perciba la aplicación como lenta al cargar el mapa.}.
 

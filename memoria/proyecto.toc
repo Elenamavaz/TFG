@@ -41,7 +41,7 @@
 \contentsline {subsubsection}{Cofrade}{22}{section*.33}%
 \contentsline {subsubsection}{Junta de Cofradías}{23}{section*.34}%
 \contentsline {subsubsection}{Administrador}{23}{section*.35}%
-\contentsline {subsection}{\numberline {3.2.2}Requisitos de información}{24}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.2}Requisitos de información}{23}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Requisitos no funcionales}{26}{subsection.3.2.3}%
 \contentsline {section}{\numberline {3.3}Casos de uso}{27}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Modelo de dominio}{29}{section.3.4}%
@@ -72,25 +72,25 @@
 \contentsline {subsection}{\numberline {4.2.2}Diseño}{60}{subsection.4.2.2}%
 \contentsline {subsubsection}{Interfaces de usuario}{60}{section*.76}%
 \contentsline {paragraph}{Mapa en Vivo}{60}{section*.77}%
-\contentsline {subsection}{\numberline {4.2.3}Implementacion}{61}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Pruebas}{62}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}3ª Iteración}{62}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Analisís}{62}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Diseño}{62}{subsection.4.3.2}%
-\contentsline {subsubsection}{Interfaces de usuario}{62}{section*.79}%
-\contentsline {paragraph}{Perfil}{62}{section*.80}%
-\contentsline {subsection}{\numberline {4.3.3}Implementacion}{63}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Pruebas}{64}{subsection.4.3.4}%
-\contentsline {section}{\numberline {4.4}4ª Iteración}{64}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Analisís}{64}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Diseño}{64}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Implementacion}{64}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Pruebas}{65}{subsection.4.4.4}%
-\contentsline {section}{\numberline {4.5}5ª Iteración}{65}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Analisís}{65}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Diseño}{65}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Implementacion}{65}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Pruebas}{66}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.2.3}Implementacion}{60}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Pruebas}{61}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}3ª Iteración}{61}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Analisís}{61}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Diseño}{61}{subsection.4.3.2}%
+\contentsline {subsubsection}{Interfaces de usuario}{61}{section*.79}%
+\contentsline {paragraph}{Perfil}{61}{section*.80}%
+\contentsline {subsection}{\numberline {4.3.3}Implementacion}{62}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Pruebas}{63}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}4ª Iteración}{63}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Analisís}{63}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Diseño}{63}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Implementacion}{63}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Pruebas}{64}{subsection.4.4.4}%
+\contentsline {section}{\numberline {4.5}5ª Iteración}{64}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Analisís}{64}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Diseño}{64}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Implementacion}{64}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Pruebas}{65}{subsection.4.5.4}%
 \contentsline {chapter}{\numberline {5}Estado final de la aplicación}{67}{chapter.5}%
 \contentsline {subsection}{\numberline {5.0.1}Historias de usuario}{67}{subsection.5.0.1}%
 \contentsline {chapter}{\numberline {6}Pruebas}{69}{chapter.6}%
