@@ -37,6 +37,7 @@ export {
   olvidarSesionLocal,
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
+export { configurarManejoNotificaciones, registrarDispositivoPush } from './pushService';
 export { registrarPosicion } from './posicionActualService';
 export { getUbicacionPorId, crearUbicacion, actualizarUbicacion } from './lugarService';
 export { getRecorridoCompleto, importarGpxRecorrido } from './recorridoService';

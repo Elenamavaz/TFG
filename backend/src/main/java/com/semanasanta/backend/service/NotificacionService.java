@@ -22,12 +22,15 @@ public class NotificacionService {
     private final NotificacionRepository notificacionRepository;
     private final CiudadService ciudadService;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final PushNotificacionService pushNotificacionService;
 
     public NotificacionService(NotificacionRepository notificacionRepository, CiudadService ciudadService,
-                                MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+                                MiembroJuntaCofradiaService miembroJuntaCofradiaService,
+                                PushNotificacionService pushNotificacionService) {
         this.notificacionRepository = notificacionRepository;
         this.ciudadService = ciudadService;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.pushNotificacionService = pushNotificacionService;
     }
 
     public Notificacion obtener(Long id) {
@@ -56,7 +59,12 @@ public class NotificacionService {
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudad.getId());
         Notificacion notificacion = new Notificacion(request.titulo(), request.mensaje(), ciudad, request.tipo(),
                 request.prioridad(), request.fechaExpiracion());
-        return notificacionRepository.save(notificacion);
+        Notificacion guardada = notificacionRepository.save(notificacion);
+        // El push es una entrega best-effort además de la Notificacion
+        // guardada, no en su lugar -ver PushNotificacionService: si falla,
+        // la Notificacion ya está guardada y consultable igualmente.
+        pushNotificacionService.enviarACiudad(ciudad.getId(), guardada.getTitulo(), guardada.getMensaje());
+        return guardada;
     }
 
     // Retractar una notificación ya enviada (no hay "editar": ver Notificacion).

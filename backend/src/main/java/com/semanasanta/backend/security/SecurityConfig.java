@@ -34,6 +34,9 @@ import java.util.List;
 // Administrador, cuando literalmente nadie puede autenticarse todavía (ver
 // AdministradorService.crearBootstrap, que se autoprotege con un secreto de
 // despliegue y se autodesactiva en cuanto existe ya un Administrador).
+// Mismo caso POST /dispositivos-push (2026-08-23): lo manda el Ciudadano
+// para registrarse a las notificaciones push de su ciudad, y el Ciudadano
+// nunca se autentica (RI-01) -no hay JWT que pedirle.
 @Configuration
 public class SecurityConfig {
 
@@ -88,6 +91,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/administradores/bootstrap").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/dispositivos-push").permitAll()
                         .requestMatchers(HttpMethod.GET, "/codigos-acceso/**", "/cofradias/*/codigos-acceso").authenticated()
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .anyRequest().authenticated()

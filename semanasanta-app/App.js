@@ -13,6 +13,7 @@ import { CofradeProvider } from './src/application/context/CofradeContext';
 import { RootNavigator } from './src/ui/navigation/RootNavigator';
 import { colors, fontsToLoad } from './src/theme';
 import { queryClient, persistOptions } from './src/infrastructure/api/queryClient';
+import { configurarManejoNotificaciones } from './src/data/services';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,6 +23,12 @@ export default function App() {
   useEffect(() => {
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
+
+  // Una sola vez por arranque, no depende de fontsLoaded ni de nada más -ver
+  // pushService.js.
+  useEffect(() => {
+    configurarManejoNotificaciones();
+  }, []);
 
   if (!fontsLoaded) return null;
 

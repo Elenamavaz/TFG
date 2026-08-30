@@ -4,6 +4,7 @@ import {
   guardarCiudadId,
   solicitarPermisoUbicacion,
   obtenerPosicionActual,
+  registrarDispositivoPush,
 } from '../../data/services';
 import { queryClient } from '../../infrastructure/api/queryClient';
 import { ciudadMasCercana } from './geo';
@@ -28,6 +29,10 @@ export async function resolverPantallaCiudadano(seleccionarCiudad) {
   const ciudadGuardada = ciudades.find((ciudad) => ciudad.id === ciudadIdGuardada);
   if (ciudadGuardada) {
     seleccionarCiudad(ciudadGuardada);
+    // No se espera (sin await): registrar el push no debe retrasar la
+    // navegación, y si falla (sin EAS/development build todavía, ver
+    // pushService.js) tampoco debe romper el arranque.
+    registrarDispositivoPush(ciudadGuardada.id);
     return 'MainTabs';
   }
 
@@ -42,6 +47,7 @@ export async function resolverPantallaCiudadano(seleccionarCiudad) {
       // y no repita el cálculo de GPS.
       guardarCiudadId(cercana.id);
       seleccionarCiudad(cercana);
+      registrarDispositivoPush(cercana.id); // sin await, ver comentario de arriba
       return 'MainTabs';
     }
   }

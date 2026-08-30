@@ -3,7 +3,7 @@ import { FlatList, Text, TouchableOpacity } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { ScreenContainer, SearchInput } from '../../../components/common';
 import { useCiudad } from '../../../../application/context';
-import { getCiudades, guardarCiudadId } from '../../../../data/services';
+import { getCiudades, guardarCiudadId, registrarDispositivoPush } from '../../../../data/services';
 import { styles } from './SeleccionCiudadScreen.styles';
 
 export function SeleccionCiudadScreen({ navigation }) {
@@ -20,6 +20,10 @@ export function SeleccionCiudadScreen({ navigation }) {
   function onSeleccionar(ciudad) {
     seleccionarCiudad(ciudad);
     guardarCiudadId(ciudad.id);
+    // Sin await (ver arranqueCiudadano.js): las notificaciones son por
+    // ciudad, así que un cambio de ciudad a mano también hay que
+    // reregistrarlo -no debe retrasar la navegación ni romperla si falla.
+    registrarDispositivoPush(ciudad.id);
     navigation.replace('MainTabs');
   }
 
