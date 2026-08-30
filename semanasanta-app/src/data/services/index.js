@@ -40,7 +40,8 @@ export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionSer
 export { configurarManejoNotificaciones, registrarDispositivoPush } from './pushService';
 export { registrarPosicion } from './posicionActualService';
 export { getUbicacionPorId, crearUbicacion, actualizarUbicacion } from './lugarService';
-export { getRecorridoCompleto, importarGpxRecorrido } from './recorridoService';
+export { getRecorridoCompleto, importarGpxRecorrido, marcarPuntoDeInteres } from './recorridoService';
+export { actualizarPuntoDeInteres } from './puntoDeInteresService';
 export {
   getCofradiasPorCiudad,
   getCofradiaPorId,

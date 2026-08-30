@@ -144,6 +144,23 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: spacing.xs,
   },
+  editarRecorridoButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: radii.md,
+    borderWidth: 0.5,
+    borderColor: colors.gold,
+    paddingVertical: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  editarRecorridoTexto: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
 
   // "Lista de pasos" (informativo, 2026-08-23, mismo patrón que
   // FormularioEventoScreen -no es un campo del formulario, enlaza a

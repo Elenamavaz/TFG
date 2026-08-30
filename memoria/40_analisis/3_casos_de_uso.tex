@@ -124,37 +124,35 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Crear alerta}}                                                         \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Crear notificación}}                                                         \\
         \hline
-        \textbf{Resumen}                                                                                                & La Junta de Cofradías crea una alerta para informar a los usuarios sobre incidencias o información relevante. \\
+        \textbf{Resumen}                                                                                                & La Junta de Cofradías crea una notificación para informar a los ciudadanos de su ciudad sobre incidencias o cambios en una procesión o evento. \\
         \hline
         \textbf{Actor}                                                                                                  & Junta de Cofradías                                                                                            \\
         \hline
         \textbf{Precondición}                                                                                           & El usuario tiene rol de Junta de Cofradías.                                                                   \\
         \hline
-        \textbf{Postcondición}                                                                                          & La alerta queda creada y se envían notificaciones a los usuarios afectados.                                   \\
+        \textbf{Postcondición}                                                                                          & La notificación queda creada y visible en la aplicación, y se envía como notificación \emph{push} a los dispositivos registrados en la ciudad.                                   \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                    \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de gestión de alertas. }                              \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de gestión de procesiones o eventos de su ciudad. }                              \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona crear nueva alerta. }                                      \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona notificar sobre una procesión o evento concreto. }                                      \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [3] El sistema muestra el formulario de creación. }                                  \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El usuario selecciona el tipo de alerta. }                                       \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario selecciona el tipo de notificación (cancelación, cambio de horario o incidencia). }                                       \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El usuario introduce título y mensaje de la alerta. }                            \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario introduce el mensaje de la notificación. }                            \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [6] El usuario selecciona la prioridad de la alerta. }                               \\
+        \multicolumn{2}{|p{15cm}|}{ [6] El usuario selecciona la prioridad de la notificación. }                               \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [7] El usuario define fecha de expiración (opcional). }                              \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [8] El usuario selecciona los destinatarios. }                                       \\
+        \multicolumn{2}{|p{15cm}|}{ [8] El usuario confirma la creación. }                                               \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [9] El usuario confirma la creación. }                                               \\
-        \hline
-        \multicolumn{2}{|p{15cm}|}{ [10] El sistema crea la alerta y envía notificaciones. }                             \\
+        \multicolumn{2}{|p{15cm}|}{ [9] El sistema crea la notificación --si el tipo es cancelación, además cambia el estado de la procesión o evento a cancelado-- y la envía como notificación \emph{push} a los dispositivos registrados en la ciudad. }                             \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                             \\
         \hline
@@ -166,16 +164,14 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
         \hline
         \multicolumn{2}{|p{15cm}|}{ [7.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [8.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
+        \multicolumn{2}{|p{15cm}|}{ [8.a.1] Datos incompletos: El sistema muestra los campos requeridos. }               \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [9.a.1] Datos incompletos: El sistema muestra los campos requeridos. }               \\
-        \hline
-        \multicolumn{2}{|p{15cm}|}{ [10.a.1] Error al enviar notificaciones: El sistema reintenta y registra el error. } \\
+        \multicolumn{2}{|p{15cm}|}{ [9.a.1] Error al enviar el \emph{push}: El sistema registra el error; la notificación queda creada y consultable en la aplicación igualmente. } \\
         \hline
         \textbf{Requisitos Relacionados}                                                                                & RF-27.                                                                                                        \\
         \hline
     \end{tabular}
-    \caption{Caso de uso: Crear alerta}
+    \caption{Caso de uso: Crear notificación}
 \end{table}
 
 \begin{table}[h!]

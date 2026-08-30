@@ -321,6 +321,20 @@ export function FormularioProcesionScreen({ route, navigation }) {
           </Text>
           {recorridoInfo ? <Text style={styles.recorridoInfo}>{recorridoInfo}</Text> : null}
           {errorGpx ? <Text style={styles.errorCampo}>{errorGpx}</Text> : null}
+          {recorridoId ? (
+            // Solo con un recorrido ya importado tiene sentido marcar
+            // encuentros/iglesias/paradas sobre sus puntos (2026-08-23, ver
+            // EditarRecorridoScreen) -antes de importar el GPX no hay
+            // ningún punto todavía que marcar.
+            <TouchableOpacity
+              style={styles.editarRecorridoButton}
+              onPress={() => navigation.navigate('EditarRecorrido', { recorridoId })}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="location-outline" size={16} color={colors.gold} />
+              <Text style={styles.editarRecorridoTexto}>Editar recorrido</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
 
         {/* Editando: "Lista de pasos" muestra los que YA participan en ESTA

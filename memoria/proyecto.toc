@@ -121,7 +121,6 @@
 \contentsline {subsection}{\numberline {C.10.1}Miembro de Junta de Cofradías (\texttt {miembros\_junta\_cofradia})}{108}{subsection.Alph3.10.1}%
 \contentsline {subsection}{\numberline {C.10.2}Administrador (\texttt {administradores})}{108}{subsection.Alph3.10.2}%
 \contentsline {section}{\numberline {C.11}Notificación (\texttt {notificaciones})}{108}{section.Alph3.11}%
-\contentsline {subsection}{\numberline {C.11.1}Notificación Entregada (\texttt {notificaciones\_entregadas}) --- tabla intermedia N:M}{109}{subsection.Alph3.11.1}%
 \contentsline {section}{\numberline {C.12}Relaciones entre tablas}{109}{section.Alph3.12}%
 \contentsline {chapter}{\numberline {D}Manual de despliegue}{111}{appendix.Alph4}%
 \contentsline {section}{\numberline {D.1}Requisitos previos}{111}{section.Alph4.1}%

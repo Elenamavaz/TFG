@@ -69,9 +69,8 @@
 \contentsline {table}{\numberline {C.16}{\ignorespaces Campos de \texttt {usuarios}}}{107}{table.caption.121}%
 \contentsline {table}{\numberline {C.17}{\ignorespaces Campos de \texttt {miembros\_junta\_cofradia}}}{108}{table.caption.122}%
 \contentsline {table}{\numberline {C.18}{\ignorespaces Campos de \texttt {administradores}}}{108}{table.caption.123}%
-\contentsline {table}{\numberline {C.19}{\ignorespaces Campos de \texttt {notificaciones}}}{108}{table.caption.124}%
-\contentsline {table}{\numberline {C.20}{\ignorespaces Campos de \texttt {notificaciones\_entregadas}}}{109}{table.caption.125}%
-\contentsline {table}{\numberline {C.21}{\ignorespaces Relaciones entre tablas de PostgreSQL}}{109}{table.caption.126}%
+\contentsline {table}{\numberline {C.19}{\ignorespaces Campos de \texttt {notificaciones}}}{109}{table.caption.124}%
+\contentsline {table}{\numberline {C.20}{\ignorespaces Relaciones entre tablas de PostgreSQL}}{109}{table.caption.125}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

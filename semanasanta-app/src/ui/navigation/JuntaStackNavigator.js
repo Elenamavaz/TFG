@@ -7,6 +7,7 @@ import {
   ProcesionCreadaScreen,
   ProcesionActualizadaScreen,
   SeleccionarPasosScreen,
+  EditarRecorridoScreen,
   CofradiasScreen,
   FormularioCofradiaScreen,
   CofradiaCreadaScreen,
@@ -53,6 +54,7 @@ export function JuntaStackNavigator() {
       <Stack.Screen name="ProcesionCreada" component={ProcesionCreadaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ProcesionActualizada" component={ProcesionActualizadaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SeleccionarPasos" component={SeleccionarPasosScreen} />
+      <Stack.Screen name="EditarRecorrido" component={EditarRecorridoScreen} />
 
       <Stack.Screen name="Cofradias" component={CofradiasScreen} />
       <Stack.Screen name="FormularioCofradia" component={FormularioCofradiaScreen} />

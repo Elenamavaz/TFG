@@ -1,5 +1,6 @@
 package com.semanasanta.backend.controller;
 
+import com.semanasanta.backend.dto.MarcarPuntoDeInteresRequest;
 import com.semanasanta.backend.dto.PuntoEnRecorridoRequest;
 import com.semanasanta.backend.dto.PuntoEnRecorridoResponse;
 import com.semanasanta.backend.dto.RecorridoRequest;
@@ -63,6 +64,16 @@ public class RecorridoController {
     public ResponseEntity<Void> quitarPuntoRuta(@PathVariable Long id, @PathVariable Long relacionId) {
         recorridoPuntoRutaService.quitar(id, relacionId);
         return ResponseEntity.noContent().build();
+    }
+
+    // "Convierte" un punto de paso simple (uno de los que trae el GPX
+    // importado) en un punto de interés -un encuentro, una entrada a una
+    // iglesia, una parada para una lectura u oración...- (2026-08-23).
+    @PutMapping("/{id}/puntos-ruta/{relacionId}/punto-de-interes")
+    public PuntoEnRecorridoResponse marcarPuntoDeInteres(@PathVariable Long id, @PathVariable Long relacionId,
+                                                           @Valid @RequestBody MarcarPuntoDeInteresRequest request) {
+        RecorridoPuntoRuta relacion = recorridoPuntoRutaService.marcarComoPuntoDeInteres(id, relacionId, request);
+        return PuntoEnRecorridoResponse.from(relacion);
     }
 
     @PostMapping

@@ -6,6 +6,7 @@ export { FormularioProcesionScreen } from './Procesiones/FormularioProcesionScre
 export { ProcesionCreadaScreen } from './Procesiones/ProcesionCreadaScreen';
 export { ProcesionActualizadaScreen } from './Procesiones/ProcesionActualizadaScreen';
 export { SeleccionarPasosScreen } from './Procesiones/SeleccionarPasosScreen';
+export { EditarRecorridoScreen } from './Procesiones/EditarRecorridoScreen';
 
 export { CofradiasScreen } from './Cofradias/CofradiasScreen';
 export { FormularioCofradiaScreen } from './Cofradias/FormularioCofradiaScreen';

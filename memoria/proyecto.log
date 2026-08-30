@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  30 AUG 2026 11:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  30 AUG 2026 11:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -629,7 +629,7 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )) (00_portada/portada.tex
 \centeroffset=\skip94
-<imagenes/UVa_logo.png, id=419, 690.58pt x 218.8175pt>
+<imagenes/UVa_logo.png, id=415, 690.58pt x 218.8175pt>
 File: imagenes/UVa_logo.png Graphic file (type png)
 <use imagenes/UVa_logo.png>
 Package pdftex.def Info: imagenes/UVa_logo.png  used on input line 11.
@@ -766,8 +766,8 @@ Overfull \hbox (1.29202pt too wide) detected at line 124
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 125
- []\T1/bch/m/n/10.95 109
+Overfull \hbox (1.29202pt too wide) detected at line 126
+ []\T1/bch/m/n/10.95 111
  []
 
 
@@ -777,7 +777,7 @@ Overfull \hbox (1.29202pt too wide) detected at line 127
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 128
- []\T1/bch/m/n/10.95 111
+ []\T1/bch/m/n/10.95 112
  []
 
 
@@ -787,11 +787,6 @@ Overfull \hbox (1.29202pt too wide) detected at line 129
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 130
- []\T1/bch/m/n/10.95 112
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 131
  []\T1/bch/m/n/10.95 112
  []
 
@@ -907,16 +902,11 @@ Overfull \hbox (1.29202pt too wide) detected at line 71
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 72
- []\T1/bch/m/n/10.95 108
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 73
  []\T1/bch/m/n/10.95 109
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 74
+Overfull \hbox (1.29202pt too wide) detected at line 73
  []\T1/bch/m/n/10.95 109
  []
 
@@ -945,12 +935,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has b
                    \relax 
 l.4 
      [2]
-<imagenes/el_penitente.png, id=813, 468.24937pt x 152.67038pt>
+<imagenes/el_penitente.png, id=806, 468.24937pt x 152.67038pt>
 File: imagenes/el_penitente.png Graphic file (type png)
 <use imagenes/el_penitente.png>
 Package pdftex.def Info: imagenes/el_penitente.png  used on input line 13.
 (pdftex.def)             Requested size: 448.12788pt x 146.11694pt.
-<imagenes/valladolid_cofrade.jpg, id=819, 722.7pt x 1445.4pt>
+<imagenes/valladolid_cofrade.jpg, id=812, 722.7pt x 1445.4pt>
 File: imagenes/valladolid_cofrade.jpg Graphic file (type jpg)
 <use imagenes/valladolid_cofrade.jpg>
 Package pdftex.def Info: imagenes/valladolid_cofrade.jpg  used on input line 24.
@@ -976,12 +966,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has b
                    \relax 
 l.35 A
       demás de las aplicaciones, los usuarios también hacen uso de las pub... [4 <./imagenes/valladolid_cofrade.jpg>]
-<imagenes/googlemaps.jpeg, id=837, 451.6875pt x 495.8525pt>
+<imagenes/googlemaps.jpeg, id=830, 451.6875pt x 495.8525pt>
 File: imagenes/googlemaps.jpeg Graphic file (type jpg)
 <use imagenes/googlemaps.jpeg>
 Package pdftex.def Info: imagenes/googlemaps.jpeg  used on input line 43.
 (pdftex.def)             Requested size: 298.75697pt x 327.99pt.
-<imagenes/uber.png, id=840, 2007.5pt x 1129.21875pt>
+<imagenes/uber.png, id=833, 2007.5pt x 1129.21875pt>
 File: imagenes/uber.png Graphic file (type png)
 <use imagenes/uber.png>
 Package pdftex.def Info: imagenes/uber.png  used on input line 52.
@@ -1027,7 +1017,7 @@ l.249 \chapter
               {Planificación}\label{cap:planificacion} [8]
 Cap\'{\i }tulo 2.
 (30_planificacion/1_metodologia.tex) (30_planificacion/2_planificacion_extensa.tex
-<imagenes/DiagramaGantBig.png, id=862, 1175.89313pt x 1113.40968pt>
+<imagenes/DiagramaGantBig.png, id=855, 1175.89313pt x 1113.40968pt>
 File: imagenes/DiagramaGantBig.png Graphic file (type png)
 <use imagenes/DiagramaGantBig.png>
 Package pdftex.def Info: imagenes/DiagramaGantBig.png  used on input line 9.
@@ -1204,17 +1194,17 @@ LaTeX Info: Redefining \% on input line 205.
 LaTeX Info: Redefining \. on input line 4.
 LaTeX Info: Redefining \% on input line 4.
  [26]
-<imagenes/casoDeUsoCiudadano.png, id=1032, 266.49562pt x 179.77162pt>
+<imagenes/casoDeUsoCiudadano.png, id=1025, 266.49562pt x 179.77162pt>
 File: imagenes/casoDeUsoCiudadano.png Graphic file (type png)
 <use imagenes/casoDeUsoCiudadano.png>
 Package pdftex.def Info: imagenes/casoDeUsoCiudadano.png  used on input line 7.
 (pdftex.def)             Requested size: 298.75697pt x 201.55403pt.
-<imagenes/casoDeUsoCofrade.png, id=1033, 194.82788pt x 146.04562pt>
+<imagenes/casoDeUsoCofrade.png, id=1026, 194.82788pt x 146.04562pt>
 File: imagenes/casoDeUsoCofrade.png Graphic file (type png)
 <use imagenes/casoDeUsoCofrade.png>
 Package pdftex.def Info: imagenes/casoDeUsoCofrade.png  used on input line 14.
 (pdftex.def)             Requested size: 298.75697pt x 223.96826pt.
-<imagenes/casoDeUsoJuntaDeCofradias.png, id=1034, 419.76825pt x 269.20575pt>
+<imagenes/casoDeUsoJuntaDeCofradias.png, id=1027, 419.76825pt x 269.20575pt>
 File: imagenes/casoDeUsoJuntaDeCofradias.png Graphic file (type png)
 <use imagenes/casoDeUsoJuntaDeCofradias.png>
 Package pdftex.def Info: imagenes/casoDeUsoJuntaDeCofradias.png  used on input line 21.
@@ -1225,7 +1215,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 25.
 LaTeX Info: Redefining \% on input line 25.
  [27 <./imagenes/casoDeUsoCiudadano.png> <./imagenes/casoDeUsoCofrade.png>]
-<imagenes/casoDeUsoAdministrador.png, id=1041, 431.81325pt x 352.9185pt>
+<imagenes/casoDeUsoAdministrador.png, id=1034, 431.81325pt x 352.9185pt>
 File: imagenes/casoDeUsoAdministrador.png Graphic file (type png)
 <use imagenes/casoDeUsoAdministrador.png>
 Package pdftex.def Info: imagenes/casoDeUsoAdministrador.png  used on input line 29.
@@ -1288,7 +1278,7 @@ LaTeX Info: Redefining \% on input line 5.
 LaTeX Info: Redefining \. on input line 5.
 LaTeX Info: Redefining \% on input line 5.
  [33]
-<imagenes/DiagramaDeDominio.png, id=1071, 451.6875pt x 365.86688pt>
+<imagenes/DiagramaDeDominio.png, id=1064, 451.6875pt x 365.86688pt>
 File: imagenes/DiagramaDeDominio.png Graphic file (type png)
 <use imagenes/DiagramaDeDominio.png>
 Package pdftex.def Info: imagenes/DiagramaDeDominio.png  used on input line 8.
@@ -1301,7 +1291,7 @@ LaTeX Info: Redefining \% on input line 16.
  [34
 
  <./imagenes/DiagramaDeDominio.png>]
-<imagenes/DSCasoUsoVerProcesion.png, id=1080, 360.44662pt x 212.29312pt>
+<imagenes/DSCasoUsoVerProcesion.png, id=1073, 360.44662pt x 212.29312pt>
 File: imagenes/DSCasoUsoVerProcesion.png Graphic file (type png)
 <use imagenes/DSCasoUsoVerProcesion.png>
 Package pdftex.def Info: imagenes/DSCasoUsoVerProcesion.png  used on input line 31.
@@ -1312,7 +1302,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 35.
 LaTeX Info: Redefining \% on input line 35.
  [35]
-<imagenes/DSCasoUsoCompartirUbi.png, id=1086, 270.10913pt x 218.91788pt>
+<imagenes/DSCasoUsoCompartirUbi.png, id=1079, 270.10913pt x 218.91788pt>
 File: imagenes/DSCasoUsoCompartirUbi.png Graphic file (type png)
 <use imagenes/DSCasoUsoCompartirUbi.png>
 Package pdftex.def Info: imagenes/DSCasoUsoCompartirUbi.png  used on input line 40.
@@ -1323,7 +1313,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 44.
 LaTeX Info: Redefining \% on input line 44.
  [36 <./imagenes/DSCasoUsoVerProcesion.png>]
-<imagenes/DSCasoUsoAccesoCofrade.png, id=1093, 373.395pt x 243.91125pt>
+<imagenes/DSCasoUsoAccesoCofrade.png, id=1086, 373.395pt x 243.91125pt>
 File: imagenes/DSCasoUsoAccesoCofrade.png Graphic file (type png)
 <use imagenes/DSCasoUsoAccesoCofrade.png>
 Package pdftex.def Info: imagenes/DSCasoUsoAccesoCofrade.png  used on input line 49.
@@ -1334,7 +1324,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 53.
 LaTeX Info: Redefining \% on input line 53.
  [37 <./imagenes/DSCasoUsoCompartirUbi.png>]
-<imagenes/DSCasoUsoCrearCiudad.png, id=1101, 285.16537pt x 210.7875pt>
+<imagenes/DSCasoUsoCrearCiudad.png, id=1094, 285.16537pt x 210.7875pt>
 File: imagenes/DSCasoUsoCrearCiudad.png Graphic file (type png)
 <use imagenes/DSCasoUsoCrearCiudad.png>
 Package pdftex.def Info: imagenes/DSCasoUsoCrearCiudad.png  used on input line 58.
@@ -1455,7 +1445,7 @@ If that doesn't work, type  X <return>  to quit.
 LaTeX Info: Redefining \. on input line 111.
 LaTeX Info: Redefining \% on input line 111.
 [49]
-<imagenes/eleguirCiudad.png, id=1233, 81.906pt x 180.675pt>
+<imagenes/eleguirCiudad.png, id=1226, 81.906pt x 180.675pt>
 File: imagenes/eleguirCiudad.png Graphic file (type png)
 <use imagenes/eleguirCiudad.png>
 Package pdftex.def Info: imagenes/eleguirCiudad.png  used on input line 122.
@@ -1466,7 +1456,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 126.
 LaTeX Info: Redefining \% on input line 126.
  [50]
-<imagenes/inicioYfav.png, id=1243, 573.64313pt x 288.3272pt>
+<imagenes/inicioYfav.png, id=1236, 573.64313pt x 288.3272pt>
 File: imagenes/inicioYfav.png Graphic file (type png)
 <use imagenes/inicioYfav.png>
 Package pdftex.def Info: imagenes/inicioYfav.png  used on input line 133.
@@ -1477,7 +1467,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 137.
 LaTeX Info: Redefining \% on input line 137.
  [51 <./imagenes/eleguirCiudad.png>]
-<imagenes/calendario.png, id=1250, 583.80609pt x 597.35672pt>
+<imagenes/calendario.png, id=1243, 583.80609pt x 597.35672pt>
 File: imagenes/calendario.png Graphic file (type png)
 <use imagenes/calendario.png>
 Package pdftex.def Info: imagenes/calendario.png  used on input line 144.
@@ -1509,7 +1499,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 159.
 LaTeX Info: Redefining \% on input line 159.
  [53 <./imagenes/calendario.png>]
-<imagenes/infoPasoyCofradia.png, id=1263, 338.38922pt x 348.17578pt>
+<imagenes/infoPasoyCofradia.png, id=1256, 338.38922pt x 348.17578pt>
 File: imagenes/infoPasoyCofradia.png Graphic file (type png)
 <use imagenes/infoPasoyCofradia.png>
 Package pdftex.def Info: imagenes/infoPasoyCofradia.png  used on input line 166.
@@ -1567,17 +1557,24 @@ Underfull \vbox (badness 3250) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 199.
 LaTeX Info: Redefining \% on input line 199.
  [57]
-Overfull \hbox (37.95358pt too wide) in paragraph at lines 203--204
+Overfull \hbox (3.50816pt too wide) in paragraph at lines 200--201
+\T1/bch/m/n/10.95 re-gis-tra co-mo ob-ser-va-dor de las no-ti-fi-ca-cio-nes en-tran-tes (\T1/cmtt/m/n/10.95 Notifications.setNotificationHandler
+ []
+
+
+Overfull \hbox (37.95358pt too wide) in paragraph at lines 202--203
 \T1/bch/m/n/10.95 ran-te pro-ce-si�n'' (RF-15) es-con-de tras la lla-ma-da \T1/cmtt/m/n/10.95 geoService.iniciarCompartirUbicacion(procesionId)
  []
 
-LaTeX Info: Redefining \. on input line 205.
-LaTeX Info: Redefining \% on input line 205.
+LaTeX Info: Redefining \. on input line 204.
+LaTeX Info: Redefining \% on input line 204.
 [58]
 
-LaTeX Warning: Citation `flyway' on page 59 undefined on input line 209.
+LaTeX Warning: Citation `flyway' on page 59 undefined on input line 208.
 
 ) (50_iteraciones/2_iteracion.tex
+Underfull \vbox (badness 4779) has occurred while \output is active []
+
 LaTeX Info: Redefining \. on input line 10.
 LaTeX Info: Redefining \% on input line 10.
  [59]
@@ -1977,24 +1974,22 @@ Underfull \vbox (badness 1127) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 365.
 LaTeX Info: Redefining \% on input line 365.
  [107]
-Underfull \hbox (badness 10000) in paragraph at lines 416--417
-[]|\T1/bch/m/n/10.95 solo Aler-ta: \T1/cmtt/b/n/10.95 INCIDENCIA\T1/bch/m/n/10.95 ,
+Underfull \hbox (badness 7631) in paragraph at lines 416--417
+\T1/bch/m/n/10.95 te-ma al cam-biar el es-ta-do de un
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 416--417
-\T1/cmtt/b/n/10.95 CAMBIO_HORARIO\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 CANCELACION\T1/bch/m/n/10.95 ,
- []
-
-LaTeX Info: Redefining \. on input line 426.
-LaTeX Info: Redefining \% on input line 426.
-[108]
-Underfull \hbox (badness 10000) in paragraph at lines 435--436
-[]|\T1/bch/m/n/10.95 PK com-pues-ta, FK $\OMS/cmsy/m/n/10.95 !$
+Underfull \hbox (badness 1817) in paragraph at lines 416--417
+\T1/cmtt/b/n/10.95 Evento\T1/bch/m/n/10.95 ), \T1/cmtt/b/n/10.95 INCIDENCIA\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 CAMBIO_HORARIO\T1/bch/m/n/10.95 ,
  []
 
 
-Overfull \hbox (10.4907pt too wide) in paragraph at lines 449--488
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 425.
+LaTeX Info: Redefining \% on input line 425.
+ [108]
+Overfull \hbox (10.4907pt too wide) in paragraph at lines 432--471
  [][] 
  []
 
@@ -2054,20 +2049,20 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `proyecto.out' has not changed.
-(rerunfilecheck)             Checksum: 49A7BBA595214D7B902C3CFF8E4454ED;17872.
+(rerunfilecheck)             Checksum: EDAE973E6794F8B19EB5B5E601D5476B;17401.
  ) 
 Here is how much of TeX's memory you used:
- 19701 strings out of 467871
- 333243 string characters out of 5418376
- 900562 words of memory out of 5000000
- 47727 multiletter control sequences out of 15000+600000
+ 19698 strings out of 467871
+ 333182 string characters out of 5418376
+ 900570 words of memory out of 5000000
+ 47726 multiletter control sequences out of 15000+600000
  694461 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,19n,88p,2110b,919s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1440.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchb8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchr8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchri8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on proyecto.pdf (135 pages, 4650786 bytes).
+Output written on proyecto.pdf (135 pages, 4649054 bytes).
 PDF statistics:
- 1944 PDF objects out of 2073 (max. 8388607)
- 432 named destinations out of 1000 (max. 500000)
- 928 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1934 PDF objects out of 2073 (max. 8388607)
+ 430 named destinations out of 1000 (max. 500000)
+ 920 words of extra memory for PDF output out of 10000 (max. 10000000)
 

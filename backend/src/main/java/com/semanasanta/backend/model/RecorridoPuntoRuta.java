@@ -53,6 +53,14 @@ public class RecorridoPuntoRuta {
         return puntoRuta;
     }
 
+    // "Convierte" un punto de paso simple en un PuntoDeInteres, o cambia el
+    // punto de interés por otro -sin setPuntoRuta() no habría forma de
+    // repuntar esta relación a un PuntoRuta distinto una vez creada (ver
+    // RecorridoPuntoRutaService.marcarComoPuntoDeInteres, 2026-08-23).
+    public void setPuntoRuta(PuntoRuta puntoRuta) {
+        this.puntoRuta = puntoRuta;
+    }
+
     public Integer getOrden() {
         return orden;
     }
