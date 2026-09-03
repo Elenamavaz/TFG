@@ -12,19 +12,19 @@ Puede consultar la información detallada de cofradías, eventos y procesiones, 
 
 \subsection{Cofrade}
 
-El cofrade es un ciudadano que, además, pertenece a una cofradía o hermandad. Accede al modo cofrade introduciendo el código de acceso de su cofradía, validado por la Junta de Cofradías correspondiente, y hereda todas las funcionalidades disponibles para el ciudadano.
+El cofrade es un ciudadano que, además, pertenece a una cofradía o hermandad. Accede al modo cofrade introduciendo el código de acceso de su cofradía, generado por la Junta de Cofradías correspondiente, y hereda todas las funcionalidades disponibles para el ciudadano.
 
 Su funcionalidad diferencial es la posibilidad de compartir su ubicación en tiempo real durante las procesiones en las que participa, lo que permite alimentar la geolocalización que consultan el resto de usuarios.
 
 \subsection{Junta de Cofradías}
 
-La Junta de Cofradías es el actor responsable de la gestión del contenido asociado a su cofradía o hermandad dentro de la aplicación. Accede a un panel de gestión desde el que puede crear y editar cofradías, eventos y procesiones, así como definir y modificar sobre el mapa los recorridos de estas últimas.
+La Junta de Cofradías es el actor responsable de la gestión del contenido asociado a la Semana Santa de su ciudad dentro de la aplicación. Accede a un panel de gestión desde el que puede crear y editar cofradías, eventos y procesiones, así como definir y modificar sobre el mapa los recorridos de estas últimas.
 
-Asimismo, se encarga de actualizar el estado de las procesiones en tiempo real, gestionar los pasos y los puntos de interés de la ciudad, publicar información sobre cortes de calles, y crear las notificaciones que reciben los ciudadanos y cofrades. También es responsable de generar, para cada cofradía, su propio código de acceso, el cual permite a los cofrades compartir su ubicación en la procesión de cofradía correspondiente.
+Asimismo, se encarga de actualizar el estado de las procesiones y de los eventos, de gestionar la información de ambos y de los pasos de cada cofradía, y de crear las notificaciones que reciben los ciudadanos y cofrades. También es responsable de generar, para cada cofradía, su propio código de acceso, el cual permite a los cofrades compartir su ubicación en la procesión de cofradía correspondiente.
 
 \subsection{Administrador}
 
-El administrador es el actor con mayor nivel de privilegios dentro del sistema y se encarga de su configuración y mantenimiento a nivel global, por encima del ámbito de una cofradía concreta. Su principal responsabilidad es la gestión de las ciudades disponibles en la aplicación, dando de alta, editando o dando de baja aquellas en las que el sistema ofrece cobertura. Además de gestionar a los miembros de la Junta de Cofradias de las distintas ciudades.
+El administrador es el actor con mayor nivel de privilegios dentro del sistema y se encarga de su configuración y mantenimiento a nivel global. Su principal responsabilidad es la gestión de las ciudades disponibles en la aplicación, asi como la junta de cofradías de cada ciudad, dando de alta, editando o dando de baja aquellas en las que el sistema ofrece cobertura. Además de gestionar a los miembros de la Junta de Cofradias de las distintas ciudades.
 
 La Tabla~\ref{tab:actores} resume los cuatro actores identificados y su rol dentro del sistema.
 
@@ -38,9 +38,9 @@ Ciudadano & Consulta información y sigue la Semana Santa sin necesidad de regis
 \hline
 Cofrade & Ciudadano perteneciente a una cofradía; comparte su ubicación durante las procesiones. \\
 \hline
-Junta de Cofradías & Gestiona el contenido de su cofradía: cofradías, eventos, procesiones, recorridos y notificaciones. \\
+Junta de Cofradías & Gestiona todo el contenido de la Semana Santa de su ciudad: cofradías, eventos, procesiones, recorridos y notificaciones. \\
 \hline
-Administrador & Gestiona la configuración global del sistema, en particular las ciudades disponibles. \\
+Administrador & Gestiona la configuración global del sistema, en particular las ciudades disponibles y sus juntas de cofradias. \\
 \hline
 \end{tabular}
 \caption{Resumen de los actores del sistema}

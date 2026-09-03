@@ -8,95 +8,102 @@
 
 Los requisitos funcionales definen las diferentes funciones del sistema, además de cómo debe ser su comportamiento en ciertas situaciones. Cada requisito incluye, junto a su descripción, el nivel de prioridad asignado (Alta, Media o Baja), que indica su importancia relativa dentro del proyecto.
 
-Para facilitar su lectura, los requisitos se han agrupado según el perfil de usuario (Sección~\ref{cap:analisis_usuarios}) al que van dirigidos --ciudadano, cofrade, Junta de Cofradías o administrador--, y dentro de cada grupo se han ordenado de mayor a menor prioridad. Además el perfil de cofrade incluye, a mayores de los requisitos propios de dicho perfil, todos los requisitos del ciudadano, ya que un cofrade puede hacer uso de todas las funciones generales de la aplicación.
+Para facilitar su lectura, los requisitos se han agrupado según el perfil de usuario (Sección~\ref{cap:analisis_usuarios}) al que van dirigidos --ciudadano, cofrade, Junta de Cofradías o administrador--. Dentro de cada grupo se han ordenado de mayor a menor prioridad, salvo en el del ciudadano: al ser el grupo más numeroso, sus requisitos se listan siguiendo en su lugar el flujo de uso habitual de la aplicación (desde que se accede hasta la geolocalización en tiempo real y las notificaciones), para que el lector pueda seguirlos en el mismo orden en que se encontraría con ellos. Además el perfil de cofrade incluye, a mayores de los requisitos propios de dicho perfil, todos los requisitos del ciudadano, ya que un cofrade puede hacer uso de todas las funciones generales de la aplicación.
 
 \subsubsection{Ciudadano}
 
 \begin{itemize}
-    \item \textbf{RF-01} \prioridad{Alta} El sistema debe permitir el uso de la aplicación como ciudadano sin la necesidad de realizar un registro previo; únicamente se requiere introducir un código de acceso para acceder al modo cofrade (RF-02).
+    \item \textbf{RF-01} \prioridad{Alta} El sistema debe permitir el uso de la aplicación como ciudadano sin la necesidad de realizar un registro previo.
 
-    \item \textbf{RF-03} \prioridad{Alta} El sistema debe mostrar la información detallada de las cofradías.
+    \item \textbf{RF-02} \prioridad{Alta} El sistema debe permitir al usuario seleccionar la ciudad de la que desea consultar la Semana Santa.
 
-    \item \textbf{RF-04} \prioridad{Alta} El sistema debe mostrar la información detallada de los eventos.
+    \item \textbf{RF-03} \prioridad{Alta} El sistema debe solicitar permiso a los usuarios para acceder a su ubicación en tiempo real.
 
-    \item \textbf{RF-05} \prioridad{Alta} El sistema debe mostrar la información detallada de las procesiones.
+    \item \textbf{RF-04} \prioridad{Media} El sistema debe seleccionar automáticamente la ciudad más cercana en función de la ubicación del usuario.
 
-    \item \textbf{RF-06} \prioridad{Alta} El sistema debe permitir a los usuarios realizar búsquedas sobre eventos, procesiones o cofradías específicas.
+    \item \textbf{RF-05} \prioridad{Alta} El sistema debe mostrar la información detallada de las cofradías.
 
-    \item \textbf{RF-07} \prioridad{Alta} El sistema debe permitir visualizar la posición de las procesiones en tiempo real mediante geolocalización.
+    \item \textbf{RF-06} \prioridad{Alta} El sistema debe mostrar la información detallada de los eventos.
 
-    \item \textbf{RF-08} \prioridad{Alta} El sistema debe poder generar rutas hacia la ubicación actual de una procesión.
+    \item \textbf{RF-07} \prioridad{Alta} El sistema debe mostrar la información detallada de las procesiones.
 
-    \item \textbf{RF-11} \prioridad{Alta} El sistema debe permitir al usuario seleccionar la ciudad que desea consultar.
+    \item \textbf{RF-08} \prioridad{Alta} El sistema debe mostrar la información detallada de las procesiones.
 
-    \item \textbf{RF-13} \prioridad{Alta} El sistema debe enviar notificaciones al usuario sobre los eventos o procesiones, de acuerdo con sus preferencias de notificación.
+    \item \textbf{RF-09} \prioridad{Alta} El sistema debe mostrar la información detallada de los pasos.
 
-    \item \textbf{RF-17} \prioridad{Alta} El sistema debe mostrar la información detallada de las procesiones (recorrido, horarios, pasos, ...).
+    \item \textbf{RF-10} \prioridad{Alta} El sistema debe mostrar un calendario con los días de la Semana Santa, indicando en cada día si hay eventos o procesiones programadas.
 
-    \item \textbf{RF-18} \prioridad{Alta} El sistema debe solicitar permiso a los usuarios para acceder a su ubicación en tiempo real.
-    
-    \item \textbf{RF-09} \prioridad{Baja} El sistema debe poder generar rutas entre dos puntos evitando las procesiones activas.
+    \item \textbf{RF-11} \prioridad{Alta} El sistema debe permitir a los usuarios seleccionar un día concreto del calendario para consultar el listado de procesiones programadas ese día.
 
-    \item \textbf{RF-12} \prioridad{Media} El sistema debe permitir a los usuarios marcar cofradías, eventos o procesiones como favoritas, para filtrar la información mostrada en la aplicación y recibir notificaciones sobre ellas.
+    \item \textbf{RF-12} \prioridad{Media} El sistema debe permitir a los usuarios acceder, desde un menú principal, a los listados completos de procesiones, pasos, eventos y cofradías.
+
+    \item \textbf{RF-13} \prioridad{Alta} El sistema debe permitir a los usuarios realizar búsquedas sobre eventos, procesiones, pasos o cofradías específicas.
+
+    \item \textbf{RF-14} \prioridad{Media} El sistema debe permitir filtrar cofradías, eventos y procesiones por distintos criterios (día, hora, tipo, etc.).
+
+    \item \textbf{RF-15} \prioridad{Media} El sistema debe permitir a los usuarios marcar cofradías, eventos o procesiones como favoritas, para filtrar la información mostrada en la aplicación.
 
     \item \textbf{RF-16} \prioridad{Media} El sistema debe permitir al usuario interactuar con el mapa (zoom, desplazamiento, ...).
 
-    \item \textbf{RF-19} \prioridad{Media} El sistema debe seleccionar automáticamente la ciudad más cercana en función de la ubicación del usuario.
+    \item \textbf{RF-17} \prioridad{Alta} Sin que el usuario tenga que seleccionar ninguna cofradía, evento o procesión, el sistema debe mostrar por defecto en el mapa las procesiones y eventos que están actualmente en curso.
 
-    \item \textbf{RF-22} \prioridad{Media} El sistema debe permitir al usuario suscribirse o desuscribirse de las notificaciones sobre cofradías, eventos o procesiones concretas, para recibir únicamente las que le interesen.
+    \item \textbf{RF-18} \prioridad{Baja} El sistema debe mostrar en el mapa los puntos de interés del recorrido de las procesiones que se estén mostrando.
 
-    \item \textbf{RF-23} \prioridad{Media} El sistema debe permitir filtrar cofradías, eventos y procesiones por distintos criterios (día, hora, tipo, etc.).
+    \item \textbf{RF-19} \prioridad{Alta} El sistema debe permitir visualizar la posición de las procesiones en tiempo real mediante geolocalización.
 
-    \item \textbf{RF-10} \prioridad{Baja} El sistema debe poder sugerir rutas hacia las ubicaciones más relevantes de una procesión (inicio, puntos de interés, fin, ...).
+    \item \textbf{RF-20} \prioridad{Baja} El sistema debe poder sugerir rutas hacia las ubicaciones más relevantes de una procesión (inicio, puntos de interés\footnote{Punto de interés: lugar concreto del recorrido de una procesión al que se le da un significado propio dentro de la celebración, como un encuentro con otra procesión, la entrada a una iglesia de la que la procesión sale más tarde, o una parada para una lectura o un cántico.}, fin, ...).
 
-    \item \textbf{RF-25} \prioridad{Baja} El sistema debe mostrar en el mapa puntos de interés cuando el usuario no haya seleccionado ninguna cofradía, evento o procesión.
+    \item \textbf{RF-21} \prioridad{Baja} El sistema debe poder generar rutas entre dos puntos evitando las procesiones activas.
 
-    \item \textbf{RF-35} \prioridad{Alta} El sistema debe mostrar un calendario con los días de la Semana Santa, indicando en cada día si hay eventos o procesiones programadas.
+    \item \textbf{RF-22} \prioridad{Alta} El sistema debe enviar a cada usuario las notificaciones de la ciudad que tiene seleccionada en la aplicación (RI-11), siempre que no haya desactivado su recepción (RF-22).
 
-    \item \textbf{RF-36} \prioridad{Alta} El sistema debe permitir a los usuarios seleccionar un día concreto del calendario para consultar el listado de procesiones programadas ese día.
+    \item \textbf{RF-23} \prioridad{Media} El sistema debe permitir al usuario desactivar la recepción de notificaciones sobre los cambios de estado de las procesiones y de los eventos, a través del propio permiso de notificaciones del dispositivo --sin necesidad de un interruptor propio dentro de la aplicación, que sería redundante con él--.
 
-    \item \textbf{RF-37} \prioridad{Media} El sistema debe permitir a los usuarios acceder, desde un menú principal, a los listados completos de procesiones, pasos, eventos y cofradías.
 \end{itemize}
 
 \subsubsection{Cofrade}
 
 \begin{itemize}
-    \item \textbf{RF-02} \prioridad{Alta} El sistema debe permitir a los cofrades de la cofradía acceder al modo cofrade mediante el código de acceso.
+    \item \textbf{RF-24} \prioridad{Alta} El sistema debe permitir a los cofrades de la cofradía acceder al modo cofrade mediante el código de acceso.
  
-    \item \textbf{RF-15} \prioridad{Alta} El sistema debe permitir a los cofrades compartir, y dejar de compartir en cualquier momento, su ubicación en tiempo real durante las procesiones.
+    \item \textbf{RF-25} \prioridad{Alta} El sistema debe permitir a los cofrades compartir, y dejar de compartir en cualquier momento, su ubicación en tiempo real durante las procesiones.
 
-    \item \textbf{RF-38} \prioridad{Media} El sistema debe detectar e ignorar las geolocalizaciones erróneas o inconsistentes recibidas de los cofrades.
+    \item \textbf{RF-26} \prioridad{Media} El sistema debe detectar e ignorar las geolocalizaciones erróneas o inconsistentes recibidas de los cofrades.
 \end{itemize}
 
-\subsubsection{Junta de Cofradías}
+\subsubsection{Miembro de la Junta de Cofradías}
 
 \begin{itemize}
-    \item \textbf{RF-20} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías editar información de cofradías, eventos, procesiones y de la Semana Santa de su ciudad.
+    \item \textbf{RF-27} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías iniciar sesion con su usuario y contraseña.
 
-    \item \textbf{RF-21} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear y eliminar cofradías, eventos y procesiones.
+    \item \textbf{RF-28} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías gestionar la información de su propio perfil.
 
-    \item \textbf{RF-27} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías crear y eliminar notificaciones dirigidas a todos los usuarios sobre incidencias o cambios en eventos y procesiones.
+    \item \textbf{RF-29} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías crear y eliminar cofradías, eventos y procesiones.
 
-    \item \textbf{RF-28} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías actualizar el estado de las procesiones en tiempo real (programada, en curso, finalizada o cancelada).
+    \item \textbf{RF-30} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías editar información de cofradías, eventos, procesiones y de la Semana Santa de su ciudad.
 
-    \item \textbf{RF-30} \prioridad{Alta} El sistema debe permitir a la Junta de Cofradías definir y modificar los recorridos de las procesiones en el mapa, como parte de la configuración de la información estática de la aplicación antes del inicio de la Semana Santa.
+    \item \textbf{RF-31} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías gestionar (dar de alta, editar y dar de baja) los pasos que pertenecen a cada una de las cofradías de su ciudad --un paso pertenece siempre a una única cofradía (RI-07), aunque después pueda participar en varios eventos y procesiones de esa misma cofradía--.
 
-    \item \textbf{RF-29} \prioridad{Media} El sistema debe permitir a la Junta de Cofradías gestionar los puntos de interés de las procesiones.
+    \item \textbf{RF-32} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías emitir, cuando lo necesite, un código de acceso para una cofradía, para que sus cofrades puedan acceder al modo cofrade; el valor del código lo genera automáticamente el propio sistema, sin que tenga que escribirlo a mano.
 
-    \item \textbf{RF-31} \prioridad{Media} El sistema debe permitir a la Junta de Cofradías gestionar la información de los pasos de cada cofradía.
+    \item \textbf{RF-33} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías definir y modificar los recorridos de las procesiones en el mapa.
 
-    \item \textbf{RF-33} \prioridad{Media} El sistema debe generar automáticamente un código de acceso para cada cofradía al darla de alta (RF-21), para que sus cofrades puedan acceder al modo cofrade.
+    \item \textbf{RF-34} \prioridad{Baja} El sistema debe permitir al miembro de la Junta de Cofradías gestionar (dar de alta, editar y dar de baja) los puntos de interés de las procesiones.
 
-    \item \textbf{RF-39} \prioridad{Media} El sistema debe permitir a la Junta de Cofradías gestionar la información de su propio perfil.
+    \item \textbf{RF-35} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías actualizar el estado de las procesiones en tiempo real (programada, en curso, finalizada o cancelada).
+
+    \item \textbf{RF-36} \prioridad{Alta} Cuando una procesión o evento pase a estado en curso o a finalizado, el sistema debe generar y enviar automáticamente la notificación correspondiente (RI-08), sin que el miembro de la Junta de Cofradías tenga que crearla a mano.
+
+    \item \textbf{RF-37} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías crear y eliminar notificaciones dirigidas a todos los usuarios sobre incidencias o cambios en eventos y procesiones.
 
 \end{itemize}
 
 \subsubsection{Administrador}
 
 \begin{itemize}
-    \item \textbf{RF-26} \prioridad{Alta} El sistema debe permitir al administrador gestionar las ciudades disponibles y las juntas asociadas a ellas en la aplicación.
+    \item \textbf{RF-38} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar y dar de baja) las ciudades disponibles.
 
-    \item \textbf{RF-34} \prioridad{Alta} El sistema debe permitir al administrador dar de alta, editar y dar de baja las Juntas de Cofradías del sistema.
+    \item \textbf{RF-39} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar y dar de baja) las Juntas de Cofradías del sistema.
 
     \item \textbf{RF-40} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar y dar de baja) a los miembros de las Juntas de Cofradías.
 
@@ -109,69 +116,20 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 Los requisitos de información definen los datos que el sistema debe almacenar y gestionar para su correcto funcionamiento. Al igual que en los requisitos funcionales, se indica la prioridad de cada uno de ellos, ordenados de mayor a menor prioridad. En este caso no se agrupan por perfil de usuario, ya que describen el modelo de datos del sistema en su conjunto y no están asociados a un único actor.
  
 \begin{itemize}
-    
-    \item \textbf{RI-01} \prioridad{Alta} El sistema debe almacenar la información sobre los cofrades de las cofradías/hermandades:
-    \begin{itemize}
-        \item Identificador de usuario.
-        \item Cofradía a la que pertenece.
-        \item Código de acceso validado que le da acceso al modo cofrade.
-        \item Fecha de ingreso.
-        \item Si está compartiendo su ubicación en ese momento.
-        \item Posición actual (latitud, longitud e instante de la lectura) mientras comparte su ubicación durante una procesión.
-    \end{itemize}
- 
-    \item \textbf{RI-02} \prioridad{Alta} El sistema debe almacenar la información sobre las cofradías/hermandades:
+
+    \item \textbf{RI-10} \prioridad{Alta} El sistema debe almacenar la información sobre las ciudades:
     \begin{itemize}
         \item Identificador.
         \item Nombre.
+        \item Comunidad autónoma.
+        \item Provincia.
         \item Historia.
-        \item Archivo de información.
-        \item Fecha de creación.
-        \item Junta de Cofradías a la que pertenece.
-        \item Pasos, eventos y procesiones que organiza.
+        \item Patrimonio.
+        \item Si está activa (visible para el ciudadano) o no.
+        \item Latitud y longitud (opcionales), para poder preseleccionar la ciudad más cercana al Ciudadano por GPS.
+        \item Junta de Cofradías que la gestiona.
     \end{itemize}
- 
-    \item \textbf{RI-03} \prioridad{Alta} El sistema debe almacenar la información sobre los eventos:
-    \begin{itemize}
-        \item Identificador.
-        \item Nombre.
-        \item Descripción.
-        \item Fecha.
-        \item Estado (programado, en curso, finalizado o cancelado).
-        \item Cofradía que lo organiza.
-    \end{itemize}
- 
-    \item \textbf{RI-04} \prioridad{Alta} El sistema debe almacenar la información sobre las procesiones:
-    \begin{itemize}
-        \item Fecha de inicio y fecha de fin.
-        \item Estado (programada, en curso, finalizada o cancelada).
-        \item Evento al que sigue.
-        \item Cofradía a la que pertenece.
-        \item Pasos que desfilan en ella.
-        \item Recorrido asociado.
-        \item Posición actual en tiempo real mientras está en curso.
-    \end{itemize}
- 
-    \item \textbf{RI-05} \prioridad{Alta} El sistema debe almacenar la información sobre los recorridos:
-    \begin{itemize}
-        \item Identificador.
-        \item Nombre.
-        \item Distancia total.
-        \item Tiempo estimado.
-        \item Puntos de ruta que lo componen (ubicaciones y puntos de interés), cada uno con la hora prevista de paso.
-    \end{itemize}
- 
-    \item \textbf{RI-08} \prioridad{Alta} El sistema debe almacenar la información sobre las notificaciones:
-    \begin{itemize}
-        \item Identificador.
-        \item Título.
-        \item Fecha de creación.
-        \item Tipo de notificaciones (inicio, fin, incidencia, cambio de horario, cancelación).
-        \item Prioridad (baja, media o alta).
-        \item Texto.
-        \item Para cada usuario al que se entrega: si ha sido leída y la fecha de lectura.
-    \end{itemize}
- 
+
     \item \textbf{RI-09} \prioridad{Alta} El sistema debe almacenar la información sobre las Juntas de
     Cofradías/hermandades:
     \begin{itemize}
@@ -179,34 +137,107 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Nombre.
         \item Email.
         \item Teléfono.
-        \item Ciudad que gestiona.
-        \item Cofradías que agrupa.
+        \item Ciudad que gestiona (relación 1:1; no agrupa directamente a las cofradías de esa ciudad, ver RI-02).
+        \item Miembros que la componen.
     \end{itemize}
- 
-    \item \textbf{RI-10} \prioridad{Alta} El sistema debe almacenar la información sobre las ciudades:
+
+    \item \textbf{RI-12} \prioridad{Alta} El sistema debe almacenar la información sobre los usuarios con credenciales propias --miembros de Junta de Cofradías y administradores; el ciudadano y el cofrade nunca se registran, ver Sección~\ref{sec:usuariosBD}--:
+    \begin{itemize}
+        \item Identificador.
+        \item Email.
+        \item Contraseña, como \emph{hash} (nunca en texto plano).
+        \item Fecha de ingreso.
+        \item Si es miembro de Junta de Cofradías, además: nombre, teléfono, Junta de Cofradías a la que pertenece, si está activo o desactivado, si sigue usando la contraseña provisional que se le generó al darlo de alta, y si tiene una solicitud de reactivación pendiente.
+        \item El administrador no tiene ninguna columna propia más allá de estas: cualquier administrador puede gestionar cualquier ciudad, no está atado a ninguna en concreto.
+    \end{itemize}
+
+    \item \textbf{RI-02} \prioridad{Alta} El sistema debe almacenar la información sobre las cofradías/hermandades:
     \begin{itemize}
         \item Identificador.
         \item Nombre.
-        \item Comunidad autónoma.
-        \item Descripción.
-        \item Junta de Cofradías que la gestiona.
+        \item Historia.
+        \item Web oficial.
+        \item Fecha de creación.
+        \item Si está activa (visible para el ciudadano) o todavía en preparación.
+        \item Ciudad a la que pertenece --nunca a la Junta de Cofradías que la gestiona, ver Apéndice~\ref{cap:esquemaBD}--.
+        \item Pasos que posee, y eventos y procesiones en los que participa.
     \end{itemize}
- 
-    \item \textbf{RI-06} \prioridad{Media} El sistema debe almacenar la información sobre los puntos de interés y demás ubicaciones de referencia utilizadas en los recorridos y en el mapa:
+
+    \item \textbf{RI-03} \prioridad{Alta} El sistema debe almacenar la información sobre los eventos:
     \begin{itemize}
-        \item Latitud.
-        \item Longitud.
-        \item Dirección.
+        \item Identificador.
+        \item Nombre.
+        \item Historia.
+        \item Tradición.
+        \item Fecha.
+        \item Estado (programado, en curso, finalizado o cancelado).
+        \item Web oficial.
+        \item Ubicación en la que se celebra.
+        \item Cofradías que participan en él (puede ser más de una).
+        \item Pasos que participan en él.
     \end{itemize}
- 
+
+    \item \textbf{RI-01} \prioridad{Alta} El sistema debe almacenar el histórico de posiciones que comparten los cofrades durante una procesión, como lecturas \textbf{anónimas} --sin ningún dato que identifique a la persona que las envía, ver Sección~\ref{sec:usuariosBD}--:
+    \begin{itemize}
+        \item Identificador.
+        \item Latitud y longitud.
+        \item Instante de la lectura.
+        \item Procesión a la que pertenece.
+    \end{itemize}
+
+    \item \textbf{RI-04} \prioridad{Alta} Al ser una procesión un tipo concreto de evento, el sistema debe almacenar sobre ella, además de toda la información de RI-03 (incluidos los pasos que participan en ella):
+    \begin{itemize}
+        \item Fecha de inicio y fecha de fin.
+        \item Recorrido asociado.
+        \item Histórico de posiciones anónimas de sus cofrades (RI-01), a partir del cual se calcula al vuelo su posición actual mientras está en curso.
+        \item Progreso alcanzado, a lo largo del recorrido, por el cofrade más adelantado y por el más atrasado que están compartiendo ubicación, para pintar la estela en vivo de la procesión.
+    \end{itemize}
+
+    \item \textbf{RI-05} \prioridad{Alta} El sistema debe almacenar la información sobre los recorridos:
+    \begin{itemize}
+        \item Identificador.
+        \item Distancia total.
+        \item Tiempo estimado.
+        \item Puntos de ruta que lo componen, cada uno con su orden dentro del recorrido y la hora prevista de paso.
+    \end{itemize}
+
+    \item \textbf{RI-08} \prioridad{Alta} El sistema debe almacenar la información sobre las notificaciones:
+    \begin{itemize}
+        \item Identificador.
+        \item Título.
+        \item Mensaje.
+        \item Fecha de creación.
+        \item Fecha de expiración (opcional).
+        \item Tipo (inicio, fin, incidencia, cambio de horario o cancelación).
+        \item Prioridad (baja, media o alta; obligatoria salvo en las de tipo inicio y fin, que genera el propio sistema).
+        \item Ciudad a la que pertenece.
+    \end{itemize}
+
     \item \textbf{RI-07} \prioridad{Media} El sistema debe almacenar la información sobre los pasos:
     \begin{itemize}
         \item Identificador.
         \item Nombre.
-        \item Descripción.
+        \item Historia.
+        \item Análisis artístico.
         \item Imagen.
         \item Cofradía a la que pertenece.
-        \item Procesiones en las que desfila.
+        \item Eventos y procesiones en los que participa.
+    \end{itemize}
+
+    \item \textbf{RI-06} \prioridad{Media} El sistema debe almacenar la información sobre los puntos de un recorrido y demás ubicaciones de referencia utilizadas en el mapa:
+    \begin{itemize}
+        \item Latitud.
+        \item Longitud.
+        \item Dirección (opcional).
+        \item Si el punto se destaca como punto de interés (un encuentro, la entrada a una iglesia, una parada para una lectura u oración, un monumento...), además: tipo, nombre, descripción e imagen.
+    \end{itemize}
+
+    \item \textbf{RI-11} \prioridad{Media} El sistema debe almacenar la información sobre los dispositivos registrados para recibir notificaciones \emph{push}:
+    \begin{itemize}
+        \item Identificador.
+        \item Token de Expo Push del dispositivo.
+        \item Ciudad de la que quiere recibir notificaciones.
+        \item Fecha de registro y de última actualización.
     \end{itemize}
 
 \end{itemize}

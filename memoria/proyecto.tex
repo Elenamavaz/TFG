@@ -80,13 +80,13 @@
 % Re-usable information
 % ********************************************************************
 \newcommand{\myTitle}{Aplicación móvil para la información y
-geolocalización de procesiones y eventos
+geolocalización de cofradías y procesiones
 en semana santa.}
 \newcommand{\myDegree}{Grado en Ingeniería Informática\xspace}
 \newcommand{\myName}{Elena Martínez Vázquez\xspace}
 \newcommand{\mySupervisorA}{Juan Alberto Muñoz Cristóbal\xspace}
 \newcommand{\mySupervisorB}{Pablo Federico Sanchez Mayoral\xspace}
-\newcommand{\myFaculty}{Escuela de Ingeniería Informática\xspace}
+\newcommand{\myFaculty}{Escuela de Ingeniería Informática de Valladolid\xspace}
 \newcommand{\myFacultyShort}{Escuela de Ingeniería Informática\xspace}
 \newcommand{\myDepartment}{Departamento de Informática\xspace}
 \newcommand{\myUni}{\protect{Universidad de Valladolid}\xspace}
@@ -226,6 +226,7 @@ pdfproducer = {pdflatex}
 
 \input{00_portada/portada}
 \input{05_prefacios/prefacio}
+\input{05_prefacios/acronimos}
 \frontmatter
 \tableofcontents
 \listoffigures
@@ -250,8 +251,8 @@ pdfproducer = {pdflatex}
 \input{30_planificacion/1_metodologia}
 \input{30_planificacion/2_planificacion_extensa}
 \input{30_planificacion/3_riesgos}
-\input{30_planificacion/4_seguimiento_proyecto}
-\input{30_planificacion/5_costes}
+\input{30_planificacion/4_costes}
+\input{30_planificacion/5_seguimiento_proyecto}
 
 \chapter{Análisis}\label{cap:analisis}
 \input{40_analisis/1_usuarios.tex}
@@ -298,7 +299,6 @@ pdfproducer = {pdflatex}
 \addcontentsline{toc}{part}{Anexos}
 \appendix
 %\input{apendices/glosario}
-\input{apendices/acronimos}
 \input{apendices/casosDeUsoAdiccionales}
 \input{apendices/esquema_base_datos}
 %\input{apendices/funcionalidad_implementada}
