@@ -20,9 +20,9 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces Resumen de los actores del sistema}}{20}{table.caption.31}%
 \contentsline {table}{\numberline {4.2}{\ignorespaces Caso de uso: Visualizar procesión en tiempo real}}{31}{table.caption.40}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Caso de uso: Compartir ubicación durante procesión}}{32}{table.caption.41}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Caso de uso: Crear notificación}}{33}{table.caption.42}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Caso de uso: Acceso como cofrade}}{34}{table.caption.43}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Caso de uso: Crear notificación}}{32}{table.caption.41}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Caso de uso: Acceder al modo cofrade}}{33}{table.caption.42}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Caso de uso: Compartir ubicación durante procesión}}{34}{table.caption.43}%
 \contentsline {table}{\numberline {4.6}{\ignorespaces Caso de uso: Gestionar ciudades disponibles}}{35}{table.caption.44}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
@@ -31,46 +31,75 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {A.1}{\ignorespaces Caso de uso: Consultar información de una cofradía, procesión, evento o paso}}{83}{table.caption.86}%
-\contentsline {table}{\numberline {A.2}{\ignorespaces Caso de uso: Acceso como cofrade}}{84}{table.caption.87}%
-\contentsline {table}{\numberline {A.3}{\ignorespaces Caso de uso: Añadir favoritos}}{85}{table.caption.88}%
-\contentsline {table}{\numberline {A.4}{\ignorespaces Caso de uso: Eliminar favoritos}}{85}{table.caption.89}%
-\contentsline {table}{\numberline {A.5}{\ignorespaces Caso de uso: Configurar notificaciones}}{86}{table.caption.90}%
-\contentsline {table}{\numberline {A.6}{\ignorespaces Caso de uso: Crear cofradía/Hermandad}}{87}{table.caption.91}%
-\contentsline {table}{\numberline {A.7}{\ignorespaces Caso de uso: Crear procesión}}{88}{table.caption.92}%
-\contentsline {table}{\numberline {A.8}{\ignorespaces Caso de uso: Actualizar estado de procesión}}{89}{table.caption.93}%
-\contentsline {table}{\numberline {A.9}{\ignorespaces Caso de uso: Gestionar información de Semana Santa}}{90}{table.caption.94}%
-\contentsline {table}{\numberline {A.10}{\ignorespaces Caso de uso: Definir recorrido de procesión}}{91}{table.caption.95}%
-\contentsline {table}{\numberline {A.11}{\ignorespaces Caso de uso: Dar de alta Junta de Cofradías}}{92}{table.caption.96}%
-\contentsline {table}{\numberline {A.12}{\ignorespaces Caso de uso: Editar Junta de Cofradías}}{93}{table.caption.97}%
-\contentsline {table}{\numberline {A.13}{\ignorespaces Caso de uso: Dar de baja Junta de Cofradías}}{94}{table.caption.98}%
-\contentsline {table}{\numberline {A.14}{\ignorespaces Caso de uso: Editar ciudad}}{95}{table.caption.99}%
-\contentsline {table}{\numberline {A.15}{\ignorespaces Caso de uso: Dar de baja ciudad}}{96}{table.caption.100}%
-\contentsline {table}{\numberline {A.16}{\ignorespaces Caso de uso: Consultar calendario de Semana Santa}}{97}{table.caption.101}%
-\contentsline {table}{\numberline {A.17}{\ignorespaces Caso de uso: Consultar procesiones de un día}}{97}{table.caption.102}%
-\contentsline {table}{\numberline {A.18}{\ignorespaces Caso de uso: Acceder a listados desde el menú principal}}{98}{table.caption.103}%
-\contentsline {table}{\numberline {A.19}{\ignorespaces Caso de uso: Gestionar perfil de la Junta de Cofradías}}{98}{table.caption.104}%
-\contentsline {table}{\numberline {A.20}{\ignorespaces Caso de uso: Gestionar miembros de las Juntas de Cofradías}}{99}{table.caption.105}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Caso de uso: Añadir favoritos}}{84}{table.caption.87}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces Caso de uso: Eliminar favoritos}}{84}{table.caption.88}%
+\contentsline {table}{\numberline {A.4}{\ignorespaces Caso de uso: Consultar notificaciones}}{85}{table.caption.89}%
+\contentsline {table}{\numberline {A.5}{\ignorespaces Caso de uso: Descartar notificaciones}}{86}{table.caption.90}%
+\contentsline {table}{\numberline {A.6}{\ignorespaces Caso de uso: Acceder a listados desde el menú principal}}{87}{table.caption.91}%
+\contentsline {table}{\numberline {A.7}{\ignorespaces Caso de uso: Consultar calendario de Semana Santa}}{87}{table.caption.92}%
+\contentsline {table}{\numberline {A.8}{\ignorespaces Caso de uso: Consultar procesiones de un día}}{88}{table.caption.93}%
+\contentsline {table}{\numberline {A.9}{\ignorespaces Caso de uso: Seleccionar ciudad}}{88}{table.caption.94}%
+\contentsline {table}{\numberline {A.10}{\ignorespaces Caso de uso: Cambiar de ciudad}}{89}{table.caption.95}%
+\contentsline {table}{\numberline {A.11}{\ignorespaces Caso de uso: Buscar cofradías, eventos, procesiones o pasos}}{90}{table.caption.96}%
+\contentsline {table}{\numberline {A.12}{\ignorespaces Caso de uso: Filtrar elementos}}{91}{table.caption.97}%
+\contentsline {table}{\numberline {A.13}{\ignorespaces Caso de uso: Generar ruta hacia procesión}}{92}{table.caption.98}%
+\contentsline {table}{\numberline {A.14}{\ignorespaces Caso de uso: Crear cofradía/Hermandad}}{93}{table.caption.99}%
+\contentsline {table}{\numberline {A.15}{\ignorespaces Caso de uso: Editar cofradía}}{94}{table.caption.100}%
+\contentsline {table}{\numberline {A.16}{\ignorespaces Caso de uso: Crear procesión}}{95}{table.caption.101}%
+\contentsline {table}{\numberline {A.17}{\ignorespaces Caso de uso: Editar procesión}}{96}{table.caption.102}%
+\contentsline {table}{\numberline {A.18}{\ignorespaces Caso de uso: Editar evento}}{97}{table.caption.103}%
+\contentsline {table}{\numberline {A.19}{\ignorespaces Caso de uso: Editar el recorrido de una procesión}}{98}{table.caption.104}%
+\contentsline {table}{\numberline {A.20}{\ignorespaces Caso de uso: Gestionar perfil de la Junta de Cofradías}}{99}{table.caption.105}%
+\contentsline {table}{\numberline {A.21}{\ignorespaces Caso de uso: Iniciar sesión}}{99}{table.caption.106}%
+\contentsline {table}{\numberline {A.22}{\ignorespaces Caso de uso: Gestionar su propio perfil}}{100}{table.caption.107}%
+\contentsline {table}{\numberline {A.23}{\ignorespaces Caso de uso: Dar de alta ciudad}}{101}{table.caption.108}%
+\contentsline {table}{\numberline {A.24}{\ignorespaces Caso de uso: Editar ciudad}}{102}{table.caption.109}%
+\contentsline {table}{\numberline {A.25}{\ignorespaces Caso de uso: Dar de baja ciudad}}{103}{table.caption.110}%
+\contentsline {table}{\numberline {A.26}{\ignorespaces Caso de uso: Dar de alta Junta de Cofradías}}{104}{table.caption.111}%
+\contentsline {table}{\numberline {A.27}{\ignorespaces Caso de uso: Editar Junta de Cofradías}}{105}{table.caption.112}%
+\contentsline {table}{\numberline {A.28}{\ignorespaces Caso de uso: Dar de baja Junta de Cofradías}}{106}{table.caption.113}%
+\contentsline {table}{\numberline {A.29}{\ignorespaces Caso de uso: Dar de alta un miembro de una Junta de Cofradías}}{107}{table.caption.114}%
+\contentsline {table}{\numberline {A.30}{\ignorespaces Caso de uso: Reenviar invitación a un miembro}}{108}{table.caption.115}%
+\contentsline {table}{\numberline {A.31}{\ignorespaces Caso de uso: Modificar un miembro de una Junta de Cofradías}}{109}{table.caption.116}%
+\contentsline {table}{\numberline {A.32}{\ignorespaces Caso de uso: Dar de baja un miembro de una Junta de Cofradías}}{110}{table.caption.117}%
+\contentsline {table}{\numberline {A.33}{\ignorespaces Caso de uso: Aceptar solicitud de reactivación}}{110}{table.caption.118}%
+\contentsline {table}{\numberline {A.34}{\ignorespaces Caso de uso: Rechazar solicitud de reactivación}}{111}{table.caption.119}%
+\contentsline {table}{\numberline {A.35}{\ignorespaces Caso de uso: Iniciar sesión}}{111}{table.caption.120}%
+\contentsline {table}{\numberline {A.36}{\ignorespaces Caso de uso: Emitir un código de acceso para una cofradía}}{112}{table.caption.121}%
+\contentsline {table}{\numberline {A.37}{\ignorespaces Caso de uso: Dar de alta un paso}}{113}{table.caption.122}%
+\contentsline {table}{\numberline {A.38}{\ignorespaces Caso de uso: Editar un paso}}{114}{table.caption.123}%
+\contentsline {table}{\numberline {A.39}{\ignorespaces Caso de uso: Dar de baja un paso}}{115}{table.caption.124}%
+\contentsline {table}{\numberline {A.40}{\ignorespaces Caso de uso: Dar de baja una cofradía}}{115}{table.caption.125}%
+\contentsline {table}{\numberline {A.41}{\ignorespaces Caso de uso: Crear evento}}{116}{table.caption.126}%
+\contentsline {table}{\numberline {A.42}{\ignorespaces Caso de uso: Dar de baja un evento}}{117}{table.caption.127}%
+\contentsline {table}{\numberline {A.43}{\ignorespaces Caso de uso: Dar de baja una procesión}}{117}{table.caption.128}%
+\contentsline {table}{\numberline {A.44}{\ignorespaces Caso de uso: Cancelar un evento}}{118}{table.caption.129}%
+\contentsline {table}{\numberline {A.45}{\ignorespaces Caso de uso: Cancelar una procesión}}{119}{table.caption.130}%
+\contentsline {table}{\numberline {A.46}{\ignorespaces Caso de uso: Asignar pasos a un evento}}{120}{table.caption.131}%
+\contentsline {table}{\numberline {A.47}{\ignorespaces Caso de uso: Desasignar pasos a un evento}}{121}{table.caption.132}%
+\contentsline {table}{\numberline {A.48}{\ignorespaces Caso de uso: Asignar pasos a una procesión}}{122}{table.caption.133}%
+\contentsline {table}{\numberline {A.49}{\ignorespaces Caso de uso: Desasignar pasos a una procesión}}{123}{table.caption.134}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {B.1}{\ignorespaces Campos de \texttt {ciudades}}}{101}{table.caption.106}%
-\contentsline {table}{\numberline {B.2}{\ignorespaces Campos de \texttt {juntas\_cofradias}}}{102}{table.caption.107}%
-\contentsline {table}{\numberline {B.3}{\ignorespaces Campos de \texttt {cofradias}}}{102}{table.caption.108}%
-\contentsline {table}{\numberline {B.4}{\ignorespaces Campos de \texttt {pasos}}}{102}{table.caption.109}%
-\contentsline {table}{\numberline {B.5}{\ignorespaces Campos de \texttt {pasos\_procesiones}}}{103}{table.caption.110}%
-\contentsline {table}{\numberline {B.6}{\ignorespaces Campos de \texttt {codigos\_acceso}}}{103}{table.caption.111}%
-\contentsline {table}{\numberline {B.7}{\ignorespaces Campos de \texttt {ubicaciones}}}{103}{table.caption.112}%
-\contentsline {table}{\numberline {B.8}{\ignorespaces Campos de \texttt {eventos}}}{104}{table.caption.113}%
-\contentsline {table}{\numberline {B.9}{\ignorespaces Campos de \texttt {eventos\_cofradias}}}{104}{table.caption.114}%
-\contentsline {table}{\numberline {B.10}{\ignorespaces Campos de \texttt {procesiones}}}{105}{table.caption.115}%
-\contentsline {table}{\numberline {B.11}{\ignorespaces Campos de \texttt {posiciones\_actuales}}}{105}{table.caption.116}%
-\contentsline {table}{\numberline {B.12}{\ignorespaces Campos de \texttt {recorridos}}}{105}{table.caption.117}%
-\contentsline {table}{\numberline {B.13}{\ignorespaces Campos de \texttt {puntos\_ruta}}}{106}{table.caption.118}%
-\contentsline {table}{\numberline {B.14}{\ignorespaces Campos de \texttt {puntos\_de\_interes}}}{106}{table.caption.119}%
-\contentsline {table}{\numberline {B.15}{\ignorespaces Campos de \texttt {recorrido\_puntos\_ruta}}}{107}{table.caption.120}%
-\contentsline {table}{\numberline {B.16}{\ignorespaces Campos de \texttt {usuarios}}}{107}{table.caption.121}%
-\contentsline {table}{\numberline {B.17}{\ignorespaces Campos de \texttt {miembros\_junta\_cofradia}}}{108}{table.caption.122}%
-\contentsline {table}{\numberline {B.18}{\ignorespaces Campos de \texttt {administradores}}}{108}{table.caption.123}%
-\contentsline {table}{\numberline {B.19}{\ignorespaces Campos de \texttt {notificaciones}}}{109}{table.caption.124}%
-\contentsline {table}{\numberline {B.20}{\ignorespaces Relaciones entre tablas de PostgreSQL}}{109}{table.caption.125}%
+\contentsline {table}{\numberline {B.1}{\ignorespaces Campos de \texttt {ciudades}}}{125}{table.caption.135}%
+\contentsline {table}{\numberline {B.2}{\ignorespaces Campos de \texttt {juntas\_cofradias}}}{126}{table.caption.136}%
+\contentsline {table}{\numberline {B.3}{\ignorespaces Campos de \texttt {cofradias}}}{126}{table.caption.137}%
+\contentsline {table}{\numberline {B.4}{\ignorespaces Campos de \texttt {pasos}}}{126}{table.caption.138}%
+\contentsline {table}{\numberline {B.5}{\ignorespaces Campos de \texttt {pasos\_procesiones}}}{127}{table.caption.139}%
+\contentsline {table}{\numberline {B.6}{\ignorespaces Campos de \texttt {codigos\_acceso}}}{127}{table.caption.140}%
+\contentsline {table}{\numberline {B.7}{\ignorespaces Campos de \texttt {ubicaciones}}}{127}{table.caption.141}%
+\contentsline {table}{\numberline {B.8}{\ignorespaces Campos de \texttt {eventos}}}{128}{table.caption.142}%
+\contentsline {table}{\numberline {B.9}{\ignorespaces Campos de \texttt {eventos\_cofradias}}}{128}{table.caption.143}%
+\contentsline {table}{\numberline {B.10}{\ignorespaces Campos de \texttt {procesiones}}}{129}{table.caption.144}%
+\contentsline {table}{\numberline {B.11}{\ignorespaces Campos de \texttt {posiciones\_actuales}}}{129}{table.caption.145}%
+\contentsline {table}{\numberline {B.12}{\ignorespaces Campos de \texttt {recorridos}}}{129}{table.caption.146}%
+\contentsline {table}{\numberline {B.13}{\ignorespaces Campos de \texttt {puntos\_ruta}}}{130}{table.caption.147}%
+\contentsline {table}{\numberline {B.14}{\ignorespaces Campos de \texttt {puntos\_de\_interes}}}{130}{table.caption.148}%
+\contentsline {table}{\numberline {B.15}{\ignorespaces Campos de \texttt {recorrido\_puntos\_ruta}}}{131}{table.caption.149}%
+\contentsline {table}{\numberline {B.16}{\ignorespaces Campos de \texttt {usuarios}}}{131}{table.caption.150}%
+\contentsline {table}{\numberline {B.17}{\ignorespaces Campos de \texttt {miembros\_junta\_cofradia}}}{132}{table.caption.151}%
+\contentsline {table}{\numberline {B.18}{\ignorespaces Campos de \texttt {administradores}}}{132}{table.caption.152}%
+\contentsline {table}{\numberline {B.19}{\ignorespaces Campos de \texttt {notificaciones}}}{133}{table.caption.153}%
+\contentsline {table}{\numberline {B.20}{\ignorespaces Relaciones entre tablas de PostgreSQL}}{133}{table.caption.154}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
