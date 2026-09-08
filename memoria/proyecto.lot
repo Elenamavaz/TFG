@@ -83,23 +83,24 @@
 \contentsline {table}{\numberline {B.1}{\ignorespaces Campos de \texttt {ciudades}}}{125}{table.caption.135}%
 \contentsline {table}{\numberline {B.2}{\ignorespaces Campos de \texttt {juntas\_cofradias}}}{126}{table.caption.136}%
 \contentsline {table}{\numberline {B.3}{\ignorespaces Campos de \texttt {cofradias}}}{126}{table.caption.137}%
-\contentsline {table}{\numberline {B.4}{\ignorespaces Campos de \texttt {pasos}}}{126}{table.caption.138}%
-\contentsline {table}{\numberline {B.5}{\ignorespaces Campos de \texttt {pasos\_procesiones}}}{127}{table.caption.139}%
+\contentsline {table}{\numberline {B.4}{\ignorespaces Campos de \texttt {pasos}}}{127}{table.caption.138}%
+\contentsline {table}{\numberline {B.5}{\ignorespaces Campos de \texttt {pasos\_eventos}}}{127}{table.caption.139}%
 \contentsline {table}{\numberline {B.6}{\ignorespaces Campos de \texttt {codigos\_acceso}}}{127}{table.caption.140}%
-\contentsline {table}{\numberline {B.7}{\ignorespaces Campos de \texttt {ubicaciones}}}{127}{table.caption.141}%
+\contentsline {table}{\numberline {B.7}{\ignorespaces Campos de \texttt {ubicaciones}}}{128}{table.caption.141}%
 \contentsline {table}{\numberline {B.8}{\ignorespaces Campos de \texttt {eventos}}}{128}{table.caption.142}%
 \contentsline {table}{\numberline {B.9}{\ignorespaces Campos de \texttt {eventos\_cofradias}}}{128}{table.caption.143}%
 \contentsline {table}{\numberline {B.10}{\ignorespaces Campos de \texttt {procesiones}}}{129}{table.caption.144}%
 \contentsline {table}{\numberline {B.11}{\ignorespaces Campos de \texttt {posiciones\_actuales}}}{129}{table.caption.145}%
-\contentsline {table}{\numberline {B.12}{\ignorespaces Campos de \texttt {recorridos}}}{129}{table.caption.146}%
+\contentsline {table}{\numberline {B.12}{\ignorespaces Campos de \texttt {recorridos}}}{130}{table.caption.146}%
 \contentsline {table}{\numberline {B.13}{\ignorespaces Campos de \texttt {puntos\_ruta}}}{130}{table.caption.147}%
 \contentsline {table}{\numberline {B.14}{\ignorespaces Campos de \texttt {puntos\_de\_interes}}}{130}{table.caption.148}%
 \contentsline {table}{\numberline {B.15}{\ignorespaces Campos de \texttt {recorrido\_puntos\_ruta}}}{131}{table.caption.149}%
-\contentsline {table}{\numberline {B.16}{\ignorespaces Campos de \texttt {usuarios}}}{131}{table.caption.150}%
+\contentsline {table}{\numberline {B.16}{\ignorespaces Campos de \texttt {usuarios}}}{132}{table.caption.150}%
 \contentsline {table}{\numberline {B.17}{\ignorespaces Campos de \texttt {miembros\_junta\_cofradia}}}{132}{table.caption.151}%
 \contentsline {table}{\numberline {B.18}{\ignorespaces Campos de \texttt {administradores}}}{132}{table.caption.152}%
 \contentsline {table}{\numberline {B.19}{\ignorespaces Campos de \texttt {notificaciones}}}{133}{table.caption.153}%
-\contentsline {table}{\numberline {B.20}{\ignorespaces Relaciones entre tablas de PostgreSQL}}{133}{table.caption.154}%
+\contentsline {table}{\numberline {B.20}{\ignorespaces Campos de \texttt {dispositivos\_push}}}{134}{table.caption.154}%
+\contentsline {table}{\numberline {B.21}{\ignorespaces Relaciones entre tablas de PostgreSQL}}{134}{table.caption.155}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

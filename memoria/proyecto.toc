@@ -52,7 +52,7 @@
 \contentsline {subsection}{\numberline {5.1.2}Diseño}{43}{subsection.5.1.2}%
 \contentsline {subsubsection}{Decisiones tecnológicas}{43}{section*.50}%
 \contentsline {subsubsection}{Arquitectura del sistema}{45}{section*.51}%
-\contentsline {paragraph}{Estructura del front-end}{45}{section*.52}%
+\contentsline {paragraph}{Estructura del front-end}{46}{section*.52}%
 \contentsline {paragraph}{Estructura del back-end}{47}{section*.54}%
 \contentsline {paragraph}{Diagrama de despliegue}{48}{section*.56}%
 \contentsline {subsubsection}{Diseño de la base de datos}{49}{section*.58}%
@@ -105,27 +105,28 @@
 \contentsline {section}{\numberline {B.2}Junta de Cofradías (\texttt {juntas\_cofradias})}{125}{section.Alph2.2}%
 \contentsline {section}{\numberline {B.3}Cofradía / Hermandad (\texttt {cofradias})}{126}{section.Alph2.3}%
 \contentsline {section}{\numberline {B.4}Paso (\texttt {pasos})}{126}{section.Alph2.4}%
-\contentsline {subsection}{\numberline {B.4.1}Paso-Procesión (\texttt {pasos\_procesiones}) --- tabla intermedia N:M}{127}{subsection.Alph2.4.1}%
+\contentsline {subsection}{\numberline {B.4.1}Paso-Evento (\texttt {pasos\_eventos}) --- tabla intermedia N:M}{127}{subsection.Alph2.4.1}%
 \contentsline {section}{\numberline {B.5}Código de Acceso (\texttt {codigos\_acceso})}{127}{section.Alph2.5}%
 \contentsline {section}{\numberline {B.6}Ubicación (\texttt {ubicaciones})}{127}{section.Alph2.6}%
-\contentsline {section}{\numberline {B.7}Evento (\texttt {eventos})}{127}{section.Alph2.7}%
+\contentsline {section}{\numberline {B.7}Evento (\texttt {eventos})}{128}{section.Alph2.7}%
 \contentsline {subsection}{\numberline {B.7.1}Evento-Cofradía (\texttt {eventos\_cofradias}) --- tabla intermedia N:M}{128}{subsection.Alph2.7.1}%
 \contentsline {section}{\numberline {B.8}Procesión (\texttt {procesiones})}{128}{section.Alph2.8}%
 \contentsline {subsection}{\numberline {B.8.1}Posiciones actuales (\texttt {posiciones\_actuales}) --- histórico de pings anónimos}{129}{subsection.Alph2.8.1}%
 \contentsline {section}{\numberline {B.9}Recorrido (\texttt {recorridos})}{129}{section.Alph2.9}%
 \contentsline {subsection}{\numberline {B.9.1}Punto de Ruta (\texttt {puntos\_ruta})}{130}{subsection.Alph2.9.1}%
 \contentsline {subsection}{\numberline {B.9.2}Punto de Interés (\texttt {puntos\_de\_interes})}{130}{subsection.Alph2.9.2}%
-\contentsline {subsection}{\numberline {B.9.3}Recorrido-Punto de Ruta (\texttt {recorrido\_puntos\_ruta}) --- tabla intermedia N:M}{130}{subsection.Alph2.9.3}%
+\contentsline {subsection}{\numberline {B.9.3}Recorrido-Punto de Ruta (\texttt {recorrido\_puntos\_ruta}) --- tabla intermedia N:M}{131}{subsection.Alph2.9.3}%
 \contentsline {section}{\numberline {B.10}Usuario (\texttt {usuarios})}{131}{section.Alph2.10}%
 \contentsline {subsection}{\numberline {B.10.1}Miembro de Junta de Cofradías (\texttt {miembros\_junta\_cofradia})}{132}{subsection.Alph2.10.1}%
 \contentsline {subsection}{\numberline {B.10.2}Administrador (\texttt {administradores})}{132}{subsection.Alph2.10.2}%
-\contentsline {section}{\numberline {B.11}Notificación (\texttt {notificaciones})}{132}{section.Alph2.11}%
-\contentsline {section}{\numberline {B.12}Relaciones entre tablas}{133}{section.Alph2.12}%
+\contentsline {section}{\numberline {B.11}Notificación (\texttt {notificaciones})}{133}{section.Alph2.11}%
+\contentsline {section}{\numberline {B.12}Dispositivo Push (\texttt {dispositivos\_push})}{133}{section.Alph2.12}%
+\contentsline {section}{\numberline {B.13}Relaciones entre tablas}{134}{section.Alph2.13}%
 \contentsline {chapter}{\numberline {C}Manual de despliegue}{135}{appendix.Alph3}%
 \contentsline {section}{\numberline {C.1}Requisitos previos}{135}{section.Alph3.1}%
 \contentsline {section}{\numberline {C.2}Despliegue del backend en Railway}{135}{section.Alph3.2}%
 \contentsline {section}{\numberline {C.3}Documentación de la API}{136}{section.Alph3.3}%
 \contentsline {section}{\numberline {C.4}Configuración del cliente React Native}{136}{section.Alph3.4}%
-\contentsline {section}{\numberline {C.5}Generación del ejecutable de la aplicación móvil}{136}{section.Alph3.5}%
-\contentsline {chapter}{\numberline {D}Manual de uso}{137}{appendix.Alph4}%
-\contentsline {chapter}{\numberline {E}Contenido del TFG}{139}{appendix.Alph5}%
+\contentsline {section}{\numberline {C.5}Generación del ejecutable de la aplicación móvil}{137}{section.Alph3.5}%
+\contentsline {chapter}{\numberline {D}Manual de uso}{139}{appendix.Alph4}%
+\contentsline {chapter}{\numberline {E}Contenido del TFG}{141}{appendix.Alph5}%

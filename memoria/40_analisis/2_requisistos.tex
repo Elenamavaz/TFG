@@ -84,7 +84,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-31} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías emitir, cuando lo necesite, un código de acceso para una cofradía, para que sus cofrades puedan acceder al modo cofrade; el valor del código lo genera automáticamente el propio sistema, sin que tenga que escribirlo a mano.
 
-    \item \textbf{RF-32} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías definir y modificar los recorridos de las procesiones en el mapa.
+    \item \textbf{RF-32} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías importar el recorrido de una procesión desde un archivo GPX, y marcar y modificar sobre él los puntos de interés\footnote{Punto de interés: lugar concreto del recorrido de una procesión al que se le da un significado propio dentro de la celebración, como un encuentro con otra procesión, la entrada a una iglesia de la que la procesión sale más tarde, o una parada para una lectura o un cántico.} de dicho recorrido.
 
     \item \textbf{RF-33} \prioridad{Baja} El sistema debe permitir al miembro de la Junta de Cofradías gestionar (dar de alta, editar y dar de baja) los puntos de interés de las procesiones.
 
@@ -150,7 +150,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Contraseña, como \emph{hash} (nunca en texto plano).
         \item Fecha de ingreso.
         \item Si es miembro de Junta de Cofradías, además: nombre, teléfono, Junta de Cofradías a la que pertenece, si está activo o desactivado, si sigue usando la contraseña provisional que se le generó al darlo de alta, y si tiene una solicitud de reactivación pendiente.
-        \item El administrador no tiene ninguna columna propia más allá de estas: cualquier administrador puede gestionar cualquier ciudad, no está atado a ninguna en concreto.
+        \item Si es administrador, además: nombre y teléfono (opcionales, se completan al editar su perfil). Un administrador no está atado a ninguna ciudad en concreto: cualquier administrador puede gestionar cualquier ciudad.
     \end{itemize}
 
     \item \textbf{RI-02} \prioridad{Alta} El sistema debe almacenar la información sobre las cofradías/hermandades:

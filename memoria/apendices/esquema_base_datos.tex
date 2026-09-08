@@ -21,6 +21,12 @@ Agrupa las procesiones y actos de cada localidad.
 \hline
 \texttt{descripcion} & \texttt{TEXT} &  \\
 \hline
+\texttt{activa} & \texttt{BOOLEAN} & visible para el ciudadano o no \\
+\hline
+\texttt{latitud} & \texttt{DOUBLE PRECISION} & opcional, para preseleccionar la ciudad más cercana por GPS (RF-04) \\
+\hline
+\texttt{longitud} & \texttt{DOUBLE PRECISION} & opcional, para preseleccionar la ciudad más cercana por GPS (RF-04) \\
+\hline
 \end{tabular}
 \caption{Campos de \texttt{ciudades}}
 \end{table}
@@ -71,6 +77,8 @@ Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad 
 \hline
 \texttt{fecha\_creacion} & \texttt{TIMESTAMP} &  \\
 \hline
+\texttt{activa} & \texttt{BOOLEAN} & visible para el ciudadano, o todavía en preparación \\
+\hline
 \texttt{ciudad\_id} & \texttt{BIGINT} & FK $\to$ \texttt{ciudades(id)} \\
 \hline
 \end{tabular}
@@ -78,7 +86,7 @@ Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad 
 \end{table}
 
 \section{Paso (\texttt{pasos})}
-Pasos que posee la cofradía. Relación N:M con procesiones a través de \texttt{pasos\_procesiones}.
+Pasos que posee la cofradía. A diferencia del planteamiento inicial, en el que la relación N:M era solo con \texttt{procesiones}, ``los eventos también pueden tener pasos'': la relación se generalizó a \texttt{eventos} (Sección~\ref{sec:eventosBD}), del que \texttt{procesiones} hereda, resuelta mediante la tabla intermedia \texttt{pasos\_eventos}.
 
 \begin{table}[H]
 \centering
@@ -94,7 +102,7 @@ Pasos que posee la cofradía. Relación N:M con procesiones a través de \texttt
 \hline
 \texttt{analisis\_artistico} & \texttt{TEXT} &  \\
 \hline
-\texttt{imagen} & \texttt{VARCHAR} & URL a Firebase Storage \\
+\texttt{imagen} & \texttt{VARCHAR} & URL de texto libre, pegada a mano por la Junta (sin infraestructura de subida propia; ver trabajo futuro) \\
 \hline
 \texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
 \hline
@@ -102,7 +110,7 @@ Pasos que posee la cofradía. Relación N:M con procesiones a través de \texttt
 \caption{Campos de \texttt{pasos}}
 \end{table}
 
-\subsection{Paso-Procesión (\texttt{pasos\_procesiones}) --- tabla intermedia N:M}
+\subsection{Paso-Evento (\texttt{pasos\_eventos}) --- tabla intermedia N:M}
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|l|p{7cm}|}
@@ -111,10 +119,10 @@ Pasos que posee la cofradía. Relación N:M con procesiones a través de \texttt
 \hline
 \texttt{paso\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{pasos(id)} \\
 \hline
-\texttt{procesion\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{procesiones(id)} \\
+\texttt{evento\_id} & \texttt{BIGINT} & PK compuesta, FK $\to$ \texttt{eventos(id)} \\
 \hline
 \end{tabular}
-\caption{Campos de \texttt{pasos\_procesiones}}
+\caption{Campos de \texttt{pasos\_eventos}}
 \end{table}
 
 \section{Código de Acceso (\texttt{codigos\_acceso})}
@@ -304,14 +312,14 @@ Subtipo de \texttt{PuntoRuta} con detalle: nombre, descripción, imagen y una ca
 \hline
 \texttt{descripcion} & \texttt{TEXT} &  \\
 \hline
-\texttt{imagen} & \texttt{VARCHAR} & URL a Firebase Storage \\
+\texttt{imagen} & \texttt{VARCHAR} & URL de texto libre, pegada a mano por la Junta (sin infraestructura de subida propia; ver trabajo futuro) \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{puntos\_de\_interes}}
 \end{table}
 
 \subsection{Recorrido-Punto de Ruta (\texttt{recorrido\_puntos\_ruta}) --- tabla intermedia N:M}\label{sec:recorridoPuntosRutaBD}
-El orden de un punto dentro de un recorrido y la hora prevista de paso ya no son propiedades del punto en sí (un mismo punto puede estar en la posición 3 de un recorrido y en la posición 7 de otro, a horas distintas), sino de \textbf{esta relación}. Lleva un identificador propio en lugar de una clave primaria compuesta --a diferencia de \texttt{pasos\_procesiones} o \texttt{eventos\_cofradias}-- porque, además de las dos claves foráneas, tiene columnas propias; dos restricciones \texttt{UNIQUE} garantizan que un punto no se repita dentro del mismo recorrido y que dos puntos no compartan posición.
+El orden de un punto dentro de un recorrido y la hora prevista de paso ya no son propiedades del punto en sí (un mismo punto puede estar en la posición 3 de un recorrido y en la posición 7 de otro, a horas distintas), sino de \textbf{esta relación}. Lleva un identificador propio en lugar de una clave primaria compuesta --a diferencia de \texttt{pasos\_eventos} o \texttt{eventos\_cofradias}-- porque, además de las dos claves foráneas, tiene columnas propias; dos restricciones \texttt{UNIQUE} garantizan que un punto no se repita dentro del mismo recorrido y que dos puntos no compartan posición.
 
 \begin{table}[H]
 \centering
@@ -361,7 +369,7 @@ Por tanto, \texttt{usuarios} solo contiene los perfiles con credenciales propias
 \end{table}
 
 \subsection{Miembro de Junta de Cofradías (\texttt{miembros\_junta\_cofradia})}
-Persona con credenciales que pertenece a la Junta de Cofradías de una ciudad --una Junta puede tener varios miembros, cada uno con su propio inicio de sesión--. La referencia es a la \texttt{JuntaCofradias}, no directamente a la \texttt{Ciudad}: así se reutiliza la relación 1:1 ya existente entre \texttt{JuntaCofradias} y \texttt{Ciudad} en lugar de duplicarla, y de ahí --\texttt{miembro.juntaCofradias.ciudad}-- es de donde la capa de servicio de la API obtiene qué ciudad gestiona cada miembro a la hora de comprobar la autorización por rol (RNF-05).
+Persona con credenciales que pertenece a la Junta de Cofradías de una ciudad --una Junta puede tener varios miembros, cada uno con su propio inicio de sesión--. La referencia es a la \texttt{JuntaCofradias}, no directamente a la \texttt{Ciudad}: así se reutiliza la relación 1:1 ya existente entre \texttt{JuntaCofradias} y \texttt{Ciudad} en lugar de duplicarla, y de ahí --\texttt{miembro.juntaCofradias.ciudad}-- es de donde la capa de servicio de la API obtiene qué ciudad gestiona cada miembro a la hora de comprobar la autorización por rol (RNF-05). \texttt{activo} lo alterna el Administrador: desactivado no significa sin acceso --el \emph{login} le sigue funcionando--, sino que el backend le rechaza cualquier escritura. \texttt{password\_provisional} vale \texttt{TRUE} hasta que el miembro cambia la contraseña que se le generó y envió por correo al darlo de alta, como señal de que la invitación sigue pendiente. \texttt{solicitud\_reactivacion\_pendiente} la activa un miembro desactivado que pide volver a estar activo, y la resuelve el Administrador aceptándola o rechazándola.
 
 \begin{table}[H]
 \centering
@@ -371,14 +379,24 @@ Persona con credenciales que pertenece a la Junta de Cofradías de una ciudad --
 \hline
 \texttt{id} & \texttt{BIGINT} & PK y FK $\to$ \texttt{usuarios(id)} \\
 \hline
+\texttt{nombre} & \texttt{VARCHAR} &  \\
+\hline
+\texttt{telefono} & \texttt{VARCHAR} & opcional \\
+\hline
 \texttt{junta\_cofradias\_id} & \texttt{BIGINT} & FK $\to$ \texttt{juntas\_cofradias(id)} \\
+\hline
+\texttt{activo} & \texttt{BOOLEAN} &  \\
+\hline
+\texttt{password\_provisional} & \texttt{BOOLEAN} &  \\
+\hline
+\texttt{solicitud\_reactivacion\_pendiente} & \texttt{BOOLEAN} &  \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{miembros\_junta\_cofradia}}
 \end{table}
 
 \subsection{Administrador (\texttt{administradores})}
-Rol global del sistema, sin ninguna columna propia ni referencia a \texttt{Ciudad}: cualquier administrador puede gestionar cualquier ciudad, no tiene sentido atarlo de antemano a una que todavía no exista.
+Rol global del sistema, sin referencia a \texttt{Ciudad}: cualquier administrador puede gestionar cualquier ciudad, no tiene sentido atarlo de antemano a una que todavía no exista. \texttt{nombre} y \texttt{telefono} son opcionales --no se piden al crear la cuenta, solo se completan cuando el propio administrador edita su perfil--.
 
 \begin{table}[H]
 \centering
@@ -386,7 +404,11 @@ Rol global del sistema, sin ninguna columna propia ni referencia a \texttt{Ciuda
 \hline
 \textbf{Campo} & \textbf{Nota} \\
 \hline
-\texttt{id} & PK y FK $\to$ \texttt{usuarios(id)}; sin columnas propias \\
+\texttt{id} & PK y FK $\to$ \texttt{usuarios(id)} \\
+\hline
+\texttt{nombre} & opcional \\
+\hline
+\texttt{telefono} & opcional \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{administradores}}
@@ -425,6 +447,31 @@ A diferencia del planteamiento inicial, no hay una jerarquía Aviso/Alerta: una 
 
 Sin tabla de notificación entregada: no se registra si un ciudadano concreto ha leído cada notificación o no --no tiene cuenta con la que asociar esa lectura (Sección~\ref{sec:usuariosBD})--, simplemente se consulta la lista de notificaciones vigentes de su ciudad.
 
+\section{Dispositivo Push (\texttt{dispositivos\_push})}
+\textbf{Requisito:} RI-11
+
+Dispositivo del ciudadano registrado para recibir notificaciones \emph{push} de una ciudad. Sin usuario al que pertenecer --el ciudadano nunca se autentica (Sección~\ref{sec:usuariosBD})--: la única pertenencia real es a qué ciudad le interesa a ese token, que puede cambiar si el ciudadano cambia de ciudad seleccionada (el mismo token se reregistra, actualizando \texttt{ciudad\_id} en vez de crear una fila nueva). El \texttt{token} es de Expo Push (\texttt{ExponentPushToken[...]}), no un token FCM/APNs en crudo: el backend solo habla con la API de Expo Push (\texttt{exp.host}), nunca directamente con Firebase Cloud Messaging ni con APNs.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Campo} & \textbf{Tipo} & \textbf{Nota} \\
+\hline
+\texttt{id} & \texttt{BIGINT} & PK, autogenerado \\
+\hline
+\texttt{token} & \texttt{VARCHAR} & \texttt{UNIQUE}, token de Expo Push \\
+\hline
+\texttt{ciudad\_id} & \texttt{BIGINT} & FK $\to$ \texttt{ciudades(id)} \\
+\hline
+\texttt{fecha\_registro} & \texttt{TIMESTAMP} &  \\
+\hline
+\texttt{fecha\_actualizado} & \texttt{TIMESTAMP} &  \\
+\hline
+\end{tabular}
+\caption{Campos de \texttt{dispositivos\_push}}
+\end{table}
+
 \section{Relaciones entre tablas}
 La Tabla~\ref{tab:relacionesBD} recoge las relaciones entre tablas de este esquema, todas ellas garantizadas por claves foráneas con restricción de integridad referencial.
 \begin{table}[H]
@@ -459,13 +506,15 @@ La Tabla~\ref{tab:relacionesBD} recoge las relaciones entre tablas de este esque
 \hline
 \texttt{puntos\_ruta} & \texttt{ubicaciones} & está en & N:1 \\
 \hline
-\texttt{pasos} & \texttt{procesiones} & desfila en & N:M \\
+\texttt{pasos} & \texttt{eventos} & participa en & N:M \\
 \hline
 \texttt{miembros\_junta\_cofradia} & \texttt{usuarios} & es extendido por (herencia) & 1:1 \\
 \hline
 \texttt{administradores} & \texttt{usuarios} & es extendido por (herencia) & 1:1 \\
 \hline
 \texttt{ciudades} & \texttt{notificaciones} & recibe & 1:N \\
+\hline
+\texttt{ciudades} & \texttt{dispositivos\_push} & recibe registros de & 1:N \\
 \hline
 \end{tabular}
 \caption{Relaciones entre tablas de PostgreSQL}

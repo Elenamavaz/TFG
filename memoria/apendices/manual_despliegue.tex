@@ -1,14 +1,14 @@
 \chapter{Manual de despliegue}\label{cap:manual_despliegue}
 
-Este apéndice describe los pasos necesarios para desplegar el backend propio (API Spring Boot y base de datos PostgreSQL) en Railway~\cite{railway}, así como la configuración necesaria en el cliente React Native y en el proyecto de Firebase para que la aplicación completa funcione en un entorno nuevo.
+Este apéndice describe los pasos necesarios para desplegar el backend propio (API Spring Boot y base de datos PostgreSQL) en Railway~\cite{railway}, así como la configuración necesaria en el cliente React Native para que la aplicación completa funcione en un entorno nuevo. El proyecto no depende de ningún servicio de Firebase (Sección~\ref{sec:decisionesTecnologicas}): las notificaciones \emph{push} se envían a través de Expo Push Notifications, sin necesidad de credenciales propias.
 
 \section{Requisitos previos}
 
 \begin{itemize}
     \item Cuenta en Railway~\cite{railway} vinculada al repositorio de GitHub~\cite{github} del backend.
-    \item Cuenta de Firebase con un proyecto creado, con los servicios \textbf{Storage} y \textbf{Cloud Messaging} habilitados (ya no es necesario habilitar Firestore ni Authentication).
-    \item Clave de API de Google Maps Platform~\cite{googlemapsapi} con las APIs de \emph{Maps SDK} y \emph{Directions} activadas.
+    \item Cuenta de Expo~\cite{expo} con un proyecto EAS creado, para poder generar el ejecutable de la aplicación móvil y que \texttt{expo-notifications} pueda emitir tokens de Expo Push válidos.
     \item Java 17 o superior y Node.js instalados en el entorno de desarrollo local.
+    \item Clave de API de Google Maps Platform~\cite{googlemapsapi}, únicamente cuando se integre la visualización de mapas prevista para la Iteración 2 (Sección~\ref{cap:trabajo_futuro}): a día de hoy la aplicación no la usa.
 \end{itemize}
 
 \section{Despliegue del backend en Railway}
@@ -21,8 +21,8 @@ Este apéndice describe los pasos necesarios para desplegar el backend propio (A
         \item \texttt{SPRING\_DATASOURCE\_URL}, \texttt{SPRING\_DATASOURCE\_USERNAME} y \texttt{SPRING\_DATASOURCE\_PASSWORD}: Railway las expone automáticamente al enlazar el servicio de PostgreSQL con el del backend.
         \item \texttt{JWT\_SECRET}: clave secreta utilizada para firmar los tokens JWT (Sección~\ref{cap:1_iteracion}). Debe ser una cadena aleatoria de suficiente longitud y no debe compartirse ni subirse al repositorio.
         \item \texttt{JWT\_EXPIRATION}: tiempo de validez del token, en milisegundos.
-        \item \texttt{FIREBASE\_CREDENTIALS}: contenido (o ruta) del fichero de credenciales de servicio de Firebase, necesario para que el backend pueda usar el Firebase Admin SDK~\cite{fcmadminsdk} y así disparar notificaciones \emph{push}.
     \end{itemize}
+    No hace falta configurar ninguna credencial para las notificaciones \emph{push}: el backend envía cada notificación con una petición HTTP corriente al servicio de Expo Push (\texttt{https://exp.host/--/api/v2/push/send}), sin autenticación propia.
     \item Al desplegar, Spring Boot ejecuta automáticamente las migraciones del esquema de base de datos (Apéndice~\ref{cap:esquemaBD}) sobre la instancia de PostgreSQL antes de arrancar la API.
     \item Railway asigna un dominio público HTTPS al backend (por ejemplo, \texttt{https://\{proyecto\}.up.railway.app}), que será la URL base que consumirá la aplicación cliente.
     \item Cada nuevo \emph{commit} en la rama principal del repositorio dispara automáticamente un nuevo despliegue (integración continua), sin intervención manual.
@@ -36,8 +36,8 @@ Una vez desplegado el backend, la documentación interactiva de la API, generada
 
 \begin{enumerate}
     \item En el fichero de configuración de entorno del cliente (por ejemplo, \texttt{.env}), establecer la URL base de la API desplegada en Railway (\texttt{API\_BASE\_URL}).
-    \item Añadir la clave de API de Google Maps Platform en la configuración nativa del proyecto (\texttt{AndroidManifest.xml} en Android, \texttt{Info.plist} en iOS), según la documentación oficial de \texttt{react-native-maps}.
-    \item Añadir el fichero de configuración de Firebase (\texttt{google-services.json} en Android, \texttt{GoogleService-Info.plist} en iOS) descargado desde la consola de Firebase, necesario únicamente para inicializar los SDK de Storage y Cloud Messaging.
+    \item Comprobar que \texttt{app.json} tiene configurado el \texttt{projectId} del proyecto EAS (campo \texttt{extra.eas.projectId}) y el plugin \texttt{expo-notifications}: son los que permiten que el dispositivo obtenga un token de Expo Push válido y lo registre en la API propia (\texttt{POST /dispositivos-push}).
+    \item Cuando se integre la visualización de mapas (Iteración 2), añadir la clave de API de Google Maps Platform en la configuración nativa del proyecto (\texttt{AndroidManifest.xml} en Android, \texttt{Info.plist} en iOS), según la documentación oficial de \texttt{react-native-maps}.
 \end{enumerate}
 
 \section{Generación del ejecutable de la aplicación móvil}

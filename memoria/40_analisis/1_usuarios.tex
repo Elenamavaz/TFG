@@ -8,23 +8,23 @@ En el caso de esta aplicación, orientada a la gestión y consulta de informaci�
 
 El ciudadano es el actor principal de la aplicación y representa a cualquier persona interesada en seguir la Semana Santa, ya sea de forma presencial en la ciudad o de manera remota. No requiere registro previo para utilizar la aplicación.
 
-Puede consultar la información detallada de cofradías, eventos y procesiones, realizar búsquedas y aplicar filtros, y visualizar en tiempo real la posición de las procesiones mediante geolocalización. Además, marcar contenido como favorito, configurar sus preferencias de notificaciones sobre los eventos y procesiones que sigue.
+Puede consultar la información detallada de cofradías, eventos, procesiones y pasos, realizar búsquedas y aplicar filtros, y visualizar en tiempo real la posición de las procesiones mediante geolocalización. Además, puede marcar contenido como favorito y recibir notificaciones sobre la ciudad que tiene seleccionada, activables o no desde el propio permiso de notificaciones del dispositivo.
 
 \subsection{Cofrade}
 
-El cofrade es un ciudadano que, además, pertenece a una cofradía o hermandad. Accede al modo cofrade introduciendo el código de acceso de su cofradía, generado por la Junta de Cofradías correspondiente, y hereda todas las funcionalidades disponibles para el ciudadano.
+El cofrade es la misma persona que, en otro momento, puede usar la aplicación como ciudadano, pero el modo cofrade en sí es un modo aislado y de propósito único: no hereda ninguna de las funciones del ciudadano (consultar información, buscar, favoritos...). Se accede a él introduciendo el código de acceso de su cofradía, generado por la Junta de Cofradías correspondiente.
 
-Su funcionalidad diferencial es la posibilidad de compartir su ubicación en tiempo real durante las procesiones en las que participa, lo que permite alimentar la geolocalización que consultan el resto de usuarios.
+Su única función dentro de este modo es compartir, y dejar de compartir en cualquier momento, su ubicación en tiempo real durante una procesión en curso de su cofradía, lo que permite alimentar la geolocalización que consultan el resto de usuarios.
 
 \subsection{Junta de Cofradías}
 
-La Junta de Cofradías es el actor responsable de la gestión del contenido asociado a la Semana Santa de su ciudad dentro de la aplicación. Accede a un panel de gestión desde el que puede crear y editar cofradías, eventos y procesiones, así como definir y modificar sobre el mapa los recorridos de estas últimas.
+La Junta de Cofradías es el actor responsable de la gestión del contenido asociado a la Semana Santa de su ciudad dentro de la aplicación. Accede a un panel de gestión desde el que puede crear y editar cofradías, eventos y procesiones, así como importar el recorrido de estas últimas desde un archivo GPX y marcar sobre él los puntos de interés.
 
 Asimismo, se encarga de actualizar el estado de las procesiones y de los eventos, de gestionar la información de ambos y de los pasos de cada cofradía, y de crear las notificaciones que reciben los ciudadanos y cofrades. También es responsable de generar, para cada cofradía, su propio código de acceso, el cual permite a los cofrades compartir su ubicación en la procesión de cofradía correspondiente.
 
 \subsection{Administrador}
 
-El administrador es el actor con mayor nivel de privilegios dentro del sistema y se encarga de su configuración y mantenimiento a nivel global. Su principal responsabilidad es la gestión de las ciudades disponibles en la aplicación, asi como la junta de cofradías de cada ciudad, dando de alta, editando o dando de baja aquellas en las que el sistema ofrece cobertura. Además de gestionar a los miembros de la Junta de Cofradias de las distintas ciudades.
+El administrador es el actor con mayor nivel de privilegios dentro del sistema y se encarga de su configuración y mantenimiento a nivel global. Su principal responsabilidad es la gestión de las ciudades disponibles en la aplicación, así como de la Junta de Cofradías de cada una, dando de alta, editando o dando de baja aquellas en las que el sistema ofrece cobertura. Además gestiona a los miembros de las distintas Juntas de Cofradías --dando de alta, editando o dando de baja su acceso, y resolviendo las solicitudes de reactivación de los miembros desactivados-- y su propio perfil.
 
 La Tabla~\ref{tab:actores} resume los cuatro actores identificados y su rol dentro del sistema.
 
