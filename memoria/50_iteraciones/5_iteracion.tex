@@ -4,6 +4,89 @@
 
 \subsection{Diseño}
 
+\subsubsection{Interfaces de usuario}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta quinta iteración cubre el panel de administrador, por lo que las pantallas que se diseñan en Figma \cite{figma} en esta iteración son el perfil de administrador y la gestión de ciudades, Juntas de Cofradías y sus miembros, reutilizando la misma pantalla de inicio de sesión ya diseñada para la Junta de Cofradías en la Iteración 4 (Sección~\ref{cap:4_iteracion}).
+
+\paragraph{Perfil de administrador}
+
+Muestra un resumen del número de ciudades y de Juntas de Cofradías del sistema, y da acceso a la gestión de ambas, a la de los miembros de las distintas Juntas, y a la edición del propio perfil.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/perfilAdmin.png}
+    \caption{Mockup del perfil de administrador y de la edición de sus datos}
+    \label{fig:mockupPerfilAdmin}
+\end{figure}
+
+\paragraph{Ciudades}
+
+Permite dar de alta una ciudad y, sobre las ya existentes, activarlas o desactivarlas y asignarles una Junta de Cofradías.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/ciudadesCreacion.png}
+    \caption{Mockup del listado de ciudades y de su creación}
+    \label{fig:mockupCiudades}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/editarCiudad.png}
+    \caption{Mockup de la edición de una ciudad}
+    \label{fig:mockupEditarCiudad}
+\end{figure}
+
+\paragraph{Juntas de Cofradías}
+
+Análogo a la gestión de ciudades: al crear una Junta se le asigna la ciudad que gestionará --solo se ofrecen ciudades que todavía no tienen una-- y, tras crearla, se puede pasar directamente a añadirle miembros.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/juntaCreacion.png}
+    \caption{Mockup del listado de Juntas de Cofradías y de su creación}
+    \label{fig:mockupJuntas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/juntaEditar.png}
+    \caption{Mockup de la edición de una Junta de Cofradías}
+    \label{fig:mockupEditarJunta}
+\end{figure}
+
+\paragraph{Miembros de la Junta de Cofradías}
+
+Al dar de alta un miembro se le envía por correo una contraseña provisional generada automáticamente, que debe cambiar en su primer inicio de sesión; mientras no lo haga, el listado lo marca como \emph{pendiente} y permite reenviarle la invitación. Un miembro también puede desactivarse o reactivarse sin perder sus datos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/nuevoMiembro.png}
+    \caption{Mockup de la creación de un miembro de la Junta de Cofradías}
+    \label{fig:mockupNuevoMiembro}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/editarMiembro.png}
+    \caption{Mockup de la edición de un miembro de la Junta de Cofradías}
+    \label{fig:mockupEditarMiembro}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/listaMiembrosJuntas.png}
+    \caption{Mockup del listado de miembros, sin filtrar y filtrado por Junta de Cofradías}
+    \label{fig:mockupListaMiembros}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{imagenes/pruebaDeEnvioDeCorreo.png}
+    \caption{Correo de invitación recibido por un nuevo miembro de la Junta de Cofradías}
+    \label{fig:mockupCorreoInvitacion}
+\end{figure}
+
 \subsection{Implementacion}
 
 Esta quinta y última iteración implementa el panel de administrador global del sistema. El sistema de notificaciones previsto para esta misma iteración queda pendiente de implementar.

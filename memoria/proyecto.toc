@@ -56,77 +56,90 @@
 \contentsline {paragraph}{Estructura del back-end}{47}{section*.54}%
 \contentsline {paragraph}{Diagrama de despliegue}{48}{section*.56}%
 \contentsline {subsubsection}{Diseño de la base de datos}{49}{section*.58}%
-\contentsline {subsubsection}{Interfaces de usuario}{52}{section*.60}%
-\contentsline {paragraph}{Selección de ciudad}{52}{section*.61}%
-\contentsline {paragraph}{Inicio}{53}{section*.63}%
-\contentsline {paragraph}{Calendario}{54}{section*.65}%
-\contentsline {paragraph}{Listados de cofradías, procesiones, pasos y eventos}{55}{section*.67}%
-\contentsline {paragraph}{Detalle de cofradía y de paso}{56}{section*.69}%
-\contentsline {paragraph}{Detalle de procesión}{57}{section*.71}%
-\contentsline {paragraph}{Buscar}{58}{section*.73}%
-\contentsline {subsubsection}{Patrones de diseño}{59}{section*.75}%
-\contentsline {subsection}{\numberline {5.1.3}Implementacion}{61}{subsection.5.1.3}%
-\contentsline {subsection}{\numberline {5.1.4}Pruebas}{61}{subsection.5.1.4}%
-\contentsline {section}{\numberline {5.2}2ª Iteración}{62}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Analisís}{62}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Diseño}{62}{subsection.5.2.2}%
-\contentsline {subsubsection}{Interfaces de usuario}{62}{section*.76}%
-\contentsline {paragraph}{Mapa en Vivo}{62}{section*.77}%
-\contentsline {subsection}{\numberline {5.2.3}Implementacion}{62}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Pruebas}{63}{subsection.5.2.4}%
-\contentsline {section}{\numberline {5.3}3ª Iteración}{63}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Analisís}{63}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Diseño}{63}{subsection.5.3.2}%
-\contentsline {subsubsection}{Interfaces de usuario}{63}{section*.79}%
-\contentsline {paragraph}{Perfil}{63}{section*.80}%
-\contentsline {subsection}{\numberline {5.3.3}Implementacion}{64}{subsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.3.4}Pruebas}{65}{subsection.5.3.4}%
-\contentsline {section}{\numberline {5.4}4ª Iteración}{65}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Analisís}{65}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Diseño}{65}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Implementacion}{65}{subsection.5.4.3}%
-\contentsline {subsection}{\numberline {5.4.4}Pruebas}{66}{subsection.5.4.4}%
-\contentsline {section}{\numberline {5.5}5ª Iteración}{66}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Analisís}{66}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Diseño}{66}{subsection.5.5.2}%
-\contentsline {subsection}{\numberline {5.5.3}Implementacion}{66}{subsection.5.5.3}%
-\contentsline {subsection}{\numberline {5.5.4}Pruebas}{67}{subsection.5.5.4}%
-\contentsline {chapter}{\numberline {6}Estado final de la aplicación}{69}{chapter.6}%
-\contentsline {subsection}{\numberline {6.0.1}Historias de usuario}{69}{subsection.6.0.1}%
-\contentsline {chapter}{\numberline {7}Pruebas}{71}{chapter.7}%
-\contentsline {chapter}{\numberline {8}Conclusiones}{73}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Trabajo futuro}{73}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Puntos débiles}{74}{section.8.2}%
-\contentsline {part}{Bibliografía}{77}{part*.83}%
-\contentsline {part}{Anexos}{83}{part*.85}%
-\contentsline {chapter}{\numberline {A}Casos de uso adicionales}{83}{appendix.Alph1}%
-\contentsline {chapter}{\numberline {B}Esquema de la base de datos}{125}{appendix.Alph2}%
-\contentsline {section}{\numberline {B.1}Ciudad (\texttt {ciudades})}{125}{section.Alph2.1}%
-\contentsline {section}{\numberline {B.2}Junta de Cofradías (\texttt {juntas\_cofradias})}{125}{section.Alph2.2}%
-\contentsline {section}{\numberline {B.3}Cofradía / Hermandad (\texttt {cofradias})}{126}{section.Alph2.3}%
-\contentsline {section}{\numberline {B.4}Paso (\texttt {pasos})}{126}{section.Alph2.4}%
-\contentsline {subsection}{\numberline {B.4.1}Paso-Evento (\texttt {pasos\_eventos}) --- tabla intermedia N:M}{127}{subsection.Alph2.4.1}%
-\contentsline {section}{\numberline {B.5}Código de Acceso (\texttt {codigos\_acceso})}{127}{section.Alph2.5}%
-\contentsline {section}{\numberline {B.6}Ubicación (\texttt {ubicaciones})}{127}{section.Alph2.6}%
-\contentsline {section}{\numberline {B.7}Evento (\texttt {eventos})}{128}{section.Alph2.7}%
-\contentsline {subsection}{\numberline {B.7.1}Evento-Cofradía (\texttt {eventos\_cofradias}) --- tabla intermedia N:M}{128}{subsection.Alph2.7.1}%
-\contentsline {section}{\numberline {B.8}Procesión (\texttt {procesiones})}{128}{section.Alph2.8}%
-\contentsline {subsection}{\numberline {B.8.1}Posiciones actuales (\texttt {posiciones\_actuales}) --- histórico de pings anónimos}{129}{subsection.Alph2.8.1}%
-\contentsline {section}{\numberline {B.9}Recorrido (\texttt {recorridos})}{129}{section.Alph2.9}%
-\contentsline {subsection}{\numberline {B.9.1}Punto de Ruta (\texttt {puntos\_ruta})}{130}{subsection.Alph2.9.1}%
-\contentsline {subsection}{\numberline {B.9.2}Punto de Interés (\texttt {puntos\_de\_interes})}{130}{subsection.Alph2.9.2}%
-\contentsline {subsection}{\numberline {B.9.3}Recorrido-Punto de Ruta (\texttt {recorrido\_puntos\_ruta}) --- tabla intermedia N:M}{131}{subsection.Alph2.9.3}%
-\contentsline {section}{\numberline {B.10}Usuario (\texttt {usuarios})}{131}{section.Alph2.10}%
-\contentsline {subsection}{\numberline {B.10.1}Miembro de Junta de Cofradías (\texttt {miembros\_junta\_cofradia})}{132}{subsection.Alph2.10.1}%
-\contentsline {subsection}{\numberline {B.10.2}Administrador (\texttt {administradores})}{132}{subsection.Alph2.10.2}%
-\contentsline {section}{\numberline {B.11}Notificación (\texttt {notificaciones})}{133}{section.Alph2.11}%
-\contentsline {section}{\numberline {B.12}Dispositivo Push (\texttt {dispositivos\_push})}{133}{section.Alph2.12}%
-\contentsline {section}{\numberline {B.13}Relaciones entre tablas}{134}{section.Alph2.13}%
-\contentsline {chapter}{\numberline {C}Manual de despliegue}{135}{appendix.Alph3}%
-\contentsline {section}{\numberline {C.1}Requisitos previos}{135}{section.Alph3.1}%
-\contentsline {section}{\numberline {C.2}Despliegue del backend en Railway}{135}{section.Alph3.2}%
-\contentsline {section}{\numberline {C.3}Documentación de la API}{136}{section.Alph3.3}%
-\contentsline {section}{\numberline {C.4}Configuración del cliente React Native}{136}{section.Alph3.4}%
-\contentsline {section}{\numberline {C.5}Generación del ejecutable de la aplicación móvil}{137}{section.Alph3.5}%
-\contentsline {chapter}{\numberline {D}Manual de uso}{139}{appendix.Alph4}%
-\contentsline {chapter}{\numberline {E}Contenido del TFG}{141}{appendix.Alph5}%
+\contentsline {subsubsection}{Interfaces de usuario}{53}{section*.60}%
+\contentsline {paragraph}{Selección de ciudad}{53}{section*.61}%
+\contentsline {paragraph}{Inicio}{54}{section*.63}%
+\contentsline {paragraph}{Calendario}{55}{section*.65}%
+\contentsline {paragraph}{Listados de cofradías, procesiones, pasos y eventos}{56}{section*.67}%
+\contentsline {paragraph}{Detalle de cofradía y de paso}{57}{section*.69}%
+\contentsline {paragraph}{Detalle de evento}{58}{section*.71}%
+\contentsline {paragraph}{Detalle de procesión}{59}{section*.73}%
+\contentsline {paragraph}{Buscar}{60}{section*.75}%
+\contentsline {subsubsection}{Patrones de diseño}{61}{section*.77}%
+\contentsline {subsection}{\numberline {5.1.3}Implementacion}{62}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Pruebas}{63}{subsection.5.1.4}%
+\contentsline {section}{\numberline {5.2}2ª Iteración}{64}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Analisís}{64}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Diseño}{64}{subsection.5.2.2}%
+\contentsline {subsubsection}{Interfaces de usuario}{64}{section*.78}%
+\contentsline {paragraph}{Mapa en Vivo}{64}{section*.79}%
+\contentsline {subsection}{\numberline {5.2.3}Implementacion}{65}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Pruebas}{66}{subsection.5.2.4}%
+\contentsline {section}{\numberline {5.3}3ª Iteración}{66}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Analisís}{66}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Diseño}{66}{subsection.5.3.2}%
+\contentsline {subsubsection}{Interfaces de usuario}{66}{section*.81}%
+\contentsline {paragraph}{Perfil}{66}{section*.82}%
+\contentsline {subsection}{\numberline {5.3.3}Implementacion}{67}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Pruebas}{68}{subsection.5.3.4}%
+\contentsline {section}{\numberline {5.4}4ª Iteración}{68}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Analisís}{68}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Diseño}{68}{subsection.5.4.2}%
+\contentsline {subsubsection}{Interfaces de usuario}{68}{section*.84}%
+\contentsline {paragraph}{Inicio de sesión}{68}{section*.85}%
+\contentsline {paragraph}{Perfil de la Junta de Cofradías}{69}{section*.87}%
+\contentsline {paragraph}{Cofradías}{70}{section*.89}%
+\contentsline {paragraph}{Procesiones}{73}{section*.93}%
+\contentsline {paragraph}{Eventos}{76}{section*.97}%
+\contentsline {paragraph}{Pasos}{77}{section*.100}%
+\contentsline {subsection}{\numberline {5.4.3}Implementacion}{79}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Pruebas}{79}{subsection.5.4.4}%
+\contentsline {section}{\numberline {5.5}5ª Iteración}{79}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Analisís}{79}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Diseño}{79}{subsection.5.5.2}%
+\contentsline {subsubsection}{Interfaces de usuario}{79}{section*.103}%
+\contentsline {paragraph}{Perfil de administrador}{80}{section*.104}%
+\contentsline {paragraph}{Ciudades}{80}{section*.106}%
+\contentsline {paragraph}{Juntas de Cofradías}{82}{section*.109}%
+\contentsline {paragraph}{Miembros de la Junta de Cofradías}{84}{section*.112}%
+\contentsline {subsection}{\numberline {5.5.3}Implementacion}{88}{subsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.5.4}Pruebas}{88}{subsection.5.5.4}%
+\contentsline {chapter}{\numberline {6}Estado final de la aplicación}{89}{chapter.6}%
+\contentsline {subsection}{\numberline {6.0.1}Historias de usuario}{89}{subsection.6.0.1}%
+\contentsline {chapter}{\numberline {7}Pruebas}{91}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Conclusiones}{93}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Trabajo futuro}{93}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Puntos débiles}{94}{section.8.2}%
+\contentsline {part}{Bibliografía}{97}{part*.118}%
+\contentsline {part}{Anexos}{103}{part*.120}%
+\contentsline {chapter}{\numberline {A}Casos de uso adicionales}{103}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {B}Esquema de la base de datos}{145}{appendix.Alph2}%
+\contentsline {section}{\numberline {B.1}Ciudad (\texttt {ciudades})}{145}{section.Alph2.1}%
+\contentsline {section}{\numberline {B.2}Junta de Cofradías (\texttt {juntas\_cofradias})}{145}{section.Alph2.2}%
+\contentsline {section}{\numberline {B.3}Cofradía / Hermandad (\texttt {cofradias})}{146}{section.Alph2.3}%
+\contentsline {section}{\numberline {B.4}Paso (\texttt {pasos})}{146}{section.Alph2.4}%
+\contentsline {subsection}{\numberline {B.4.1}Paso-Evento (\texttt {pasos\_eventos}) --- tabla intermedia N:M}{147}{subsection.Alph2.4.1}%
+\contentsline {section}{\numberline {B.5}Código de Acceso (\texttt {codigos\_acceso})}{147}{section.Alph2.5}%
+\contentsline {section}{\numberline {B.6}Ubicación (\texttt {ubicaciones})}{147}{section.Alph2.6}%
+\contentsline {section}{\numberline {B.7}Evento (\texttt {eventos})}{148}{section.Alph2.7}%
+\contentsline {subsection}{\numberline {B.7.1}Evento-Cofradía (\texttt {eventos\_cofradias}) --- tabla intermedia N:M}{148}{subsection.Alph2.7.1}%
+\contentsline {section}{\numberline {B.8}Procesión (\texttt {procesiones})}{148}{section.Alph2.8}%
+\contentsline {subsection}{\numberline {B.8.1}Posiciones actuales (\texttt {posiciones\_actuales}) --- histórico de pings anónimos}{149}{subsection.Alph2.8.1}%
+\contentsline {section}{\numberline {B.9}Recorrido (\texttt {recorridos})}{149}{section.Alph2.9}%
+\contentsline {subsection}{\numberline {B.9.1}Punto de Ruta (\texttt {puntos\_ruta})}{150}{subsection.Alph2.9.1}%
+\contentsline {subsection}{\numberline {B.9.2}Punto de Interés (\texttt {puntos\_de\_interes})}{150}{subsection.Alph2.9.2}%
+\contentsline {subsection}{\numberline {B.9.3}Recorrido-Punto de Ruta (\texttt {recorrido\_puntos\_ruta}) --- tabla intermedia N:M}{151}{subsection.Alph2.9.3}%
+\contentsline {section}{\numberline {B.10}Usuario (\texttt {usuarios})}{151}{section.Alph2.10}%
+\contentsline {subsection}{\numberline {B.10.1}Miembro de Junta de Cofradías (\texttt {miembros\_junta\_cofradia})}{152}{subsection.Alph2.10.1}%
+\contentsline {subsection}{\numberline {B.10.2}Administrador (\texttt {administradores})}{152}{subsection.Alph2.10.2}%
+\contentsline {section}{\numberline {B.11}Notificación (\texttt {notificaciones})}{153}{section.Alph2.11}%
+\contentsline {section}{\numberline {B.12}Dispositivo Push (\texttt {dispositivos\_push})}{153}{section.Alph2.12}%
+\contentsline {section}{\numberline {B.13}Relaciones entre tablas}{154}{section.Alph2.13}%
+\contentsline {chapter}{\numberline {C}Manual de despliegue}{155}{appendix.Alph3}%
+\contentsline {section}{\numberline {C.1}Requisitos previos}{155}{section.Alph3.1}%
+\contentsline {section}{\numberline {C.2}Despliegue del backend en Railway}{155}{section.Alph3.2}%
+\contentsline {section}{\numberline {C.3}Documentación de la API}{156}{section.Alph3.3}%
+\contentsline {section}{\numberline {C.4}Configuración del cliente React Native}{156}{section.Alph3.4}%
+\contentsline {section}{\numberline {C.5}Generación del ejecutable de la aplicación móvil}{157}{section.Alph3.5}%
+\contentsline {chapter}{\numberline {D}Manual de uso}{159}{appendix.Alph4}%
+\contentsline {chapter}{\numberline {E}Contenido del TFG}{161}{appendix.Alph5}%

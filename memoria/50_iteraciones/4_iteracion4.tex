@@ -4,6 +4,118 @@
 
 \subsection{Diseño}
 
+\subsubsection{Interfaces de usuario}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta cuarta iteración cubre el panel de la Junta de Cofradías, por lo que las pantallas que se diseñan en Figma \cite{figma} en esta iteración son el inicio de sesión y todo el panel de gestión (perfil, cofradías, procesiones, eventos y pasos), sobre los mismos criterios visuales fijados en la Iteración 1 (Sección~\ref{cap:1_iteracion}).
+
+\paragraph{Inicio de sesión}
+
+A diferencia del ciudadano, que no necesita registrarse, tanto la Junta de Cofradías como el Administrador (Iteración 5) acceden con credenciales propias (\emph{email} y contraseña). La pantalla de bienvenida distingue entre continuar como ciudadano o iniciar sesión, y esta última ofrece un selector entre los dos roles con cuenta, ya que ambos comparten la misma pantalla y el mismo \emph{endpoint} de autenticación.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/inicioSesion.png}
+    \caption{Mockup de la bienvenida y del inicio de sesión, para Junta de Cofradías y Administrador}
+    \label{fig:mockupInicioSesion}
+\end{figure}
+
+\paragraph{Perfil de la Junta de Cofradías}
+
+Muestra el rol y la ciudad que gestiona la Junta, y da acceso a la gestión de cofradías, procesiones, eventos y pasos, además de a la edición del propio perfil.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/perfilMiembro.png}
+    \caption{Mockup del perfil de la Junta de Cofradías y de la edición de sus datos}
+    \label{fig:mockupPerfilMiembro}
+\end{figure}
+
+\paragraph{Cofradías}
+
+Permite dar de alta una cofradía y, tras crearla, añadirle directamente procesiones, eventos o pasos, o dejarlo para más tarde. Al editar una cofradía existente se puede además consultar y gestionar esos mismos elementos ya asociados a ella.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/NuevaCofradia.png}
+    \caption{Mockup del listado de cofradías y de su creación}
+    \label{fig:mockupNuevaCofradia}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/actualizarCofradia.png}
+    \caption{Mockup de la edición de una cofradía}
+    \label{fig:mockupEditarCofradia}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/listarElementosCofradia.png}
+    \caption{Mockup de las procesiones, eventos y pasos de una cofradía, accesibles desde su edición}
+    \label{fig:mockupListaElementosCofradia}
+\end{figure}
+
+\paragraph{Procesiones}
+
+El listado de procesiones permite, además de editarlas, notificar sobre ellas (cancelación, cambio de horario o incidencia) o cancelarlas directamente. Al crear una procesión se importa su recorrido desde un archivo GPX, y tanto al crearla como al editarla se pueden asignar los pasos que participan en ella.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/CrearProcesion.png}
+    \caption{Mockup de la creación de una procesión}
+    \label{fig:mockupCrearProcesion}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagenes/actualizarProcesion.png}
+    \caption{Mockup de la edición de una procesión}
+    \label{fig:mockupEditarProcesion}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/listaProcesionesYNotificacion.png}
+    \caption{Mockup del listado de procesiones y del envío de una notificación}
+    \label{fig:mockupListaProcesiones}
+\end{figure}
+
+\paragraph{Eventos}
+
+Análogo al de procesiones, pero sin recorrido: al crear un evento se pueden asignar directamente los pasos que participan en él, o hacerlo más tarde desde su edición.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/listaEventosyCreacion.png}
+    \caption{Mockup del listado de eventos y de su creación}
+    \label{fig:mockupListaEventos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/editarEvento.png}
+    \caption{Mockup de la edición de un evento}
+    \label{fig:mockupEditarEvento}
+\end{figure}
+
+\paragraph{Pasos}
+
+Cada paso pertenece a una única cofradía, y su ficha incluye su historia, un análisis artístico y una imagen, cuya URL se pega a mano en el formulario (Sección~\ref{cap:trabajo_futuro}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/listaPasosyCreacion.png}
+    \caption{Mockup del listado de pasos y de su creación}
+    \label{fig:mockupListaPasos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/editarPasos.png}
+    \caption{Mockup de la edición de un paso}
+    \label{fig:mockupEditarPaso}
+\end{figure}
+
 \subsection{Implementacion}
 
 Esta cuarta iteración implementa el panel de la Junta de Cofradías: el acceso mediante credenciales propias y el mecanismo de control de acceso que restringe, entidad por entidad, qué puede gestionar cada Junta.
