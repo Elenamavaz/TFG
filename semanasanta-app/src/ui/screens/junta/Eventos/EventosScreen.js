@@ -12,6 +12,7 @@ import {
 import { Prioridad, TipoNotificacion } from '../../../../data/models';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './EventosScreen.styles';
 
 // Mismo criterio que ProcesionesScreen.OPCIONES_PRIORIDAD/OPCIONES_TIPO_ACCION.
@@ -89,8 +90,8 @@ export function EventosScreen({ route, navigation }) {
     Promise.all([getCiudadPorId(ciudadId), getCofradiasGestion(ciudadId), getEventosPorCiudad(ciudadId)]).then(
       ([ciudadCargada, listaCofradias, listaEventos]) => {
         setCiudad(ciudadCargada);
-        setCofradias(listaCofradias);
-        setEventos(listaEventos);
+        setCofradias(ordenarPorNombre(listaCofradias));
+        setEventos(ordenarPorNombre(listaEventos));
         setCargando(false);
       }
     );

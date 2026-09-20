@@ -12,6 +12,7 @@ import {
   getPasoPorId,
   getPasosPorCofradia,
 } from '../../../../data/services';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './ListScreen.styles';
 
 const CONFIG_POR_TIPO = {
@@ -92,11 +93,11 @@ export function ListadoScreen({ route, navigation }) {
           if (!cfg) return Promise.resolve(null);
           return cfg.obtener(f.id).then((item) => item && { ...item, categoria: f.tipo, icono: cfg.icono });
         })
-      ).then((lista) => setItems(lista.filter(Boolean)));
+      ).then((lista) => setItems(ordenarPorNombre(lista.filter(Boolean))));
       return;
     }
     if (!ciudadSeleccionada) return;
-    config.cargar(ciudadSeleccionada.id).then(setItems);
+    config.cargar(ciudadSeleccionada.id).then((lista) => setItems(ordenarPorNombre(lista)));
   }, [ciudadSeleccionada, tipo, favoritos]);
 
   const itemsFiltrados = useMemo(() => {

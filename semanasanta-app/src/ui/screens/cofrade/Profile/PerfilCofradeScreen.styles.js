@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, radii, spacing } from '../../../../../theme';
+import { colors, fontFamilies, radii, spacing } from '../../../../theme';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,50 +12,6 @@ export const styles = StyleSheet.create({
     fontSize: 32,
     marginBottom: spacing.lg,
   },
-  sectionTitle: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 13,
-    marginTop: spacing.lg,
-    marginBottom: spacing.sm,
-  },
-
-  // Modo de acceso
-  modoRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  modoButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.xs,
-    paddingVertical: spacing.md,
-    borderRadius: radii.md,
-    borderWidth: 0.5,
-    borderColor: colors.subtitle,
-    backgroundColor: colors.backgroundAlt,
-  },
-  modoButtonActivoCiudadano: {
-    backgroundColor: colors.backgroundRed,
-    borderColor: colors.borderRed,
-  },
-  modoButtonActivoCofrade: {
-    backgroundColor: colors.gold,
-    borderColor: colors.gold,
-  },
-  modoButtonTexto: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 14,
-  },
-  modoButtonTextoActivoCiudadano: {
-    color: colors.cream,
-  },
-  modoButtonTextoActivoCofrade: {
-    color: colors.background,
-  },
 
   // Banner modo cofrade
   cofradeBanner: {
@@ -64,7 +20,6 @@ export const styles = StyleSheet.create({
     borderColor: colors.gold,
     borderRadius: radii.md,
     padding: spacing.md,
-    marginTop: spacing.md,
   },
   cofradeTitulo: {
     color: colors.gold,
@@ -102,113 +57,7 @@ export const styles = StyleSheet.create({
     color: colors.lightGreenText,
   },
 
-  // Ciudad seleccionada
-  ciudadCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 0.5,
-    borderColor: colors.subtitle,
-    borderRadius: radii.md,
-    padding: spacing.md,
-  },
-  ciudadCardLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  ciudadNombre: {
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 18,
-  },
-  ciudadMeta: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 12,
-    marginTop: 2,
-  },
-  cambiarRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 2,
-  },
-  cambiar: {
-    color: colors.gold,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 13,
-  },
-
-  // Favoritos
-  favoritoCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 0.5,
-    borderColor: colors.subtitle,
-    borderRadius: radii.md,
-    padding: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  favoritoTextBlock: {
-    flex: 1,
-  },
-  favoritoTitulo: {
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 16,
-  },
-  favoritoMeta: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 12,
-    marginTop: 2,
-  },
-  empty: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.bodyRegular,
-    fontSize: 13,
-    lineHeight: 18,
-  },
-
-  // Notificaciones
-  notificacionesCard: {
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 0.5,
-    borderColor: colors.subtitle,
-    borderRadius: radii.md,
-    paddingHorizontal: spacing.md,
-  },
-  notificacionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: spacing.md,
-  },
-  notificacionRowConBorde: {
-    borderTopWidth: 0.5,
-    borderTopColor: colors.surfaceAlt,
-  },
-  notificacionTextBlock: {
-    flex: 1,
-    marginRight: spacing.sm,
-  },
-  notificacionTitulo: {
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 14,
-  },
-  notificacionDescripcion: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 12,
-    marginTop: 2,
-  },
-
-  // Modal de código de acceso / elegir procesión (2026-08-21, ver
-  // CofradeContext).
+  // Modal de código de acceso / elegir procesión (ver CofradeContext).
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -310,8 +159,7 @@ export const styles = StyleSheet.create({
     marginTop: 2,
   },
 
-  // Cerrar sesión -- mismo granate que modoButtonActivoCiudadano, para que
-  // se lea como "acción de cuenta" en toda la pantalla.
+  // Cerrar sesión -- mismo granate que en PerfilScreen de Ciudadano.
   cerrarSesionButton: {
     backgroundColor: colors.backgroundRed,
     borderWidth: 0.5,

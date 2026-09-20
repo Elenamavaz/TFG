@@ -12,6 +12,7 @@ import {
 import { Prioridad, TipoNotificacion } from '../../../../data/models';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './ProcesionesScreen.styles';
 
 // Mismo criterio de color que Notificacion.colorCategoria (ver HomeScreen):
@@ -98,8 +99,8 @@ export function ProcesionesScreen({ route, navigation }) {
     Promise.all([getCiudadPorId(ciudadId), getCofradiasPorCiudad(ciudadId), getProcesionesPorCiudad(ciudadId)]).then(
       ([ciudadCargada, listaCofradias, listaProcesiones]) => {
         setCiudad(ciudadCargada);
-        setCofradias(listaCofradias);
-        setProcesiones(listaProcesiones);
+        setCofradias(ordenarPorNombre(listaCofradias));
+        setProcesiones(ordenarPorNombre(listaProcesiones));
         setCargando(false);
       }
     );

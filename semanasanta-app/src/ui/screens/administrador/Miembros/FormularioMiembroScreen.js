@@ -10,6 +10,7 @@ import {
 } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './FormularioMiembroScreen.styles';
 
 // Formulario compartido entre "Nueva miembro" y "Editar miembro" (mockup del
@@ -64,7 +65,8 @@ export function FormularioMiembroScreen({ route, navigation }) {
       getJuntasCofradias(),
       editando ? getMiembroJuntaCofradiaPorId(miembroId) : Promise.resolve(null),
     ]).then(([juntas, miembro]) => {
-      setJuntasDisponibles(juntas);
+      const juntasOrdenadas = ordenarPorNombre(juntas);
+      setJuntasDisponibles(juntasOrdenadas);
       if (miembro) {
         setNombre(miembro.nombre);
         setEmail(miembro.email ?? '');

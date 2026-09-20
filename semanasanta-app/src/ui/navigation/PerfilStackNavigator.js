@@ -5,7 +5,8 @@ import {
   DetallePasoScreen,
   DetalleEventoScreen,
 } from '../screens/ciudadano';
-import { PerfilScreen } from '../screens/ciudadano/Profile/ciudadanoCofrade/PerfilScreen';
+import { PerfilScreen } from '../screens/ciudadano/Profile/PerfilScreen';
+import { PerfilCofradeScreen } from '../screens/cofrade/Profile/PerfilCofradeScreen';
 import { colors, fontFamilies } from '../../theme';
 
 const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ export function PerfilStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="PerfilHome" component={PerfilScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="PerfilCofrade" component={PerfilCofradeScreen} options={{ title: '' }} />
       <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleEvento" component={DetalleEventoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />

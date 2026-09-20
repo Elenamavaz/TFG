@@ -11,6 +11,7 @@ import {
 } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './CiudadesScreen.styles';
 
 // "Activa"/"Pendiente"/"Desactivada" no es un campo del backend -se calcula
@@ -60,7 +61,7 @@ export function CiudadesScreen({ navigation }) {
           )
         )
       ).then((filas) => {
-        setCiudades(filas);
+        setCiudades(ordenarPorNombre(filas, (fila) => fila.ciudad.nombre));
         setCargando(false);
       });
     });

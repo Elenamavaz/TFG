@@ -10,6 +10,7 @@ import {
 } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './MiembrosScreen.styles';
 
 const COLOR_POR_ESTADO = {
@@ -46,18 +47,19 @@ function iniciales(nombre) {
 // Punto de entrada de "Miembros" (mockup del 2026-08-17, ampliado el
 // 2026-08-21 con el filtro "Junta:"): dos formas de llegar aquí, mismo
 // componente para las dos -
-// (1) "Miembros de las Juntas" en Mi Perfil, sin juntaId por params -lista
-//     TODAS las Juntas con "Junta: Todos" preseleccionado (agregado en
-//     cliente, sin endpoint nuevo: un GET /juntas-cofradias/{id}/miembros
-//     por Junta, mismo patrón de Promise.all que ya usa CiudadesScreen -no
-//     compensa un endpoint "todos los miembros" solo para esto).
+// (1) "Miembros de las Juntas" en Mi Perfil, sin juntaId por params -entra
+//     con la primera Junta por orden alfabético preseleccionada en el
+//     filtro (cada ciudad tiene como mucho una Junta -relación 1:1, ver
+//     JuntaCofradias.java-, así que no tiene sentido un "Todos" que mezcle
+//     miembros de varias Juntas distintas: siempre se ve la lista de una
+//     Junta concreta).
 // (2) "Equipo → Ver Lista" de una Junta concreta, con juntaId por params
 //     -entra con esa Junta preseleccionada en el filtro (se puede cambiar a
-//     "Todos" u otra desde ahí mismo, no queda atado).
+//     otra desde ahí mismo, no queda atado).
 export function MiembrosScreen({ route, navigation }) {
   const juntaIdInicial = route.params?.juntaId ?? null;
   const [juntas, setJuntas] = useState([]);
-  const [filtroJuntaId, setFiltroJuntaId] = useState(juntaIdInicial); // null = "Todos"
+  const [filtroJuntaId, setFiltroJuntaId] = useState(juntaIdInicial);
   const [modalFiltroVisible, setModalFiltroVisible] = useState(false);
   const [miembros, setMiembros] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -73,10 +75,22 @@ export function MiembrosScreen({ route, navigation }) {
 
   const cargar = useCallback(() => {
     getJuntasCofradias().then((listaJuntas) => {
-      setJuntas(listaJuntas);
-      const juntasAConsultar = filtroJuntaId ? listaJuntas.filter((j) => j.id === filtroJuntaId) : listaJuntas;
-      Promise.all(juntasAConsultar.map((j) => getMiembrosDeJunta(j.id))).then((listas) => {
-        setMiembros(listas.flat());
+      const juntasOrdenadas = ordenarPorNombre(listaJuntas);
+      setJuntas(juntasOrdenadas);
+      // Sin Junta preseleccionada (o si la que había ya no existe), se cae en
+      // la primera por orden alfabético -nunca en un "Todos" (ver comentario
+      // de arriba).
+      const juntaActivaId = juntasOrdenadas.some((j) => j.id === filtroJuntaId)
+        ? filtroJuntaId
+        : juntasOrdenadas[0]?.id ?? null;
+      if (juntaActivaId !== filtroJuntaId) setFiltroJuntaId(juntaActivaId);
+      if (!juntaActivaId) {
+        setMiembros([]);
+        setCargando(false);
+        return;
+      }
+      getMiembrosDeJunta(juntaActivaId).then((lista) => {
+        setMiembros(ordenarPorNombre(lista));
         setCargando(false);
       });
     });
@@ -121,30 +135,30 @@ export function MiembrosScreen({ route, navigation }) {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Miembros</Text>
         <Text style={styles.subtitle}>
-          {juntaFiltro ? `Junta de Cofradías de ${juntaFiltro.nombre}` : 'Todas las Juntas de Cofradías'}
+          {juntaFiltro ? `Junta de Cofradías de ${juntaFiltro.nombre}` : 'Todavía no hay ninguna Junta de Cofradías'}
         </Text>
 
-        {/* Sin Junta elegida en el filtro ("Todos"), FormularioMiembroScreen
-            se abre con su propio selector de Junta vacío -ya no hace falta
-            forzar un filtro concreto aquí para poder añadir. */}
         <TouchableOpacity
           style={styles.nuevoButton}
           onPress={() => navigation.navigate('FormularioMiembro', { juntaId: filtroJuntaId })}
           activeOpacity={0.85}
+          disabled={!filtroJuntaId}
         >
           <Ionicons name="add" size={18} color={colors.background} />
           <Text style={styles.nuevoButtonTexto}>Añadir miembro</Text>
         </TouchableOpacity>
 
-        <View style={styles.filtroRow}>
-          <Text style={styles.filtroEtiqueta}>Junta:</Text>
-          <TouchableOpacity style={styles.filtroSelector} onPress={() => setModalFiltroVisible(true)} activeOpacity={0.8}>
-            <Text style={styles.filtroTexto} numberOfLines={1}>
-              {juntaFiltro ? juntaFiltro.nombre : 'Todos'}
-            </Text>
-            <Ionicons name="chevron-down" size={14} color={colors.subtitle} />
-          </TouchableOpacity>
-        </View>
+        {juntas.length > 0 ? (
+          <View style={styles.filtroRow}>
+            <Text style={styles.filtroEtiqueta}>Junta:</Text>
+            <TouchableOpacity style={styles.filtroSelector} onPress={() => setModalFiltroVisible(true)} activeOpacity={0.8}>
+              <Text style={styles.filtroTexto} numberOfLines={1}>
+                {juntaFiltro?.nombre}
+              </Text>
+              <Ionicons name="chevron-down" size={14} color={colors.subtitle} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
 
         <Text style={styles.sectionTitle}>Lista de miembros actuales</Text>
         {miembros.map((miembro) => {
@@ -187,7 +201,7 @@ export function MiembrosScreen({ route, navigation }) {
         })}
         {miembros.length === 0 ? (
           <Text style={styles.empty}>
-            {juntaFiltro ? 'Esta Junta todavía no tiene miembros.' : 'Todavía no hay miembros en ninguna Junta.'}
+            {juntaFiltro ? 'Esta Junta todavía no tiene miembros.' : 'Todavía no hay ninguna Junta de Cofradías.'}
           </Text>
         ) : null}
       </ScrollView>
@@ -195,15 +209,6 @@ export function MiembrosScreen({ route, navigation }) {
       <Modal transparent visible={modalFiltroVisible} animationType="fade" onRequestClose={() => setModalFiltroVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalFiltroVisible(false)}>
           <View style={styles.modalLista}>
-            <TouchableOpacity
-              style={styles.modalItem}
-              onPress={() => {
-                setFiltroJuntaId(null);
-                setModalFiltroVisible(false);
-              }}
-            >
-              <Text style={styles.modalItemTexto}>Todos</Text>
-            </TouchableOpacity>
             {juntas.map((junta) => (
               <TouchableOpacity
                 key={junta.id}

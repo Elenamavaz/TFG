@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ScreenContainer, SearchInput } from '../../../components/common';
 import { useCiudad } from '../../../../application/context';
 import { getCiudades, guardarCiudadId, registrarDispositivoPush } from '../../../../data/services';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './SeleccionCiudadScreen.styles';
 
 export function SeleccionCiudadScreen({ navigation }) {
@@ -13,8 +14,8 @@ export function SeleccionCiudadScreen({ navigation }) {
 
   const ciudadesFiltradas = useMemo(() => {
     const texto = busqueda.trim().toLowerCase();
-    if (!texto) return ciudades;
-    return ciudades.filter((ciudad) => ciudad.nombre.toLowerCase().includes(texto));
+    const filtradas = texto ? ciudades.filter((ciudad) => ciudad.nombre.toLowerCase().includes(texto)) : ciudades;
+    return ordenarPorNombre(filtradas);
   }, [ciudades, busqueda]);
 
   function onSeleccionar(ciudad) {

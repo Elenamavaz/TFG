@@ -12,6 +12,7 @@ import {
 } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './FormularioJuntaScreen.styles';
 
 // Formulario compartido entre "Nueva Junta" y "Editar Junta" (mockup del
@@ -63,8 +64,8 @@ export function FormularioJuntaScreen({ route, navigation }) {
       editando ? getJuntaCofradiasPorId(juntaId) : Promise.resolve(null),
     ]).then(([ciudades, juntas, junta]) => {
       const ciudadIdActual = junta?.ciudadId ?? null;
-      const disponibles = ciudades.filter(
-        (c) => c.id === ciudadIdActual || !juntas.some((j) => j.ciudadId === c.id)
+      const disponibles = ordenarPorNombre(
+        ciudades.filter((c) => c.id === ciudadIdActual || !juntas.some((j) => j.ciudadId === c.id))
       );
       setCiudadesDisponibles(disponibles);
 

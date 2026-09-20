@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { getCiudadPorId, getCofradiasGestion, actualizarCofradia } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './CofradiasScreen.styles';
 
 // Mismo criterio que CiudadesScreen (panel de Administrador): "Activa"/
@@ -45,7 +46,7 @@ export function CofradiasScreen({ route, navigation }) {
   const cargar = useCallback(() => {
     Promise.all([getCiudadPorId(ciudadId), getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
       setCiudad(ciudadCargada);
-      setCofradias(listaCofradias);
+      setCofradias(ordenarPorNombre(listaCofradias));
       setCargando(false);
     });
   }, [ciudadId]);

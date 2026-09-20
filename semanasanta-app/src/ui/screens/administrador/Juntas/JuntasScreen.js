@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { getJuntasCofradias, getCiudadesAdmin, actualizarJuntaCofradias } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './JuntasScreen.styles';
 
 const COLOR_POR_ESTADO = {
@@ -48,7 +49,7 @@ export function JuntasScreen({ navigation }) {
         const estado = !junta ? 'Pendiente' : junta.activa ? 'Activa' : 'Desactivada';
         return { ciudad, junta, estado };
       });
-      setFilas(filasCalculadas);
+      setFilas(ordenarPorNombre(filasCalculadas, (fila) => fila.junta ? fila.junta.nombre : fila.ciudad.nombre));
       setCargando(false);
     });
   }, []);

@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { getCiudadPorId, getCofradiasGestion, getPasosPorCofradia, eliminarPaso } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
+import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './PasosScreen.styles';
 
 // Mockup del 2026-08-22: se llega desde "Pasos" del menú de Gestión en
@@ -41,10 +42,11 @@ export function PasosScreen({ route, navigation }) {
 
   const cargar = useCallback(() => {
     Promise.all([getCiudadPorId(ciudadId), getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
+      const cofradiasOrdenadas = ordenarPorNombre(listaCofradias);
       setCiudad(ciudadCargada);
-      setCofradias(listaCofradias);
-      Promise.all(listaCofradias.map((cofradia) => getPasosPorCofradia(cofradia.id))).then((porCofradia) => {
-        setPasos(porCofradia.flat());
+      setCofradias(cofradiasOrdenadas);
+      Promise.all(cofradiasOrdenadas.map((cofradia) => getPasosPorCofradia(cofradia.id))).then((porCofradia) => {
+        setPasos(ordenarPorNombre(porCofradia.flat()));
         setCargando(false);
       });
     });
