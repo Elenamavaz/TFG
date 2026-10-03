@@ -3,9 +3,10 @@ import { getSesionGuardada, guardarSesion, borrarSesion } from '../../data/servi
 
 const AuthContext = createContext(null);
 
-// Sesión de Junta/Administrador (JWT real, ver authService.login) -el
-// Cofrade y el Ciudadano no pasan por aquí: el primero entra con código de
-// acceso (sin conectar todavía), el segundo no tiene cuenta. Se restaura de
+// Sesión de Junta/Administrador/Cofrade (JWT real, ver authService) -el
+// Cofrade entra con código de acceso y su usuarioId es el de su COFRADÍA
+// (desde el 2026-10-03, antes vivía solo en memoria en CofradeContext). El
+// Ciudadano no pasa por aquí: no tiene cuenta. Se restaura de
 // AsyncStorage al arrancar (sesionService), para no pedir login otra vez si
 // ya había una guardada.
 export function AuthProvider({ children }) {

@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   PerfilJuntaScreen,
   EditarPerfilJuntaScreen,
+  EditarInformacionCiudadScreen,
   ProcesionesScreen,
   FormularioProcesionScreen,
   ProcesionCreadaScreen,
@@ -46,6 +47,7 @@ export function JuntaStackNavigator() {
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="PerfilJunta" component={PerfilJuntaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="EditarPerfilJunta" component={EditarPerfilJuntaScreen} />
+      <Stack.Screen name="EditarInformacionCiudad" component={EditarInformacionCiudadScreen} />
       {/* Sin headerShown: false (mismo bug ya corregido en
           AdministradorStackNavigator, 2026-08-21: apagaba la flecha de
           volver entera): cada lista pone su propio título por dentro con

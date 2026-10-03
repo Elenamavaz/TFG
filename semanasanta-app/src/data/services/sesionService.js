@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Persistencia local del JWT de Junta/Administrador (login real, ver
+// Persistencia local del JWT de Junta/Administrador/Cofrade (login real, ver
 // authService.js) -distinto de preferenciasService: eso es preferencias sin
 // credenciales, esto es la sesión autenticada en sí. No hay renovación
 // automática todavía: si el token caduca (24h por defecto en el backend,

@@ -5,6 +5,7 @@ export {
   crearCiudad,
   actualizarCiudad,
   eliminarCiudad,
+  actualizarInformacionCiudad,
 } from './ciudadService';
 export {
   getJuntasCofradias,

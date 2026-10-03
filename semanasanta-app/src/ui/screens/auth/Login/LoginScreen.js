@@ -3,7 +3,7 @@ import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from 'reac
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScreenContainer } from '../../../components/common';
 import { useAuth } from '../../../../application/context';
-import { login } from '../../../../data/services';
+import { login, loginConCodigoAcceso } from '../../../../data/services';
 import { colors } from '../../../../theme';
 import { styles } from './LoginScreen.styles';
 
@@ -22,17 +22,32 @@ const ROLES = {
     botonTexto: 'Entrar como Administrador',
     nota: null,
   },
+  // 2026-10-03 (a petición de Elena): el Cofrade entra aquí, al mismo nivel
+  // que Junta y Administrador, en vez de desde el Perfil de Ciudadano. No
+  // tiene cuenta: solo el código de acceso que le da su Junta (POST
+  // /auth/codigo-acceso).
+  COFRADE: {
+    id: 'COFRADE',
+    label: 'Cofrade',
+    botonTexto: 'Entrar como Cofrade',
+    nota:
+      'Introduce el código que te ha dado la Junta de Cofradías de tu ciudad. ' +
+      'Con él podrás compartir tu ubicación durante las procesiones de tu cofradía.',
+  },
 };
 
-// Solo Junta/Administrador (email+contraseña): el Cofrade entra con código
-// de acceso, en otra pantalla (sin conectar todavía). Backend real desde el
-// 2026-08-15 -POST /auth/login, ver authService.
+const ICONO_POR_ROL = { JUNTA: 'account', ADMIN: 'shield-crown-outline', COFRADE: 'shield-cross-outline' };
+
+// Junta/Administrador con email+contraseña (POST /auth/login), Cofrade con
+// código de acceso (POST /auth/codigo-acceso). Los tres guardan su JWT en
+// AuthContext y van a su propio panel.
 export function LoginScreen({ navigation }) {
   const { iniciarSesion } = useAuth();
   const [rolId, setRolId] = useState(ROLES.JUNTA.id);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [codigo, setCodigo] = useState('');
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
 
@@ -48,7 +63,8 @@ export function LoginScreen({ navigation }) {
     setError(null);
     setCargando(true);
     try {
-      const respuesta = await login(email.trim(), password);
+      const respuesta =
+        rolId === 'COFRADE' ? await loginConCodigoAcceso(codigo.trim()) : await login(email.trim(), password);
       // El backend no valida "quiero entrar como Junta/Admin", solo
       // email+contraseña: si el rol real de la cuenta no coincide con la
       // pestaña elegida, se rechaza aquí -si no, alguien con cuenta de Junta
@@ -64,9 +80,11 @@ export function LoginScreen({ navigation }) {
       const destino =
         respuesta.rol === 'ADMIN'
           ? 'AdministradorStack'
-          : respuesta.activo === false
-            ? 'CuentaDesactivada'
-            : 'JuntaStack';
+          : respuesta.rol === 'COFRADE'
+            ? 'CofradeStack'
+            : respuesta.activo === false
+              ? 'CuentaDesactivada'
+              : 'JuntaStack';
       navigation.reset({ index: 0, routes: [{ name: destino }] });
     } catch (err) {
       setError(err.message);
@@ -98,7 +116,7 @@ export function LoginScreen({ navigation }) {
               activeOpacity={0.85}
             >
               <MaterialCommunityIcons
-                name={opcion.id === 'JUNTA' ? 'account' : 'shield-crown-outline'}
+                name={ICONO_POR_ROL[opcion.id]}
                 size={16}
                 color={activo ? colors.background : colors.subtitle}
               />
@@ -108,6 +126,21 @@ export function LoginScreen({ navigation }) {
         })}
       </View>
 
+      {rolId === 'COFRADE' ? (
+        <View style={styles.campo}>
+          <Text style={styles.etiqueta}>Código de acceso</Text>
+          <TextInput
+            value={codigo}
+            onChangeText={setCodigo}
+            placeholder="Código de acceso"
+            placeholderTextColor={colors.subtitle}
+            autoCapitalize="characters"
+            autoCorrect={false}
+            style={styles.input}
+          />
+        </View>
+      ) : (
+        <>
       <View style={styles.campo}>
         <Text style={styles.etiqueta}>Correo electrónico</Text>
         <TextInput
@@ -139,12 +172,14 @@ export function LoginScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
+        </>
+      )}
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
       {rol.nota ? (
         <>
-          <Text style={styles.notaTitulo}>Cuenta proporcionada</Text>
+          <Text style={styles.notaTitulo}>{rolId === 'COFRADE' ? 'Código proporcionado' : 'Cuenta proporcionada'}</Text>
           <Text style={styles.nota}>{rol.nota}</Text>
         </>
       ) : null}
@@ -153,7 +188,7 @@ export function LoginScreen({ navigation }) {
         style={[styles.boton, cargando && styles.botonDeshabilitado]}
         onPress={entrar}
         activeOpacity={0.85}
-        disabled={cargando || !email || !password}
+        disabled={cargando || (rolId === 'COFRADE' ? !codigo.trim() : !email || !password)}
       >
         {cargando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>{rol.botonTexto}</Text>}
       </TouchableOpacity>

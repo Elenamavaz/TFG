@@ -1,5 +1,6 @@
 export { PerfilJuntaScreen } from './Profile/PerfilJuntaScreen';
 export { EditarPerfilJuntaScreen } from './Profile/EditarPerfilJuntaScreen';
+export { EditarInformacionCiudadScreen } from './Profile/EditarInformacionCiudadScreen';
 
 export { ProcesionesScreen } from './Procesiones/ProcesionesScreen';
 export { FormularioProcesionScreen } from './Procesiones/FormularioProcesionScreen';

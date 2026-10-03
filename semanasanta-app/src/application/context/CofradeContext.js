@@ -1,11 +1,11 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import {
-  loginConCodigoAcceso,
   getProcesionesPorCofradia,
   solicitarPermisoUbicacion,
   obtenerPosicionActual,
   registrarPosicion,
 } from '../../data/services';
+import { useAuth } from './AuthContext';
 
 const CofradeContext = createContext(null);
 
@@ -17,25 +17,24 @@ const INTERVALO_PING_MS = 30000;
 // del backend), normalmente porque se ha finalizado sola al llegar su hora
 // de fin (CambioEstadoAutomaticoService).
 const STATUS_PROCESION_NO_EN_CURSO = 410;
+// 401/403 en un ping = el JWT de Cofrade ya no vale (caducado, 24h por
+// defecto) -seguir mandando pings no serviría de nada.
+const STATUS_SESION_INVALIDA = [401, 403];
 
-// Compartir ubicación como Cofrade (2026-08-21): antes era un interruptor de
-// mentira en PerfilScreen, ahora es de verdad -código real (POST
-// /auth/codigo-acceso), backend real de pings (POST /procesiones/{id}/
-// posiciones). Vive en un Context, no en el estado de PerfilScreen: el ping
-// periódico debe seguir mandándose aunque el usuario navegue a otra pantalla
-// (Elena: "ya si quiere hacer uso como tal de la aplicación lo hace como
-// actor ciudadano" -compartir es independiente de qué esté mirando).
-//
-// El JWT de Cofrade NO pasa por sesionService/AuthContext (eso es solo
-// Junta/Admin, ver AuthContext): guardarlo ahí confundiría a
-// RootNavigator.resolverArranque, que asume que cualquier sesión guardada
-// con rol distinto de ADMIN es de Junta. Aquí vive solo en memoria (useRef/
-// useState), se pierde al cerrar la app -aceptable, el código no se gasta y
-// se puede volver a introducir.
+// Compartir ubicación como Cofrade. Desde el 2026-10-03 el Cofrade entra
+// por "Iniciar sesión" (pestaña Cofrade, con su código de acceso), al mismo
+// nivel que Junta y Administrador: su JWT vive en AuthContext/sesionService
+// como los demás (rol COFRADE, usuarioId = id de la COFRADÍA, ver
+// authService.loginConCodigoAcceso). Aquí solo queda lo propio de compartir:
+// elegir procesión en curso y mandar los pings periódicos. Sigue siendo un
+// Context (no estado de la pantalla) para que los pings no dependan de qué
+// pantalla esté montada.
 export function CofradeProvider({ children }) {
-  const [cofradiaId, setCofradiaId] = useState(null);
-  const [token, setToken] = useState(null);
-  const [procesionId, setProcesionId] = useState(null);
+  const { sesion } = useAuth();
+  const esCofrade = sesion?.rol === 'COFRADE';
+  const token = esCofrade ? sesion.token : null;
+  const cofradiaId = esCofrade ? sesion.usuarioId : null;
+
   const [procesionNombre, setProcesionNombre] = useState(null);
   const [procesionesPendientes, setProcesionesPendientes] = useState([]); // solo si hay que elegir
   const [compartiendo, setCompartiendo] = useState(false);
@@ -64,6 +63,9 @@ export function CofradeProvider({ children }) {
         if (err.status === STATUS_PROCESION_NO_EN_CURSO) {
           detenerCompartir();
           setError(err.message);
+        } else if (STATUS_SESION_INVALIDA.includes(err.status)) {
+          detenerCompartir();
+          setError('Tu sesión de cofrade ha caducado. Cierra sesión y vuelve a entrar con tu código.');
         }
         // Cualquier otro fallo suelto (red, backend caído un instante) no
         // corta el compartir -se reintenta solo en el siguiente ciclo.
@@ -72,93 +74,69 @@ export function CofradeProvider({ children }) {
     [detenerCompartir]
   );
 
-  const empezarPings = useCallback(
-    (idProcesion, jwt) => {
-      if (intervaloRef.current) clearInterval(intervaloRef.current);
-      enviarPing(idProcesion, jwt); // primero inmediato, no esperar 30s
-      intervaloRef.current = setInterval(() => enviarPing(idProcesion, jwt), INTERVALO_PING_MS);
-    },
-    [enviarPing]
-  );
-
   const iniciarCompartir = useCallback(
-    async (jwt, idCofradia, procesion) => {
+    async (procesion) => {
       const permiso = await solicitarPermisoUbicacion();
       if (!permiso) {
         setError('Necesitas dar permiso de ubicación para compartir con tu cofradía.');
         return;
       }
-      setToken(jwt);
-      setCofradiaId(idCofradia);
-      setProcesionId(procesion.id);
       setProcesionNombre(procesion.nombre);
       setProcesionesPendientes([]);
       setError(null);
       setCompartiendo(true);
-      empezarPings(procesion.id, jwt);
+      if (intervaloRef.current) clearInterval(intervaloRef.current);
+      enviarPing(procesion.id, token); // primero inmediato, no esperar 30s
+      intervaloRef.current = setInterval(() => enviarPing(procesion.id, token), INTERVALO_PING_MS);
     },
-    [empezarPings]
+    [enviarPing, token]
   );
 
-  // Valida el código y exige que la cofradía tenga AHORA MISMO al menos una
-  // procesión EN_CURSO -mandar pings solo tiene sentido mientras la
-  // procesión está pasando, no antes (aún no ha salido) ni después (ya
-  // terminó); 2026-08-21, a petición de Elena. Con una sola candidata en
-  // curso se comparte sin más preguntas; con varias a la vez (una cofradía
-  // puede participar en más de una, N:M) se deja procesionesPendientes para
-  // que la pantalla pida elegir (ver elegirProcesion). El backend también lo
-  // exige en cada ping (410 si ya no está en curso, ver enviarPing).
-  const validarCodigo = useCallback(
-    async (codigo) => {
-      setCargando(true);
-      setError(null);
-      try {
-        const { token: jwt, usuarioId: idCofradia } = await loginConCodigoAcceso(codigo);
-        const procesiones = await getProcesionesPorCofradia(idCofradia);
-        const enCurso = procesiones.filter((p) => p.estado === 'EN_CURSO');
-        if (enCurso.length === 0) {
-          setError('Tu cofradía no tiene ninguna procesión en curso ahora mismo.');
-          return;
-        }
-        if (enCurso.length === 1) {
-          await iniciarCompartir(jwt, idCofradia, enCurso[0]);
-          return;
-        }
-        // Más de una procesión en curso a la vez: no hay forma de adivinar
-        // cuál -se guarda el token y se pide elegir entre esas, no entre
-        // todas las de la cofradía.
-        setToken(jwt);
-        setCofradiaId(idCofradia);
+  // Exige que la cofradía tenga AHORA MISMO al menos una procesión EN_CURSO
+  // -mandar pings solo tiene sentido mientras la procesión está pasando
+  // (2026-08-21, a petición de Elena). Con una sola candidata se comparte
+  // sin más preguntas; con varias a la vez (una cofradía puede participar en
+  // más de una, N:M) se deja procesionesPendientes para que la pantalla
+  // pida elegir (ver elegirProcesion). El backend también lo exige en cada
+  // ping (410 si ya no está en curso, ver enviarPing).
+  const empezarACompartir = useCallback(async () => {
+    if (!cofradiaId) return;
+    setCargando(true);
+    setError(null);
+    try {
+      const procesiones = await getProcesionesPorCofradia(cofradiaId);
+      const enCurso = procesiones.filter((p) => p.estado === 'EN_CURSO');
+      if (enCurso.length === 0) {
+        setError('Tu cofradía no tiene ninguna procesión en curso ahora mismo.');
+      } else if (enCurso.length === 1) {
+        await iniciarCompartir(enCurso[0]);
+      } else {
         setProcesionesPendientes(enCurso);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setCargando(false);
       }
-    },
-    [iniciarCompartir]
-  );
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setCargando(false);
+    }
+  }, [cofradiaId, iniciarCompartir]);
 
-  const elegirProcesion = useCallback(
-    (procesion) => {
-      iniciarCompartir(token, cofradiaId, procesion);
-    },
-    [iniciarCompartir, token, cofradiaId]
-  );
+  const elegirProcesion = useCallback((procesion) => iniciarCompartir(procesion), [iniciarCompartir]);
 
   const value = useMemo(
     () => ({
+      cofradiaId,
       compartiendo,
       cargando,
       error,
       procesionNombre,
       procesionesPendientes,
-      validarCodigo,
+      empezarACompartir,
       elegirProcesion,
+      cancelarEleccion: () => setProcesionesPendientes([]),
       detenerCompartir,
       limpiarError: () => setError(null),
     }),
-    [compartiendo, cargando, error, procesionNombre, procesionesPendientes, validarCodigo, elegirProcesion, detenerCompartir]
+    [cofradiaId, compartiendo, cargando, error, procesionNombre, procesionesPendientes, empezarACompartir, elegirProcesion, detenerCompartir]
   );
 
   return <CofradeContext.Provider value={value}>{children}</CofradeContext.Provider>;

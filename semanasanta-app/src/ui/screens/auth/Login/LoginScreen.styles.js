@@ -26,13 +26,15 @@ export const styles = StyleSheet.create({
     gap: 4,
     marginBottom: spacing.lg,
   },
+  // Icono encima del texto (2026-10-03): con la tercera pestaña (Cofrade),
+  // "Miembro de la Junta" ya no cabe en una fila al ancho de un móvil.
   tab: {
     flex: 1,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing.xs,
+    gap: 2,
     paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.xs,
     borderRadius: radii.md,
   },
   tabActivo: {
@@ -42,6 +44,7 @@ export const styles = StyleSheet.create({
     color: colors.subtitle,
     fontFamily: fontFamilies.uiMedium,
     fontSize: 13,
+    textAlign: 'center',
   },
   tabTextoActivo: {
     color: colors.background,

@@ -1,9 +1,11 @@
 package com.semanasanta.backend.controller;
 
+import com.semanasanta.backend.dto.CiudadInformacionRequest;
 import com.semanasanta.backend.dto.CiudadRequest;
 import com.semanasanta.backend.dto.CiudadResponse;
 import com.semanasanta.backend.model.Ciudad;
 import com.semanasanta.backend.service.CiudadService;
+import com.semanasanta.backend.service.InformacionCiudadService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,11 @@ import java.util.List;
 public class CiudadController {
 
     private final CiudadService ciudadService;
+    private final InformacionCiudadService informacionCiudadService;
 
-    public CiudadController(CiudadService ciudadService) {
+    public CiudadController(CiudadService ciudadService, InformacionCiudadService informacionCiudadService) {
         this.ciudadService = ciudadService;
+        this.informacionCiudadService = informacionCiudadService;
     }
 
     // incluirInactivas=true es lo que usa el panel de Administrador para ver
@@ -47,6 +51,15 @@ public class CiudadController {
     @PutMapping("/{id}")
     public CiudadResponse actualizar(@PathVariable Long id, @Valid @RequestBody CiudadRequest request) {
         Ciudad ciudad = ciudadService.actualizar(id, request);
+        return CiudadResponse.from(ciudad);
+    }
+
+    // Junta de esa ciudad (2026-10-03): solo historia y patrimonio, ver
+    // InformacionCiudadService. El PUT completo de arriba sigue siendo solo
+    // del Administrador.
+    @PutMapping("/{id}/informacion")
+    public CiudadResponse actualizarInformacion(@PathVariable Long id, @RequestBody CiudadInformacionRequest request) {
+        Ciudad ciudad = informacionCiudadService.actualizarInformacion(id, request);
         return CiudadResponse.from(ciudad);
     }
 

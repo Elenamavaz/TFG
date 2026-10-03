@@ -12,12 +12,6 @@ const NOTIFICACIONES_INICIALES = [
   { id: 'eventos', titulo: 'Notificaciones eventos', descripcion: 'Cortes de calle y desvíos', activo: true },
 ];
 
-// Perfil de Ciudadano (2026-09-19: separado del modo Cofrade, ver
-// PerfilCofradeScreen -antes convivían en la misma pantalla con un
-// interruptor "Ciudadano/Cofrade", ahora Cofrade es su propia pantalla,
-// igual que ya tienen su propio perfil Junta y Administrador). "Mis
-// favoritos" tampoco vive aquí -es una opción más del menú de Listado (ver
-// HomeScreen.OPCIONES_MENU), no hace falta repetirla en el perfil.
 export function PerfilScreen({ navigation }) {
   const { ciudadSeleccionada } = useCiudad();
   const [numCofradias, setNumCofradias] = useState(0);
@@ -64,22 +58,6 @@ export function PerfilScreen({ navigation }) {
             <Text style={styles.cambiar}>Cambiar</Text>
             <Ionicons name="chevron-forward" size={16} color={colors.gold} />
           </View>
-        </TouchableOpacity>
-
-        <Text style={styles.sectionTitle}>Cofrade</Text>
-        <TouchableOpacity
-          style={styles.cofradeEntryCard}
-          onPress={() => navigation.navigate('PerfilCofrade')}
-          activeOpacity={0.8}
-        >
-          <View style={styles.ciudadCardLeft}>
-            <Ionicons name="shield" size={18} color={colors.gold} />
-            <View>
-              <Text style={styles.ciudadNombre}>Modo Cofrade</Text>
-              <Text style={styles.ciudadMeta}>Comparte tu ubicación durante la procesión</Text>
-            </View>
-          </View>
-          <Ionicons name="chevron-forward" size={16} color={colors.gold} />
         </TouchableOpacity>
 
         <Text style={styles.sectionTitle}>Notificaciones</Text>

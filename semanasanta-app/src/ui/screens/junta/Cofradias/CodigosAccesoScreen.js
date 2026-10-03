@@ -76,8 +76,8 @@ export function CodigosAccesoScreen({ route, navigation }) {
     Share.share({
       message:
         `Código de acceso de ${cofradia?.nombre ?? 'tu cofradía'}: ${codigo.codigo}\n\n` +
-        'Introdúcelo en la app (Perfil → Modo Cofrade → Activar ubicación compartida) ' +
-        'durante la procesión para compartir tu ubicación.',
+        'Entra en la app con él (Iniciar sesión → pestaña Cofrade) y, durante la procesión, ' +
+        'pulsa "Activar ubicación compartida".',
     });
   }
 

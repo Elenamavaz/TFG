@@ -36,6 +36,16 @@ export async function actualizarCiudad(ciudadId, datos) {
   return new Ciudad(ciudad);
 }
 
+// Junta de la ciudad (2026-10-03): solo historia y patrimonio, el resto de
+// la ciudad sigue siendo cosa del Administrador (actualizarCiudad).
+export async function actualizarInformacionCiudad(ciudadId, { historia, patrimonio }) {
+  const ciudad = await apiFetch(`/ciudades/${ciudadId}/informacion`, {
+    method: 'PUT',
+    body: { historia, patrimonio },
+  });
+  return new Ciudad(ciudad);
+}
+
 export async function eliminarCiudad(ciudadId) {
   await apiFetch(`/ciudades/${ciudadId}`, { method: 'DELETE' });
 }

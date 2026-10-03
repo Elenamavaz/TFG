@@ -7,6 +7,7 @@ import { SeleccionCiudadScreen } from '../screens/ciudadano';
 import { MainTabNavigator } from './MainTabNavigator';
 import { AdministradorStackNavigator } from './AdministradorStackNavigator';
 import { JuntaStackNavigator } from './JuntaStackNavigator';
+import { CofradeStackNavigator } from './CofradeStackNavigator';
 import { useAuth, useCiudad } from '../../application/context';
 import { getModoAccesoGuardado } from '../../data/services';
 import { resolverPantallaCiudadano } from '../utils/arranqueCiudadano';
@@ -20,6 +21,8 @@ const Stack = createNativeStackNavigator();
 // - Si hay sesión de Junta desactivada (sesion.activo === false, ver
 //   AuthResponse del backend y LoginScreen), va directa al aviso de "cuenta
 //   desactivada" -mismo destino al que ya la mandó el login.
+// - Si hay sesión de Cofrade (código de acceso, 2026-10-03), va directa a su
+//   propio panel (CofradeStack).
 // - Si hay sesión de Junta activa, va directa a su propio flujo (JuntaStack).
 // - Si no, y ya se entró antes como Ciudadano (modo guardado en el
 //   dispositivo), se salta la Bienvenida y se resuelve la ciudad como siempre.
@@ -27,6 +30,9 @@ const Stack = createNativeStackNavigator();
 async function resolverArranque(seleccionarCiudad, sesion) {
   if (sesion?.rol === 'ADMIN') {
     return 'AdministradorStack';
+  }
+  if (sesion?.rol === 'COFRADE') {
+    return 'CofradeStack';
   }
   if (sesion) {
     return sesion.activo === false ? 'CuentaDesactivada' : 'JuntaStack';
@@ -69,6 +75,7 @@ export function RootNavigator() {
       <Stack.Screen name="CuentaDesactivada" component={CuentaDesactivadaScreen} />
       <Stack.Screen name="AdministradorStack" component={AdministradorStackNavigator} />
       <Stack.Screen name="JuntaStack" component={JuntaStackNavigator} />
+      <Stack.Screen name="CofradeStack" component={CofradeStackNavigator} />
       <Stack.Screen name="SeleccionCiudad" component={SeleccionCiudadScreen} />
       <Stack.Screen name="MainTabs" component={MainTabNavigator} />
     </Stack.Navigator>

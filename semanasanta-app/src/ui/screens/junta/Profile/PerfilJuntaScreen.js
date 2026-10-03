@@ -41,6 +41,15 @@ const OPCIONES_GESTION = [
     ruta: 'Eventos',
   },
   { id: 'pasos', icono: 'cross', titulo: 'Pasos', subtitulo: 'Crear, editar y eliminar pasos', ruta: 'Pasos' },
+  // 2026-10-03: la Junta también edita la historia y el patrimonio de su
+  // ciudad (lo demás de la ciudad sigue siendo cosa del Administrador).
+  {
+    id: 'ciudad',
+    icono: 'city-variant-outline',
+    titulo: 'Información de la ciudad',
+    subtitulo: 'Editar la historia y el patrimonio',
+    ruta: 'EditarInformacionCiudad',
+  },
   {
     id: 'perfil',
     icono: 'account-edit-outline',

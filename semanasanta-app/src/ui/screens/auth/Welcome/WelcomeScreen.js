@@ -55,7 +55,7 @@ export function WelcomeScreen({ navigation }) {
         </TouchableOpacity>
 
         <Text style={styles.nota}>
-          Miembros de las Juntas de Cofradía y Administradores acceden aquí con su cuenta.
+          Cofrades (con su código de acceso), miembros de las Juntas de Cofradía y Administradores acceden aquí.
         </Text>
       </View>
     </ScreenContainer>

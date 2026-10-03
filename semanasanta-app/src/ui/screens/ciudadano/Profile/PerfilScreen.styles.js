@@ -20,18 +20,7 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
 
-  // Ciudad seleccionada / entrada a Modo Cofrade -misma tarjeta, dos usos.
   ciudadCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 0.5,
-    borderColor: colors.subtitle,
-    borderRadius: radii.md,
-    padding: spacing.md,
-  },
-  cofradeEntryCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
