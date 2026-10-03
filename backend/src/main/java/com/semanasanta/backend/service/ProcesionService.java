@@ -159,7 +159,7 @@ public class ProcesionService {
         procesion.setEstado(EstadoEvento.CANCELADO);
         Procesion cancelada = procesionRepository.save(procesion);
         notificacionService.crear(new NotificacionRequest(
-                "Cancelada: " + procesion.getNombre(),
+                procesion.getNombre(), // "Cancelación" lo pone el tipo (ver TipoNotificacion)
                 request.mensaje(),
                 ciudadActualId,
                 TipoNotificacion.CANCELACION,

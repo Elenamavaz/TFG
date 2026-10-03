@@ -98,7 +98,7 @@ export function FormularioJuntaScreen({ route, navigation }) {
       };
       if (editando) {
         await actualizarJuntaCofradias(juntaId, datos);
-        navigation.goBack();
+        navigation.popToTop(); // al inicio del panel de Administrador (2026-10-03)
       } else {
         const juntaCreada = await crearJuntaCofradias(datos);
         // reset, no replace (2026-08-21, Elena: "atrás" desde aquí en

@@ -120,7 +120,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
     try {
       if (editando) {
         await actualizarCofradia(cofradiaId, datosFormulario());
-        navigation.goBack();
+        navigation.popToTop(); // al inicio del panel de Junta (2026-10-03)
       } else {
         const cofradiaCreada = await crearCofradia(datosFormulario());
         navigation.replace('CofradiaCreada', { nombreCofradia: cofradiaCreada.nombre, ciudadId, cofradiaId: cofradiaCreada.id });

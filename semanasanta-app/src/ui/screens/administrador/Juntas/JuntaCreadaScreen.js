@@ -24,10 +24,10 @@ export function JuntaCreadaScreen({ route, navigation }) {
       >
         <Text style={styles.botonPrimarioTexto}>Añadir miembros ahora</Text>
       </TouchableOpacity>
-      {/* replace, no navigate (2026-08-21): con navigate, "atrás" desde
-          Juntas volvería a enseñar esta misma pantalla -Elena no quiere que
-          reaparezca "Junta de Cofradías creada" al volver atrás. */}
-      <TouchableOpacity style={styles.boton} onPress={() => navigation.replace('Juntas')} activeOpacity={0.85}>
+      {/* Al inicio del panel (2026-10-03, a petición de Elena; antes iba a
+          la lista de Juntas). popToTop tampoco deja esta confirmación en el
+          historial, igual que el replace de antes. */}
+      <TouchableOpacity style={styles.boton} onPress={() => navigation.popToTop()} activeOpacity={0.85}>
         <Text style={styles.botonTexto}>Hacerlo más tarde</Text>
       </TouchableOpacity>
     </ScreenContainer>

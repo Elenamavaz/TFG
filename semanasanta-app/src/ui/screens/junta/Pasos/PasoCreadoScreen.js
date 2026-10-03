@@ -8,7 +8,7 @@ import { styles } from './PasoCreadoScreen.styles';
 // de Cofradías de Cáceres se ha creado..."); aquí va el texto real del
 // paso, mismo patrón que CiudadCreadaScreen (confirmación simple, un botón).
 export function PasoCreadoScreen({ route, navigation }) {
-  const { nombrePaso, ciudadId } = route.params;
+  const { nombrePaso } = route.params;
 
   return (
     <ScreenContainer style={styles.container}>
@@ -18,7 +18,7 @@ export function PasoCreadoScreen({ route, navigation }) {
       <Text style={styles.title}>Paso creado</Text>
       <Text style={styles.subtitle}>El paso "{nombrePaso}" se ha creado correctamente.</Text>
 
-      <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Pasos', { ciudadId })} activeOpacity={0.85}>
+      <TouchableOpacity style={styles.boton} onPress={() => navigation.popToTop()} activeOpacity={0.85}>
         <Text style={styles.botonTexto}>Ok</Text>
       </TouchableOpacity>
     </ScreenContainer>

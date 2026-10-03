@@ -47,7 +47,7 @@ export function PerfilCofradeScreen({ navigation }) {
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Mi Perfil</Text>
+        <Text style={styles.title}>La Semana Santa de {ciudad?.nombre ?? ''}</Text>
         <Text style={styles.subtitulo}>{cofradia ? cofradia.nombre : 'Cofrade'}</Text>
 
         <View style={styles.cofradeBanner}>

@@ -41,15 +41,6 @@ const OPCIONES_GESTION = [
     ruta: 'Eventos',
   },
   { id: 'pasos', icono: 'cross', titulo: 'Pasos', subtitulo: 'Crear, editar y eliminar pasos', ruta: 'Pasos' },
-  // 2026-10-03: la Junta también edita la historia y el patrimonio de su
-  // ciudad (lo demás de la ciudad sigue siendo cosa del Administrador).
-  {
-    id: 'ciudad',
-    icono: 'city-variant-outline',
-    titulo: 'Información de la ciudad',
-    subtitulo: 'Editar la historia y el patrimonio',
-    ruta: 'EditarInformacionCiudad',
-  },
   {
     id: 'perfil',
     icono: 'account-edit-outline',
@@ -116,16 +107,24 @@ export function PerfilJuntaScreen({ navigation }) {
         </View>
 
         <Text style={styles.sectionTitle}>Ciudad gestionada</Text>
+        {/* Pulsable (2026-10-03, a petición de Elena): lleva a editar la
+            historia y el patrimonio de la ciudad, igual que la opción
+            "Información de la ciudad" de Gestión. */}
         {ciudad ? (
-          <View style={styles.ciudadCard}>
+          <TouchableOpacity
+            style={styles.ciudadCard}
+            onPress={() => navigation.navigate('EditarInformacionCiudad', { ciudadId: ciudad.id })}
+            activeOpacity={0.8}
+          >
             <Ionicons name="location-outline" size={22} color={colors.gold} />
-            <View>
+            <View style={styles.ciudadTexto}>
               <Text style={styles.ciudadNombre}>{ciudad.nombre}</Text>
               <Text style={styles.ciudadMeta}>
                 {numProcesiones} procesiones · {numCofradias} cofradías
               </Text>
             </View>
-          </View>
+            <Ionicons name="chevron-forward" size={18} color={colors.subtitle} />
+          </TouchableOpacity>
         ) : null}
 
         <Text style={styles.sectionTitle}>Gestión</Text>

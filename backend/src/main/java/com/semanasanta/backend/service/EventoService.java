@@ -130,7 +130,7 @@ public class EventoService {
         evento.setEstado(EstadoEvento.CANCELADO);
         Evento cancelado = eventoRepository.save(evento);
         notificacionService.crear(new NotificacionRequest(
-                "Cancelado: " + evento.getNombre(),
+                evento.getNombre(), // "Cancelación" lo pone el tipo (ver TipoNotificacion)
                 request.mensaje(),
                 ciudadActualId,
                 TipoNotificacion.CANCELACION,

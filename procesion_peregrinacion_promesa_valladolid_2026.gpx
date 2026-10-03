@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1"
+     creator="ChatGPT"
+     xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1
+                         http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Procesión de la Peregrinación de la Promesa – Valladolid 2026</name>
+    <desc>Itinerario del Martes Santo, 31 de marzo de 2026, inicio 22:30. Hermandad Penitencial de Nuestro Padre Jesús Atado a la Columna.</desc>
+    <time>2026-03-31T22:30:00+02:00</time>
+  </metadata>
+
+  <rte>
+    <name>Procesión de la Peregrinación de la Promesa</name>
+    <desc>Recorrido publicado por Valladolid Cofrade. La parada en la Basílica corresponde a la renovación de la Promesa de Silencio.</desc>
+      <rtept lat="41.651237" lon="-4.724672"><name>Inicio – Iglesia de las Esclavas</name></rtept>
+      <rtept lat="41.650990" lon="-4.725040"><name>Plaza del Salvador</name></rtept>
+      <rtept lat="41.651550" lon="-4.725550"><name>Castelar</name></rtept>
+      <rtept lat="41.651758" lon="-4.725281"><name>Regalado – tramo Catedral</name></rtept>
+      <rtept lat="41.652554" lon="-4.723844"><name>Catedral de Valladolid</name></rtept>
+      <rtept lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad</name></rtept>
+      <rtept lat="41.653650" lon="-4.724200"><name>Angustias</name></rtept>
+      <rtept lat="41.653300" lon="-4.725100"><name>Macías Picavea</name></rtept>
+      <rtept lat="41.653823" lon="-4.726436"><name>Platería – ida</name></rtept>
+      <rtept lat="41.653823" lon="-4.726436"><name>Vera Cruz – incorporación del paso</name></rtept>
+      <rtept lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo</name></rtept>
+      <rtept lat="41.652900" lon="-4.726700"><name>Vicente Moliner</name></rtept>
+      <rtept lat="41.652124" lon="-4.726462"><name>Plaza de Fuente Dorada</name></rtept>
+      <rtept lat="41.651600" lon="-4.726100"><name>Cánovas del Castillo</name></rtept>
+      <rtept lat="41.651758" lon="-4.725281"><name>Regalado</name></rtept>
+      <rtept lat="41.650733" lon="-4.722475"><name>Núñez de Arce</name></rtept>
+      <rtept lat="41.649800" lon="-4.721800"><name>López Gómez – Santuario</name></rtept>
+      <rtept lat="41.649500" lon="-4.721600"><name>Basílica Nacional de la Gran Promesa – renovación</name></rtept>
+      <rtept lat="41.650300" lon="-4.721000"><name>Alonso Pesquera</name></rtept>
+      <rtept lat="41.651500" lon="-4.720130"><name>Plaza Colegio de Santa Cruz</name></rtept>
+      <rtept lat="41.652000" lon="-4.720500"><name>Librería</name></rtept>
+      <rtept lat="41.652850" lon="-4.721500"><name>Plaza de la Universidad</name></rtept>
+      <rtept lat="41.652000" lon="-4.722000"><name>López Gómez – regreso</name></rtept>
+      <rtept lat="41.652600" lon="-4.723200"><name>Arribas</name></rtept>
+      <rtept lat="41.652554" lon="-4.723844"><name>Catedral – regreso</name></rtept>
+      <rtept lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad – regreso</name></rtept>
+      <rtept lat="41.653300" lon="-4.725100"><name>Macías Picavea – regreso</name></rtept>
+      <rtept lat="41.653823" lon="-4.726436"><name>Platería – regreso</name></rtept>
+      <rtept lat="41.653823" lon="-4.726436"><name>Vera Cruz – se deja el paso</name></rtept>
+      <rtept lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo – regreso</name></rtept>
+      <rtept lat="41.653250" lon="-4.727400"><name>Lonja</name></rtept>
+      <rtept lat="41.652900" lon="-4.727600"><name>Quiñones</name></rtept>
+      <rtept lat="41.651600" lon="-4.727000"><name>Duque de la Victoria</name></rtept>
+      <rtept lat="41.651300" lon="-4.726900"><name>Regalado – final</name></rtept>
+      <rtept lat="41.651000" lon="-4.725900"><name>Teresa Gil</name></rtept>
+      <rtept lat="41.650700" lon="-4.725500"><name>San Felipe Neri</name></rtept>
+      <rtept lat="41.650990" lon="-4.725040"><name>Plaza del Salvador – final</name></rtept>
+      <rtept lat="41.651237" lon="-4.724672"><name>Fin – Iglesia de las Esclavas</name></rtept>
+  </rte>
+
+  <trk>
+    <name>Procesión de la Peregrinación de la Promesa – trazado de referencia</name>
+    <trkseg>
+        <trkpt lat="41.651237" lon="-4.724672"><name>Inicio – Iglesia de las Esclavas</name></trkpt>
+        <trkpt lat="41.650990" lon="-4.725040"><name>Plaza del Salvador</name></trkpt>
+        <trkpt lat="41.651550" lon="-4.725550"><name>Castelar</name></trkpt>
+        <trkpt lat="41.651758" lon="-4.725281"><name>Regalado – tramo Catedral</name></trkpt>
+        <trkpt lat="41.652554" lon="-4.723844"><name>Catedral de Valladolid</name></trkpt>
+        <trkpt lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad</name></trkpt>
+        <trkpt lat="41.653650" lon="-4.724200"><name>Angustias</name></trkpt>
+        <trkpt lat="41.653300" lon="-4.725100"><name>Macías Picavea</name></trkpt>
+        <trkpt lat="41.653823" lon="-4.726436"><name>Platería – ida</name></trkpt>
+        <trkpt lat="41.653823" lon="-4.726436"><name>Vera Cruz – incorporación del paso</name></trkpt>
+        <trkpt lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo</name></trkpt>
+        <trkpt lat="41.652900" lon="-4.726700"><name>Vicente Moliner</name></trkpt>
+        <trkpt lat="41.652124" lon="-4.726462"><name>Plaza de Fuente Dorada</name></trkpt>
+        <trkpt lat="41.651600" lon="-4.726100"><name>Cánovas del Castillo</name></trkpt>
+        <trkpt lat="41.651758" lon="-4.725281"><name>Regalado</name></trkpt>
+        <trkpt lat="41.650733" lon="-4.722475"><name>Núñez de Arce</name></trkpt>
+        <trkpt lat="41.649800" lon="-4.721800"><name>López Gómez – Santuario</name></trkpt>
+        <trkpt lat="41.649500" lon="-4.721600"><name>Basílica Nacional de la Gran Promesa – renovación</name></trkpt>
+        <trkpt lat="41.650300" lon="-4.721000"><name>Alonso Pesquera</name></trkpt>
+        <trkpt lat="41.651500" lon="-4.720130"><name>Plaza Colegio de Santa Cruz</name></trkpt>
+        <trkpt lat="41.652000" lon="-4.720500"><name>Librería</name></trkpt>
+        <trkpt lat="41.652850" lon="-4.721500"><name>Plaza de la Universidad</name></trkpt>
+        <trkpt lat="41.652000" lon="-4.722000"><name>López Gómez – regreso</name></trkpt>
+        <trkpt lat="41.652600" lon="-4.723200"><name>Arribas</name></trkpt>
+        <trkpt lat="41.652554" lon="-4.723844"><name>Catedral – regreso</name></trkpt>
+        <trkpt lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad – regreso</name></trkpt>
+        <trkpt lat="41.653300" lon="-4.725100"><name>Macías Picavea – regreso</name></trkpt>
+        <trkpt lat="41.653823" lon="-4.726436"><name>Platería – regreso</name></trkpt>
+        <trkpt lat="41.653823" lon="-4.726436"><name>Vera Cruz – se deja el paso</name></trkpt>
+        <trkpt lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo – regreso</name></trkpt>
+        <trkpt lat="41.653250" lon="-4.727400"><name>Lonja</name></trkpt>
+        <trkpt lat="41.652900" lon="-4.727600"><name>Quiñones</name></trkpt>
+        <trkpt lat="41.651600" lon="-4.727000"><name>Duque de la Victoria</name></trkpt>
+        <trkpt lat="41.651300" lon="-4.726900"><name>Regalado – final</name></trkpt>
+        <trkpt lat="41.651000" lon="-4.725900"><name>Teresa Gil</name></trkpt>
+        <trkpt lat="41.650700" lon="-4.725500"><name>San Felipe Neri</name></trkpt>
+        <trkpt lat="41.650990" lon="-4.725040"><name>Plaza del Salvador – final</name></trkpt>
+        <trkpt lat="41.651237" lon="-4.724672"><name>Fin – Iglesia de las Esclavas</name></trkpt>
+    </trkseg>
+  </trk>
+</gpx>

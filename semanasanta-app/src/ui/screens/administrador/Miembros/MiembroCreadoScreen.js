@@ -27,12 +27,12 @@ export function MiembroCreadoScreen({ route, navigation }) {
       >
         <Text style={styles.botonTexto}>Añadir otro miembro ahora</Text>
       </TouchableOpacity>
-      {/* replace, no navigate (2026-08-21, mismo motivo que
-          JuntaCreadaScreen "Hacerlo más tarde"): "atrás" desde Miembros no
-          debe volver a enseñar esta pantalla de confirmación. */}
+      {/* Al inicio del panel (2026-10-03, a petición de Elena; antes iba a
+          la lista de Miembros). popToTop tampoco deja esta confirmación en
+          el historial. */}
       <TouchableOpacity
         style={styles.botonSecundario}
-        onPress={() => navigation.replace('Miembros', { juntaId })}
+        onPress={() => navigation.popToTop()}
         activeOpacity={0.85}
       >
         <Text style={styles.botonSecundarioTexto}>Ok</Text>

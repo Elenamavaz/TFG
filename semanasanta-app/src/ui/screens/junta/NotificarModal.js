@@ -23,10 +23,10 @@ const OPCIONES_PRIORIDAD = [
 // es el aviso genérico del mockup (p.ej. "actualización de la historia").
 function opcionesTipo(etiquetaCancelar) {
   return [
-    { valor: TipoNotificacion.ACTUALIZACION, etiqueta: 'Actualización de información', prefijoTitulo: 'Actualización' },
-    { valor: TipoNotificacion.CAMBIO_HORARIO, etiqueta: 'Cambio de horario', prefijoTitulo: 'Cambio de horario' },
-    { valor: TipoNotificacion.INCIDENCIA, etiqueta: 'Incidencia', prefijoTitulo: 'Incidencia' },
-    { valor: TipoNotificacion.CANCELACION, etiqueta: etiquetaCancelar, prefijoTitulo: 'Cancelación' },
+    { valor: TipoNotificacion.ACTUALIZACION, etiqueta: 'Actualización de información' },
+    { valor: TipoNotificacion.CAMBIO_HORARIO, etiqueta: 'Cambio de horario' },
+    { valor: TipoNotificacion.INCIDENCIA, etiqueta: 'Incidencia' },
+    { valor: TipoNotificacion.CANCELACION, etiqueta: etiquetaCancelar },
   ];
 }
 
@@ -64,7 +64,6 @@ export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar,
 
   async function enviar() {
     if (!tipo || !prioridad || enviando) return;
-    const opcion = OPCIONES_TIPO.find((o) => o.valor === tipo);
     const mensajeLimpio = mensaje.trim();
     setEnviando(true);
     setError(null);
@@ -73,7 +72,9 @@ export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar,
         await cancelar(elemento.id, { mensaje: mensajeLimpio, prioridad });
       } else {
         await crearNotificacion({
-          titulo: `${opcion.prefijoTitulo}: ${elemento.nombre}`,
+          // Solo el nombre: "qué ha pasado" ya lo dice el tipo (2026-10-03,
+          // ver Notificacion.etiquetaTipo y la tarjeta de HomeScreen).
+          titulo: elemento.nombre,
           mensaje: mensajeLimpio,
           ciudadId,
           tipo,

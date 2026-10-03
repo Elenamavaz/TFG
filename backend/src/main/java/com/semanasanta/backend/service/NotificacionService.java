@@ -65,7 +65,7 @@ public class NotificacionService {
         // El push es una entrega best-effort además de la Notificacion
         // guardada, no en su lugar -ver PushNotificacionService: si falla,
         // la Notificacion ya está guardada y consultable igualmente.
-        pushNotificacionService.enviarACiudad(ciudad.getId(), guardada.getTitulo(), guardada.getMensaje());
+        enviarPush(guardada);
         return guardada;
     }
 
@@ -76,9 +76,9 @@ public class NotificacionService {
     public void notificarCambioDeEstado(Evento evento) {
         Ciudad ciudad = evento.getCofradias().iterator().next().getCiudad();
         if (evento.getEstado() == EstadoEvento.EN_CURSO) {
-            crearAutomatica(ciudad, TipoNotificacion.INICIO, "Ha comenzado: " + evento.getNombre(), null);
+            crearAutomatica(ciudad, TipoNotificacion.INICIO, evento.getNombre(), null);
         } else if (evento.getEstado() == EstadoEvento.FINALIZADO) {
-            crearAutomatica(ciudad, TipoNotificacion.FIN, "Ha finalizado: " + evento.getNombre(), null);
+            crearAutomatica(ciudad, TipoNotificacion.FIN, evento.getNombre(), null);
         }
     }
 
@@ -89,8 +89,16 @@ public class NotificacionService {
     public Notificacion crearAutomatica(Ciudad ciudad, TipoNotificacion tipo, String titulo, String mensaje) {
         Notificacion guardada = notificacionRepository.save(
                 new Notificacion(titulo, mensaje, ciudad, tipo, null, null));
-        pushNotificacionService.enviarACiudad(ciudad.getId(), guardada.getTitulo(), guardada.getMensaje());
+        enviarPush(guardada);
         return guardada;
+    }
+
+    // El título guardado es solo el nombre de la procesión/evento (ver
+    // TipoNotificacion): en el push, que no tiene etiqueta aparte, se junta
+    // con el tipo para que se entienda qué ha pasado.
+    private void enviarPush(Notificacion notificacion) {
+        String titulo = notificacion.getTipo().getEtiqueta() + ": " + notificacion.getTitulo();
+        pushNotificacionService.enviarACiudad(notificacion.getCiudad().getId(), titulo, notificacion.getMensaje());
     }
 
     // Retractar una notificación ya enviada (no hay "editar": ver Notificacion).

@@ -8,8 +8,7 @@ import { styles } from './PasoCreadoScreen.styles';
 // nuevo miembro quedó registrado..."); aquí va el texto real del paso.
 // Reutiliza los estilos de PasoCreadoScreen (misma pantalla de confirmación
 // simple, un botón).
-export function PasoActualizadoScreen({ route, navigation }) {
-  const { ciudadId } = route.params;
+export function PasoActualizadoScreen({ navigation }) {
 
   return (
     <ScreenContainer style={styles.container}>
@@ -19,7 +18,7 @@ export function PasoActualizadoScreen({ route, navigation }) {
       <Text style={styles.title}>Paso actualizado</Text>
       <Text style={styles.subtitle}>El paso se ha actualizado correctamente.</Text>
 
-      <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Pasos', { ciudadId })} activeOpacity={0.85}>
+      <TouchableOpacity style={styles.boton} onPress={() => navigation.popToTop()} activeOpacity={0.85}>
         <Text style={styles.botonTexto}>Ok</Text>
       </TouchableOpacity>
     </ScreenContainer>

@@ -34,9 +34,13 @@ public class PushNotificacionService {
     private final DispositivoPushRepository dispositivoPushRepository;
     private final RestClient restClient;
 
-    public PushNotificacionService(DispositivoPushRepository dispositivoPushRepository, RestClient.Builder restClientBuilder) {
+    // RestClient.create() y no un RestClient.Builder inyectado (2026-10-03): en
+    // Spring Boot 4 ese Builder ya no se autoconfigura sin el módulo aparte
+    // spring-boot-restclient, y el backend no arrancaba. Para una sola
+    // llamada POST a Expo no hace falta nada de lo que aporta ese módulo.
+    public PushNotificacionService(DispositivoPushRepository dispositivoPushRepository) {
         this.dispositivoPushRepository = dispositivoPushRepository;
-        this.restClient = restClientBuilder.build();
+        this.restClient = RestClient.create();
     }
 
     public void enviarACiudad(Long ciudadId, String titulo, String mensaje) {

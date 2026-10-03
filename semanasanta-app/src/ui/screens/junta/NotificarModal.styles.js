@@ -121,10 +121,15 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.sm,
   },
+  // justifyContent + textAlign (2026-10-03): "Enviar notificaciones" ocupa
+  // dos líneas en pantallas estrechas y quedaba descentrado; con esto los
+  // dos textos quedan centrados en vertical y horizontal aunque partan.
   cancelarButton: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.sm,
     borderRadius: radii.lg,
     backgroundColor: colors.backgroundRed,
   },
@@ -132,11 +137,14 @@ export const styles = StyleSheet.create({
     color: colors.redText,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 14,
+    textAlign: 'center',
   },
   enviarButton: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.sm,
     borderRadius: radii.lg,
     borderWidth: 1,
     borderColor: colors.gold,
@@ -145,6 +153,7 @@ export const styles = StyleSheet.create({
     color: colors.gold,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 14,
+    textAlign: 'center',
   },
   botonDeshabilitado: {
     opacity: 0.5,

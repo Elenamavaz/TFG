@@ -68,17 +68,38 @@ export const styles = StyleSheet.create({
   // Notificacion.colorCategoria (roja/naranja/verde).
   avisoCard: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: spacing.md,
-    borderRadius: radii.md,
+    borderRadius: radii.lg,
     borderWidth: 0.5,
-    padding: spacing.md,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.lg,
   },
-  avisoTexto: {
+  avisoContenido: {
     flex: 1,
-    color: colors.cream,
+  },
+  // Qué ha pasado ("CANCELACIÓN"): el color lo pone HomeScreen, el mismo
+  // que el icono de la tarjeta.
+  avisoEtiqueta: {
     fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 12,
+    fontSize: 11,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  // A qué procesión/evento: título grande con la fuente de títulos (mockup).
+  avisoTitulo: {
+    color: colors.cream,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 22,
+    lineHeight: 26,
+    marginTop: 2,
+  },
+  avisoMensaje: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 13,
+    lineHeight: 18,
+    marginTop: 4,
   },
   avisoDots: {
     flexDirection: 'row',

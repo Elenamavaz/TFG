@@ -98,7 +98,7 @@ export function FormularioMiembroScreen({ route, navigation }) {
     try {
       if (editando) {
         await actualizarMiembroJuntaCofradia(miembroId, datosFormulario());
-        navigation.goBack();
+        navigation.popToTop(); // al inicio del panel de Administrador (2026-10-03)
       } else {
         const miembroCreado = await crearMiembroJuntaCofradia(datosFormulario());
         navigation.replace('MiembroCreado', { nombreMiembro: miembroCreado.nombre, juntaId: juntaSeleccionada.id });

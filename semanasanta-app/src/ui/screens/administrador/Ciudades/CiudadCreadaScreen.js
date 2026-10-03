@@ -17,7 +17,7 @@ export function CiudadCreadaScreen({ route, navigation }) {
 
       <TouchableOpacity
         style={styles.boton}
-        onPress={() => navigation.navigate('Ciudades')}
+        onPress={() => navigation.popToTop()}
         activeOpacity={0.85}
       >
         <Text style={styles.botonTexto}>Ok</Text>

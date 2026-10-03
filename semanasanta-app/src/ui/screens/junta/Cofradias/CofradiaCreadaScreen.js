@@ -46,7 +46,7 @@ export function CofradiaCreadaScreen({ route, navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.masTardeButton}
-        onPress={() => navigation.navigate('Cofradias', { ciudadId })}
+        onPress={() => navigation.popToTop()}
         activeOpacity={0.85}
       >
         <Text style={styles.masTardeTexto}>Hacerlo más tarde</Text>

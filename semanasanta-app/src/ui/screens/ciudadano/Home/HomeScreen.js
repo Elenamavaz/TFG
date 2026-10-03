@@ -230,15 +230,27 @@ export function InicioScreen({ navigation }) {
                       { width: ANCHO_TARJETA, backgroundColor: color.background, borderColor: color.border },
                     ]}
                   >
+                    {/* Tres niveles (2026-10-03, opción "B"): qué ha pasado
+                        (etiqueta del tipo, en el color de la tarjeta), a qué
+                        procesión/evento (título grande, como el mockup) y el
+                        motivo que escribió la Junta. Papelera a la derecha. */}
+                    <View style={styles.avisoContenido}>
+                      <Text style={[styles.avisoEtiqueta, { color: color.icono }]}>{item.etiquetaTipo}</Text>
+                      <Text style={styles.avisoTitulo} numberOfLines={2}>
+                        {item.titulo}
+                      </Text>
+                      {item.mensaje ? (
+                        <Text style={styles.avisoMensaje} numberOfLines={2}>
+                          {item.mensaje}
+                        </Text>
+                      ) : null}
+                    </View>
                     <TouchableOpacity
                       onPress={() => descartarNotif(item)}
                       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                     >
-                      <Ionicons name="trash-outline" size={20} color={color.icono} />
+                      <Ionicons name="trash-outline" size={22} color={color.icono} />
                     </TouchableOpacity>
-                    <Text style={styles.avisoTexto} numberOfLines={2}>
-                      {item.titulo}
-                    </Text>
                   </View>
                 );
               }}

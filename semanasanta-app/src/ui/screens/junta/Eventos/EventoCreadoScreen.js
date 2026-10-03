@@ -25,7 +25,7 @@ export function EventoCreadoScreen({ route, navigation }) {
       >
         <Text style={styles.añadirPasosTexto}>Añadir pasos</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.boton} onPress={() => navigation.navigate('Eventos', { ciudadId })} activeOpacity={0.85}>
+      <TouchableOpacity style={styles.boton} onPress={() => navigation.popToTop()} activeOpacity={0.85}>
         <Text style={styles.botonTexto}>Hacerlo más tarde</Text>
       </TouchableOpacity>
     </ScreenContainer>

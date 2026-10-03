@@ -62,6 +62,10 @@ export const styles = StyleSheet.create({
     borderRadius: radii.md,
     padding: spacing.md,
   },
+  // Ocupa el hueco entre el icono y la flecha, para que la flecha quede a la derecha.
+  ciudadTexto: {
+    flex: 1,
+  },
   ciudadNombre: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleSemiBold,

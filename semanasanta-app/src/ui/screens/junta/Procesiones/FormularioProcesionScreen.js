@@ -19,11 +19,11 @@ import { colors } from '../../../../theme';
 import { styles } from './FormularioProcesionScreen.styles';
 
 // Formulario compartido entre "Nueva procesión" y "Editar procesión" (mockup
-// del 2026-08-20), mismo patrón que el resto del panel -salvo que aquí,
-// a petición explícita de Elena ("mejor deja asi la interfaz"), el botón de
-// guardar dice "Crear" en los dos modos (no "Guardar" en edición) y
-// "Cancelar" (rojo) también aparece en los dos -no hay "Eliminar" aquí, se
-// hace desde la lista.
+// del 2026-08-20), mismo patrón que el resto del panel -salvo que aquí
+// "Cancelar" (rojo) aparece en los dos modos. El botón de guardar decía
+// "Crear" también al editar (decisión del 2026-08-20); desde el 2026-10-03,
+// a petición de Elena, dice "Guardar" al editar, como FormularioEventoScreen
+// y el resto del panel.
 //
 // Cofradía y ubicación no estaban en el mockup original pero el backend los
 // necesita (ubicacionId ya no, ver V32 -una procesión no tiene un único
@@ -446,7 +446,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
           activeOpacity={0.85}
           disabled={guardando || eliminando || !nombre.trim() || !cofradiaSeleccionada}
         >
-          {guardando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>Crear</Text>}
+          {guardando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>{editando ? 'Guardar' : 'Crear'}</Text>}
         </TouchableOpacity>
 
         <TouchableOpacity

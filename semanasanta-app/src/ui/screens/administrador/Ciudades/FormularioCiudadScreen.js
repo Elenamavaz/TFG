@@ -96,7 +96,7 @@ export function FormularioCiudadScreen({ route, navigation }) {
     try {
       if (editando) {
         await actualizarCiudad(ciudadId, datosFormulario());
-        navigation.goBack();
+        navigation.popToTop(); // al inicio del panel de Administrador (2026-10-03)
       } else {
         const ciudadCreada = await crearCiudad(datosFormulario());
         navigation.replace('CiudadCreada', { nombreCiudad: ciudadCreada.nombre });

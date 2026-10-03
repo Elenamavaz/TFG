@@ -30,7 +30,8 @@ export function ProcesionActualizadaScreen({ route, navigation }) {
   const [notificando, setNotificando] = useState(recienCancelado);
   const [notificacionEnviada, setNotificacionEnviada] = useState(false);
 
-  const volverALista = () => navigation.navigate('Procesiones', { ciudadId });
+  // Al terminar se vuelve al inicio del panel de Junta (2026-10-03).
+  const volverALista = () => navigation.popToTop();
   const avisoAutomatico = AVISO_AUTOMATICO_POR_ESTADO[estadoNuevo];
 
   return (

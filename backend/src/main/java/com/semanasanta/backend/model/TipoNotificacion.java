@@ -14,11 +14,26 @@ package com.semanasanta.backend.model;
 // rechaza explícitamente. ACTUALIZACION (2026-09-30, mockup "Procesión
 // Actualizada" -> "Crear Notificación"): aviso opcional tras editar una
 // procesión (historia, recorrido, pasos...), sin ser incidencia ni horario.
+//
+// Título de la notificación (2026-10-03, opción "B" que eligió Elena para la
+// tarjeta de Inicio): Notificacion.titulo guarda SOLO el nombre de la
+// procesión/evento; "qué ha pasado" sale de aquí (etiqueta). La app pinta
+// los dos por separado y el push los junta ("Cancelación: <nombre>").
 public enum TipoNotificacion {
-    INICIO,
-    FIN,
-    INCIDENCIA,
-    CAMBIO_HORARIO,
-    CANCELACION,
-    ACTUALIZACION
+    INICIO("Ha comenzado"),
+    FIN("Ha finalizado"),
+    INCIDENCIA("Incidencia"),
+    CAMBIO_HORARIO("Cambio de horario"),
+    CANCELACION("Cancelación"),
+    ACTUALIZACION("Actualización");
+
+    private final String etiqueta;
+
+    TipoNotificacion(String etiqueta) {
+        this.etiqueta = etiqueta;
+    }
+
+    public String getEtiqueta() {
+        return etiqueta;
+    }
 }
