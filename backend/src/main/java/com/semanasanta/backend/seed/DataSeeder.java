@@ -278,7 +278,7 @@ public class DataSeeder implements CommandLineRunner {
                 .findFirst()
                 .orElseGet(() -> {
                     log.info("Creando cofradía '{}'", nombre);
-                    return cofradiaRepository.save(new Cofradia(nombre, historia, web, LocalDateTime.now(), ciudad));
+                    return cofradiaRepository.save(new Cofradia(nombre, historia, web, null, LocalDateTime.now(), ciudad));
                 });
     }
 

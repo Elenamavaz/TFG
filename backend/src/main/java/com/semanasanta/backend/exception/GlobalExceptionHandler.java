@@ -48,6 +48,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage()));
     }
 
+    // Ping a una procesión que ya no está en curso (2026-09-30, ver
+    // ProcesionNoEnCursoException): 410 Gone, código propio para que la app
+    // del cofrade deje de compartir en vez de reintentar.
+    @ExceptionHandler(ProcesionNoEnCursoException.class)
+    public ResponseEntity<ErrorResponse> handleProcesionNoEnCurso(ProcesionNoEnCursoException ex) {
+        return ResponseEntity.status(HttpStatus.GONE).body(new ErrorResponse(ex.getMessage()));
+    }
+
     // Estado inválido para la operación pedida (p.ej. actualizar ubicación sin
     // haber empezado a compartir antes). 409, igual que un recurso duplicado:
     // la petición está bien formada, pero choca con el estado actual.

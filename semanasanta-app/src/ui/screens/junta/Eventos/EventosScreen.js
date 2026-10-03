@@ -1,32 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getCiudadPorId,
-  getCofradiasGestion,
-  getEventosPorCiudad,
-  cancelarEvento,
-  crearNotificacion,
-} from '../../../../data/services';
-import { Prioridad, TipoNotificacion } from '../../../../data/models';
+import { getCiudadPorId, getCofradiasGestion, getEventosPorCiudad } from '../../../../data/services';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
 import { styles } from './EventosScreen.styles';
-
-// Mismo criterio que ProcesionesScreen.OPCIONES_PRIORIDAD/OPCIONES_TIPO_ACCION.
-const OPCIONES_PRIORIDAD = [
-  { valor: Prioridad.BAJA, etiqueta: 'Baja', background: colors.greenBackground, texto: colors.lightGreenText },
-  { valor: Prioridad.MEDIA, etiqueta: 'Media', background: colors.backgroundOrange, texto: colors.orangeText },
-  { valor: Prioridad.ALTA, etiqueta: 'Alta', background: colors.backgroundRed, texto: colors.redText },
-];
-
-const OPCIONES_TIPO_ACCION = [
-  { valor: TipoNotificacion.CANCELACION, etiqueta: 'Cancelar', prefijoTitulo: 'Cancelado' },
-  { valor: TipoNotificacion.CAMBIO_HORARIO, etiqueta: 'Cambio de horario', prefijoTitulo: 'Cambio de horario' },
-  { valor: TipoNotificacion.INCIDENCIA, etiqueta: 'Incidencia', prefijoTitulo: 'Incidencia' },
-];
 
 const COLOR_POR_ESTADO = {
   Programada: { background: colors.backgroundOrange, texto: colors.orangeText },
@@ -56,11 +36,12 @@ function EstadoBadge({ estado }) {
 
 // Mockup del 2026-08-22: se llega desde "Eventos" del menú de Gestión en
 // PerfilJuntaScreen, con ciudadId por params -mismo patrón que Procesiones.
-// "Notificar" (2026-08-23, mismo mecanismo que ProcesionesScreen desde el
-// 2026-08-22): ya no hace falta el "Eliminar" que se puso aquí de parche
-// mientras Evento no tenía endpoint de cancelación -ahora sí lo tiene (ver
-// EventoService.cancelar). Eliminar (borrado real) sigue viviendo solo en
-// FormularioEventoScreen, igual que en Procesiones.
+// Sin acción "Notificar" en la lista desde el 2026-10-02 (mismo cambio que
+// ProcesionesScreen): las notificaciones, incluida la cancelación, se crean
+// al terminar de editar, desde "Crear Notificación" de
+// EventoActualizadoScreen, y el paso a En curso/Finalizado es automático
+// (CambioEstadoAutomaticoService). Eliminar (borrado real) sigue viviendo
+// solo en FormularioEventoScreen, igual que en Procesiones.
 export function EventosScreen({ route, navigation }) {
   const { ciudadId } = route.params;
   const [ciudad, setCiudad] = useState(null);
@@ -72,11 +53,6 @@ export function EventosScreen({ route, navigation }) {
   // creada -mismo mecanismo que PasosScreen/ProcesionesScreen.
   const [filtroCofradiaId, setFiltroCofradiaId] = useState(route.params?.cofradiaIdInicial ?? null); // null = "Todos"
   const [modalFiltroVisible, setModalFiltroVisible] = useState(false);
-  const [procesandoId, setProcesandoId] = useState(null);
-  const [eventoAccion, setEventoAccion] = useState(null); // null = modal cerrado
-  const [tipoAccion, setTipoAccion] = useState(null);
-  const [mensajeAccion, setMensajeAccion] = useState('');
-  const [prioridadAccion, setPrioridadAccion] = useState(null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -98,46 +74,6 @@ export function EventosScreen({ route, navigation }) {
   }, [ciudadId]);
 
   useFocusEffect(cargar);
-
-  function abrirAccion(evento) {
-    setEventoAccion(evento);
-    setTipoAccion(null);
-    setMensajeAccion('');
-    setPrioridadAccion(null);
-  }
-
-  function cerrarAccion() {
-    if (procesandoId) return; // no cerrar a medio guardar
-    setEventoAccion(null);
-  }
-
-  // CANCELACION es la única que además cambia el estado del evento (ver
-  // EventoService.cancelar, que crea la Notificacion por dentro); las otras
-  // dos son solo la Notificacion, vía POST /notificaciones genérico -mismo
-  // patrón que ProcesionesScreen.confirmarAccion.
-  async function confirmarAccion() {
-    if (!tipoAccion || !prioridadAccion || procesandoId) return;
-    const opcion = OPCIONES_TIPO_ACCION.find((o) => o.valor === tipoAccion);
-    const mensaje = mensajeAccion.trim();
-    setProcesandoId(eventoAccion.id);
-    try {
-      if (tipoAccion === TipoNotificacion.CANCELACION) {
-        await cancelarEvento(eventoAccion.id, { mensaje, prioridad: prioridadAccion });
-        cargar();
-      } else {
-        await crearNotificacion({
-          titulo: `${opcion.prefijoTitulo}: ${eventoAccion.nombre}`,
-          mensaje,
-          ciudadId,
-          tipo: tipoAccion,
-          prioridad: prioridadAccion,
-        });
-      }
-      setEventoAccion(null);
-    } finally {
-      setProcesandoId(null);
-    }
-  }
 
   const eventosFiltrados = filtroCofradiaId
     ? eventos.filter((e) => e.cofradiaIds.includes(filtroCofradiaId))
@@ -183,9 +119,6 @@ export function EventosScreen({ route, navigation }) {
               <TouchableOpacity onPress={() => navigation.navigate('FormularioEvento', { ciudadId, eventoId: evento.id })}>
                 <Text style={styles.accionEditar}>Editar</Text>
               </TouchableOpacity>
-              <TouchableOpacity disabled={procesandoId === evento.id} onPress={() => abrirAccion(evento)}>
-                <Text style={styles.accionNotificar}>Notificar</Text>
-              </TouchableOpacity>
             </View>
           </View>
         ))}
@@ -220,83 +153,6 @@ export function EventosScreen({ route, navigation }) {
         </Pressable>
       </Modal>
 
-      <Modal transparent visible={eventoAccion !== null} animationType="fade" onRequestClose={cerrarAccion}>
-        <Pressable style={styles.overlay} onPress={cerrarAccion}>
-          <Pressable style={styles.modalAccion} onPress={() => {}}>
-            <Text style={styles.modalAccionTitulo}>Notificar</Text>
-            <Text style={styles.modalAccionSubtitulo}>
-              {eventoAccion
-                ? `Este aviso será visible para los ciudadanos e informará de los cambios en "${eventoAccion.nombre}".`
-                : ''}
-            </Text>
-
-            <Text style={styles.etiquetaModal}>Tipo</Text>
-            <View style={styles.prioridadRow}>
-              {OPCIONES_TIPO_ACCION.map((opcion) => {
-                const seleccionado = tipoAccion === opcion.valor;
-                return (
-                  <TouchableOpacity
-                    key={opcion.valor}
-                    style={[
-                      styles.prioridadChip,
-                      { backgroundColor: colors.backgroundAlt, borderColor: colors.surfaceAlt },
-                      seleccionado && { borderColor: colors.gold },
-                    ]}
-                    onPress={() => setTipoAccion(opcion.valor)}
-                  >
-                    <Text style={[styles.prioridadChipTexto, { color: seleccionado ? colors.gold : colors.cream }]}>
-                      {opcion.etiqueta}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            <Text style={styles.etiquetaModal}>Motivos</Text>
-            <TextInput
-              style={[styles.inputModal, styles.inputModalMultilinea]}
-              value={mensajeAccion}
-              onChangeText={setMensajeAccion}
-              placeholder="Ej. cambio de hora por lluvias"
-              placeholderTextColor={colors.subtitle}
-              multiline
-            />
-
-            <Text style={styles.etiquetaModal}>Prioridad</Text>
-            <View style={styles.prioridadRow}>
-              {OPCIONES_PRIORIDAD.map((opcion) => {
-                const seleccionada = prioridadAccion === opcion.valor;
-                return (
-                  <TouchableOpacity
-                    key={opcion.valor}
-                    style={[
-                      styles.prioridadChip,
-                      { backgroundColor: opcion.background },
-                      seleccionada && { borderColor: opcion.texto },
-                    ]}
-                    onPress={() => setPrioridadAccion(opcion.valor)}
-                  >
-                    <Text style={[styles.prioridadChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            <View style={styles.modalAccionAcciones}>
-              <TouchableOpacity style={styles.volverButton} onPress={cerrarAccion} disabled={procesandoId !== null}>
-                <Text style={styles.volverTexto}>Cancelar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.confirmarNotificarButton, (!tipoAccion || !prioridadAccion) && styles.botonDeshabilitado]}
-                onPress={confirmarAccion}
-                disabled={!tipoAccion || !prioridadAccion || procesandoId !== null}
-              >
-                <Text style={styles.confirmarNotificarTexto}>Enviar notificaciones</Text>
-              </TouchableOpacity>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
     </ScreenContainer>
   );
 }

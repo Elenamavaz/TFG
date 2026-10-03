@@ -1,5 +1,5 @@
 import { Favoriteable } from './Favoriteable';
-import { partirFechaHora } from '../utils/fechaSemanaSanta';
+import { partirFechaHora, minutosEntre } from '../utils/fechaSemanaSanta';
 
 // Campos alineados con EventoResponse del backend -- 2026-08-15:
 // - "descripcion" no existe en el backend (solo historia + tradicion, este
@@ -9,9 +9,9 @@ import { partirFechaHora } from '../utils/fechaSemanaSanta';
 // - "ubicacion" (objeto completo en el mock) pasa a "ubicacionId": el
 //   backend solo da el id, resolver el objeto completo queda pendiente
 //   (igual que Recorrido en Procesion).
-// - "duracionMin" no tiene de dónde salir (el backend solo da un único
-//   `fecha`, sin fechaFin para Evento -sí lo tiene Procesion-); se queda
-//   siempre null, ya estaba tratado como opcional en las pantallas.
+// - "duracionMin" se deriva de fecha/fechaFin (2026-09-30: fechaFin subió
+//   de Procesion a Evento en el backend, "los eventos también tienen
+//   duración"); null si el evento no tiene hora de fin.
 // - fecha/dia/hora se derivan del único `fecha` del backend (ver
 //   partirFechaHora) para que HomeScreen/CalenderScreen sigan funcionando
 //   sin tocarlas.
@@ -28,6 +28,7 @@ export class Evento extends Favoriteable {
     historia = null,
     tradicion = null,
     fecha,
+    fechaFin = null,
     estado,
     ubicacionId = null,
   }) {
@@ -42,7 +43,7 @@ export class Evento extends Favoriteable {
     this.fecha = partida.fecha;
     this.dia = partida.dia;
     this.hora = partida.hora;
-    this.duracionMin = null;
+    this.duracionMin = minutosEntre(fecha, fechaFin);
     this.estado = estado;
     this.ubicacionId = ubicacionId; // seCelebraEn: 0..1 Ubicacion
   }

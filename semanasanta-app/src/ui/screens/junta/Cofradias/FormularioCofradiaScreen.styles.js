@@ -40,6 +40,13 @@ export const styles = StyleSheet.create({
     minHeight: 90,
     textAlignVertical: 'top',
   },
+  ayuda: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 11,
+    lineHeight: 15,
+    marginTop: spacing.xs,
+  },
   activaRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

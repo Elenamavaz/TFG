@@ -62,8 +62,10 @@ public class EventoService {
         // Resuelve y autoriza en un paso: todas las cofradiaIds deben ser de
         // la misma ciudad, y la Junta que las gestiona es quien puede crear.
         Set<Cofradia> cofradias = cofradiaService.resolverYExigirJuntaDeCofradiasEnLaMismaCiudad(request.cofradiaIds());
+        HorarioEventos.validarHorario(request.fecha(), request.fechaFin());
         Evento evento = new Evento(request.nombre(), request.historia(), request.tradicion(), request.fecha(), ubicacion,
                 request.web());
+        evento.setFechaFin(request.fechaFin());
         cofradias.forEach(evento::addCofradia);
         asignarPasos(evento, request.pasosIds());
         return eventoRepository.save(evento);
@@ -83,20 +85,30 @@ public class EventoService {
         }
 
         Ubicacion ubicacion = ubicacionService.obtener(request.ubicacionId());
+        HorarioEventos.validarHorario(request.fecha(), request.fechaFin());
         evento.setNombre(request.nombre());
         evento.setHistoria(request.historia());
         evento.setTradicion(request.tradicion());
         evento.setFecha(request.fecha());
+        evento.setFechaFin(request.fechaFin());
         evento.setUbicacion(ubicacion);
         evento.setWeb(request.web());
         evento.getCofradias().clear();
         nuevasCofradias.forEach(evento::addCofradia);
-        // estado no se toca aquí: lo cambiará un endpoint propio más adelante.
         if (request.pasosIds() != null) {
             evento.getPasos().clear();
             asignarPasos(evento, request.pasosIds());
         }
-        return eventoRepository.save(evento);
+        // Estado editable desde el formulario (2026-10-02, mismo cambio que
+        // ProcesionService.actualizar): corrección manual de lo que hace solo
+        // CambioEstadoAutomaticoService al llegar la hora. Validado con las
+        // fechas YA actualizadas.
+        boolean cambiaEstado = HorarioEventos.aplicarEstadoManual(evento, request.estado());
+        Evento guardado = eventoRepository.save(evento);
+        if (cambiaEstado) {
+            notificacionService.notificarCambioDeEstado(guardado); // INICIO/FIN; el resto no avisa solo
+        }
+        return guardado;
     }
 
     public void eliminar(Long id) {

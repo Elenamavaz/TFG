@@ -66,6 +66,29 @@ export const styles = StyleSheet.create({
 
   // Día / Inicio (sin Duración, ver comentario de FormularioEventoScreen) y
   // Latitud / Longitud: mismo patrón compacto de dos-tres campos en fila.
+  estadoRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  estadoChip: {
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: radii.sm,
+    borderWidth: 1.5,
+    borderColor: 'transparent',
+    paddingVertical: spacing.sm,
+  },
+  estadoChipTexto: {
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
+  ayudaEstado: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 11,
+    lineHeight: 15,
+    marginTop: spacing.xs,
+  },
   filaCompacta: {
     flexDirection: 'row',
     gap: spacing.sm,

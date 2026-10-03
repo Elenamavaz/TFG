@@ -4,6 +4,7 @@ import com.semanasanta.backend.dto.EstelaProcesionResponse;
 import com.semanasanta.backend.dto.PosicionActualResponse;
 import com.semanasanta.backend.dto.PosicionAgregadaResponse;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
+import com.semanasanta.backend.exception.ProcesionNoEnCursoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Cofrade;
 import com.semanasanta.backend.model.EstadoEvento;
@@ -65,8 +66,7 @@ public class PosicionActualService {
         // que esté EN_CURSO (CofradeContext.validarCodigo), pero un cliente
         // modificado podría saltarse esa comprobación si solo viviera ahí.
         if (procesion.getEstado() != EstadoEvento.EN_CURSO) {
-            throw new IllegalStateException(
-                    "Solo se puede compartir ubicación mientras la procesión está en curso");
+            throw new ProcesionNoEnCursoException();
         }
         // Filtro de "fuera de recorrido" (2026-08-22, a petición de Elena):
         // un ping que cae lejos de la ruta marcada -GPS con deriva, alguien

@@ -70,6 +70,7 @@ public class CofradiaService {
                 request.nombre(),
                 request.historia(),
                 request.web(),
+                request.imagen(),
                 LocalDateTime.now(), // fecha_creacion la fija el servidor, no el cliente
                 ciudad
         );
@@ -85,6 +86,7 @@ public class CofradiaService {
         cofradia.setNombre(request.nombre());
         cofradia.setHistoria(request.historia());
         cofradia.setWeb(request.web());
+        cofradia.setImagen(request.imagen());
         cofradia.setActiva(request.activa());
         // fechaCreacion no se toca: no tiene setter en la entidad a propósito.
         return cofradiaRepository.save(cofradia);

@@ -12,7 +12,7 @@ export class Notificacion {
     this.mensaje = mensaje; // razón libre: "corte en Calle X por aforo", etc.
     this.fechaCreacion = fechaCreacion;
     this.ciudadId = ciudadId;
-    this.tipo = tipo; // INICIO | FIN | INCIDENCIA | CAMBIO_HORARIO | CANCELACION
+    this.tipo = tipo; // INICIO | FIN | INCIDENCIA | CAMBIO_HORARIO | CANCELACION | ACTUALIZACION
     this.prioridad = prioridad; // null en INICIO/FIN (automáticas, sin prioridad que asignar)
     this.fechaExpiracion = fechaExpiracion;
   }

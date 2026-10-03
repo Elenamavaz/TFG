@@ -56,6 +56,7 @@ public class ProcesionService {
     }
 
     public Procesion crear(ProcesionRequest request) {
+        HorarioEventos.validarHorario(request.fechaInicio(), request.fechaFin());
         Ubicacion ubicacion = resolverUbicacion(request.ubicacionId());
         Recorrido recorrido = resolverRecorrido(request.recorridoId(), null);
         // Resuelve y autoriza en un paso: todas las cofradiaIds deben ser de
@@ -83,6 +84,7 @@ public class ProcesionService {
             throw new AccesoDenegadoException("Una procesión no puede moverse a otra ciudad");
         }
 
+        HorarioEventos.validarHorario(request.fechaInicio(), request.fechaFin());
         Ubicacion ubicacion = resolverUbicacion(request.ubicacionId());
         Long recorridoActualId = procesion.getRecorrido() != null ? procesion.getRecorrido().getId() : null;
         Recorrido recorrido = resolverRecorrido(request.recorridoId(), recorridoActualId);
@@ -98,12 +100,24 @@ public class ProcesionService {
         procesion.setRecorrido(recorrido);
         procesion.getCofradias().clear();
         nuevasCofradias.forEach(procesion::addCofradia);
-        // estado no se toca aquí: lo cambiará un endpoint propio más adelante.
         if (request.pasosIds() != null) {
             procesion.getPasos().clear();
             asignarPasos(procesion, request.pasosIds());
         }
-        return procesionRepository.save(procesion);
+        // Con las fechas YA actualizadas: si la Junta cambia la hora y el
+        // estado a la vez, se valida contra la hora nueva.
+        boolean cambiaEstado = HorarioEventos.aplicarEstadoManual(procesion, request.estado());
+        Procesion guardada = procesionRepository.save(procesion);
+        // Estado editable desde el formulario (2026-09-30), como corrección
+        // manual de lo que hace solo CambioEstadoAutomaticoService al llegar
+        // la hora (empezar antes, finalizar antes, reprogramar una
+        // cancelada). Pasar a EN_CURSO/FINALIZADO avisa igual que el cambio
+        // automático; volver a PROGRAMADO no (para eso está "Crear
+        // Notificación").
+        if (cambiaEstado) {
+            notificacionService.notificarCambioDeEstado(guardada);
+        }
+        return guardada;
     }
 
     // Avanza la marca de agua de la estela en vivo (2026-08-22, ver

@@ -10,6 +10,7 @@ public record CofradiaRequest(
         String nombre,
         String historia,
         String web,
+        String imagen,
         @NotNull(message = "ciudadId es obligatorio")
         Long ciudadId,
         boolean activa

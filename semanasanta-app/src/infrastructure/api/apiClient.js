@@ -45,11 +45,14 @@ const BASE_URL = resolverBaseUrl();
 // "passwordNueva"). "campos" lleva ese mapa cuando aplica, para que cada
 // pantalla pueda pintar el error justo debajo del TextInput que lo causó en
 // vez de un aviso genérico; en el resto de errores (404/401/403/409/500)
-// "campos" queda null y se usa el "mensaje" de siempre.
+// "campos" queda null y se usa el "mensaje" de siempre. "status" (código
+// HTTP, 2026-09-30) para quien necesite distinguir un error concreto -p.ej.
+// CofradeContext con el 410 de "la procesión ya no está en curso".
 export class ApiError extends Error {
-  constructor(mensaje, campos = null) {
+  constructor(mensaje, campos = null, status = null) {
     super(mensaje);
     this.campos = campos;
+    this.status = status;
   }
 }
 
@@ -89,12 +92,12 @@ export async function apiFetch(path, options = {}) {
 
   if (!response.ok) {
     if (response.status === 400 && datos && datos.mensaje === undefined) {
-      throw new ApiError('Revisa los campos marcados.', datos);
+      throw new ApiError('Revisa los campos marcados.', datos, response.status);
     }
     // GlobalExceptionHandler del backend siempre responde { mensaje: "..." }
     // en el resto de errores que traduce a propósito (404/401/403/409); para
     // los que no (500 sin traducir), no hay "mensaje" y se cae al genérico.
-    throw new ApiError(datos?.mensaje ?? `Error ${response.status} al llamar a ${path}`);
+    throw new ApiError(datos?.mensaje ?? `Error ${response.status} al llamar a ${path}`, null, response.status);
   }
 
   return datos;

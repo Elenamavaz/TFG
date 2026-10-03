@@ -4,6 +4,8 @@ import com.semanasanta.backend.dto.NotificacionRequest;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.exception.SolicitudInvalidaException;
 import com.semanasanta.backend.model.Ciudad;
+import com.semanasanta.backend.model.EstadoEvento;
+import com.semanasanta.backend.model.Evento;
 import com.semanasanta.backend.model.Notificacion;
 import com.semanasanta.backend.model.TipoNotificacion;
 import com.semanasanta.backend.repository.NotificacionRepository;
@@ -63,6 +65,30 @@ public class NotificacionService {
         // El push es una entrega best-effort además de la Notificacion
         // guardada, no en su lugar -ver PushNotificacionService: si falla,
         // la Notificacion ya está guardada y consultable igualmente.
+        pushNotificacionService.enviarACiudad(ciudad.getId(), guardada.getTitulo(), guardada.getMensaje());
+        return guardada;
+    }
+
+    // Aviso automático al pasar un evento/procesión a EN_CURSO/FINALIZADO
+    // (INICIO/FIN). Lo llaman ProcesionService.actualizar (cambio a mano
+    // desde el formulario) y CambioEstadoAutomaticoService (al llegar la
+    // hora). Cualquier otro estado no avisa solo.
+    public void notificarCambioDeEstado(Evento evento) {
+        Ciudad ciudad = evento.getCofradias().iterator().next().getCiudad();
+        if (evento.getEstado() == EstadoEvento.EN_CURSO) {
+            crearAutomatica(ciudad, TipoNotificacion.INICIO, "Ha comenzado: " + evento.getNombre(), null);
+        } else if (evento.getEstado() == EstadoEvento.FINALIZADO) {
+            crearAutomatica(ciudad, TipoNotificacion.FIN, "Ha finalizado: " + evento.getNombre(), null);
+        }
+    }
+
+    // Vía interna para INICIO/FIN (los genera el sistema, no la Junta): sin
+    // exigirJuntaDeLaCiudad porque quien llama ya ha autorizado a la Junta
+    // (o es la tarea automática, sin Junta detrás), y sin prioridad (el
+    // cliente la trata como informativa, ver Notificacion.colorCategoria).
+    public Notificacion crearAutomatica(Ciudad ciudad, TipoNotificacion tipo, String titulo, String mensaje) {
+        Notificacion guardada = notificacionRepository.save(
+                new Notificacion(titulo, mensaje, ciudad, tipo, null, null));
         pushNotificacionService.enviarACiudad(ciudad.getId(), guardada.getTitulo(), guardada.getMensaje());
         return guardada;
     }

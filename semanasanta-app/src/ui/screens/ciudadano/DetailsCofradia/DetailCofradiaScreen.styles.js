@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, spacing } from '../../../../theme';
+import { colors, fontFamilies, radii, spacing } from '../../../../theme';
 
 export const styles = StyleSheet.create({
   headerBackground: {
@@ -25,11 +25,35 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     paddingBottom: spacing.xl,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: spacing.md,
+  },
+  headerText: {
+    flex: 1,
+    marginRight: spacing.sm,
+  },
   title: {
     color: colors.textPrimary,
     fontFamily: fontFamilies.titleBold,
     fontSize: 28,
-    marginBottom: spacing.md,
+  },
+  imagen: {
+    width: 72,
+    height: 72,
+    borderRadius: radii.md,
+    backgroundColor: colors.surface,
+  },
+  imagePlaceholder: {
+    width: 72,
+    height: 72,
+    borderRadius: radii.md,
+    borderWidth: 1,
+    borderColor: colors.subtitle,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   sectionTitle: {
     color: colors.subtitle,

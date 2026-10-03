@@ -12,6 +12,7 @@ import {
   eliminarProcesion,
   importarGpxRecorrido,
 } from '../../../../data/services';
+import { EstadoEvento } from '../../../../data/models';
 import { combinarFechaHora, sumarMinutos, formatearDuracionCorta, parsearDuracionCorta } from '../../../../data/utils/fechaSemanaSanta';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
@@ -32,6 +33,19 @@ import { styles } from './FormularioProcesionScreen.styles';
 // Día/Salida/Duración son sueltos en el mockup pero el backend solo guarda
 // fecha/fechaInicio/fechaFin -se combinan aquí (ver fechaSemanaSanta.js) y
 // se deshacen igual al cargar una procesión existente para editar.
+// Estado (2026-09-30): cambia solo a "En curso"/"Finalizada" al llegar la
+// hora de salida/fin (CambioEstadoAutomaticoService del backend); este
+// selector es la corrección manual. Pasar a "En curso"/"Finalizada" avisa
+// solo a los ciudadanos (INICIO/FIN). "Cancelada" (añadida por Elena el
+// 2026-10-02) cancela sin avisar: al guardar se abre "Crear Notificación"
+// con la cancelación ya elegida, para dar motivo y prioridad.
+const OPCIONES_ESTADO = [
+  { valor: EstadoEvento.PROGRAMADO, etiqueta: 'Programada', background: colors.backgroundOrange, texto: colors.orangeText },
+  { valor: EstadoEvento.EN_CURSO, etiqueta: 'En curso', background: colors.greenBackground, texto: colors.lightGreenText },
+  { valor: EstadoEvento.FINALIZADO, etiqueta: 'Finalizada', background: colors.backgroundRed, texto: colors.redText },
+  { valor: EstadoEvento.CANCELADO, etiqueta: 'Cancelada', background: colors.backgroundRed, texto: colors.redText },
+];
+
 export function FormularioProcesionScreen({ route, navigation }) {
   const { ciudadId } = route.params;
   const procesionId = route.params?.procesionId ?? null;
@@ -52,6 +66,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
   const [webOficial, setWebOficial] = useState('');
   const [historia, setHistoria] = useState('');
   const [tradicion, setTradicion] = useState('');
+  const [estado, setEstado] = useState(EstadoEvento.PROGRAMADO);
+  const [estadoOriginal, setEstadoOriginal] = useState(EstadoEvento.PROGRAMADO);
   const [recorridoId, setRecorridoId] = useState(null);
   const [recorridoInfo, setRecorridoInfo] = useState(null);
   const [importandoGpx, setImportandoGpx] = useState(false);
@@ -98,6 +114,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
         setWebOficial(procesion.web ?? '');
         setHistoria(procesion.historia ?? '');
         setTradicion(procesion.tradicion ?? '');
+        setEstado(procesion.estado);
+        setEstadoOriginal(procesion.estado);
         setRecorridoId(procesion.recorridoId);
         if (procesion.recorridoId) {
           setRecorridoInfo(`Recorrido ya importado (id ${procesion.recorridoId})`);
@@ -150,6 +168,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
       fechaFin: sumarMinutos(fechaInicio, duracionMin),
       recorridoId,
       pasosIds: null,
+      estado: editando ? estado : null, // al crear, el backend la deja PROGRAMADO
     };
   }
 
@@ -161,7 +180,12 @@ export function FormularioProcesionScreen({ route, navigation }) {
     try {
       if (editando) {
         await actualizarProcesion(procesionId, datosFormulario());
-        navigation.replace('ProcesionActualizada', { nombreProcesion: nombre.trim(), ciudadId, procesionId });
+        navigation.replace('ProcesionActualizada', {
+          nombreProcesion: nombre.trim(),
+          ciudadId,
+          procesionId,
+          estadoNuevo: estado !== estadoOriginal ? estado : null,
+        });
       } else {
         const procesionCreada = await crearProcesion(datosFormulario());
         navigation.replace('ProcesionCreada', { nombreProcesion: procesionCreada.nombre, ciudadId, procesionId: procesionCreada.id });
@@ -228,6 +252,36 @@ export function FormularioProcesionScreen({ route, navigation }) {
             <Ionicons name="chevron-down" size={16} color={colors.subtitle} />
           </TouchableOpacity>
         </View>
+
+        {editando ? (
+          <View style={styles.campo}>
+            <Text style={styles.etiqueta}>Estado</Text>
+            <View style={styles.estadoRow}>
+              {OPCIONES_ESTADO.map((opcion) => {
+                const seleccionado = estado === opcion.valor;
+                return (
+                  <TouchableOpacity
+                    key={opcion.valor}
+                    style={[styles.estadoChip, { backgroundColor: opcion.background }, seleccionado && { borderColor: opcion.texto }]}
+                    onPress={() => setEstado(opcion.valor)}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.estadoChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <Text style={styles.ayudaEstado}>
+              {estado === EstadoEvento.CANCELADO && estadoOriginal === EstadoEvento.CANCELADO
+                ? 'Procesión cancelada. Elige "Programada" si vuelve a celebrarse.'
+                : estado === EstadoEvento.CANCELADO
+                  ? 'Al guardar podrás explicar a los ciudadanos el motivo.'
+                  : estado !== estadoOriginal && estado !== EstadoEvento.PROGRAMADO
+                    ? 'Al guardar se avisará automáticamente a los ciudadanos.'
+                    : 'Cambia sola a "En curso" y "Finalizada" a la hora de salida y de fin.'}
+            </Text>
+          </View>
+        ) : null}
 
         <View style={styles.filaCompacta}>
           <View style={styles.campoCompacto}>

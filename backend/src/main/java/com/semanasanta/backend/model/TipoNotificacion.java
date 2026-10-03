@@ -7,15 +7,18 @@ package com.semanasanta.backend.model;
 // para nada distinto en la UI -el color de la tarjeta ya se decide solo por
 // Prioridad, ver Alerta.js del cliente antes de esta refactorización-; el
 // detalle de "qué ha pasado" va en Notificacion.mensaje como texto libre, no
-// hace falta una categoría propia). INICIO/FIN son nuevos: los genera el
-// propio sistema al cambiar Evento.estado a EN_CURSO/FINALIZADO (pendiente,
-// ver NotificacionService.crearAutomatica -- todavía no hay ningún endpoint
-// que cambie el estado, así que hoy nada llama a ese método), nunca la Junta
-// a mano -- NotificacionService.crear() los rechaza explícitamente.
+// hace falta una categoría propia). INICIO/FIN los genera el propio sistema
+// al cambiar el estado de una procesión a EN_CURSO/FINALIZADO desde su
+// formulario (ver ProcesionService.actualizar -> NotificacionService.
+// crearAutomatica), nunca la Junta a mano -- NotificacionService.crear() los
+// rechaza explícitamente. ACTUALIZACION (2026-09-30, mockup "Procesión
+// Actualizada" -> "Crear Notificación"): aviso opcional tras editar una
+// procesión (historia, recorrido, pasos...), sin ser incidencia ni horario.
 public enum TipoNotificacion {
     INICIO,
     FIN,
     INCIDENCIA,
     CAMBIO_HORARIO,
-    CANCELACION
+    CANCELACION,
+    ACTUALIZACION
 }

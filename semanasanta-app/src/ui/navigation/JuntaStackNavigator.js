@@ -11,6 +11,7 @@ import {
   CofradiasScreen,
   FormularioCofradiaScreen,
   CofradiaCreadaScreen,
+  CodigosAccesoScreen,
   EventosScreen,
   FormularioEventoScreen,
   EventoCreadoScreen,
@@ -59,6 +60,7 @@ export function JuntaStackNavigator() {
       <Stack.Screen name="Cofradias" component={CofradiasScreen} />
       <Stack.Screen name="FormularioCofradia" component={FormularioCofradiaScreen} />
       <Stack.Screen name="CofradiaCreada" component={CofradiaCreadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="CodigosAcceso" component={CodigosAccesoScreen} />
 
       <Stack.Screen name="Eventos" component={EventosScreen} />
       <Stack.Screen name="FormularioEvento" component={FormularioEventoScreen} />

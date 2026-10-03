@@ -13,7 +13,8 @@ import {
   actualizarEvento,
   eliminarEvento,
 } from '../../../../data/services';
-import { combinarFechaHora } from '../../../../data/utils/fechaSemanaSanta';
+import { EstadoEvento } from '../../../../data/models';
+import { combinarFechaHora, sumarMinutos, formatearDuracionCorta, parsearDuracionCorta } from '../../../../data/utils/fechaSemanaSanta';
 import { ScreenContainer } from '../../../components/common';
 import { colors } from '../../../../theme';
 import { styles } from './FormularioEventoScreen.styles';
@@ -22,15 +23,30 @@ import { styles } from './FormularioEventoScreen.styles';
 // 2026-08-22), mismo patrón que FormularioProcesionScreen para Cofradia y
 // Día/Inicio. Tres diferencias respecto al mockup, todas a petición de
 // Elena o ya decididas antes en el propio código:
-// - Sin "Duración": Evento (a diferencia de Procesion) solo guarda un único
-//   `fecha` en el backend, sin fechaFin -ver Evento.js del cliente, ya
-//   trataba duracionMin como "no tiene de dónde salir".
+// - "Duración" (2026-09-30, antes no existía: el backend solo guardaba
+//   `fecha`): se convierte en fechaFin igual que en FormularioProcesionScreen.
+//   Con ella el evento pasa solo a "En curso"/"Finalizado" al llegar la hora
+//   (CambioEstadoAutomaticoService del backend).
 // - "Ubicación" pide dirección + latitud/longitud sueltas, no solo la
 //   dirección como en el mockup: no hay geocodificación (texto -> coordenadas)
 //   en el proyecto, y Ubicacion exige lat/lon obligatorias.
 // - "Lista de pasos" no es un campo del formulario, es un enlace informativo
 //   a PasosScreen filtrado por esta cofradía (cuenta los pasos con
 //   getPasosPorCofradia).
+// Estado (2026-10-02, mismo cambio que FormularioProcesionScreen): cambia
+// solo a "En curso"/"Finalizado" al llegar la hora de inicio/fin
+// (CambioEstadoAutomaticoService del backend); este selector es la
+// corrección manual (empezar o terminar antes, reprogramar uno cancelado).
+// Pasar a "En curso"/"Finalizado" avisa solo a los ciudadanos (INICIO/FIN).
+// "Cancelado" cancela sin avisar: al guardar se abre "Crear Notificación"
+// con la cancelación ya elegida, para dar motivo y prioridad.
+const OPCIONES_ESTADO = [
+  { valor: EstadoEvento.PROGRAMADO, etiqueta: 'Programado', background: colors.backgroundOrange, texto: colors.orangeText },
+  { valor: EstadoEvento.EN_CURSO, etiqueta: 'En curso', background: colors.greenBackground, texto: colors.lightGreenText },
+  { valor: EstadoEvento.FINALIZADO, etiqueta: 'Finalizado', background: colors.backgroundRed, texto: colors.redText },
+  { valor: EstadoEvento.CANCELADO, etiqueta: 'Cancelado', background: colors.backgroundRed, texto: colors.redText },
+];
+
 export function FormularioEventoScreen({ route, navigation }) {
   const { ciudadId } = route.params;
   const eventoId = route.params?.eventoId ?? null;
@@ -47,6 +63,9 @@ export function FormularioEventoScreen({ route, navigation }) {
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
   const [modalDiaVisible, setModalDiaVisible] = useState(false);
   const [horaInicio, setHoraInicio] = useState('');
+  const [duracionTexto, setDuracionTexto] = useState('0h 0min');
+  const [estado, setEstado] = useState(EstadoEvento.PROGRAMADO);
+  const [estadoOriginal, setEstadoOriginal] = useState(EstadoEvento.PROGRAMADO);
   const [webOficial, setWebOficial] = useState('');
   const [historia, setHistoria] = useState('');
   const [ubicacionId, setUbicacionId] = useState(null);
@@ -88,6 +107,9 @@ export function FormularioEventoScreen({ route, navigation }) {
         setCofradiaSeleccionada(cofradia);
         setDiaSeleccionado(dias.find((d) => d.nombre === evento.dia) ?? null);
         setHoraInicio(evento.hora ?? '');
+        setDuracionTexto(formatearDuracionCorta(evento.duracionMin ?? 0));
+        setEstado(evento.estado);
+        setEstadoOriginal(evento.estado);
         setWebOficial(evento.web ?? '');
         setHistoria(evento.historia ?? '');
         if (cofradia) {
@@ -133,11 +155,16 @@ export function FormularioEventoScreen({ route, navigation }) {
     setGuardando(true);
     try {
       const idUbicacion = await resolverUbicacionId();
+      const fecha = combinarFechaHora(diaSeleccionado?.fecha, horaInicio);
+      const duracionMin = parsearDuracionCorta(duracionTexto);
       const datos = {
         nombre: nombre.trim(),
         historia: historia.trim() || null,
         tradicion: null,
-        fecha: combinarFechaHora(diaSeleccionado?.fecha, horaInicio),
+        fecha,
+        // Duración 0 -> null (ver sumarMinutos): sin hora de fin, el evento
+        // no se finaliza solo, solo a mano.
+        fechaFin: sumarMinutos(fecha, duracionMin),
         cofradiaIds: cofradiaSeleccionada ? [cofradiaSeleccionada.id] : [],
         ubicacionId: idUbicacion,
         web: webOficial.trim() || null,
@@ -145,10 +172,16 @@ export function FormularioEventoScreen({ route, navigation }) {
         // (2026-08-23) -mismo patrón que FormularioProcesionScreen, que
         // tampoco los toca aquí.
         pasosIds: null,
+        estado: editando ? estado : null, // al crear, el backend lo deja PROGRAMADO
       };
       if (editando) {
         await actualizarEvento(eventoId, datos);
-        navigation.replace('EventoActualizado', { ciudadId, eventoId });
+        navigation.replace('EventoActualizado', {
+          nombreEvento: nombre.trim(),
+          ciudadId,
+          eventoId,
+          estadoNuevo: estado !== estadoOriginal ? estado : null,
+        });
       } else {
         const eventoCreado = await crearEvento(datos);
         navigation.replace('EventoCreado', { nombreEvento: eventoCreado.nombre, ciudadId, eventoId: eventoCreado.id });
@@ -210,6 +243,36 @@ export function FormularioEventoScreen({ route, navigation }) {
           </TouchableOpacity>
         </View>
 
+        {editando ? (
+          <View style={styles.campo}>
+            <Text style={styles.etiqueta}>Estado</Text>
+            <View style={styles.estadoRow}>
+              {OPCIONES_ESTADO.map((opcion) => {
+                const seleccionado = estado === opcion.valor;
+                return (
+                  <TouchableOpacity
+                    key={opcion.valor}
+                    style={[styles.estadoChip, { backgroundColor: opcion.background }, seleccionado && { borderColor: opcion.texto }]}
+                    onPress={() => setEstado(opcion.valor)}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.estadoChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <Text style={styles.ayudaEstado}>
+              {estado === EstadoEvento.CANCELADO && estadoOriginal === EstadoEvento.CANCELADO
+                ? 'Evento cancelado. Elige "Programado" si vuelve a celebrarse.'
+                : estado === EstadoEvento.CANCELADO
+                  ? 'Al guardar podrás explicar a los ciudadanos el motivo.'
+                  : estado !== estadoOriginal && estado !== EstadoEvento.PROGRAMADO
+                    ? 'Al guardar se avisará automáticamente a los ciudadanos.'
+                    : 'Cambia solo a "En curso" y "Finalizado" a la hora de inicio y de fin.'}
+            </Text>
+          </View>
+        ) : null}
+
         <View style={styles.filaCompacta}>
           <View style={styles.campoCompacto}>
             <View style={styles.etiquetaCompacta}>
@@ -232,6 +295,20 @@ export function FormularioEventoScreen({ route, navigation }) {
               value={horaInicio}
               onChangeText={setHoraInicio}
               placeholder="00:00"
+              placeholderTextColor={colors.subtitle}
+              style={styles.inputCompacto}
+            />
+          </View>
+
+          <View style={styles.campoCompacto}>
+            <View style={styles.etiquetaCompacta}>
+              <Ionicons name="hourglass-outline" size={12} color={colors.subtitle} />
+              <Text style={styles.etiquetaCompactaTexto}>Duración</Text>
+            </View>
+            <TextInput
+              value={duracionTexto}
+              onChangeText={setDuracionTexto}
+              placeholder="0h 0min"
               placeholderTextColor={colors.subtitle}
               style={styles.inputCompacto}
             />

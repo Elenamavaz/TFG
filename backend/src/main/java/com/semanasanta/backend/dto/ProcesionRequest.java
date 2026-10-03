@@ -1,5 +1,6 @@
 package com.semanasanta.backend.dto;
 
+import com.semanasanta.backend.model.EstadoEvento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -7,10 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-// Sin "estado": lo hereda de Evento y nace PROGRAMADO igual que cualquier
-// evento (cambiarlo es cosa de POST /procesiones/{id}/cancelar, no de este
-// DTO). recorridoId es opcional: puede programarse una procesión sin ruta
-// definida todavía. pasosIds es opcional (una procesión puede crearse sin
+// "estado" (2026-09-30) es opcional y solo cuenta al actualizar: al crear,
+// toda procesión nace PROGRAMADO igual que cualquier evento. null = no
+// cambiarlo. CANCELADO también se admite (2026-10-02) pero sin avisar: el
+// aviso con motivo y prioridad es POST /procesiones/{id}/cancelar, que la
+// app ofrece justo después ("Crear Notificación"). recorridoId es opcional:
+// puede programarse una procesión sin ruta definida todavía. pasosIds es opcional (una procesión puede crearse sin
 // pasos asignados todavía y añadirlos después). cofradiaIds (no cofradiaId,
 // decisión del 2026-08-11): una procesión puede tener más de una cofradía
 // participando, al menos una es obligatoria. ubicacionId, a diferencia de
@@ -30,6 +33,7 @@ public record ProcesionRequest(
         LocalDateTime fechaInicio,
         LocalDateTime fechaFin,
         Long recorridoId,
-        List<Long> pasosIds
+        List<Long> pasosIds,
+        EstadoEvento estado
 ) {
 }

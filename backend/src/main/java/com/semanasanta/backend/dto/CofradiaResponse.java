@@ -9,6 +9,7 @@ public record CofradiaResponse(
         String nombre,
         String historia,
         String web,
+        String imagen,
         LocalDateTime fechaCreacion,
         Long ciudadId,
         boolean activa
@@ -19,6 +20,7 @@ public record CofradiaResponse(
                 cofradia.getNombre(),
                 cofradia.getHistoria(),
                 cofradia.getWeb(),
+                cofradia.getImagen(),
                 cofradia.getFechaCreacion(),
                 cofradia.getCiudad().getId(),
                 cofradia.isActiva()

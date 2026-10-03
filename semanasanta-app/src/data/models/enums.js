@@ -35,13 +35,16 @@ export const Prioridad = Object.freeze({
 // Alineado con TipoNotificacion del backend (2026-08-20, sustituye a los
 // valores viejos INICIO_PROCESION/CAMBIO_ESTADO/CERCANIA_PROCESION/
 // RECORDATORIO, que no correspondían a nada real del backend). INICIO/FIN
-// las genera el sistema; INCIDENCIA/CAMBIO_HORARIO/CANCELACION las crea la Junta.
+// las genera el sistema; INCIDENCIA/CAMBIO_HORARIO/CANCELACION/ACTUALIZACION
+// las crea la Junta (ACTUALIZACION desde el 2026-09-30, aviso opcional tras
+// editar una procesión o evento, ver NotificarModal).
 export const TipoNotificacion = Object.freeze({
   INICIO: 'INICIO',
   FIN: 'FIN',
   INCIDENCIA: 'INCIDENCIA',
   CAMBIO_HORARIO: 'CAMBIO_HORARIO',
   CANCELACION: 'CANCELACION',
+  ACTUALIZACION: 'ACTUALIZACION',
 });
 
 // Valores alineados con TipoPuntoInteres del backend -- 2026-08-15: incluye

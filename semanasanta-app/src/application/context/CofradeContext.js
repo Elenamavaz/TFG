@@ -13,6 +13,11 @@ const CofradeContext = createContext(null);
 // ~30s desde el cliente cofrade").
 const INTERVALO_PING_MS = 30000;
 
+// 410 = la procesión ya no está EN_CURSO (ver ProcesionNoEnCursoException
+// del backend), normalmente porque se ha finalizado sola al llegar su hora
+// de fin (CambioEstadoAutomaticoService).
+const STATUS_PROCESION_NO_EN_CURSO = 410;
+
 // Compartir ubicación como Cofrade (2026-08-21): antes era un interruptor de
 // mentira en PerfilScreen, ahora es de verdad -código real (POST
 // /auth/codigo-acceso), backend real de pings (POST /procesiones/{id}/
@@ -38,13 +43,34 @@ export function CofradeProvider({ children }) {
   const [error, setError] = useState(null);
   const intervaloRef = useRef(null);
 
-  const enviarPing = useCallback(async (idProcesion, jwt) => {
-    const posicion = await obtenerPosicionActual();
-    if (!posicion) return; // sin GPS disponible en este ciclo, se reintenta en el siguiente
-    // Un ping suelto que falle (red, backend caído un instante) no debe
-    // cortar el compartir entero -se reintenta solo en el siguiente ciclo.
-    await registrarPosicion(idProcesion, posicion.latitud, posicion.longitud, jwt).catch(() => {});
+  const detenerCompartir = useCallback(() => {
+    if (intervaloRef.current) {
+      clearInterval(intervaloRef.current);
+      intervaloRef.current = null;
+    }
+    setCompartiendo(false);
   }, []);
+
+  const enviarPing = useCallback(
+    async (idProcesion, jwt) => {
+      const posicion = await obtenerPosicionActual();
+      if (!posicion) return; // sin GPS disponible en este ciclo, se reintenta en el siguiente
+      try {
+        await registrarPosicion(idProcesion, posicion.latitud, posicion.longitud, jwt);
+      } catch (err) {
+        // La procesión ha terminado (2026-09-30, decisión de Elena: si a un
+        // cofrade se le olvida parar, se le echa al llegar la hora de fin):
+        // se corta el compartir y se le explica por qué.
+        if (err.status === STATUS_PROCESION_NO_EN_CURSO) {
+          detenerCompartir();
+          setError(err.message);
+        }
+        // Cualquier otro fallo suelto (red, backend caído un instante) no
+        // corta el compartir -se reintenta solo en el siguiente ciclo.
+      }
+    },
+    [detenerCompartir]
+  );
 
   const empezarPings = useCallback(
     (idProcesion, jwt) => {
@@ -80,10 +106,8 @@ export function CofradeProvider({ children }) {
   // terminó); 2026-08-21, a petición de Elena. Con una sola candidata en
   // curso se comparte sin más preguntas; con varias a la vez (una cofradía
   // puede participar en más de una, N:M) se deja procesionesPendientes para
-  // que la pantalla pida elegir (ver elegirProcesion). El backend no exige
-  // esto mismo en el ping (PosicionActualService.registrarPing no mira el
-  // estado de la procesión) -queda dicho, pendiente de decidir si merece la
-  // pena duplicarlo ahí como defensa extra.
+  // que la pantalla pida elegir (ver elegirProcesion). El backend también lo
+  // exige en cada ping (410 si ya no está en curso, ver enviarPing).
   const validarCodigo = useCallback(
     async (codigo) => {
       setCargando(true);
@@ -121,14 +145,6 @@ export function CofradeProvider({ children }) {
     },
     [iniciarCompartir, token, cofradiaId]
   );
-
-  const detenerCompartir = useCallback(() => {
-    if (intervaloRef.current) {
-      clearInterval(intervaloRef.current);
-      intervaloRef.current = null;
-    }
-    setCompartiendo(false);
-  }, []);
 
   const value = useMemo(
     () => ({

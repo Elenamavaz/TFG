@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -61,7 +61,18 @@ export function DetalleCofradiaScreen({ route, navigation }) {
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>{cofradia.nombre}</Text>
+        <View style={styles.headerRow}>
+          <View style={styles.headerText}>
+            <Text style={styles.title}>{cofradia.nombre}</Text>
+          </View>
+          {cofradia.imagen ? (
+            <Image source={{ uri: cofradia.imagen }} style={styles.imagen} resizeMode="cover" />
+          ) : (
+            <View style={styles.imagePlaceholder}>
+              <Ionicons name="image-outline" size={22} color={colors.subtitle} />
+            </View>
+          )}
+        </View>
 
         <InfoSection title="Historia">
           <Text style={styles.body}>{cofradia.historia}</Text>

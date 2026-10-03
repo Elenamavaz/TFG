@@ -1,0 +1,1 @@
+ALTER TABLE cofradias ADD COLUMN imagen VARCHAR(500);

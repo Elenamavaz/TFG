@@ -1,7 +1,14 @@
 import { StyleSheet } from 'react-native';
 import { colors, fontFamilies, radii, spacing } from '../../../../theme';
 
+// Misma base que las listas del panel de Junta (ProcesionesScreen/
+// PasosScreen): título grande, botón dorado de alta, tarjetas oscuras.
 export const styles = StyleSheet.create({
+  cargando: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     padding: spacing.lg,
     paddingBottom: spacing.xl,
@@ -16,9 +23,16 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
     marginTop: 2,
+  },
+  explicacion: {
+    color: colors.cream,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: 13,
+    lineHeight: 19,
+    marginTop: spacing.md,
     marginBottom: spacing.md,
   },
-  nuevaButton: {
+  generarButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -27,44 +41,36 @@ export const styles = StyleSheet.create({
     borderRadius: radii.lg,
     paddingVertical: spacing.md,
   },
-  nuevaButtonTexto: {
+  generarTexto: {
     color: colors.background,
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 15,
   },
-  filtroRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    marginTop: spacing.md,
+  botonDeshabilitado: {
+    opacity: 0.5,
   },
-  filtroEtiqueta: {
-    color: colors.subtitle,
+  error: {
+    color: colors.redText,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
-  },
-  filtroSelector: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.backgroundAlt,
-    borderRadius: radii.md,
-    borderWidth: 0.5,
-    borderColor: colors.surfaceAlt,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  filtroTexto: {
-    flex: 1,
-    color: colors.cream,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 13,
+    marginTop: spacing.sm,
   },
   sectionTitle: {
     color: colors.subtitle,
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
+    marginTop: spacing.lg,
+    marginBottom: spacing.sm,
+  },
+  sectionTitleSinMargen: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+  },
+  revocadosToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginTop: spacing.lg,
     marginBottom: spacing.sm,
   },
@@ -76,33 +82,24 @@ export const styles = StyleSheet.create({
     padding: spacing.md,
     marginBottom: spacing.sm,
   },
+  cardRevocada: {
+    opacity: 0.6,
+  },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  cardTitulo: {
-    flex: 1,
-    color: colors.textPrimary,
-    fontFamily: fontFamilies.titleSemiBold,
-    fontSize: 16,
-    marginRight: spacing.sm,
-  },
-  cardMeta: {
-    color: colors.subtitle,
-    fontFamily: fontFamilies.uiRegular,
-    fontSize: 12,
-    marginTop: 2,
-  },
-  cardAcciones: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    marginTop: spacing.sm,
-  },
-  accionEditar: {
+  // El código es lo que se lee en voz alta o se teclea: grande y espaciado.
+  codigo: {
     color: colors.gold,
     fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 13,
+    fontSize: 20,
+    letterSpacing: 3,
+  },
+  codigoRevocado: {
+    color: colors.subtitle,
+    textDecorationLine: 'line-through',
   },
   badge: {
     borderRadius: radii.sm,
@@ -113,36 +110,29 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 11,
   },
+  cardAcciones: {
+    flexDirection: 'row',
+    gap: spacing.lg,
+    marginTop: spacing.sm,
+  },
+  accion: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  accionCompartir: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
+  accionRevocar: {
+    color: colors.redText,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 13,
+  },
   empty: {
     color: colors.subtitle,
     fontFamily: fontFamilies.bodyRegular,
     fontSize: 13,
-    marginTop: spacing.sm,
-  },
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: spacing.lg,
-  },
-  modalLista: {
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 0.5,
-    borderRadius: radii.md,
-    borderColor: colors.subtitle,
-    paddingVertical: spacing.xs,
-    width: '100%',
-    maxWidth: 320,
-    maxHeight: 360,
-  },
-  modalItem: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
-  },
-  modalItemTexto: {
-    color: colors.cream,
-    fontFamily: fontFamilies.uiMedium,
-    fontSize: 15,
   },
 });

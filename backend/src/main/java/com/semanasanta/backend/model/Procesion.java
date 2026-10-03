@@ -22,9 +22,6 @@ public class Procesion extends Evento {
     @Column(name = "fecha_inicio")
     private LocalDateTime fechaInicio;
 
-    @Column(name = "fecha_fin")
-    private LocalDateTime fechaFin;
-
     // Opcional: una procesión puede estar programada antes de tener ruta
     // definida. UNIQUE en la BD porque es 1:1 (una ruta no se comparte entre
     // procesiones).
@@ -51,7 +48,7 @@ public class Procesion extends Evento {
                       Recorrido recorrido) {
         super(nombre, historia, tradicion, fecha, ubicacion, web);
         this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+        setFechaFin(fechaFin); // fecha_fin vive en eventos desde V43 (heredada de Evento)
         this.recorrido = recorrido;
     }
 
@@ -63,12 +60,9 @@ public class Procesion extends Evento {
         this.fechaInicio = fechaInicio;
     }
 
-    public LocalDateTime getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(LocalDateTime fechaFin) {
-        this.fechaFin = fechaFin;
+    @Override
+    public LocalDateTime getMomentoInicio() {
+        return fechaInicio != null ? fechaInicio : getFecha();
     }
 
     public Recorrido getRecorrido() {

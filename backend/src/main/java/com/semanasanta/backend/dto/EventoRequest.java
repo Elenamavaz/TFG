@@ -1,5 +1,6 @@
 package com.semanasanta.backend.dto;
 
+import com.semanasanta.backend.model.EstadoEvento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,8 @@ public record EventoRequest(
         @NotNull(message = "ubicacionId es obligatorio")
         Long ubicacionId,
         String web,
-        List<Long> pasosIds
+        List<Long> pasosIds,
+        LocalDateTime fechaFin, // opcional (2026-09-30): sin ella, el evento solo se finaliza a mano
+        EstadoEvento estado // opcional (2026-10-02), solo al actualizar: null = no cambiarlo (ver ProcesionRequest)
 ) {
 }

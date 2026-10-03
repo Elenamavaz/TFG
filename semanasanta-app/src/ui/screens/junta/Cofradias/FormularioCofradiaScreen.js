@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator, Alert, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -6,6 +7,7 @@ import {
   getProcesionesPorCofradia,
   getEventosPorCofradia,
   getPasosPorCofradia,
+  getCodigosAccesoDeCofradia,
   crearCofradia,
   actualizarCofradia,
   eliminarCofradia,
@@ -25,6 +27,10 @@ import { styles } from './FormularioCofradiaScreen.styles';
 // podría ser un campo suelto escrito a mano -mismo caso que
 // Ciudad.numCofradiasEstimado, añadido y quitado el mismo día porque
 // "no aportaba nada, se queda desactualizado".
+//
+// "Imagen" (2026-09-20, escudo/imagen representativa de la cofradía): mismo
+// patrón que Paso.imagen -un campo de texto con la URL, no un selector de
+// galería/cámara: no hay infraestructura de subida de ficheros en el backend.
 export function FormularioCofradiaScreen({ route, navigation }) {
   const { ciudadId } = route.params;
   const cofradiaId = route.params?.cofradiaId ?? null;
@@ -34,6 +40,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
   const [nombre, setNombre] = useState('');
   const [web, setWeb] = useState('');
   const [historia, setHistoria] = useState('');
+  const [imagen, setImagen] = useState('');
   const [activa, setActiva] = useState(true);
   // "Elementos de la cofradia" (2026-08-23): igual que "Lista de pasos" en
   // FormularioProcesionScreen/FormularioEventoScreen, pero aquí son tres
@@ -43,6 +50,8 @@ export function FormularioCofradiaScreen({ route, navigation }) {
   const [numProcesiones, setNumProcesiones] = useState(0);
   const [numEventos, setNumEventos] = useState(0);
   const [numPasos, setNumPasos] = useState(0);
+  // Códigos de acceso (2026-10-02): cuántos siguen valiendo (no revocados).
+  const [numCodigosActivos, setNumCodigosActivos] = useState(0);
   const [guardando, setGuardando] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [error, setError] = useState(null);
@@ -61,6 +70,17 @@ export function FormularioCofradiaScreen({ route, navigation }) {
     });
   }, [navigation, editando]);
 
+  // Al volver de CodigosAccesoScreen el número puede haber cambiado; solo se
+  // recarga esto (no el formulario entero, que pisaría lo que se esté editando).
+  useFocusEffect(
+    useCallback(() => {
+      if (!editando) return;
+      getCodigosAccesoDeCofradia(cofradiaId)
+        .then((codigos) => setNumCodigosActivos(codigos.filter((c) => c.activo).length))
+        .catch(() => {});
+    }, [editando, cofradiaId])
+  );
+
   useEffect(() => {
     if (!editando) return;
     Promise.all([
@@ -72,6 +92,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
       setNombre(cofradia.nombre);
       setWeb(cofradia.web ?? '');
       setHistoria(cofradia.historia ?? '');
+      setImagen(cofradia.imagen ?? '');
       setActiva(cofradia.activa);
       setNumProcesiones(procesiones.length);
       setNumEventos(eventos.length);
@@ -85,6 +106,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
       nombre: nombre.trim(),
       historia: historia.trim() || null,
       web: web.trim() || null,
+      imagen: imagen.trim() || null,
       ciudadId,
       activa,
     };
@@ -166,6 +188,20 @@ export function FormularioCofradiaScreen({ route, navigation }) {
           />
         </View>
 
+        <View style={styles.campo}>
+          <Text style={styles.etiqueta}>Imagen</Text>
+          <TextInput
+            value={imagen}
+            onChangeText={setImagen}
+            placeholder="URL de la imagen"
+            placeholderTextColor={colors.subtitle}
+            autoCapitalize="none"
+            keyboardType="url"
+            style={styles.input}
+          />
+          <Text style={styles.ayuda}>Pega la URL del escudo o una imagen representativa ya subida (JPG, JPEG o PNG).</Text>
+        </View>
+
         {editando ? (
           <View style={styles.activaRow}>
             <Text style={styles.etiqueta}>Cofradia activa</Text>
@@ -223,6 +259,26 @@ export function FormularioCofradiaScreen({ route, navigation }) {
               </View>
               <View style={styles.elementoVerLista}>
                 <Text style={styles.elementoVerListaTexto}>Ver Lista</Text>
+                <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              </View>
+            </TouchableOpacity>
+
+            {/* Códigos de acceso (2026-10-02): lo que la Junta entrega a los
+                cofrades para que compartan su ubicación (ver
+                CodigosAccesoScreen). */}
+            <TouchableOpacity
+              style={styles.elementoRow}
+              onPress={() => navigation.navigate('CodigosAcceso', { cofradiaId })}
+              activeOpacity={0.8}
+            >
+              <View>
+                <Text style={styles.elementoTitulo}>Códigos de acceso</Text>
+                <Text style={styles.elementoMeta}>
+                  {numCodigosActivos} {numCodigosActivos === 1 ? 'código activo' : 'códigos activos'}
+                </Text>
+              </View>
+              <View style={styles.elementoVerLista}>
+                <Text style={styles.elementoVerListaTexto}>Gestionar</Text>
                 <Ionicons name="chevron-forward" size={14} color={colors.gold} />
               </View>
             </TouchableOpacity>

@@ -31,6 +31,12 @@ public class Cofradia {
     @Column(name = "web")
     private String web;
 
+    // URL a una imagen ya subida en otro sitio (escudo/imagen representativa
+    // de la cofradía) -mismo patrón que Paso.imagen, sin infraestructura de
+    // subida de ficheros propia en el backend.
+    @Column(name = "imagen")
+    private String imagen;
+
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
@@ -47,11 +53,12 @@ public class Cofradia {
     protected Cofradia() {
     }
 
-    public Cofradia(String nombre, String historia, String web,
+    public Cofradia(String nombre, String historia, String web, String imagen,
                      LocalDateTime fechaCreacion, Ciudad ciudad) {
         this.nombre = nombre;
         this.historia = historia;
         this.web = web;
+        this.imagen = imagen;
         this.fechaCreacion = fechaCreacion;
         this.ciudad = ciudad;
         this.activa = true;
@@ -83,6 +90,14 @@ public class Cofradia {
 
     public void setWeb(String web) {
         this.web = web;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public LocalDateTime getFechaCreacion() {

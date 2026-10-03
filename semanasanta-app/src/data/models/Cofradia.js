@@ -6,13 +6,14 @@ import { Favoriteable } from './Favoriteable';
 // Ciudad.activa: permite a la Junta dar de alta una cofradía mientras la
 // sigue completando, sin que el ciudadano la vea todavía.
 export class Cofradia extends Favoriteable {
-  constructor({ id, ciudadId, nombre, historia = null, web = null, fechaCreacion = new Date(), activa = true }) {
+  constructor({ id, ciudadId, nombre, historia = null, web = null, imagen = null, fechaCreacion = new Date(), activa = true }) {
     super();
     this.id = id;
     this.ciudadId = ciudadId;
     this.nombre = nombre;
     this.historia = historia;
     this.web = web;
+    this.imagen = imagen;
     this.fechaCreacion = fechaCreacion;
     this.activa = activa;
     // pasos/procesiones/eventos NO se guardan aquí como arrays: son relaciones

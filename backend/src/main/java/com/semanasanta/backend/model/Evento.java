@@ -36,6 +36,13 @@ public class Evento {
     @Column(nullable = false)
     private LocalDateTime fecha;
 
+    // Hora de fin (2026-09-30, subida desde Procesion: "los eventos también
+    // tienen duración"). Opcional; con ella, CambioEstadoAutomaticoService
+    // finaliza solo el evento/procesión al llegar la hora. Sin ella, solo se
+    // puede finalizar a mano.
+    @Column(name = "fecha_fin")
+    private LocalDateTime fechaFin;
+
     // "Web Oficial" del mockup del panel de Junta (2026-08-20), mismo patrón
     // que Cofradia.web.
     private String web;
@@ -125,6 +132,21 @@ public class Evento {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public LocalDateTime getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDateTime fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    // Cuándo empieza de verdad, para el paso automático a EN_CURSO: en un
+    // Evento suelto es su única fecha; Procesion lo sobrescribe con
+    // fechaInicio (la hora de salida).
+    public LocalDateTime getMomentoInicio() {
+        return fecha;
     }
 
     public String getWeb() {

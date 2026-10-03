@@ -1,5 +1,6 @@
 package com.semanasanta.backend.repository;
 
+import com.semanasanta.backend.model.EstadoEvento;
 import com.semanasanta.backend.model.Evento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +16,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     List<Evento> findDistinctByCofradias_Ciudad_Id(Long ciudadId);
 
     List<Evento> findDistinctByCofradias_Id(Long cofradiaId);
+
+    // Para CambioEstadoAutomaticoService: incluye también las Procesion.
+    List<Evento> findByEstadoIn(List<EstadoEvento> estados);
 }

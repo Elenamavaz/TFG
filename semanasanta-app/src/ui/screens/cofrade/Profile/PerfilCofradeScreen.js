@@ -72,6 +72,11 @@ export function PerfilCofradeScreen({ navigation }) {
               ? `Compartiendo tu ubicación en "${procesionNombre}".`
               : 'Puedes compartir tu ubicación durante la procesión en tiempo real con tu cofradía.'}
           </Text>
+          {/* P.ej. la procesión se ha finalizado sola a su hora de fin y se ha
+              cortado el compartir (ver CofradeContext.enviarPing). */}
+          {!compartiendo && !modalCodigoVisible && errorCofrade ? (
+            <Text style={styles.modalError}>{errorCofrade}</Text>
+          ) : null}
           <TouchableOpacity
             style={[styles.ubicacionButton, compartiendo && styles.ubicacionButtonActivo]}
             onPress={compartiendo ? detenerCompartir : abrirModalCodigo}
