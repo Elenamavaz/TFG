@@ -3,6 +3,7 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { ScreenContainer, StatusBadge, PasoListItem } from '../../../components/common';
+import { MapaRecorrido } from '../../../components/maps';
 import { getProcesionPorId, getPasosPorIds, getCofradiaPorId, getRecorridoCompleto } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
 import { useFavoritos } from '../../../../application/context';
@@ -15,9 +16,8 @@ export function DetalleProcesionScreen({ route, navigation }) {
   const [procesion, setProcesion] = useState(null);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
-  // Sin mapa real todavía (pendiente de development build + API key, ver
-  // memoria del TFG): de momento se muestra la lista ordenada de puntos en
-  // vez del mapa en sí.
+  // Recorrido con sus puntos (y coordenadas) para el mapa de la sección
+  // "Recorrido" (2026-10-04: mapa en vez de la lista de puntos).
   const { data: recorrido } = useQuery({
     queryKey: ['recorrido', procesion?.recorridoId],
     queryFn: () => getRecorridoCompleto(procesion.recorridoId),
@@ -109,17 +109,12 @@ export function DetalleProcesionScreen({ route, navigation }) {
         ) : null}
 
         <Text style={styles.sectionTitle}>Recorrido</Text>
-        {recorrido?.puntos.length > 0 ? (
-          <View style={styles.recorridoLista}>
-            {recorrido.puntos.map((punto, indice) => (
-              <View key={punto.id} style={styles.recorridoPunto}>
-                <View style={styles.recorridoNumero}>
-                  <Text style={styles.recorridoNumeroTexto}>{indice + 1}</Text>
-                </View>
-                <Text style={styles.recorridoPuntoTexto}>{punto.nombre ?? 'Punto de paso'}</Text>
-              </View>
-            ))}
-          </View>
+        {recorrido?.puntos.length > 1 ? (
+          <MapaRecorrido
+            puntos={recorrido.puntos}
+            procesionId={procesion.id}
+            enCurso={procesion.estado === 'EN_CURSO'}
+          />
         ) : (
           <View style={styles.mapPlaceholder}>
             <Text style={styles.mapPlaceholderText}>Recorrido por confirmar</Text>
@@ -129,7 +124,7 @@ export function DetalleProcesionScreen({ route, navigation }) {
         <TouchableOpacity
           style={[styles.cta, procesion.estado !== 'EN_CURSO' && styles.ctaDisabled]}
           disabled={procesion.estado !== 'EN_CURSO'}
-          onPress={() => navigation.getParent()?.navigate('Mapa')}
+          onPress={() => navigation.getParent()?.navigate('Mapa', { procesionId: procesion.id })} // el mapa se centra en ella
         >
           <Text style={styles.ctaText}>Ir a la procesión</Text>
         </TouchableOpacity>

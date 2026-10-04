@@ -3,6 +3,7 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { ScreenContainer, StatusBadge, InfoSection, PasoListItem } from '../../../components/common';
+import { MapaUbicacion } from '../../../components/maps';
 import { getEventoPorId, getPasosPorIds, getCofradiaPorId, getUbicacionPorId } from '../../../../data/services';
 import { formatearDuracion } from '../../../utils/tiempo';
 import { useFavoritos } from '../../../../application/context';
@@ -112,13 +113,17 @@ export function DetalleEventoScreen({ route, navigation }) {
           </>
         ) : null}
 
+        {/* Dirección + mapa con el sitio (2026-10-04, mockup de Elena). */}
         <Text style={styles.sectionTitle}>Ubicación</Text>
-        <View style={styles.mapPlaceholder}>
-          <View style={styles.mapPin}>
-            <Ionicons name="location" size={18} color={colors.gold} />
-          </View>
-          <Text style={styles.mapPlaceholderText}>{ubicacion?.direccion ?? 'Ubicación por confirmar'}</Text>
+        <View style={styles.direccionCard}>
+          <Ionicons name="location-outline" size={18} color={colors.gold} />
+          <Text style={styles.direccionTexto}>{ubicacion?.direccion ?? 'Ubicación por confirmar'}</Text>
         </View>
+        {ubicacion ? (
+          <View style={styles.mapaUbicacion}>
+            <MapaUbicacion latitud={ubicacion.latitud} longitud={ubicacion.longitud} titulo={evento.nombre} />
+          </View>
+        ) : null}
 
       </ScrollView>
     </ScreenContainer>

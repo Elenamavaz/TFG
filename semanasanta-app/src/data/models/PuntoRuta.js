@@ -8,12 +8,16 @@
 // construye el punto a partir de esa relación (ver recorridoService.js) los
 // aplana en el propio objeto, para no tener dos clases distintas por ahora.
 export class PuntoRuta {
-  constructor({ id, ubicacionId = null, orden = null, horaPrevista = null, relacionId = null }) {
+  constructor({ id, ubicacionId = null, latitud = null, longitud = null, orden = null, horaPrevista = null, relacionId = null }) {
     if (new.target === PuntoRuta) {
       throw new Error('PuntoRuta es una clase abstracta: no se puede instanciar directamente.');
     }
     this.id = id;
     this.ubicacionId = ubicacionId;
+    // latitud/longitud (2026-10-03): vienen ya en la respuesta del backend
+    // para poder dibujar el recorrido en el mapa sin pedir cada Ubicacion.
+    this.latitud = latitud;
+    this.longitud = longitud;
     this.orden = orden;
     this.horaPrevista = horaPrevista;
     // relacionId (2026-08-23): id de RecorridoPuntoRuta, no del propio punto

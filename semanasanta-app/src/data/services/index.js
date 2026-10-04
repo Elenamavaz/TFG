@@ -39,7 +39,7 @@ export {
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
 export { configurarManejoNotificaciones, registrarDispositivoPush } from './pushService';
-export { registrarPosicion } from './posicionActualService';
+export { registrarPosicion, getEstelaProcesion } from './posicionActualService';
 export { getCodigosAccesoDeCofradia, emitirCodigoAcceso, revocarCodigoAcceso } from './codigoAccesoService';
 export { getUbicacionPorId, crearUbicacion, actualizarUbicacion } from './lugarService';
 export { getRecorridoCompleto, importarGpxRecorrido, marcarPuntoDeInteres } from './recorridoService';

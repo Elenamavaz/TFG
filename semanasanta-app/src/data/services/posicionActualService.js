@@ -14,3 +14,14 @@ export async function registrarPosicion(procesionId, latitud, longitud, token) {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+
+// Mapa en vivo (2026-10-03). Los dos son GET públicos: el ciudadano sin
+// sesión ve dónde va la procesión.
+//
+// Estela: tramo del recorrido ocupado ahora mismo por la procesión, como
+// fracciones (0..1) de su longitud -desde el cofrade más atrasado (cola)
+// hasta el más adelantado (cabeza)-, ver EstelaProcesionResponse del
+// backend. Solo avanza, nunca retrocede. Las dos a 0 = aún no hay pings.
+export async function getEstelaProcesion(procesionId) {
+  return apiFetch(`/procesiones/${procesionId}/estela`);
+}

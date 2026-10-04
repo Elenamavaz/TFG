@@ -9,13 +9,20 @@ import org.hibernate.Hibernate;
 // (instancia base PuntoRuta, no PuntoDeInteres). Sin orden/horaPrevista ni
 // recorridoId: eso ya no es del punto, es de la relación con cada recorrido
 // (ver PuntoEnRecorridoResponse).
+//
+// latitud/longitud (2026-10-03, para el mapa en vivo): copiadas de la
+// Ubicacion del punto, para que el cliente pueda dibujar el recorrido con
+// una sola petición -con solo ubicacionId haría falta una petición por
+// punto, y un GPX trae cientos.
 public record PuntoRutaResponse(
         Long id,
         String tipo,
         String nombre,
         String descripcion,
         String imagen,
-        Long ubicacionId
+        Long ubicacionId,
+        Double latitud,
+        Double longitud
 ) {
     public static PuntoRutaResponse from(PuntoRuta puntoRutaEntidad) {
         // El único llamador real (PuntoEnRecorridoResponse.from) llega aquí
@@ -38,13 +45,16 @@ public record PuntoRutaResponse(
             descripcion = puntoDeInteres.getDescripcion();
             imagen = puntoDeInteres.getImagen();
         }
+        var ubicacion = puntoRuta.getUbicacion();
         return new PuntoRutaResponse(
                 puntoRuta.getId(),
                 tipo,
                 nombre,
                 descripcion,
                 imagen,
-                puntoRuta.getUbicacion().getId()
+                ubicacion.getId(),
+                ubicacion.getLatitud(),
+                ubicacion.getLongitud()
         );
     }
 }

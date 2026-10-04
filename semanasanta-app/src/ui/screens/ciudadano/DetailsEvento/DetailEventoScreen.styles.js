@@ -75,30 +75,24 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  mapPlaceholder: {
-    height: 160,
+  direccionCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
     backgroundColor: colors.backgroundAlt,
     borderWidth: 0.5,
     borderRadius: radii.md,
     borderColor: colors.subtitle,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.xs,
+    padding: spacing.md,
   },
-  mapPin: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: colors.surfaceAlt,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mapPlaceholderText: {
+  direccionTexto: {
+    flex: 1,
     color: colors.cream,
     fontFamily: fontFamilies.uiMedium,
     fontSize: 13,
-    paddingHorizontal: spacing.lg,
-    textAlign: 'center',
+  },
+  mapaUbicacion: {
+    marginTop: spacing.sm,
   },
   cta: {
     backgroundColor: colors.backgroundRed,
