@@ -26,7 +26,7 @@ export const colors = {
   greenBackground: '#082211',
   greenBorder: '#0B4A25',
 
-  statusFinalizada: '#6B6B6B',
+  statusFinalizado: '#6B6B6B',
 
   // Mapa en Vivo (2026-10-03, mockup): recorrido completo en gris y
   // ubicación del usuario en azul, como en Google Maps.

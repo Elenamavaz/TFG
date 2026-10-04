@@ -37,7 +37,7 @@ function opcionesTipo(etiquetaCancelar) {
 // modal cerrado. cancelar = cancelarProcesion/cancelarEvento. onEnviada
 // recibe el tipo enviado (solo CANCELACION cambia además el estado).
 // tipoInicial (opcional): tipo ya elegido al abrir -p.ej. CANCELACION cuando
-// se acaba de marcar "Cancelada" en el formulario.
+// se acaba de marcar "Cancelado" en el formulario.
 export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar, tipoInicial = null, onCerrar, onEnviada }) {
   const OPCIONES_TIPO = opcionesTipo(etiquetaCancelar);
   const [tipo, setTipo] = useState(null);

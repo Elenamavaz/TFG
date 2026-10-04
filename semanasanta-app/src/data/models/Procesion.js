@@ -16,8 +16,8 @@ import * as fechaSemanaSanta from '../utils/fechaSemanaSanta';
 //   CalenderScreen/DetailProcesionScreen sigan funcionando sin tocarlas.
 // - estado: el backend NO tiene un enum aparte para Procesion, reutiliza
 //   EstadoEvento (masculino: PROGRAMADO/EN_CURSO/FINALIZADO/CANCELADO), no
-//   EstadoProcesion (femenino) como asumía el mock. StatusBadge ya
-//   contemplaba ambas formas, no hizo falta tocarlo.
+//   el EstadoProcesion femenino que asumía el mock (ya eliminado). Las
+//   etiquetas de estado de la UI van en masculino, como las de Evento.
 export class Procesion extends Favoriteable {
   constructor({
     id,

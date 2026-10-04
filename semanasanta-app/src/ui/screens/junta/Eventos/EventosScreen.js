@@ -9,19 +9,19 @@ import { orden } from '../../../utils';
 import { styles } from './EventosScreen.styles';
 
 const COLOR_POR_ESTADO = {
-  Programada: { background: colors.backgroundOrange, texto: colors.orangeText },
+  Programado: { background: colors.backgroundOrange, texto: colors.orangeText },
   'En curso': { background: colors.greenBackground, texto: colors.lightGreenText },
-  Finalizada: { background: colors.backgroundRed, texto: colors.redText },
-  Cancelada: { background: colors.backgroundRed, texto: colors.redText },
+  Finalizado: { background: colors.backgroundRed, texto: colors.redText },
+  Cancelado: { background: colors.backgroundRed, texto: colors.redText },
 };
 
-// Mismo mapeo que ProcesionesScreen.ETIQUETA_POR_ESTADO -Evento comparte el
-// mismo EstadoEvento del backend.
+// Mismo EstadoEvento que ProcesionesScreen, pero en masculino: "el evento"
+// (2026-10-04; antes copiaba las etiquetas femeninas de las procesiones).
 const ETIQUETA_POR_ESTADO = {
-  PROGRAMADO: 'Programada',
+  PROGRAMADO: 'Programado',
   EN_CURSO: 'En curso',
-  FINALIZADO: 'Finalizada',
-  CANCELADO: 'Cancelada',
+  FINALIZADO: 'Finalizado',
+  CANCELADO: 'Cancelado',
 };
 
 function EstadoBadge({ estado }) {

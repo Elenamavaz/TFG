@@ -7,12 +7,12 @@ import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './SearchScreen.styles';
 
-// Agrupa PROGRAMADA/PROGRAMADO y FINALIZADA/FINALIZADO bajo un mismo chip:
-// procesiones y eventos usan formas gramaticales distintas para el mismo estado.
+// Procesiones y eventos comparten el enum EstadoEvento del backend (una
+// procesión es un evento), así que cada chip es un solo valor.
 const FILTROS_ESTADO = [
   { id: 'en-curso', label: 'En curso', valores: ['EN_CURSO'] },
-  { id: 'programada', label: 'Programada', valores: ['PROGRAMADA', 'PROGRAMADO'] },
-  { id: 'finalizada', label: 'Finalizada', valores: ['FINALIZADA', 'FINALIZADO'] },
+  { id: 'programado', label: 'Programado', valores: ['PROGRAMADO'] },
+  { id: 'finalizado', label: 'Finalizado', valores: ['FINALIZADO'] },
 ];
 
 const ABREVIATURA_DIA = {
@@ -68,7 +68,10 @@ export function BuscarScreen({ navigation }) {
   // Una procesión/evento puede tener varias cofradías participantes (N:M
   // real en el backend): se muestran todas, separadas por coma.
   const nombresDeCofradias = (cofradiaIds) =>
-    cofradiaIds.map((id) => cofradiasPorId[id]).filter(Boolean).join(', ');
+    cofradiaIds
+      .map((id) => cofradiasPorId[id])
+      .filter(Boolean)
+      .join(', ');
 
   const resultados = useMemo(() => {
     const items = [
@@ -109,7 +112,17 @@ export function BuscarScreen({ navigation }) {
       .filter((item) => diaFiltroId === 'todos' || item.diaId === diaFiltroId)
       .filter((item) => !filtroEstado || filtroEstado.valores.includes(item.estado))
       .sort((a, b) => (a.hora ?? '').localeCompare(b.hora ?? ''));
-  }, [procesiones, eventos, cofradiasPorId, idPorNombreDia, diaPorFecha, texto, diaFiltroId, estadoFiltroId, navigation]);
+  }, [
+    procesiones,
+    eventos,
+    cofradiasPorId,
+    idPorNombreDia,
+    diaPorFecha,
+    texto,
+    diaFiltroId,
+    estadoFiltroId,
+    navigation,
+  ]);
 
   // Los pasos no tienen día ni estado: solo aparecen cuando no hay ningún
   // filtro de ese tipo activo (si no, un filtro por día/estado nunca los cumplirían).
@@ -196,7 +209,13 @@ export function BuscarScreen({ navigation }) {
             dia={item.diaNombre}
             hora={item.hora}
             ruta={item.rutaTexto}
-            badge={item.categoria === 'evento' ? <common.StatusBadge estado="EVENTO" /> : <common.StatusBadge estado={item.estado} />}
+            badge={
+              item.categoria === 'evento' ? (
+                <common.StatusBadge estado="EVENTO" />
+              ) : (
+                <common.StatusBadge estado={item.estado} />
+              )
+            }
             esFavorito={esFavorito(item.id, item.categoria)}
             onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
             onPress={item.onPress}

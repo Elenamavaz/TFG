@@ -24,17 +24,17 @@ import { styles } from './FormularioProcesionScreen.styles';
 // Día/Salida/Duración son sueltos en el mockup pero el backend solo guarda
 // fecha/fechaInicio/fechaFin -se combinan aquí (ver fechaSemanaSanta.js) y
 // se deshacen igual al cargar una procesión existente para editar.
-// Estado (2026-09-30): cambia solo a "En curso"/"Finalizada" al llegar la
+// Estado (2026-09-30): cambia solo a "En curso"/"Finalizado" al llegar la
 // hora de salida/fin (CambioEstadoAutomaticoService del backend); este
-// selector es la corrección manual. Pasar a "En curso"/"Finalizada" avisa
-// solo a los ciudadanos (INICIO/FIN). "Cancelada" (añadida por Elena el
+// selector es la corrección manual. Pasar a "En curso"/"Finalizado" avisa
+// solo a los ciudadanos (INICIO/FIN). "Cancelado" (añadido por Elena el
 // 2026-10-02) cancela sin avisar: al guardar se abre "Crear Notificación"
 // con la cancelación ya elegida, para dar motivo y prioridad.
 const OPCIONES_ESTADO = [
-  { valor: models.EstadoEvento.PROGRAMADO, etiqueta: 'Programada', background: colors.backgroundOrange, texto: colors.orangeText },
+  { valor: models.EstadoEvento.PROGRAMADO, etiqueta: 'Programado', background: colors.backgroundOrange, texto: colors.orangeText },
   { valor: models.EstadoEvento.EN_CURSO, etiqueta: 'En curso', background: colors.greenBackground, texto: colors.lightGreenText },
-  { valor: models.EstadoEvento.FINALIZADO, etiqueta: 'Finalizada', background: colors.backgroundRed, texto: colors.redText },
-  { valor: models.EstadoEvento.CANCELADO, etiqueta: 'Cancelada', background: colors.backgroundRed, texto: colors.redText },
+  { valor: models.EstadoEvento.FINALIZADO, etiqueta: 'Finalizado', background: colors.backgroundRed, texto: colors.redText },
+  { valor: models.EstadoEvento.CANCELADO, etiqueta: 'Cancelado', background: colors.backgroundRed, texto: colors.redText },
 ];
 
 export function FormularioProcesionScreen({ route, navigation }) {
@@ -264,12 +264,12 @@ export function FormularioProcesionScreen({ route, navigation }) {
             </View>
             <Text style={styles.ayudaEstado}>
               {estado === models.EstadoEvento.CANCELADO && estadoOriginal === models.EstadoEvento.CANCELADO
-                ? 'Procesión cancelada. Elige "Programada" si vuelve a celebrarse.'
+                ? 'Procesión cancelada. Elige "Programado" si vuelve a celebrarse.'
                 : estado === models.EstadoEvento.CANCELADO
                   ? 'Al guardar podrás explicar a los ciudadanos el motivo.'
                   : estado !== estadoOriginal && estado !== models.EstadoEvento.PROGRAMADO
                     ? 'Al guardar se avisará automáticamente a los ciudadanos.'
-                    : 'Cambia sola a "En curso" y "Finalizada" a la hora de salida y de fin.'}
+                    : 'Cambia sola a "En curso" y "Finalizado" a la hora de salida y de fin.'}
             </Text>
           </View>
         ) : null}

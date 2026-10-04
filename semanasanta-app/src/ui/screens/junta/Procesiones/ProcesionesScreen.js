@@ -9,21 +9,21 @@ import { orden } from '../../../utils';
 import { styles } from './ProcesionesScreen.styles';
 
 const COLOR_POR_ESTADO = {
-  Programada: { background: colors.backgroundOrange, texto: colors.orangeText },
+  Programado: { background: colors.backgroundOrange, texto: colors.orangeText },
   'En curso': { background: colors.greenBackground, texto: colors.lightGreenText },
-  Finalizada: { background: colors.backgroundRed, texto: colors.redText },
-  Cancelada: { background: colors.backgroundRed, texto: colors.redText },
+  Finalizado: { background: colors.backgroundRed, texto: colors.redText },
+  Cancelado: { background: colors.backgroundRed, texto: colors.redText },
 };
 
-// "Programada"/"En curso"/"Finalizada"/"Cancelada" son la traducción visual
+// "Programado"/"En curso"/"Finalizado"/"Cancelado" son la traducción visual
 // del EstadoEvento del backend (PROGRAMADO/EN_CURSO/FINALIZADO/CANCELADO,
 // masculino porque Procesion lo hereda de Evento) -mismo patrón que
 // EstadoBadge en Ciudades/Juntas/Miembros.
 const ETIQUETA_POR_ESTADO = {
-  PROGRAMADO: 'Programada',
+  PROGRAMADO: 'Programado',
   EN_CURSO: 'En curso',
-  FINALIZADO: 'Finalizada',
-  CANCELADO: 'Cancelada',
+  FINALIZADO: 'Finalizado',
+  CANCELADO: 'Cancelado',
 };
 
 function EstadoBadge({ estado }) {
@@ -76,7 +76,7 @@ export function ProcesionesScreen({ route, navigation }) {
   // Sin acción "Notificar" en la lista desde el 2026-09-30: las
   // notificaciones (incluida la cancelación) se crean al terminar de editar,
   // desde "Crear Notificación" de ProcesionActualizadaScreen, y el paso a
-  // En curso/Finalizada es automático (CambioEstadoAutomaticoService).
+  // En curso/Finalizado es automático (CambioEstadoAutomaticoService).
   const procesionesFiltradas = filtroCofradiaId
     ? procesiones.filter((p) => p.cofradiaIds.includes(filtroCofradiaId))
     : procesiones;

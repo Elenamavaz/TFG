@@ -95,9 +95,9 @@ export function InicioScreen({ navigation }) {
         ([activas, descartadasIds]) => {
           setNotificaciones(activas.filter((n) => !descartadasIds.includes(n.id)));
           setIndiceNotificacion(0);
-        }
+        },
       );
-    }, [ciudadSeleccionada])
+    }, [ciudadSeleccionada]),
   );
 
   useFocusEffect(
@@ -114,7 +114,10 @@ export function InicioScreen({ navigation }) {
         // Un evento/procesión puede tener varias cofradías participantes
         // (N:M real en el backend): se muestran todas, separadas por coma.
         const nombresDeCofradias = (cofradiaIds) =>
-          cofradiaIds.map((id) => nombrePorCofradiaId[id]).filter(Boolean).join(', ');
+          cofradiaIds
+            .map((id) => nombrePorCofradiaId[id])
+            .filter(Boolean)
+            .join(', ');
         const items = [
           ...procesiones
             .filter((p) => p.dia === diaSeleccionado.nombre)
@@ -130,7 +133,7 @@ export function InicioScreen({ navigation }) {
         ];
         setAgenda(items);
       });
-    }, [ciudadSeleccionada, diaSeleccionado])
+    }, [ciudadSeleccionada, diaSeleccionado]),
   );
 
   function abrirListado(tipo) {
@@ -181,7 +184,8 @@ export function InicioScreen({ navigation }) {
               <Ionicons name="chevron-down" size={22} color={colors.textPrimary} />
             </TouchableOpacity>
             <Text style={styles.subtitle}>
-              {formatearFechaCorta(diaSeleccionado.fecha)} · {agenda.filter((a) => a.categoria === 'procesion').length} procesiones
+              {formatearFechaCorta(diaSeleccionado.fecha)} · {agenda.filter((a) => a.categoria === 'procesion').length}{' '}
+              procesiones
             </Text>
           </View>
           <View style={styles.headerButtons}>
@@ -264,15 +268,15 @@ export function InicioScreen({ navigation }) {
           <>
             <Text style={styles.sectionTitle}>En curso ahora</Text>
             <View style={styles.enCursoCard}>
-            <View style={styles.enCursoLeft}>
-              <common.StatusBadge estado="EN_CURSO" />
-              <Text style={styles.enCursoTitle}>{procesionEnCurso.nombre}</Text>
-              <Text style={styles.enCursoMeta}>{procesionEnCurso.cofradiaNombre}</Text>
-            </View>
-            <View style={styles.enCursoRight}>
-              <Text style={styles.enCursoHora}>{procesionEnCurso.horaSalida}</Text>
-              <Text style={styles.enCursoDuracion}>{tiempo.formatearDuracion(procesionEnCurso.duracionMin)}</Text>
-            </View>
+              <View style={styles.enCursoLeft}>
+                <common.StatusBadge estado="EN_CURSO" />
+                <Text style={styles.enCursoTitle}>{procesionEnCurso.nombre}</Text>
+                <Text style={styles.enCursoMeta}>{procesionEnCurso.cofradiaNombre}</Text>
+              </View>
+              <View style={styles.enCursoRight}>
+                <Text style={styles.enCursoHora}>{procesionEnCurso.horaSalida}</Text>
+                <Text style={styles.enCursoDuracion}>{tiempo.formatearDuracion(procesionEnCurso.duracionMin)}</Text>
+              </View>
             </View>
           </>
         ) : null}

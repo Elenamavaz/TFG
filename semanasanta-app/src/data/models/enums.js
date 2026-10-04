@@ -13,14 +13,9 @@ export const EstadoEvento = Object.freeze({
   CANCELADO: 'CANCELADO',
 });
 
-// No está en el diagrama (que solo define EstadoEvento): "procesión" es femenino
-// y ya se usaban formas femeninas ('PROGRAMADA', 'EN_CURSO'...) en los datos mock.
-export const EstadoProcesion = Object.freeze({
-  PROGRAMADA: 'PROGRAMADA',
-  EN_CURSO: 'EN_CURSO',
-  FINALIZADA: 'FINALIZADA',
-  CANCELADA: 'CANCELADA',
-});
+// Sin EstadoProcesion (femenino, quitado el 2026-10-04): era de los datos
+// mock; el backend solo tiene EstadoEvento y Procesion lo hereda de Evento.
+// En la UI todas las etiquetas de estado van en masculino (ver StatusBadge).
 
 // Ya no es "PrioridadAlerta" -no hay clase Alerta aparte, ver Notificacion.js.
 // Sin URGENTE (quitado el 2026-08-22, ver Prioridad.java del backend): en la

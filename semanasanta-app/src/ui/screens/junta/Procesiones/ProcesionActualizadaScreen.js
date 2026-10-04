@@ -23,7 +23,7 @@ const AVISO_AUTOMATICO_POR_ESTADO = {
 // la "Lista de pasos" sigue a mano dentro del propio formulario de edición.
 export function ProcesionActualizadaScreen({ route, navigation }) {
   const { ciudadId, procesionId, nombreProcesion, estadoNuevo } = route.params;
-  // Recién marcado como "Cancelada" en el formulario: el backend lo ha
+  // Recién marcado como "Cancelado" en el formulario: el backend lo ha
   // cancelado sin avisar (no tenía motivo ni prioridad), así que el modal
   // se abre solo, con la cancelación ya elegida.
   const recienCancelado = estadoNuevo === models.EstadoEvento.CANCELADO;

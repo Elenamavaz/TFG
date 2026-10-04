@@ -62,10 +62,30 @@ const CONFIG_POR_TIPO = {
 // (ver FavoritosContext: se guardan como { id, tipo }). Cada categoría sabe
 // cómo cargarse por id, con qué icono mostrarse y a qué pantalla de detalle ir.
 const CONFIG_POR_CATEGORIA_FAVORITO = {
-  cofradia: { obtener: services.getCofradiaPorId, detalle: 'DetalleCofradia', idParam: 'cofradiaId', icono: CONFIG_POR_TIPO.cofradias.icono },
-  procesion: { obtener: services.getProcesionPorId, detalle: 'DetalleProcesion', idParam: 'procesionId', icono: CONFIG_POR_TIPO.procesiones.icono },
-  evento: { obtener: services.getEventoPorId, detalle: 'DetalleEvento', idParam: 'eventoId', icono: CONFIG_POR_TIPO.eventos.icono },
-  paso: { obtener: services.getPasoPorId, detalle: 'DetallePaso', idParam: 'pasoId', icono: CONFIG_POR_TIPO.pasos.icono },
+  cofradia: {
+    obtener: services.getCofradiaPorId,
+    detalle: 'DetalleCofradia',
+    idParam: 'cofradiaId',
+    icono: CONFIG_POR_TIPO.cofradias.icono,
+  },
+  procesion: {
+    obtener: services.getProcesionPorId,
+    detalle: 'DetalleProcesion',
+    idParam: 'procesionId',
+    icono: CONFIG_POR_TIPO.procesiones.icono,
+  },
+  evento: {
+    obtener: services.getEventoPorId,
+    detalle: 'DetalleEvento',
+    idParam: 'eventoId',
+    icono: CONFIG_POR_TIPO.eventos.icono,
+  },
+  paso: {
+    obtener: services.getPasoPorId,
+    detalle: 'DetallePaso',
+    idParam: 'pasoId',
+    icono: CONFIG_POR_TIPO.pasos.icono,
+  },
 };
 
 export function ListadoScreen({ route, navigation }) {
@@ -83,7 +103,7 @@ export function ListadoScreen({ route, navigation }) {
           const cfg = CONFIG_POR_CATEGORIA_FAVORITO[f.tipo];
           if (!cfg) return Promise.resolve(null);
           return cfg.obtener(f.id).then((item) => item && { ...item, categoria: f.tipo, icono: cfg.icono });
-        })
+        }),
       ).then((lista) => setItems(orden.ordenarPorNombre(lista.filter(Boolean))));
       return;
     }
@@ -120,7 +140,11 @@ export function ListadoScreen({ route, navigation }) {
     <common.ScreenContainer style={styles.container}>
       <Text style={styles.title}>{config.titulo}</Text>
 
-      <common.SearchInput value={busqueda} onChangeText={setBusqueda} placeholder={`Buscar en ${config.titulo.toLowerCase()}...`} />
+      <common.SearchInput
+        value={busqueda}
+        onChangeText={setBusqueda}
+        placeholder={`Buscar en ${config.titulo.toLowerCase()}...`}
+      />
 
       <FlatList
         data={itemsFiltrados}

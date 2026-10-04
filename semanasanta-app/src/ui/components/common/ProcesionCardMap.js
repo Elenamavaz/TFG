@@ -8,7 +8,7 @@ import { styles } from './ProcesionCardMap.styles';
 const COLOR_POR_ESTADO = {
   PROGRAMADO: colors.subtitle,
   EN_CURSO: colors.lightGreenText,
-  FINALIZADO: colors.statusFinalizada,
+  FINALIZADO: colors.statusFinalizado,
   CANCELADO: colors.redText,
 };
 
