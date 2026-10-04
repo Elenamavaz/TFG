@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getRecorridoCompleto, marcarPuntoDeInteres, actualizarPuntoDeInteres } from '../../../../data/services';
-import { TipoPuntoInteres, PuntoDeInteres } from '../../../../data/models';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { models } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './EditarRecorridoScreen.styles';
 
@@ -12,13 +12,13 @@ import { styles } from './EditarRecorridoScreen.styles';
 // enums.js del cliente, no se corrige aquí para no desincronizar el valor
 // que se manda a la API.
 const ETIQUETA_TIPO = {
-  [TipoPuntoInteres.MONUMENTO]: 'Monumento',
-  [TipoPuntoInteres.IGLESIA]: 'Iglesia',
-  [TipoPuntoInteres.ENCUENTRO]: 'Encuentro',
-  [TipoPuntoInteres.ORACCION]: 'Oración / lectura',
-  [TipoPuntoInteres.ENTRADAPROCESION]: 'Entrada de la procesión',
-  [TipoPuntoInteres.SALIDAPROCESION]: 'Salida de la procesión',
-  [TipoPuntoInteres.UBICACIONEVENTO]: 'Ubicación de un evento',
+  [models.TipoPuntoInteres.MONUMENTO]: 'Monumento',
+  [models.TipoPuntoInteres.IGLESIA]: 'Iglesia',
+  [models.TipoPuntoInteres.ENCUENTRO]: 'Encuentro',
+  [models.TipoPuntoInteres.ORACCION]: 'Oración / lectura',
+  [models.TipoPuntoInteres.ENTRADAPROCESION]: 'Entrada de la procesión',
+  [models.TipoPuntoInteres.SALIDAPROCESION]: 'Salida de la procesión',
+  [models.TipoPuntoInteres.UBICACIONEVENTO]: 'Ubicación de un evento',
 };
 
 // Pantalla a la que lleva "Editar recorrido" en FormularioProcesionScreen,
@@ -50,7 +50,7 @@ export function EditarRecorridoScreen({ route, navigation }) {
   }, [navigation]);
 
   useEffect(() => {
-    getRecorridoCompleto(recorridoId).then((recorrido) => {
+    services.getRecorridoCompleto(recorridoId).then((recorrido) => {
       setPuntos(recorrido.puntos);
       setCargando(false);
     });
@@ -82,12 +82,12 @@ export function EditarRecorridoScreen({ route, navigation }) {
     try {
       const datos = { tipo, nombre: nombre.trim(), descripcion: descripcion.trim() || null, imagen: imagen.trim() || null };
       const actualizado = puntoEditando.tipo
-        ? await actualizarPuntoDeInteres(puntoEditando.id, { ...datos, ubicacionId: puntoEditando.ubicacionId })
-        : await marcarPuntoDeInteres(recorridoId, puntoEditando.relacionId, datos);
+        ? await services.actualizarPuntoDeInteres(puntoEditando.id, { ...datos, ubicacionId: puntoEditando.ubicacionId })
+        : await services.marcarPuntoDeInteres(recorridoId, puntoEditando.relacionId, datos);
       // actualizarPuntoDeInteres no sabe nada de la relación con el
       // recorrido (PUT /puntos-de-interes/{id} no la lleva) -se conserva la
       // del punto que ya teníamos abierto, es la misma en los dos casos.
-      const puntoConRelacion = new PuntoDeInteres({
+      const puntoConRelacion = new models.PuntoDeInteres({
         ...actualizado,
         relacionId: puntoEditando.relacionId,
         orden: puntoEditando.orden,
@@ -104,14 +104,14 @@ export function EditarRecorridoScreen({ route, navigation }) {
 
   if (cargando) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.ayuda}>
           Toca un punto del recorrido para marcarlo como un encuentro, la entrada a una iglesia, una parada para una
@@ -192,7 +192,7 @@ export function EditarRecorridoScreen({ route, navigation }) {
       <Modal transparent visible={modalTipoVisible} animationType="fade" onRequestClose={() => setModalTipoVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalTipoVisible(false)}>
           <View style={styles.modalLista}>
-            {Object.values(TipoPuntoInteres).map((valor) => (
+            {Object.values(models.TipoPuntoInteres).map((valor) => (
               <TouchableOpacity
                 key={valor}
                 style={styles.modalItem}
@@ -207,6 +207,6 @@ export function EditarRecorridoScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

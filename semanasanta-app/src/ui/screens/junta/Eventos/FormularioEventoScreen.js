@@ -1,21 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getCofradiasGestion,
-  getDiasSemanaSanta,
-  getEventoPorId,
-  getUbicacionPorId,
-  crearUbicacion,
-  actualizarUbicacion,
-  getPasosPorCofradia,
-  crearEvento,
-  actualizarEvento,
-  eliminarEvento,
-} from '../../../../data/services';
-import { EstadoEvento } from '../../../../data/models';
-import { combinarFechaHora, sumarMinutos, formatearDuracionCorta, parsearDuracionCorta } from '../../../../data/utils/fechaSemanaSanta';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { models } from '../../../../data';
+import { fechaSemanaSanta } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './FormularioEventoScreen.styles';
 
@@ -41,10 +30,10 @@ import { styles } from './FormularioEventoScreen.styles';
 // "Cancelado" cancela sin avisar: al guardar se abre "Crear Notificación"
 // con la cancelación ya elegida, para dar motivo y prioridad.
 const OPCIONES_ESTADO = [
-  { valor: EstadoEvento.PROGRAMADO, etiqueta: 'Programado', background: colors.backgroundOrange, texto: colors.orangeText },
-  { valor: EstadoEvento.EN_CURSO, etiqueta: 'En curso', background: colors.greenBackground, texto: colors.lightGreenText },
-  { valor: EstadoEvento.FINALIZADO, etiqueta: 'Finalizado', background: colors.backgroundRed, texto: colors.redText },
-  { valor: EstadoEvento.CANCELADO, etiqueta: 'Cancelado', background: colors.backgroundRed, texto: colors.redText },
+  { valor: models.EstadoEvento.PROGRAMADO, etiqueta: 'Programado', background: colors.backgroundOrange, texto: colors.orangeText },
+  { valor: models.EstadoEvento.EN_CURSO, etiqueta: 'En curso', background: colors.greenBackground, texto: colors.lightGreenText },
+  { valor: models.EstadoEvento.FINALIZADO, etiqueta: 'Finalizado', background: colors.backgroundRed, texto: colors.redText },
+  { valor: models.EstadoEvento.CANCELADO, etiqueta: 'Cancelado', background: colors.backgroundRed, texto: colors.redText },
 ];
 
 export function FormularioEventoScreen({ route, navigation }) {
@@ -64,8 +53,8 @@ export function FormularioEventoScreen({ route, navigation }) {
   const [modalDiaVisible, setModalDiaVisible] = useState(false);
   const [horaInicio, setHoraInicio] = useState('');
   const [duracionTexto, setDuracionTexto] = useState('0h 0min');
-  const [estado, setEstado] = useState(EstadoEvento.PROGRAMADO);
-  const [estadoOriginal, setEstadoOriginal] = useState(EstadoEvento.PROGRAMADO);
+  const [estado, setEstado] = useState(models.EstadoEvento.PROGRAMADO);
+  const [estadoOriginal, setEstadoOriginal] = useState(models.EstadoEvento.PROGRAMADO);
   const [webOficial, setWebOficial] = useState('');
   const [historia, setHistoria] = useState('');
   const [ubicacionId, setUbicacionId] = useState(null);
@@ -94,9 +83,9 @@ export function FormularioEventoScreen({ route, navigation }) {
 
   useEffect(() => {
     Promise.all([
-      getCofradiasGestion(ciudadId),
-      getDiasSemanaSanta(),
-      editando ? getEventoPorId(eventoId) : Promise.resolve(null),
+      services.getCofradiasGestion(ciudadId),
+      services.getDiasSemanaSanta(),
+      editando ? services.getEventoPorId(eventoId) : Promise.resolve(null),
     ]).then(async ([cofradias, dias, evento]) => {
       setCofradiasDisponibles(cofradias);
       setDiasSemanaSanta(dias);
@@ -107,17 +96,17 @@ export function FormularioEventoScreen({ route, navigation }) {
         setCofradiaSeleccionada(cofradia);
         setDiaSeleccionado(dias.find((d) => d.nombre === evento.dia) ?? null);
         setHoraInicio(evento.hora ?? '');
-        setDuracionTexto(formatearDuracionCorta(evento.duracionMin ?? 0));
+        setDuracionTexto(fechaSemanaSanta.formatearDuracionCorta(evento.duracionMin ?? 0));
         setEstado(evento.estado);
         setEstadoOriginal(evento.estado);
         setWebOficial(evento.web ?? '');
         setHistoria(evento.historia ?? '');
         if (cofradia) {
-          getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+          services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
         }
         setNumPasosAsignados(evento.pasoIds.length);
         if (evento.ubicacionId) {
-          const ubicacion = await getUbicacionPorId(evento.ubicacionId);
+          const ubicacion = await services.getUbicacionPorId(evento.ubicacionId);
           setUbicacionId(ubicacion.id);
           setDireccion(ubicacion.direccion ?? '');
           setLatitud(ubicacion.latitud != null ? String(ubicacion.latitud) : '');
@@ -131,7 +120,7 @@ export function FormularioEventoScreen({ route, navigation }) {
   function seleccionarCofradia(cofradia) {
     setCofradiaSeleccionada(cofradia);
     setModalCofradiaVisible(false);
-    getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+    services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
   }
 
   const latitudNumero = Number(latitud.replace(',', '.'));
@@ -141,10 +130,10 @@ export function FormularioEventoScreen({ route, navigation }) {
   async function resolverUbicacionId() {
     const datosUbicacion = { latitud: latitudNumero, longitud: longitudNumero, direccion: direccion.trim() || null };
     if (ubicacionId) {
-      const actualizada = await actualizarUbicacion(ubicacionId, datosUbicacion);
+      const actualizada = await services.actualizarUbicacion(ubicacionId, datosUbicacion);
       return actualizada.id;
     }
-    const creada = await crearUbicacion(datosUbicacion);
+    const creada = await services.crearUbicacion(datosUbicacion);
     return creada.id;
   }
 
@@ -155,8 +144,8 @@ export function FormularioEventoScreen({ route, navigation }) {
     setGuardando(true);
     try {
       const idUbicacion = await resolverUbicacionId();
-      const fecha = combinarFechaHora(diaSeleccionado?.fecha, horaInicio);
-      const duracionMin = parsearDuracionCorta(duracionTexto);
+      const fecha = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaInicio);
+      const duracionMin = fechaSemanaSanta.parsearDuracionCorta(duracionTexto);
       const datos = {
         nombre: nombre.trim(),
         historia: historia.trim() || null,
@@ -164,7 +153,7 @@ export function FormularioEventoScreen({ route, navigation }) {
         fecha,
         // Duración 0 -> null (ver sumarMinutos): sin hora de fin, el evento
         // no se finaliza solo, solo a mano.
-        fechaFin: sumarMinutos(fecha, duracionMin),
+        fechaFin: fechaSemanaSanta.sumarMinutos(fecha, duracionMin),
         cofradiaIds: cofradiaSeleccionada ? [cofradiaSeleccionada.id] : [],
         ubicacionId: idUbicacion,
         web: webOficial.trim() || null,
@@ -175,7 +164,7 @@ export function FormularioEventoScreen({ route, navigation }) {
         estado: editando ? estado : null, // al crear, el backend lo deja PROGRAMADO
       };
       if (editando) {
-        await actualizarEvento(eventoId, datos);
+        await services.actualizarEvento(eventoId, datos);
         navigation.replace('EventoActualizado', {
           nombreEvento: nombre.trim(),
           ciudadId,
@@ -183,7 +172,7 @@ export function FormularioEventoScreen({ route, navigation }) {
           estadoNuevo: estado !== estadoOriginal ? estado : null,
         });
       } else {
-        const eventoCreado = await crearEvento(datos);
+        const eventoCreado = await services.crearEvento(datos);
         navigation.replace('EventoCreado', { nombreEvento: eventoCreado.nombre, ciudadId, eventoId: eventoCreado.id });
       }
     } catch (err) {
@@ -206,7 +195,7 @@ export function FormularioEventoScreen({ route, navigation }) {
         onPress: async () => {
           setEliminando(true);
           try {
-            await eliminarEvento(eventoId);
+            await services.eliminarEvento(eventoId);
             navigation.navigate('Eventos', { ciudadId });
           } finally {
             setEliminando(false);
@@ -218,14 +207,14 @@ export function FormularioEventoScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre del evento</Text>
@@ -262,11 +251,11 @@ export function FormularioEventoScreen({ route, navigation }) {
               })}
             </View>
             <Text style={styles.ayudaEstado}>
-              {estado === EstadoEvento.CANCELADO && estadoOriginal === EstadoEvento.CANCELADO
+              {estado === models.EstadoEvento.CANCELADO && estadoOriginal === models.EstadoEvento.CANCELADO
                 ? 'Evento cancelado. Elige "Programado" si vuelve a celebrarse.'
-                : estado === EstadoEvento.CANCELADO
+                : estado === models.EstadoEvento.CANCELADO
                   ? 'Al guardar podrás explicar a los ciudadanos el motivo.'
-                  : estado !== estadoOriginal && estado !== EstadoEvento.PROGRAMADO
+                  : estado !== estadoOriginal && estado !== models.EstadoEvento.PROGRAMADO
                     ? 'Al guardar se avisará automáticamente a los ciudadanos.'
                     : 'Cambia solo a "En curso" y "Finalizado" a la hora de inicio y de fin.'}
             </Text>
@@ -489,6 +478,6 @@ export function FormularioEventoScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

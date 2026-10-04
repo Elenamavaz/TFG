@@ -1,5 +1,5 @@
-import { apiFetch } from '../../infrastructure/api/apiClient';
-import { Recorrido, PuntoDeInteres } from '../models';
+import { api } from '../../infrastructure';
+import * as models from '../models';
 
 // GET /recorridos/{id} y GET /recorridos/{id}/puntos-ruta son públicos.
 // El segundo ya viene ordenado por "orden" (ver
@@ -9,12 +9,12 @@ import { Recorrido, PuntoDeInteres } from '../models';
 // vengan a null para un punto "de paso" simple sin PuntoDeInteres asociado.
 export async function getRecorridoCompleto(recorridoId) {
   const [recorrido, relaciones] = await Promise.all([
-    apiFetch(`/recorridos/${recorridoId}`),
-    apiFetch(`/recorridos/${recorridoId}/puntos-ruta`),
+    api.apiFetch(`/recorridos/${recorridoId}`),
+    api.apiFetch(`/recorridos/${recorridoId}/puntos-ruta`),
   ]);
   const puntos = relaciones.map(
     (relacion) =>
-      new PuntoDeInteres({
+      new models.PuntoDeInteres({
         ...relacion.puntoRuta,
         // relacionId (no el id del propio punto): hace falta aparte para
         // poder "marcar como punto de interés" (ver marcarPuntoDeInteres
@@ -26,7 +26,7 @@ export async function getRecorridoCompleto(recorridoId) {
         horaPrevista: relacion.horaPrevista,
       })
   );
-  return new Recorrido({ ...recorrido, puntos });
+  return new models.Recorrido({ ...recorrido, puntos });
 }
 
 // "Convierte" un punto de paso simple (uno de los que trae el GPX
@@ -35,11 +35,11 @@ export async function getRecorridoCompleto(recorridoId) {
 // EditarRecorridoScreen (2026-08-23). Actúa sobre relacionId (la relación
 // con ESTE recorrido, ver comentario de arriba), no sobre el id del punto.
 export async function marcarPuntoDeInteres(recorridoId, relacionId, datos) {
-  const relacion = await apiFetch(`/recorridos/${recorridoId}/puntos-ruta/${relacionId}/punto-de-interes`, {
+  const relacion = await api.apiFetch(`/recorridos/${recorridoId}/puntos-ruta/${relacionId}/punto-de-interes`, {
     method: 'PUT',
     body: datos,
   });
-  return new PuntoDeInteres({ ...relacion.puntoRuta, relacionId: relacion.id, orden: relacion.orden, horaPrevista: relacion.horaPrevista });
+  return new models.PuntoDeInteres({ ...relacion.puntoRuta, relacionId: relacion.id, orden: relacion.orden, horaPrevista: relacion.horaPrevista });
 }
 
 // Sube el archivo GPX que eligió expo-document-picker (ver
@@ -60,6 +60,6 @@ export async function importarGpxRecorrido(archivo) {
       type: archivo.mimeType ?? 'application/gpx+xml',
     });
   }
-  const recorrido = await apiFetch('/recorridos/importar-gpx', { method: 'POST', body: formData });
-  return new Recorrido(recorrido);
+  const recorrido = await api.apiFetch('/recorridos/importar-gpx', { method: 'POST', body: formData });
+  return new models.Recorrido(recorrido);
 }

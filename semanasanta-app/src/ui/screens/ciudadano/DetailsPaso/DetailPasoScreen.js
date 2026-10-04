@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, InfoSection } from '../../../components/common';
-import { getPasoPorId, getCofradiaPorId } from '../../../../data/services';
+import { common } from '../../../components';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './DetailPasoScreen.styles';
 
@@ -26,7 +26,7 @@ export function DetallePasoScreen({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    getPasoPorId(pasoId).then((data) => {
+    services.getPasoPorId(pasoId).then((data) => {
       setPaso(data);
       if (!data) return;
       // .catch: Paso sigue en mock (pendiente de conectar, ver memoria del
@@ -34,7 +34,7 @@ export function DetallePasoScreen({ route, navigation }) {
       // desde el 2026-08-15, así que fallará hasta que también se conecte;
       // que no muestre nombre de cofradía es mejor que una promesa rechazada
       // sin capturar.
-      getCofradiaPorId(data.cofradiaId)
+      services.getCofradiaPorId(data.cofradiaId)
         .then((cofradia) => setCofradiaNombre(cofradia?.nombre))
         .catch(() => setCofradiaNombre(null));
     });
@@ -43,7 +43,7 @@ export function DetallePasoScreen({ route, navigation }) {
   if (!paso) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.headerRow}>
           <View style={styles.headerText}>
@@ -60,17 +60,17 @@ export function DetallePasoScreen({ route, navigation }) {
         </View>
 
         {paso.historia ? (
-          <InfoSection title="Historia y Origen">
+          <common.InfoSection title="Historia y Origen">
             <Text style={styles.body}>{paso.historia}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
 
         {paso.analisisArtistico ? (
-          <InfoSection title="Análisis Artístico y Detalles">
+          <common.InfoSection title="Análisis Artístico y Detalles">
             <Text style={styles.body}>{paso.analisisArtistico}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

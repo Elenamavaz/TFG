@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { getSesionGuardada, guardarSesion, borrarSesion } from '../../data/services';
+import { services } from '../../data';
 
 const AuthContext = createContext(null);
 
@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    getSesionGuardada().then((guardada) => {
+    services.getSesionGuardada().then((guardada) => {
       setSesion(guardada);
       setCargando(false);
     });
@@ -25,12 +25,12 @@ export function AuthProvider({ children }) {
   // de "cuenta desactivada" en vez de al panel, ver RootNavigator/LoginScreen.
   const iniciarSesion = useCallback(({ token, rol, usuarioId, activo }) => {
     setSesion({ token, rol, usuarioId, activo });
-    guardarSesion({ token, rol, usuarioId, activo });
+    services.guardarSesion({ token, rol, usuarioId, activo });
   }, []);
 
   const cerrarSesion = useCallback(() => {
     setSesion(null);
-    borrarSesion();
+    services.borrarSesion();
   }, []);
 
   const value = useMemo(

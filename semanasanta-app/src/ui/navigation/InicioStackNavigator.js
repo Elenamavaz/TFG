@@ -1,15 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  InicioScreen,
-  ListadoScreen,
-  DetalleCiudadScreen,
-  DetalleCofradiaScreen,
-  DetallePasoScreen,
-  DetalleProcesionScreen,
-  DetalleProcesionInfoScreen,
-  DetalleEventoScreen,
-} from '../screens/ciudadano';
-import { colors, fontFamilies } from '../../theme';
+import { ciudadano } from '../screens';
+import { colors } from '../../theme';
+import { fontFamilies } from '../../theme';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,14 +16,14 @@ const screenOptions = {
 export function InicioStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name="InicioHome" component={InicioScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Listado" component={ListadoScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="DetalleCiudad" component={DetalleCiudadScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetalleCofradia" component={DetalleCofradiaScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetalleProcesionInfo" component={DetalleProcesionInfoScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetalleEvento" component={DetalleEventoScreen} options={{ title: '' }} />
+      <Stack.Screen name="InicioHome" component={ciudadano.InicioScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Listado" component={ciudadano.ListadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="DetalleCiudad" component={ciudadano.DetalleCiudadScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleCofradia" component={ciudadano.DetalleCofradiaScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetallePaso" component={ciudadano.DetallePasoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleProcesion" component={ciudadano.DetalleProcesionScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleProcesionInfo" component={ciudadano.DetalleProcesionInfoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleEvento" component={ciudadano.DetalleEventoScreen} options={{ title: '' }} />
     </Stack.Navigator>
   );
 }

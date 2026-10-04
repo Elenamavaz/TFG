@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
-import { ScreenContainer, StatusBadge, PasoListItem } from '../../../components/common';
-import { MapaRecorrido } from '../../../components/maps';
-import { getProcesionPorId, getPasosPorIds, getCofradiaPorId, getRecorridoCompleto } from '../../../../data/services';
-import { formatearDuracion } from '../../../utils/tiempo';
-import { useFavoritos } from '../../../../application/context';
+import { common } from '../../../components';
+import { maps } from '../../../components';
+import { services } from '../../../../data';
+import { tiempo } from '../../../utils';
+import { context } from '../../../../application';
 import { colors } from '../../../../theme';
 import { styles } from './DetailProcesionScreen.styles';
 
 export function DetalleProcesionScreen({ route, navigation }) {
   const { procesionId } = route.params;
-  const { esFavorito, alternarFavorito } = useFavoritos();
+  const { esFavorito, alternarFavorito } = context.useFavoritos();
   const [procesion, setProcesion] = useState(null);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
@@ -20,12 +20,12 @@ export function DetalleProcesionScreen({ route, navigation }) {
   // "Recorrido" (2026-10-04: mapa en vez de la lista de puntos).
   const { data: recorrido } = useQuery({
     queryKey: ['recorrido', procesion?.recorridoId],
-    queryFn: () => getRecorridoCompleto(procesion.recorridoId),
+    queryFn: () => services.getRecorridoCompleto(procesion.recorridoId),
     enabled: !!procesion?.recorridoId,
   });
 
   useEffect(() => {
-    getProcesionPorId(procesionId).then((data) => {
+    services.getProcesionPorId(procesionId).then((data) => {
       setProcesion(data);
       if (!data) return;
 
@@ -44,7 +44,7 @@ export function DetalleProcesionScreen({ route, navigation }) {
       // Una procesión puede tener varias cofradías participantes (N:M real
       // en el backend): se muestran todas, separadas por coma (decisión del
       // 2026-08-15).
-      Promise.all(data.cofradiaIds.map((id) => getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+      Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
         setCofradiaNombre(
           cofradias
             .map((c) => c?.nombre)
@@ -52,17 +52,17 @@ export function DetalleProcesionScreen({ route, navigation }) {
             .join(', ')
         )
       );
-      getPasosPorIds(data.pasoIds).then(setPasos);
+      services.getPasosPorIds(data.pasoIds).then(setPasos);
     });
   }, [procesionId]);
 
   if (!procesion) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.topRow}>
-          <StatusBadge estado={procesion.estado} />
+          <common.StatusBadge estado={procesion.estado} />
           <TouchableOpacity
             style={styles.infoButton}
             onPress={() => navigation.navigate('DetalleProcesionInfo', { procesionId })}
@@ -87,7 +87,7 @@ export function DetalleProcesionScreen({ route, navigation }) {
           <View style={styles.infoRow}>
             <View style={styles.infoBox}>
               <Text style={styles.infoLabel}>Duración</Text>
-              <Text style={styles.infoValue}>{formatearDuracion(procesion.duracionMin)}</Text>
+              <Text style={styles.infoValue}>{tiempo.formatearDuracion(procesion.duracionMin)}</Text>
             </View>
           </View>
         ) : null}
@@ -96,7 +96,7 @@ export function DetalleProcesionScreen({ route, navigation }) {
           <>
             <Text style={styles.sectionTitle}>Pasos</Text>
             {pasos.map((paso) => (
-              <PasoListItem
+              <common.PasoListItem
                 key={paso.id}
                 label={paso.tipo}
                 title={paso.nombre}
@@ -110,7 +110,7 @@ export function DetalleProcesionScreen({ route, navigation }) {
 
         <Text style={styles.sectionTitle}>Recorrido</Text>
         {recorrido?.puntos.length > 1 ? (
-          <MapaRecorrido
+          <maps.MapaRecorrido
             puntos={recorrido.puntos}
             procesionId={procesion.id}
             enCurso={procesion.estado === 'EN_CURSO'}
@@ -129,6 +129,6 @@ export function DetalleProcesionScreen({ route, navigation }) {
           <Text style={styles.ctaText}>Ir a la procesión</Text>
         </TouchableOpacity>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

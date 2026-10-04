@@ -1,18 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Text } from 'react-native';
-import { ScreenContainer, SearchInput, ListItemCard, StatusBadge } from '../../../components/common';
-import { useCiudad, useFavoritos } from '../../../../application/context';
-import {
-  getCofradiasPorCiudad,
-  getProcesionesPorCiudad,
-  getEventosPorCiudad,
-  getCofradiaPorId,
-  getProcesionPorId,
-  getEventoPorId,
-  getPasoPorId,
-  getPasosPorCofradia,
-} from '../../../../data/services';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
+import { orden } from '../../../utils';
 import { styles } from './ListScreen.styles';
 
 const CONFIG_POR_TIPO = {
@@ -22,7 +13,7 @@ const CONFIG_POR_TIPO = {
     idParam: 'cofradiaId',
     icono: 'account-multiple',
     categoria: 'cofradia',
-    cargar: (ciudadId) => getCofradiasPorCiudad(ciudadId),
+    cargar: (ciudadId) => services.getCofradiasPorCiudad(ciudadId),
   },
   procesiones: {
     titulo: 'Procesiones',
@@ -30,7 +21,7 @@ const CONFIG_POR_TIPO = {
     idParam: 'procesionId',
     icono: 'candle',
     categoria: 'procesion',
-    cargar: (ciudadId) => getProcesionesPorCiudad(ciudadId),
+    cargar: (ciudadId) => services.getProcesionesPorCiudad(ciudadId),
   },
   eventos: {
     titulo: 'Eventos',
@@ -38,7 +29,7 @@ const CONFIG_POR_TIPO = {
     idParam: 'eventoId',
     icono: 'church',
     categoria: 'evento',
-    cargar: (ciudadId) => getEventosPorCiudad(ciudadId),
+    cargar: (ciudadId) => services.getEventosPorCiudad(ciudadId),
   },
   pasos: {
     titulo: 'Pasos',
@@ -50,8 +41,8 @@ const CONFIG_POR_TIPO = {
     // pasos: se resuelve vía las cofradías de la ciudad (ambos servicios ya
     // son reales, ver memoria del TFG 2026-08-15).
     cargar: async (ciudadId) => {
-      const cofradias = await getCofradiasPorCiudad(ciudadId);
-      const listas = await Promise.all(cofradias.map((c) => getPasosPorCofradia(c.id)));
+      const cofradias = await services.getCofradiasPorCiudad(ciudadId);
+      const listas = await Promise.all(cofradias.map((c) => services.getPasosPorCofradia(c.id)));
       return listas.flat();
     },
   },
@@ -71,17 +62,17 @@ const CONFIG_POR_TIPO = {
 // (ver FavoritosContext: se guardan como { id, tipo }). Cada categoría sabe
 // cómo cargarse por id, con qué icono mostrarse y a qué pantalla de detalle ir.
 const CONFIG_POR_CATEGORIA_FAVORITO = {
-  cofradia: { obtener: getCofradiaPorId, detalle: 'DetalleCofradia', idParam: 'cofradiaId', icono: CONFIG_POR_TIPO.cofradias.icono },
-  procesion: { obtener: getProcesionPorId, detalle: 'DetalleProcesion', idParam: 'procesionId', icono: CONFIG_POR_TIPO.procesiones.icono },
-  evento: { obtener: getEventoPorId, detalle: 'DetalleEvento', idParam: 'eventoId', icono: CONFIG_POR_TIPO.eventos.icono },
-  paso: { obtener: getPasoPorId, detalle: 'DetallePaso', idParam: 'pasoId', icono: CONFIG_POR_TIPO.pasos.icono },
+  cofradia: { obtener: services.getCofradiaPorId, detalle: 'DetalleCofradia', idParam: 'cofradiaId', icono: CONFIG_POR_TIPO.cofradias.icono },
+  procesion: { obtener: services.getProcesionPorId, detalle: 'DetalleProcesion', idParam: 'procesionId', icono: CONFIG_POR_TIPO.procesiones.icono },
+  evento: { obtener: services.getEventoPorId, detalle: 'DetalleEvento', idParam: 'eventoId', icono: CONFIG_POR_TIPO.eventos.icono },
+  paso: { obtener: services.getPasoPorId, detalle: 'DetallePaso', idParam: 'pasoId', icono: CONFIG_POR_TIPO.pasos.icono },
 };
 
 export function ListadoScreen({ route, navigation }) {
   const { tipo } = route.params;
   const config = CONFIG_POR_TIPO[tipo];
-  const { ciudadSeleccionada } = useCiudad();
-  const { favoritos, esFavorito, alternarFavorito } = useFavoritos();
+  const { ciudadSeleccionada } = context.useCiudad();
+  const { favoritos, esFavorito, alternarFavorito } = context.useFavoritos();
   const [items, setItems] = useState([]);
   const [busqueda, setBusqueda] = useState('');
 
@@ -93,11 +84,11 @@ export function ListadoScreen({ route, navigation }) {
           if (!cfg) return Promise.resolve(null);
           return cfg.obtener(f.id).then((item) => item && { ...item, categoria: f.tipo, icono: cfg.icono });
         })
-      ).then((lista) => setItems(ordenarPorNombre(lista.filter(Boolean))));
+      ).then((lista) => setItems(orden.ordenarPorNombre(lista.filter(Boolean))));
       return;
     }
     if (!ciudadSeleccionada) return;
-    config.cargar(ciudadSeleccionada.id).then((lista) => setItems(ordenarPorNombre(lista)));
+    config.cargar(ciudadSeleccionada.id).then((lista) => setItems(orden.ordenarPorNombre(lista)));
   }, [ciudadSeleccionada, tipo, favoritos]);
 
   const itemsFiltrados = useMemo(() => {
@@ -126,10 +117,10 @@ export function ListadoScreen({ route, navigation }) {
   }
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <Text style={styles.title}>{config.titulo}</Text>
 
-      <SearchInput value={busqueda} onChangeText={setBusqueda} placeholder={`Buscar en ${config.titulo.toLowerCase()}...`} />
+      <common.SearchInput value={busqueda} onChangeText={setBusqueda} placeholder={`Buscar en ${config.titulo.toLowerCase()}...`} />
 
       <FlatList
         data={itemsFiltrados}
@@ -137,10 +128,10 @@ export function ListadoScreen({ route, navigation }) {
         contentContainerStyle={styles.list}
         ListEmptyComponent={<Text style={styles.empty}>No hay elementos que coincidan con la búsqueda.</Text>}
         renderItem={({ item }) => (
-          <ListItemCard
+          <common.ListItemCard
             icon={tipo === 'favoritos' ? item.icono : config.icono}
             title={item.nombre}
-            badge={item.estado ? <StatusBadge estado={item.estado} /> : null}
+            badge={item.estado ? <common.StatusBadge estado={item.estado} /> : null}
             mostrarFavorito
             esFavorito={esFavorito(item.id, categoriaDe(item))}
             onToggleFavorito={() => alternarFavorito(item.id, categoriaDe(item))}
@@ -149,6 +140,6 @@ export function ListadoScreen({ route, navigation }) {
           />
         )}
       />
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

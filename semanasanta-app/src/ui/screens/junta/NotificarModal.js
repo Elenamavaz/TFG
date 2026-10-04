@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { crearNotificacion } from '../../../data/services';
-import { Prioridad, TipoNotificacion } from '../../../data/models';
+import { services } from '../../../data';
+import { models } from '../../../data';
 import { colors } from '../../../theme';
 import { styles } from './NotificarModal.styles';
 
@@ -10,9 +10,9 @@ import { styles } from './NotificarModal.styles';
 // ALTA grave, MEDIA a medias, BAJA informativo. Sin URGENTE desde el
 // 2026-08-22 (ver Prioridad.java) -con estas tres queda completo.
 const OPCIONES_PRIORIDAD = [
-  { valor: Prioridad.BAJA, etiqueta: 'Baja', background: colors.greenBackground, texto: colors.lightGreenText },
-  { valor: Prioridad.MEDIA, etiqueta: 'Media', background: colors.backgroundOrange, texto: colors.orangeText },
-  { valor: Prioridad.ALTA, etiqueta: 'Alta', background: colors.backgroundRed, texto: colors.redText },
+  { valor: models.Prioridad.BAJA, etiqueta: 'Baja', background: colors.greenBackground, texto: colors.lightGreenText },
+  { valor: models.Prioridad.MEDIA, etiqueta: 'Media', background: colors.backgroundOrange, texto: colors.orangeText },
+  { valor: models.Prioridad.ALTA, etiqueta: 'Alta', background: colors.backgroundRed, texto: colors.redText },
 ];
 
 // CANCELACION es distinta del resto por dentro -además de la Notificacion,
@@ -23,10 +23,10 @@ const OPCIONES_PRIORIDAD = [
 // es el aviso genérico del mockup (p.ej. "actualización de la historia").
 function opcionesTipo(etiquetaCancelar) {
   return [
-    { valor: TipoNotificacion.ACTUALIZACION, etiqueta: 'Actualización de información' },
-    { valor: TipoNotificacion.CAMBIO_HORARIO, etiqueta: 'Cambio de horario' },
-    { valor: TipoNotificacion.INCIDENCIA, etiqueta: 'Incidencia' },
-    { valor: TipoNotificacion.CANCELACION, etiqueta: etiquetaCancelar },
+    { valor: models.TipoNotificacion.ACTUALIZACION, etiqueta: 'Actualización de información' },
+    { valor: models.TipoNotificacion.CAMBIO_HORARIO, etiqueta: 'Cambio de horario' },
+    { valor: models.TipoNotificacion.INCIDENCIA, etiqueta: 'Incidencia' },
+    { valor: models.TipoNotificacion.CANCELACION, etiqueta: etiquetaCancelar },
   ];
 }
 
@@ -68,10 +68,10 @@ export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar,
     setEnviando(true);
     setError(null);
     try {
-      if (tipo === TipoNotificacion.CANCELACION) {
+      if (tipo === models.TipoNotificacion.CANCELACION) {
         await cancelar(elemento.id, { mensaje: mensajeLimpio, prioridad });
       } else {
-        await crearNotificacion({
+        await services.crearNotificacion({
           // Solo el nombre: "qué ha pasado" ya lo dice el tipo (2026-10-03,
           // ver Notificacion.etiquetaTipo y la tarjeta de HomeScreen).
           titulo: elemento.nombre,

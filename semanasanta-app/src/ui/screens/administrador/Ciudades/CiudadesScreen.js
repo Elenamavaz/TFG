@@ -2,16 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getCiudadesAdmin,
-  getJuntasCofradias,
-  getCofradiasPorCiudad,
-  getProcesionesPorCiudad,
-  actualizarCiudad,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './CiudadesScreen.styles';
 
 // "Activa"/"Pendiente"/"Desactivada" no es un campo del backend -se calcula
@@ -49,10 +43,10 @@ export function CiudadesScreen({ navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getCiudadesAdmin(), getJuntasCofradias()]).then(([listaCiudades, juntas]) => {
+    Promise.all([services.getCiudadesAdmin(), services.getJuntasCofradias()]).then(([listaCiudades, juntas]) => {
       Promise.all(
         listaCiudades.map((ciudad) =>
-          Promise.all([getCofradiasPorCiudad(ciudad.id), getProcesionesPorCiudad(ciudad.id)]).then(
+          Promise.all([services.getCofradiasPorCiudad(ciudad.id), services.getProcesionesPorCiudad(ciudad.id)]).then(
             ([cofradias, procesiones]) => {
               const junta = juntas.find((j) => j.ciudadId === ciudad.id) ?? null;
               const estado = !ciudad.activa ? 'Desactivada' : junta ? 'Activa' : 'Pendiente';
@@ -61,7 +55,7 @@ export function CiudadesScreen({ navigation }) {
           )
         )
       ).then((filas) => {
-        setCiudades(ordenarPorNombre(filas, (fila) => fila.ciudad.nombre));
+        setCiudades(orden.ordenarPorNombre(filas, (fila) => fila.ciudad.nombre));
         setCargando(false);
       });
     });
@@ -71,7 +65,7 @@ export function CiudadesScreen({ navigation }) {
 
   async function alternarActiva(fila) {
     const { ciudad } = fila;
-    await actualizarCiudad(ciudad.id, {
+    await services.actualizarCiudad(ciudad.id, {
       nombre: ciudad.nombre,
       comunidadAutonoma: ciudad.comunidadAutonoma,
       provincia: ciudad.provincia,
@@ -85,7 +79,7 @@ export function CiudadesScreen({ navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Ciudades</Text>
 
@@ -121,6 +115,6 @@ export function CiudadesScreen({ navigation }) {
         ))}
         {ciudades.length === 0 ? <Text style={styles.empty}>No hay ciudades todavía.</Text> : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

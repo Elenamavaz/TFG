@@ -1,13 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import {
-  getSolicitudesReactivacion,
-  getJuntasCofradias,
-  aceptarReactivacion,
-  rechazarReactivacion,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './SolicitudesReactivacionScreen.styles';
 
@@ -31,7 +26,7 @@ export function SolicitudesReactivacionScreen({ navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getSolicitudesReactivacion(), getJuntasCofradias()]).then(([lista, juntas]) => {
+    Promise.all([services.getSolicitudesReactivacion(), services.getJuntasCofradias()]).then(([lista, juntas]) => {
       setSolicitudes(lista);
       setJuntasPorId(Object.fromEntries(juntas.map((j) => [j.id, j])));
       setCargando(false);
@@ -44,7 +39,7 @@ export function SolicitudesReactivacionScreen({ navigation }) {
     if (procesandoId) return;
     setProcesandoId(miembro.id);
     try {
-      await (aceptar ? aceptarReactivacion(miembro.id) : rechazarReactivacion(miembro.id));
+      await (aceptar ? services.aceptarReactivacion(miembro.id) : services.rechazarReactivacion(miembro.id));
       cargar();
     } finally {
       setProcesandoId(null);
@@ -54,7 +49,7 @@ export function SolicitudesReactivacionScreen({ navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Solicitudes de reactivación</Text>
         <Text style={styles.subtitle}>
@@ -80,6 +75,6 @@ export function SolicitudesReactivacionScreen({ navigation }) {
         ))}
         {solicitudes.length === 0 ? <Text style={styles.empty}>No hay solicitudes pendientes.</Text> : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

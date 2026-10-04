@@ -3,18 +3,12 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, View } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ScreenContainer, ProcesionCardMap } from '../../../components/common';
-import { useCiudad } from '../../../../application/context';
-import {
-  getProcesionesPorCiudad,
-  getRecorridoCompleto,
-  getEstelaProcesion,
-  solicitarPermisoUbicacion,
-} from '../../../../data/services';
+import { common } from '../../../components';
+import { maps } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { geo } from '../../../utils';
 import { colors } from '../../../../theme';
-import { estiloMapaOscuro } from '../../../components/maps/estiloMapa';
-import { MarcadoresInicioFin } from '../../../components/maps/MarcadoresInicioFin';
 import { styles } from './MapaScreen.styles';
 
 // Cada cuánto se refresca la posición de las procesiones mientras la
@@ -37,7 +31,7 @@ const MARGEN_ENCUADRE = { top: 60, right: 40, bottom: 60, left: 40 };
 // navegador se usa MapaScreen.js (aviso) -Metro elige este archivo .native
 // automáticamente en el móvil.
 export function MapaScreen({ route }) {
-  const { ciudadSeleccionada } = useCiudad();
+  const { ciudadSeleccionada } = context.useCiudad();
   const mapaRef = useRef(null);
   // Los recorridos no cambian mientras la procesión está en curso: se piden
   // una vez y se guardan aquí, y el refresco periódico solo pide la estela.
@@ -56,11 +50,11 @@ export function MapaScreen({ route }) {
   const cargar = useCallback(async () => {
     if (!ciudadId) return;
     try {
-      const procesiones = (await getProcesionesPorCiudad(ciudadId)).filter((p) => p.estado === 'EN_CURSO');
+      const procesiones = (await services.getProcesionesPorCiudad(ciudadId)).filter((p) => p.estado === 'EN_CURSO');
       const items = await Promise.all(
         procesiones.map(async (procesion) => {
           const recorrido = procesion.recorridoId ? await obtenerRecorrido(procesion.recorridoId) : null;
-          const estela = await getEstelaProcesion(procesion.id).catch(() => null);
+          const estela = await services.getEstelaProcesion(procesion.id).catch(() => null);
           return construirItem(procesion, recorrido, estela);
         }),
       );
@@ -75,7 +69,7 @@ export function MapaScreen({ route }) {
 
   async function obtenerRecorrido(recorridoId) {
     if (!recorridosRef.current[recorridoId]) {
-      const recorrido = await getRecorridoCompleto(recorridoId);
+      const recorrido = await services.getRecorridoCompleto(recorridoId);
       const puntos = recorrido.puntos
         .filter((p) => p.latitud != null && p.longitud != null)
         .map((p) => ({ latitude: p.latitud, longitude: p.longitud }));
@@ -96,7 +90,7 @@ export function MapaScreen({ route }) {
   );
 
   useEffect(() => {
-    solicitarPermisoUbicacion().then(setPermisoUbicacion);
+    services.solicitarPermisoUbicacion().then(setPermisoUbicacion);
   }, []);
 
   // Llegando desde "Ir a la procesión" (DetailProcesionScreen): centrar en
@@ -127,7 +121,7 @@ export function MapaScreen({ route }) {
       : REGION_ESPANA;
 
   return (
-    <ScreenContainer style={styles.pantalla}>
+    <common.ScreenContainer style={styles.pantalla}>
       <Text style={styles.title}>Mapa en Vivo</Text>
       <Text style={styles.subtitle}>
         {ciudadSeleccionada ? `${ciudadSeleccionada.nombre} · Tiempo real` : 'Tiempo real'}
@@ -142,7 +136,7 @@ export function MapaScreen({ route }) {
             ref={mapaRef}
             style={tamanoMapa}
             provider={PROVIDER_GOOGLE}
-            customMapStyle={estiloMapaOscuro}
+            customMapStyle={maps.estiloMapaOscuro}
             initialRegion={regionInicial}
             showsUserLocation={permisoUbicacion}
             showsMyLocationButton={false}
@@ -184,7 +178,7 @@ export function MapaScreen({ route }) {
       ) : (
         <ScrollView style={styles.lista} contentContainerStyle={styles.listaContenido}>
           {enMovimiento.map((item) => (
-            <ProcesionCardMap
+            <common.ProcesionCardMap
               key={item.id}
               titulo={item.nombre}
               ruta={item.resumen || (item.puntos.length ? 'Recorrido sin puntos destacados' : 'Sin recorrido definido')}
@@ -194,7 +188,7 @@ export function MapaScreen({ route }) {
           ))}
         </ScrollView>
       )}
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }
 
@@ -212,7 +206,7 @@ function MarcasProcesion({ item }) {
           lineJoin="round"
         />
       ) : null}
-      <MarcadoresInicioFin puntos={item.puntosRuta} />
+      <maps.MarcadoresInicioFin puntos={item.puntosRuta} />
       {item.estela.length > 1 ? (
         <Polyline
           coordinates={item.estela}

@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 // Import directo del archivo, no del barrel de data/services: ese barrel
 // también reexporta servicios que importan este mismo apiClient (ciudadService,
 // etc.) -pasar por él aquí crearía una dependencia circular en tiempo de carga.
-import { getSesionGuardada } from '../../data/services/sesionService';
+import * as sesionService from '../../data/services/sesionService';
 
 // Puerto por defecto de Spring Boot (backend/src/main/resources/application.properties
 // no fija server.port, así que es el 8080 de siempre).
@@ -65,7 +65,7 @@ export class ApiError extends Error {
 // apiFetch es una función suelta (la usan los data/services, fuera de
 // cualquier componente), no puede leer el AuthContext de React directamente.
 async function cabeceraAutorizacion() {
-  const sesion = await getSesionGuardada();
+  const sesion = await sesionService.getSesionGuardada();
   return sesion?.token ? { Authorization: `Bearer ${sesion.token}` } : {};
 }
 

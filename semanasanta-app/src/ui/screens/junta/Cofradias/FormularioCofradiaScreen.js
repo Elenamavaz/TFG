@@ -2,17 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator, Alert, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getCofradiaPorId,
-  getProcesionesPorCofradia,
-  getEventosPorCofradia,
-  getPasosPorCofradia,
-  getCodigosAccesoDeCofradia,
-  crearCofradia,
-  actualizarCofradia,
-  eliminarCofradia,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './FormularioCofradiaScreen.styles';
 
@@ -75,7 +66,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
   useFocusEffect(
     useCallback(() => {
       if (!editando) return;
-      getCodigosAccesoDeCofradia(cofradiaId)
+      services.getCodigosAccesoDeCofradia(cofradiaId)
         .then((codigos) => setNumCodigosActivos(codigos.filter((c) => c.activo).length))
         .catch(() => {});
     }, [editando, cofradiaId])
@@ -84,10 +75,10 @@ export function FormularioCofradiaScreen({ route, navigation }) {
   useEffect(() => {
     if (!editando) return;
     Promise.all([
-      getCofradiaPorId(cofradiaId),
-      getProcesionesPorCofradia(cofradiaId),
-      getEventosPorCofradia(cofradiaId),
-      getPasosPorCofradia(cofradiaId),
+      services.getCofradiaPorId(cofradiaId),
+      services.getProcesionesPorCofradia(cofradiaId),
+      services.getEventosPorCofradia(cofradiaId),
+      services.getPasosPorCofradia(cofradiaId),
     ]).then(([cofradia, procesiones, eventos, pasos]) => {
       setNombre(cofradia.nombre);
       setWeb(cofradia.web ?? '');
@@ -119,10 +110,10 @@ export function FormularioCofradiaScreen({ route, navigation }) {
     setGuardando(true);
     try {
       if (editando) {
-        await actualizarCofradia(cofradiaId, datosFormulario());
+        await services.actualizarCofradia(cofradiaId, datosFormulario());
         navigation.popToTop(); // al inicio del panel de Junta (2026-10-03)
       } else {
-        const cofradiaCreada = await crearCofradia(datosFormulario());
+        const cofradiaCreada = await services.crearCofradia(datosFormulario());
         navigation.replace('CofradiaCreada', { nombreCofradia: cofradiaCreada.nombre, ciudadId, cofradiaId: cofradiaCreada.id });
       }
     } catch (err) {
@@ -145,7 +136,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
         onPress: async () => {
           setEliminando(true);
           try {
-            await eliminarCofradia(cofradiaId);
+            await services.eliminarCofradia(cofradiaId);
             navigation.navigate('Cofradias', { ciudadId });
           } finally {
             setEliminando(false);
@@ -157,14 +148,14 @@ export function FormularioCofradiaScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre de la cofradia</Text>
@@ -320,6 +311,6 @@ export function FormularioCofradiaScreen({ route, navigation }) {
           </TouchableOpacity>
         )}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

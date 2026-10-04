@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getCiudadPorId, getCofradiasGestion, getEventosPorCiudad } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './EventosScreen.styles';
 
 const COLOR_POR_ESTADO = {
@@ -63,11 +63,11 @@ export function EventosScreen({ route, navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getCiudadPorId(ciudadId), getCofradiasGestion(ciudadId), getEventosPorCiudad(ciudadId)]).then(
+    Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasGestion(ciudadId), services.getEventosPorCiudad(ciudadId)]).then(
       ([ciudadCargada, listaCofradias, listaEventos]) => {
         setCiudad(ciudadCargada);
-        setCofradias(ordenarPorNombre(listaCofradias));
-        setEventos(ordenarPorNombre(listaEventos));
+        setCofradias(orden.ordenarPorNombre(listaCofradias));
+        setEventos(orden.ordenarPorNombre(listaEventos));
         setCargando(false);
       }
     );
@@ -83,7 +83,7 @@ export function EventosScreen({ route, navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Eventos</Text>
         <Text style={styles.subtitle}>{ciudad ? `Eventos de ${ciudad.nombre}` : ''}</Text>
@@ -153,6 +153,6 @@ export function EventosScreen({ route, navigation }) {
         </Pressable>
       </Modal>
 
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

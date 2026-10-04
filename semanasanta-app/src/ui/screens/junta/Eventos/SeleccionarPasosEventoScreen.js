@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getEventoPorId, getPasosPorCofradia, actualizarEvento } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './SeleccionarPasosEventoScreen.styles';
 
@@ -31,8 +31,8 @@ export function SeleccionarPasosEventoScreen({ route, navigation }) {
   }, [navigation]);
 
   useEffect(() => {
-    getEventoPorId(eventoId).then(async (evento) => {
-      const porCofradia = await Promise.all(evento.cofradiaIds.map((id) => getPasosPorCofradia(id)));
+    services.getEventoPorId(eventoId).then(async (evento) => {
+      const porCofradia = await Promise.all(evento.cofradiaIds.map((id) => services.getPasosPorCofradia(id)));
       setNombreEvento(evento.nombre);
       setPasosDisponibles(porCofradia.flat());
       setSeleccionados(evento.pasoIds);
@@ -58,7 +58,7 @@ export function SeleccionarPasosEventoScreen({ route, navigation }) {
     setError(null);
     setGuardando(true);
     try {
-      await actualizarEvento(eventoId, { ...datosBase, pasosIds: seleccionados });
+      await services.actualizarEvento(eventoId, { ...datosBase, pasosIds: seleccionados });
       navigation.navigate('Eventos', { ciudadId });
     } catch (err) {
       setError(err.message);
@@ -69,14 +69,14 @@ export function SeleccionarPasosEventoScreen({ route, navigation }) {
 
   if (cargando) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.subtitle}>{nombreEvento}</Text>
         <Text style={styles.ayuda}>Elige qué pasos de las cofradías participantes desfilan en este evento.</Text>
@@ -119,6 +119,6 @@ export function SeleccionarPasosEventoScreen({ route, navigation }) {
           <Text style={styles.cancelarTexto}>Hacerlo más tarde</Text>
         </TouchableOpacity>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

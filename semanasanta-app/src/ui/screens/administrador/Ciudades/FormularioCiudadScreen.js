@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import {
-  getCiudadPorId,
-  crearCiudad,
-  actualizarCiudad,
-  eliminarCiudad,
-  getJuntasCofradias,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './FormularioCiudadScreen.styles';
 
@@ -58,7 +52,7 @@ export function FormularioCiudadScreen({ route, navigation }) {
 
   useEffect(() => {
     if (!editando) return;
-    Promise.all([getCiudadPorId(ciudadId), getJuntasCofradias()]).then(([ciudad, juntas]) => {
+    Promise.all([services.getCiudadPorId(ciudadId), services.getJuntasCofradias()]).then(([ciudad, juntas]) => {
       setNombre(ciudad.nombre);
       setComunidadAutonoma(ciudad.comunidadAutonoma ?? '');
       setProvincia(ciudad.provincia ?? '');
@@ -95,10 +89,10 @@ export function FormularioCiudadScreen({ route, navigation }) {
     setGuardando(true);
     try {
       if (editando) {
-        await actualizarCiudad(ciudadId, datosFormulario());
+        await services.actualizarCiudad(ciudadId, datosFormulario());
         navigation.popToTop(); // al inicio del panel de Administrador (2026-10-03)
       } else {
-        const ciudadCreada = await crearCiudad(datosFormulario());
+        const ciudadCreada = await services.crearCiudad(datosFormulario());
         navigation.replace('CiudadCreada', { nombreCiudad: ciudadCreada.nombre });
       }
     } catch (err) {
@@ -119,7 +113,7 @@ export function FormularioCiudadScreen({ route, navigation }) {
         text: 'Eliminar',
         style: 'destructive',
         onPress: async () => {
-          await eliminarCiudad(ciudadId);
+          await services.eliminarCiudad(ciudadId);
           navigation.navigate('Ciudades');
         },
       },
@@ -128,14 +122,14 @@ export function FormularioCiudadScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre de la ciudad</Text>
@@ -247,6 +241,6 @@ export function FormularioCiudadScreen({ route, navigation }) {
           </TouchableOpacity>
         )}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

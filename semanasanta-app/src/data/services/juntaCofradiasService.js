@@ -1,5 +1,5 @@
-import { apiFetch } from '../../infrastructure/api/apiClient';
-import { JuntaCofradias } from '../models';
+import { api } from '../../infrastructure';
+import * as models from '../models';
 
 // Gestión (panel de Administrador): las escrituras exigen JWT de
 // Administrador en el backend, así que solo tienen sentido con sesión ya
@@ -8,25 +8,25 @@ import { JuntaCofradias } from '../models';
 // pantalla de ciudadano que las liste; quien las consulta es siempre el panel.
 
 export async function getJuntasCofradias() {
-  const juntas = await apiFetch('/juntas-cofradias');
-  return juntas.map((j) => new JuntaCofradias(j));
+  const juntas = await api.apiFetch('/juntas-cofradias');
+  return juntas.map((j) => new models.JuntaCofradias(j));
 }
 
 export async function getJuntaCofradiasPorId(id) {
-  const junta = await apiFetch(`/juntas-cofradias/${id}`);
-  return new JuntaCofradias(junta);
+  const junta = await api.apiFetch(`/juntas-cofradias/${id}`);
+  return new models.JuntaCofradias(junta);
 }
 
 export async function crearJuntaCofradias(datos) {
-  const junta = await apiFetch('/juntas-cofradias', { method: 'POST', body: datos });
-  return new JuntaCofradias(junta);
+  const junta = await api.apiFetch('/juntas-cofradias', { method: 'POST', body: datos });
+  return new models.JuntaCofradias(junta);
 }
 
 export async function actualizarJuntaCofradias(id, datos) {
-  const junta = await apiFetch(`/juntas-cofradias/${id}`, { method: 'PUT', body: datos });
-  return new JuntaCofradias(junta);
+  const junta = await api.apiFetch(`/juntas-cofradias/${id}`, { method: 'PUT', body: datos });
+  return new models.JuntaCofradias(junta);
 }
 
 export async function eliminarJuntaCofradias(id) {
-  await apiFetch(`/juntas-cofradias/${id}`, { method: 'DELETE' });
+  await api.apiFetch(`/juntas-cofradias/${id}`, { method: 'DELETE' });
 }

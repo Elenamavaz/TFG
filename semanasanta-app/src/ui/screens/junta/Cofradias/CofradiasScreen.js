@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getCiudadPorId, getCofradiasGestion, actualizarCofradia } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './CofradiasScreen.styles';
 
 // Mismo criterio que CiudadesScreen (panel de Administrador): "Activa"/
@@ -44,9 +44,9 @@ export function CofradiasScreen({ route, navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getCiudadPorId(ciudadId), getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
+    Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
       setCiudad(ciudadCargada);
-      setCofradias(ordenarPorNombre(listaCofradias));
+      setCofradias(orden.ordenarPorNombre(listaCofradias));
       setCargando(false);
     });
   }, [ciudadId]);
@@ -54,7 +54,7 @@ export function CofradiasScreen({ route, navigation }) {
   useFocusEffect(cargar);
 
   async function alternarActiva(cofradia) {
-    await actualizarCofradia(cofradia.id, {
+    await services.actualizarCofradia(cofradia.id, {
       nombre: cofradia.nombre,
       historia: cofradia.historia,
       web: cofradia.web,
@@ -67,7 +67,7 @@ export function CofradiasScreen({ route, navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Cofradias</Text>
         <Text style={styles.subtitle}>{ciudad ? `Cofradias de ${ciudad.nombre}` : ''}</Text>
@@ -100,6 +100,6 @@ export function CofradiasScreen({ route, navigation }) {
         ))}
         {cofradias.length === 0 ? <Text style={styles.empty}>No hay cofradías todavía.</Text> : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

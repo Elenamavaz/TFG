@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ScreenContainer } from '../components/common';
-import { WelcomeScreen, LoginScreen, CuentaDesactivadaScreen } from '../screens/auth';
-import { SeleccionCiudadScreen } from '../screens/ciudadano';
+import { common } from '../components';
+import { auth } from '../screens';
+import { ciudadano } from '../screens';
 import { MainTabNavigator } from './MainTabNavigator';
 import { AdministradorStackNavigator } from './AdministradorStackNavigator';
 import { JuntaStackNavigator } from './JuntaStackNavigator';
 import { CofradeStackNavigator } from './CofradeStackNavigator';
-import { useAuth, useCiudad } from '../../application/context';
-import { getModoAccesoGuardado } from '../../data/services';
-import { resolverPantallaCiudadano } from '../utils/arranqueCiudadano';
+import { context } from '../../application';
+import { services } from '../../data';
+import { arranqueCiudadano } from '../utils';
 import { colors } from '../../theme';
 
 const Stack = createNativeStackNavigator();
@@ -37,16 +37,16 @@ async function resolverArranque(seleccionarCiudad, sesion) {
   if (sesion) {
     return sesion.activo === false ? 'CuentaDesactivada' : 'JuntaStack';
   }
-  const modoAcceso = await getModoAccesoGuardado();
+  const modoAcceso = await services.getModoAccesoGuardado();
   if (modoAcceso === 'ciudadano') {
-    return resolverPantallaCiudadano(seleccionarCiudad);
+    return arranqueCiudadano.resolverPantallaCiudadano(seleccionarCiudad);
   }
   return 'Welcome';
 }
 
 export function RootNavigator() {
-  const { seleccionarCiudad } = useCiudad();
-  const { sesion, cargandoSesion } = useAuth();
+  const { seleccionarCiudad } = context.useCiudad();
+  const { sesion, cargandoSesion } = context.useAuth();
   const [pantallaInicial, setPantallaInicial] = useState(null);
 
   useEffect(() => {
@@ -62,21 +62,21 @@ export function RootNavigator() {
 
   if (!pantallaInicial) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={pantallaInicial}>
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="CuentaDesactivada" component={CuentaDesactivadaScreen} />
+      <Stack.Screen name="Welcome" component={auth.WelcomeScreen} />
+      <Stack.Screen name="Login" component={auth.LoginScreen} />
+      <Stack.Screen name="CuentaDesactivada" component={auth.CuentaDesactivadaScreen} />
       <Stack.Screen name="AdministradorStack" component={AdministradorStackNavigator} />
       <Stack.Screen name="JuntaStack" component={JuntaStackNavigator} />
       <Stack.Screen name="CofradeStack" component={CofradeStackNavigator} />
-      <Stack.Screen name="SeleccionCiudad" component={SeleccionCiudadScreen} />
+      <Stack.Screen name="SeleccionCiudad" component={ciudadano.SeleccionCiudadScreen} />
       <Stack.Screen name="MainTabs" component={MainTabNavigator} />
     </Stack.Navigator>
   );

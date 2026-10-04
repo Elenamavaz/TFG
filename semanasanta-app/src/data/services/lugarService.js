@@ -1,5 +1,5 @@
-import { apiFetch } from '../../infrastructure/api/apiClient';
-import { Ubicacion } from '../models';
+import { api } from '../../infrastructure';
+import * as models from '../models';
 
 // "lugar" y no "ubicacion" a propósito: ese nombre ya lo tiene
 // ubicacionService.js, que es el GPS del propio dispositivo (permisos,
@@ -7,8 +7,8 @@ import { Ubicacion } from '../models';
 // backend (dónde se celebra un Evento/Procesion). GET /ubicaciones/{id} es
 // público.
 export async function getUbicacionPorId(ubicacionId) {
-  const ubicacion = await apiFetch(`/ubicaciones/${ubicacionId}`);
-  return new Ubicacion(ubicacion);
+  const ubicacion = await api.apiFetch(`/ubicaciones/${ubicacionId}`);
+  return new models.Ubicacion(ubicacion);
 }
 
 // -- Gestión (panel de Junta, mockup del 2026-08-22, FormularioEventoScreen):
@@ -19,11 +19,11 @@ export async function getUbicacionPorId(ubicacionId) {
 // solo la dirección como en el mockup original.
 
 export async function crearUbicacion(datos) {
-  const ubicacion = await apiFetch('/ubicaciones', { method: 'POST', body: datos });
-  return new Ubicacion(ubicacion);
+  const ubicacion = await api.apiFetch('/ubicaciones', { method: 'POST', body: datos });
+  return new models.Ubicacion(ubicacion);
 }
 
 export async function actualizarUbicacion(ubicacionId, datos) {
-  const ubicacion = await apiFetch(`/ubicaciones/${ubicacionId}`, { method: 'PUT', body: datos });
-  return new Ubicacion(ubicacion);
+  const ubicacion = await api.apiFetch(`/ubicaciones/${ubicacionId}`, { method: 'PUT', body: datos });
+  return new models.Ubicacion(ubicacion);
 }

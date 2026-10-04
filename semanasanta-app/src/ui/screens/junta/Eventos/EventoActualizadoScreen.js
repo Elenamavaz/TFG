@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { cancelarEvento } from '../../../../data/services';
-import { EstadoEvento, TipoNotificacion } from '../../../../data/models';
+import { services } from '../../../../data';
+import { models } from '../../../../data';
 import { NotificarModal } from '../NotificarModal';
 import { styles } from './EventoActualizadoScreen.styles';
 
@@ -26,7 +26,7 @@ export function EventoActualizadoScreen({ route, navigation }) {
   // Recién marcado como "Cancelado" en el formulario: el backend lo ha
   // cancelado sin avisar (no tenía motivo ni prioridad), así que el modal
   // se abre solo, con la cancelación ya elegida.
-  const recienCancelado = estadoNuevo === EstadoEvento.CANCELADO;
+  const recienCancelado = estadoNuevo === models.EstadoEvento.CANCELADO;
   const [notificando, setNotificando] = useState(recienCancelado);
   const [notificacionEnviada, setNotificacionEnviada] = useState(false);
 
@@ -35,7 +35,7 @@ export function EventoActualizadoScreen({ route, navigation }) {
   const avisoAutomatico = AVISO_AUTOMATICO_POR_ESTADO[estadoNuevo];
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <View style={styles.check}>
         <Ionicons name="checkmark" size={40} color={colors.gold} />
       </View>
@@ -65,14 +65,14 @@ export function EventoActualizadoScreen({ route, navigation }) {
         elemento={notificando ? { id: eventoId, nombre: nombreEvento } : null}
         ciudadId={ciudadId}
         etiquetaCancelar="Cancelar el evento"
-        tipoInicial={recienCancelado ? TipoNotificacion.CANCELACION : null}
-        cancelar={cancelarEvento}
+        tipoInicial={recienCancelado ? models.TipoNotificacion.CANCELACION : null}
+        cancelar={services.cancelarEvento}
         onCerrar={() => setNotificando(false)}
         onEnviada={() => {
           setNotificando(false);
           setNotificacionEnviada(true);
         }}
       />
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

@@ -1,7 +1,7 @@
-import { Ciudad } from '../models';
+import * as models from '../models';
 
 export const ciudadesMock = [
-  new Ciudad({
+  new models.Ciudad({
     id: 'valladolid',
     nombre: 'Valladolid',
     comunidadAutonoma: 'Castilla y León',
@@ -10,7 +10,7 @@ export const ciudadesMock = [
     latitud: 41.6523,
     longitud: -4.7245,
   }),
-  new Ciudad({
+  new models.Ciudad({
     id: 'zamora',
     nombre: 'Zamora',
     comunidadAutonoma: 'Castilla y León',
@@ -19,7 +19,7 @@ export const ciudadesMock = [
     latitud: 41.5033,
     longitud: -5.7446,
   }),
-  new Ciudad({
+  new models.Ciudad({
     id: 'malaga',
     nombre: 'Málaga',
     comunidadAutonoma: 'Andalucía',
@@ -28,7 +28,7 @@ export const ciudadesMock = [
     latitud: 36.7213,
     longitud: -4.4214,
   }),
-  new Ciudad({
+  new models.Ciudad({
     id: 'granada',
     nombre: 'Granada',
     comunidadAutonoma: 'Andalucía',
@@ -37,7 +37,7 @@ export const ciudadesMock = [
     latitud: 37.1773,
     longitud: -3.5986,
   }),
-  new Ciudad({
+  new models.Ciudad({
     id: 'cordoba',
     nombre: 'Córdoba',
     comunidadAutonoma: 'Andalucía',

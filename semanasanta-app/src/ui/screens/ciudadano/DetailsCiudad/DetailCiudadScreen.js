@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-import { ScreenContainer, InfoSection } from '../../../components/common';
-import { useCiudad } from '../../../../application/context';
-import { getCiudadPorId } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './DetailCiudadScreen.styles';
 
@@ -13,10 +13,10 @@ import { styles } from './DetailCiudadScreen.styles';
 // oficial"/"Contacta" del mockup -Ciudad no tiene esos campos todavía (a
 // diferencia de Cofradia.web), se añaden el día que haga falta de verdad.
 export function DetalleCiudadScreen({ navigation }) {
-  const { ciudadSeleccionada } = useCiudad();
+  const { ciudadSeleccionada } = context.useCiudad();
   const { data: ciudad } = useQuery({
     queryKey: ['ciudad', ciudadSeleccionada?.id],
-    queryFn: () => getCiudadPorId(ciudadSeleccionada.id),
+    queryFn: () => services.getCiudadPorId(ciudadSeleccionada.id),
     enabled: !!ciudadSeleccionada,
   });
 
@@ -36,23 +36,23 @@ export function DetalleCiudadScreen({ navigation }) {
   if (!ciudad) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>{ciudad.nombre}</Text>
         <Text style={styles.subtitle}>Historia, tradición y Semana Santa</Text>
 
         {ciudad.historia ? (
-          <InfoSection title="Historia">
+          <common.InfoSection title="Historia">
             <Text style={styles.body}>{ciudad.historia}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
 
         {ciudad.patrimonio ? (
-          <InfoSection title="Patrimonio">
+          <common.InfoSection title="Patrimonio">
             <Text style={styles.body}>{ciudad.patrimonio}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

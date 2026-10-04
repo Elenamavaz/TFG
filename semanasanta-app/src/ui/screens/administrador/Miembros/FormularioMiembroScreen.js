@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getJuntasCofradias,
-  getMiembroJuntaCofradiaPorId,
-  crearMiembroJuntaCofradia,
-  actualizarMiembroJuntaCofradia,
-  eliminarMiembroJuntaCofradia,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './FormularioMiembroScreen.styles';
 
 // Formulario compartido entre "Nueva miembro" y "Editar miembro" (mockup del
@@ -62,10 +56,10 @@ export function FormularioMiembroScreen({ route, navigation }) {
 
   useEffect(() => {
     Promise.all([
-      getJuntasCofradias(),
-      editando ? getMiembroJuntaCofradiaPorId(miembroId) : Promise.resolve(null),
+      services.getJuntasCofradias(),
+      editando ? services.getMiembroJuntaCofradiaPorId(miembroId) : Promise.resolve(null),
     ]).then(([juntas, miembro]) => {
-      const juntasOrdenadas = ordenarPorNombre(juntas);
+      const juntasOrdenadas = orden.ordenarPorNombre(juntas);
       setJuntasDisponibles(juntasOrdenadas);
       if (miembro) {
         setNombre(miembro.nombre);
@@ -97,10 +91,10 @@ export function FormularioMiembroScreen({ route, navigation }) {
     setGuardando(true);
     try {
       if (editando) {
-        await actualizarMiembroJuntaCofradia(miembroId, datosFormulario());
+        await services.actualizarMiembroJuntaCofradia(miembroId, datosFormulario());
         navigation.popToTop(); // al inicio del panel de Administrador (2026-10-03)
       } else {
-        const miembroCreado = await crearMiembroJuntaCofradia(datosFormulario());
+        const miembroCreado = await services.crearMiembroJuntaCofradia(datosFormulario());
         navigation.replace('MiembroCreado', { nombreMiembro: miembroCreado.nombre, juntaId: juntaSeleccionada.id });
       }
     } catch (err) {
@@ -121,7 +115,7 @@ export function FormularioMiembroScreen({ route, navigation }) {
         text: 'Eliminar',
         style: 'destructive',
         onPress: async () => {
-          await eliminarMiembroJuntaCofradia(miembroId);
+          await services.eliminarMiembroJuntaCofradia(miembroId);
           navigation.navigate('Miembros', { juntaId: juntaSeleccionada?.id });
         },
       },
@@ -130,14 +124,14 @@ export function FormularioMiembroScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre completo</Text>
@@ -239,6 +233,6 @@ export function FormularioMiembroScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

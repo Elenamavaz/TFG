@@ -2,30 +2,18 @@ import { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
-import {
-  ScreenContainer,
-  InfoSection,
-  LinkBox,
-  ProcesionCard,
-  PasoListItem,
-  StatusBadge,
-} from '../../../components/common';
-import {
-  getCofradiaPorId,
-  getProcesionesPorCofradia,
-  getEventosPorCofradia,
-  getPasosPorCofradia,
-} from '../../../../data/services';
-import { useFavoritos } from '../../../../application/context';
+import { common } from '../../../components';
+import { services } from '../../../../data';
+import { context } from '../../../../application';
 import { colors } from '../../../../theme';
 import { styles } from './DetailCofradiaScreen.styles';
 
 export function DetalleCofradiaScreen({ route, navigation }) {
   const { cofradiaId } = route.params;
-  const { esFavorito, alternarFavorito } = useFavoritos();
+  const { esFavorito, alternarFavorito } = context.useFavoritos();
   const { data: cofradia = null } = useQuery({
     queryKey: ['cofradia', cofradiaId],
-    queryFn: () => getCofradiaPorId(cofradiaId),
+    queryFn: () => services.getCofradiaPorId(cofradiaId),
   });
   const [procesiones, setProcesiones] = useState([]);
   const [eventos, setEventos] = useState([]);
@@ -51,15 +39,15 @@ export function DetalleCofradiaScreen({ route, navigation }) {
     // de conectar): cofradiaId real de esta cofradía no va a encontrar
     // coincidencias en esos mocks, así que estas listas saldrán vacías hasta
     // que también se conecten.
-    getProcesionesPorCofradia(cofradiaId).then(setProcesiones);
-    getEventosPorCofradia(cofradiaId).then(setEventos);
-    getPasosPorCofradia(cofradiaId).then(setPasos);
+    services.getProcesionesPorCofradia(cofradiaId).then(setProcesiones);
+    services.getEventosPorCofradia(cofradiaId).then(setEventos);
+    services.getPasosPorCofradia(cofradiaId).then(setPasos);
   }, [cofradia, cofradiaId]);
 
   if (!cofradia) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.headerRow}>
           <View style={styles.headerText}>
@@ -74,41 +62,41 @@ export function DetalleCofradiaScreen({ route, navigation }) {
           )}
         </View>
 
-        <InfoSection title="Historia">
+        <common.InfoSection title="Historia">
           <Text style={styles.body}>{cofradia.historia}</Text>
-        </InfoSection>
+        </common.InfoSection>
 
         {cofradia.web ? (
-          <InfoSection title="Web oficial">
-            <LinkBox url={cofradia.web} />
-          </InfoSection>
+          <common.InfoSection title="Web oficial">
+            <common.LinkBox url={cofradia.web} />
+          </common.InfoSection>
         ) : null}
 
         {procesiones.length > 0 || eventos.length > 0 ? (
           <>
             <Text style={styles.sectionTitle}>Procesiones y eventos</Text>
             {procesiones.map((procesion) => (
-              <ProcesionCard
+              <common.ProcesionCard
                 key={procesion.id}
                 titulo={procesion.nombre}
                 subtitulo={cofradia.nombre}
                 dia={procesion.dia}
                 hora={procesion.horaSalida}
                 ruta={procesion.recorrido?.puntos.map((punto) => punto.nombre).join(' → ')}
-                badge={<StatusBadge estado={procesion.estado} />}
+                badge={<common.StatusBadge estado={procesion.estado} />}
                 esFavorito={esFavorito(procesion.id, 'procesion')}
                 onToggleFavorito={() => alternarFavorito(procesion.id, 'procesion')}
                 onPress={() => navigation.navigate('DetalleProcesion', { procesionId: procesion.id })}
               />
             ))}
             {eventos.map((evento) => (
-              <ProcesionCard
+              <common.ProcesionCard
                 key={evento.id}
                 titulo={evento.nombre}
                 subtitulo={cofradia.nombre}
                 dia={evento.dia}
                 hora={evento.hora}
-                badge={<StatusBadge estado={evento.estado} />}
+                badge={<common.StatusBadge estado={evento.estado} />}
                 esFavorito={esFavorito(evento.id, 'evento')}
                 onToggleFavorito={() => alternarFavorito(evento.id, 'evento')}
                 onPress={() => navigation.navigate('DetalleEvento', { eventoId: evento.id })}
@@ -121,7 +109,7 @@ export function DetalleCofradiaScreen({ route, navigation }) {
           <>
             <Text style={styles.sectionTitle}>Pasos</Text>
             {pasos.map((paso) => (
-              <PasoListItem
+              <common.PasoListItem
                 key={paso.id}
                 label={paso.tipo}
                 title={paso.nombre}
@@ -133,6 +121,6 @@ export function DetalleCofradiaScreen({ route, navigation }) {
           </>
         ) : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

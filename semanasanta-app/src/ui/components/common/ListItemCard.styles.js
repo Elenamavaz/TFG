@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, radii, spacing } from '../../../theme';
+import { colors } from '../../../theme';
+import { fontFamilies } from '../../../theme';
+import { radii } from '../../../theme';
+import { spacing } from '../../../theme';
 
 export const styles = StyleSheet.create({
   card: {

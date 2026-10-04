@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, radii, spacing } from '../../../theme';
+import { colors } from '../../../theme';
+import { fontFamilies } from '../../../theme';
+import { radii } from '../../../theme';
+import { spacing } from '../../../theme';
 
 // Ver NotificarModal (compartido por procesiones y eventos). Botones según
 // el mockup "Procesión Actualizada": Cancelar en rojo, Enviar con borde dorado.

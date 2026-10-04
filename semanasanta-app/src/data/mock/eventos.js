@@ -1,7 +1,7 @@
-import { Evento, EstadoEvento, Ubicacion } from '../models';
+import * as models from '../models';
 
 export const eventosMock = [
-  new Evento({
+  new models.Evento({
     id: 'via-crucis-exaltacion',
     cofradiaId: 'vera-cruz',
     nombre: 'Vía Crucis de la Exaltación',
@@ -12,10 +12,10 @@ export const eventosMock = [
     dia: 'Domingo de Ramos',
     hora: '21:00',
     duracionMin: 90,
-    estado: EstadoEvento.PROGRAMADO,
-    ubicacion: new Ubicacion({ latitud: null, longitud: null, direccion: 'Iglesia Penitencial de la Santa Vera-Cruz' }),
+    estado: models.EstadoEvento.PROGRAMADO,
+    ubicacion: new models.Ubicacion({ latitud: null, longitud: null, direccion: 'Iglesia Penitencial de la Santa Vera-Cruz' }),
   }),
-  new Evento({
+  new models.Evento({
     id: 'peregrinacion-promesa-evento',
     cofradiaId: 'santo-cristo-luz',
     nombre: 'La Peregrinación de la Promesa',
@@ -26,7 +26,7 @@ export const eventosMock = [
     dia: 'Martes Santo',
     hora: '22:30',
     duracionMin: 150,
-    estado: EstadoEvento.EN_CURSO,
-    ubicacion: new Ubicacion({ latitud: null, longitud: null, direccion: 'Plaza de Santa Cruz' }),
+    estado: models.EstadoEvento.EN_CURSO,
+    ubicacion: new models.Ubicacion({ latitud: null, longitud: null, direccion: 'Plaza de Santa Cruz' }),
   }),
 ];

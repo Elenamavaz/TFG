@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { fontFamilies, radii, spacing } from '../../../theme';
+import { fontFamilies } from '../../../theme';
+import { radii } from '../../../theme';
+import { spacing } from '../../../theme';
 
 export const styles = StyleSheet.create({
   badge: {

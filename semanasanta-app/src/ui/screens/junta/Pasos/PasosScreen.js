@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Alert, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getCiudadPorId, getCofradiasGestion, getPasosPorCofradia, eliminarPaso } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './PasosScreen.styles';
 
 // Mockup del 2026-08-22: se llega desde "Pasos" del menú de Gestión en
@@ -41,12 +41,12 @@ export function PasosScreen({ route, navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getCiudadPorId(ciudadId), getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
-      const cofradiasOrdenadas = ordenarPorNombre(listaCofradias);
+    Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
+      const cofradiasOrdenadas = orden.ordenarPorNombre(listaCofradias);
       setCiudad(ciudadCargada);
       setCofradias(cofradiasOrdenadas);
-      Promise.all(cofradiasOrdenadas.map((cofradia) => getPasosPorCofradia(cofradia.id))).then((porCofradia) => {
-        setPasos(ordenarPorNombre(porCofradia.flat()));
+      Promise.all(cofradiasOrdenadas.map((cofradia) => services.getPasosPorCofradia(cofradia.id))).then((porCofradia) => {
+        setPasos(orden.ordenarPorNombre(porCofradia.flat()));
         setCargando(false);
       });
     });
@@ -63,7 +63,7 @@ export function PasosScreen({ route, navigation }) {
         onPress: async () => {
           setEliminandoId(paso.id);
           try {
-            await eliminarPaso(paso.id);
+            await services.eliminarPaso(paso.id);
             cargar();
           } finally {
             setEliminandoId(null);
@@ -79,7 +79,7 @@ export function PasosScreen({ route, navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Pasos</Text>
         <Text style={styles.subtitle}>{ciudad ? `Pasos de ${ciudad.nombre}` : ''}</Text>
@@ -147,6 +147,6 @@ export function PasosScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

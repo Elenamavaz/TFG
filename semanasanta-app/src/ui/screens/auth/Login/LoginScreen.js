@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useAuth } from '../../../../application/context';
-import { login, loginConCodigoAcceso } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './LoginScreen.styles';
 
@@ -42,7 +42,7 @@ const ICONO_POR_ROL = { JUNTA: 'account', ADMIN: 'shield-crown-outline', COFRADE
 // código de acceso (POST /auth/codigo-acceso). Los tres guardan su JWT en
 // AuthContext y van a su propio panel.
 export function LoginScreen({ navigation }) {
-  const { iniciarSesion } = useAuth();
+  const { iniciarSesion } = context.useAuth();
   const [rolId, setRolId] = useState(ROLES.JUNTA.id);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -64,7 +64,7 @@ export function LoginScreen({ navigation }) {
     setCargando(true);
     try {
       const respuesta =
-        rolId === 'COFRADE' ? await loginConCodigoAcceso(codigo.trim()) : await login(email.trim(), password);
+        rolId === 'COFRADE' ? await services.loginConCodigoAcceso(codigo.trim()) : await services.login(email.trim(), password);
       // El backend no valida "quiero entrar como Junta/Admin", solo
       // email+contraseña: si el rol real de la cuenta no coincide con la
       // pestaña elegida, se rechaza aquí -si no, alguien con cuenta de Junta
@@ -94,7 +94,7 @@ export function LoginScreen({ navigation }) {
   }
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <TouchableOpacity
         style={styles.volver}
         onPress={() => navigation.goBack()}
@@ -192,6 +192,6 @@ export function LoginScreen({ navigation }) {
       >
         {cargando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>{rol.botonTexto}</Text>}
       </TouchableOpacity>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

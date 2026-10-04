@@ -1,16 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, AgendaItemCard } from '../../../components/common';
-import { useCiudad, useDia, useFavoritos } from '../../../../application/context';
-import {
-  getProcesionesPorCiudad,
-  getEventosPorCiudad,
-  getCofradiasPorCiudad,
-  getDiasSemanaSanta,
-} from '../../../../data/services';
-import { formatearDuracion, MESES, DIAS_SEMANA_CORTOS, DIAS_SEMANA_LARGOS } from '../../../utils/tiempo';
-import { obtenerMatrizMes, obtenerSemanaDe, obtenerIndiceSemana, formatearFechaISO } from '../../../utils/calendario';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
+import { tiempo } from '../../../utils';
+import { calendario } from '../../../utils';
 import { colors } from '../../../../theme';
 import { styles } from './CalenderScreen.styles';
 
@@ -29,7 +24,7 @@ function formatearResumenDia(diaSemanaSanta, fechaISO, agenda) {
   const [anio, mes, dia] = fechaISO.split('-').map(Number);
   const nombreDia = diaSemanaSanta
     ? diaSemanaSanta.nombre
-    : DIAS_SEMANA_LARGOS[obtenerIndiceSemana(new Date(anio, mes - 1, dia))];
+    : tiempo.DIAS_SEMANA_LARGOS[calendario.obtenerIndiceSemana(new Date(anio, mes - 1, dia))];
 
   const numProcesiones = agenda.filter((item) => item.categoria === 'procesion').length;
   const numEventos = agenda.filter((item) => item.categoria === 'evento').length;
@@ -37,12 +32,12 @@ function formatearResumenDia(diaSemanaSanta, fechaISO, agenda) {
   if (numProcesiones > 0) partes.push(`${numProcesiones} procesión${numProcesiones === 1 ? '' : 'es'}`);
   if (numEventos > 0) partes.push(`${numEventos} evento${numEventos === 1 ? '' : 's'}`);
 
-  return `${nombreDia} · ${dia} ${MESES[mes - 1]} · ${partes.length > 0 ? partes.join(' · ') : 'sin agenda'}`;
+  return `${nombreDia} · ${dia} ${tiempo.MESES[mes - 1]} · ${partes.length > 0 ? partes.join(' · ') : 'sin agenda'}`;
 }
 
 export function CalendarioScreen({ navigation }) {
-  const { ciudadSeleccionada } = useCiudad();
-  const { diaSeleccionado: diaHome } = useDia();
+  const { ciudadSeleccionada } = context.useCiudad();
+  const { diaSeleccionado: diaHome } = context.useDia();
 
   const [mesActual, setMesActual] = useState(null);
   const [diaAgenda, setDiaAgenda] = useState(null);
@@ -50,10 +45,10 @@ export function CalendarioScreen({ navigation }) {
   const [procesiones, setProcesiones] = useState([]);
   const [eventos, setEventos] = useState([]);
   const [cofradiasPorId, setCofradiasPorId] = useState({});
-  const { esFavorito, alternarFavorito } = useFavoritos();
+  const { esFavorito, alternarFavorito } = context.useFavoritos();
 
   useEffect(() => {
-    getDiasSemanaSanta().then((lista) => {
+    services.getDiasSemanaSanta().then((lista) => {
       setDiasSemanaSanta(lista);
       setMesActual((actual) => {
         if (actual) return actual;
@@ -67,9 +62,9 @@ export function CalendarioScreen({ navigation }) {
     if (!ciudadSeleccionada) return;
     const ciudadId = ciudadSeleccionada.id;
     Promise.all([
-      getProcesionesPorCiudad(ciudadId),
-      getEventosPorCiudad(ciudadId),
-      getCofradiasPorCiudad(ciudadId),
+      services.getProcesionesPorCiudad(ciudadId),
+      services.getEventosPorCiudad(ciudadId),
+      services.getCofradiasPorCiudad(ciudadId),
     ]).then(([listaProcesiones, listaEventos, listaCofradias]) => {
       setProcesiones(listaProcesiones);
       setEventos(listaEventos);
@@ -89,11 +84,11 @@ export function CalendarioScreen({ navigation }) {
   }, [procesiones, eventos, diasSemanaSanta]);
 
   const matrizMes = useMemo(
-    () => (mesActual ? obtenerMatrizMes(mesActual.anio, mesActual.mesIndex) : []),
+    () => (mesActual ? calendario.obtenerMatrizMes(mesActual.anio, mesActual.mesIndex) : []),
     [mesActual]
   );
 
-  const semanaDeAgenda = useMemo(() => (diaAgenda ? obtenerSemanaDe(diaAgenda) : []), [diaAgenda]);
+  const semanaDeAgenda = useMemo(() => (diaAgenda ? calendario.obtenerSemanaDe(diaAgenda) : []), [diaAgenda]);
 
   const diaSemanaSantaDeAgenda = useMemo(
     () => diasSemanaSanta.find((d) => d.fecha === diaAgenda) ?? null,
@@ -142,7 +137,7 @@ export function CalendarioScreen({ navigation }) {
     setDiaAgenda((actual) => {
       if (!actual) return actual;
       const [anio, mes, dia] = actual.split('-').map(Number);
-      return formatearFechaISO(new Date(anio, mes - 1, dia + deltaDias));
+      return calendario.formatearFechaISO(new Date(anio, mes - 1, dia + deltaDias));
     });
   }
 
@@ -162,7 +157,7 @@ export function CalendarioScreen({ navigation }) {
   if (!ciudadSeleccionada || !mesActual) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Calendario</Text>
         <Text style={styles.subtitle}>{ciudadSeleccionada.nombre} · Semana Santa</Text>
@@ -189,7 +184,7 @@ export function CalendarioScreen({ navigation }) {
                       onPress={() => alternarDia(celda.fecha)}
                     >
                       <Text style={[styles.semanaLetra, seleccionada && styles.semanaTextoActivo]}>
-                        {DIAS_SEMANA_CORTOS[indice]}
+                        {tiempo.DIAS_SEMANA_CORTOS[indice]}
                       </Text>
                       <Text style={[styles.semanaNumero, seleccionada && styles.semanaTextoActivo]}>
                         {celda.numero}
@@ -210,12 +205,12 @@ export function CalendarioScreen({ navigation }) {
 
             {agendaDelDia.length > 0 ? (
               agendaDelDia.map((item) => (
-                <AgendaItemCard
+                <common.AgendaItemCard
                   key={`${item.categoria}-${item.id}`}
                   titulo={item.nombre}
                   subtitulo={item.cofradiaNombre}
                   hora={item.horaSalida}
-                  duracion={item.duracionMin ? formatearDuracion(item.duracionMin) : null}
+                  duracion={item.duracionMin ? tiempo.formatearDuracion(item.duracionMin) : null}
                   esFavorito={esFavorito(item.id, item.categoria)}
                   onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
                   onPress={() => abrirAgendaItem(item)}
@@ -232,7 +227,7 @@ export function CalendarioScreen({ navigation }) {
                 <Ionicons name="chevron-back" size={20} color={colors.gold} />
               </TouchableOpacity>
               <Text style={styles.mesTitulo}>
-                {capitalizar(MESES[mesActual.mesIndex])} {mesActual.anio}
+                {capitalizar(tiempo.MESES[mesActual.mesIndex])} {mesActual.anio}
               </Text>
               <TouchableOpacity onPress={() => cambiarMes(1)} hitSlop={HIT_SLOP}>
                 <Ionicons name="chevron-forward" size={20} color={colors.gold} />
@@ -240,7 +235,7 @@ export function CalendarioScreen({ navigation }) {
             </View>
 
             <View style={styles.diasSemanaRow}>
-              {DIAS_SEMANA_CORTOS.map((letra, indice) => (
+              {tiempo.DIAS_SEMANA_CORTOS.map((letra, indice) => (
                 <Text key={`${letra}-${indice}`} style={styles.diaSemanaLetra}>
                   {letra}
                 </Text>
@@ -277,6 +272,6 @@ export function CalendarioScreen({ navigation }) {
           </>
         )}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

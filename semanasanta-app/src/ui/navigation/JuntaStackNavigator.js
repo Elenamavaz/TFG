@@ -1,29 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  PerfilJuntaScreen,
-  EditarPerfilJuntaScreen,
-  EditarInformacionCiudadScreen,
-  ProcesionesScreen,
-  FormularioProcesionScreen,
-  ProcesionCreadaScreen,
-  ProcesionActualizadaScreen,
-  SeleccionarPasosScreen,
-  EditarRecorridoScreen,
-  CofradiasScreen,
-  FormularioCofradiaScreen,
-  CofradiaCreadaScreen,
-  CodigosAccesoScreen,
-  EventosScreen,
-  FormularioEventoScreen,
-  EventoCreadoScreen,
-  EventoActualizadoScreen,
-  SeleccionarPasosEventoScreen,
-  PasosScreen,
-  FormularioPasoScreen,
-  PasoCreadoScreen,
-  PasoActualizadoScreen,
-} from '../screens/junta';
-import { colors, fontFamilies } from '../../theme';
+import { junta } from '../screens';
+import { colors } from '../../theme';
+import { fontFamilies } from '../../theme';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,35 +23,35 @@ const screenOptions = {
 export function JuntaStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name="PerfilJunta" component={PerfilJuntaScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="EditarPerfilJunta" component={EditarPerfilJuntaScreen} />
-      <Stack.Screen name="EditarInformacionCiudad" component={EditarInformacionCiudadScreen} />
+      <Stack.Screen name="PerfilJunta" component={junta.PerfilJuntaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="EditarPerfilJunta" component={junta.EditarPerfilJuntaScreen} />
+      <Stack.Screen name="EditarInformacionCiudad" component={junta.EditarInformacionCiudadScreen} />
       {/* Sin headerShown: false (mismo bug ya corregido en
           AdministradorStackNavigator, 2026-08-21: apagaba la flecha de
           volver entera): cada lista pone su propio título por dentro con
           navigation.setOptions. */}
-      <Stack.Screen name="Procesiones" component={ProcesionesScreen} />
-      <Stack.Screen name="FormularioProcesion" component={FormularioProcesionScreen} />
-      <Stack.Screen name="ProcesionCreada" component={ProcesionCreadaScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ProcesionActualizada" component={ProcesionActualizadaScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SeleccionarPasos" component={SeleccionarPasosScreen} />
-      <Stack.Screen name="EditarRecorrido" component={EditarRecorridoScreen} />
+      <Stack.Screen name="Procesiones" component={junta.ProcesionesScreen} />
+      <Stack.Screen name="FormularioProcesion" component={junta.FormularioProcesionScreen} />
+      <Stack.Screen name="ProcesionCreada" component={junta.ProcesionCreadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="ProcesionActualizada" component={junta.ProcesionActualizadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SeleccionarPasos" component={junta.SeleccionarPasosScreen} />
+      <Stack.Screen name="EditarRecorrido" component={junta.EditarRecorridoScreen} />
 
-      <Stack.Screen name="Cofradias" component={CofradiasScreen} />
-      <Stack.Screen name="FormularioCofradia" component={FormularioCofradiaScreen} />
-      <Stack.Screen name="CofradiaCreada" component={CofradiaCreadaScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CodigosAcceso" component={CodigosAccesoScreen} />
+      <Stack.Screen name="Cofradias" component={junta.CofradiasScreen} />
+      <Stack.Screen name="FormularioCofradia" component={junta.FormularioCofradiaScreen} />
+      <Stack.Screen name="CofradiaCreada" component={junta.CofradiaCreadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="CodigosAcceso" component={junta.CodigosAccesoScreen} />
 
-      <Stack.Screen name="Eventos" component={EventosScreen} />
-      <Stack.Screen name="FormularioEvento" component={FormularioEventoScreen} />
-      <Stack.Screen name="EventoCreado" component={EventoCreadoScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="EventoActualizado" component={EventoActualizadoScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SeleccionarPasosEvento" component={SeleccionarPasosEventoScreen} />
+      <Stack.Screen name="Eventos" component={junta.EventosScreen} />
+      <Stack.Screen name="FormularioEvento" component={junta.FormularioEventoScreen} />
+      <Stack.Screen name="EventoCreado" component={junta.EventoCreadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="EventoActualizado" component={junta.EventoActualizadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SeleccionarPasosEvento" component={junta.SeleccionarPasosEventoScreen} />
 
-      <Stack.Screen name="Pasos" component={PasosScreen} />
-      <Stack.Screen name="FormularioPaso" component={FormularioPasoScreen} />
-      <Stack.Screen name="PasoCreado" component={PasoCreadoScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="PasoActualizado" component={PasoActualizadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Pasos" component={junta.PasosScreen} />
+      <Stack.Screen name="FormularioPaso" component={junta.FormularioPasoScreen} />
+      <Stack.Screen name="PasoCreado" component={junta.PasoCreadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="PasoActualizado" component={junta.PasoActualizadoScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

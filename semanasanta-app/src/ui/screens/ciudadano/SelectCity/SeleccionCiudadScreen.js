@@ -1,40 +1,40 @@
 import { useMemo, useState } from 'react';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-import { ScreenContainer, SearchInput } from '../../../components/common';
-import { useCiudad } from '../../../../application/context';
-import { getCiudades, guardarCiudadId, registrarDispositivoPush } from '../../../../data/services';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
+import { orden } from '../../../utils';
 import { styles } from './SeleccionCiudadScreen.styles';
 
 export function SeleccionCiudadScreen({ navigation }) {
-  const { seleccionarCiudad } = useCiudad();
-  const { data: ciudades = [] } = useQuery({ queryKey: ['ciudades'], queryFn: getCiudades });
+  const { seleccionarCiudad } = context.useCiudad();
+  const { data: ciudades = [] } = useQuery({ queryKey: ['ciudades'], queryFn: services.getCiudades });
   const [busqueda, setBusqueda] = useState('');
 
   const ciudadesFiltradas = useMemo(() => {
     const texto = busqueda.trim().toLowerCase();
     const filtradas = texto ? ciudades.filter((ciudad) => ciudad.nombre.toLowerCase().includes(texto)) : ciudades;
-    return ordenarPorNombre(filtradas);
+    return orden.ordenarPorNombre(filtradas);
   }, [ciudades, busqueda]);
 
   function onSeleccionar(ciudad) {
     seleccionarCiudad(ciudad);
-    guardarCiudadId(ciudad.id);
+    services.guardarCiudadId(ciudad.id);
     // Sin await (ver arranqueCiudadano.js): las notificaciones son por
     // ciudad, así que un cambio de ciudad a mano también hay que
     // reregistrarlo -no debe retrasar la navegación ni romperla si falla.
-    registrarDispositivoPush(ciudad.id);
+    services.registrarDispositivoPush(ciudad.id);
     navigation.replace('MainTabs');
   }
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <Text style={styles.eyebrow}>España · 2027</Text>
       <Text style={styles.title}>Semana Santa</Text>
       <Text style={styles.subtitle}>Elige tu ciudad para comenzar</Text>
 
-      <SearchInput value={busqueda} onChangeText={setBusqueda} placeholder="Buscar ciudad..." />
+      <common.SearchInput value={busqueda} onChangeText={setBusqueda} placeholder="Buscar ciudad..." />
 
       <FlatList
         data={ciudadesFiltradas}
@@ -47,6 +47,6 @@ export function SeleccionCiudadScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

@@ -1,15 +1,15 @@
-import { Procesion, Recorrido, PuntoDeInteres, EstadoProcesion } from '../models';
+import * as models from '../models';
 
 function recorridoDesde(id, nombreCalles) {
-  return new Recorrido({
+  return new models.Recorrido({
     id: `${id}-recorrido`,
     nombre: `Recorrido de ${id}`,
-    puntos: nombreCalles.map((nombre, indice) => new PuntoDeInteres({ id: `${id}-punto-${indice}`, nombre })),
+    puntos: nombreCalles.map((nombre, indice) => new models.PuntoDeInteres({ id: `${id}-punto-${indice}`, nombre })),
   });
 }
 
 export const procesionesMock = [
-  new Procesion({
+  new models.Procesion({
     id: 'amor-materno',
     ciudadId: 'valladolid',
     cofradiaId: 'vera-cruz',
@@ -18,11 +18,11 @@ export const procesionesMock = [
     horaSalida: '00:30',
     duracionMin: 405,
     nazarenos: 2800,
-    estado: EstadoProcesion.PROGRAMADA,
+    estado: models.EstadoProcesion.PROGRAMADA,
     pasoIds: ['sentencia', 'esperanza'],
     recorrido: recorridoDesde('amor-materno', ['Calle Feria', 'La Campana', 'Catedral', 'Feria']),
   }),
-  new Procesion({
+  new models.Procesion({
     id: 'regla',
     ciudadId: 'valladolid',
     cofradiaId: 'vera-cruz',
@@ -31,11 +31,11 @@ export const procesionesMock = [
     horaSalida: '00:30',
     duracionMin: 405,
     nazarenos: 2800,
-    estado: EstadoProcesion.PROGRAMADA,
+    estado: models.EstadoProcesion.PROGRAMADA,
     pasoIds: ['sentencia', 'esperanza'],
     recorrido: recorridoDesde('regla', ['San Lorenzo', 'Sierpes', 'Catedral']),
   }),
-  new Procesion({
+  new models.Procesion({
     id: 'peregrinacion-promesa',
     ciudadId: 'valladolid',
     cofradiaId: 'santo-cristo-luz',
@@ -44,7 +44,7 @@ export const procesionesMock = [
     horaSalida: '22:30',
     duracionMin: 150,
     nazarenos: 2800,
-    estado: EstadoProcesion.EN_CURSO,
+    estado: models.EstadoProcesion.EN_CURSO,
     pasoIds: ['cristo-luz'],
     recorrido: recorridoDesde('peregrinacion-promesa', ['Plaza de Santa Cruz', 'Catedral', 'Plaza de Santa Cruz']),
     historia:

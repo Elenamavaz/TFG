@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useAuth } from '../../../../application/context';
-import { getMiembroJuntaCofradiaPorId, actualizarPerfilPropioJunta } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './EditarPerfilJuntaScreen.styles';
 
@@ -13,7 +13,7 @@ import { styles } from './EditarPerfilJuntaScreen.styles';
 // se vaya a cambiar la contraseña -confirma que es el propio miembro quien
 // edita, ver MiembroJuntaCofradiaPerfilRequest del backend.
 export function EditarPerfilJuntaScreen({ navigation }) {
-  const { sesion } = useAuth();
+  const { sesion } = context.useAuth();
   const [cargandoDatos, setCargandoDatos] = useState(true);
   const [email, setEmail] = useState('');
   const [nombre, setNombre] = useState('');
@@ -43,7 +43,7 @@ export function EditarPerfilJuntaScreen({ navigation }) {
   }, [navigation]);
 
   useEffect(() => {
-    getMiembroJuntaCofradiaPorId(sesion.usuarioId).then((miembro) => {
+    services.getMiembroJuntaCofradiaPorId(sesion.usuarioId).then((miembro) => {
       setEmail(miembro.email);
       setNombre(miembro.nombre ?? '');
       setTelefono(miembro.telefono ?? '');
@@ -57,7 +57,7 @@ export function EditarPerfilJuntaScreen({ navigation }) {
     setErroresCampos({});
     setGuardando(true);
     try {
-      await actualizarPerfilPropioJunta({ nombre: nombre.trim(), telefono: telefono.trim(), passwordActual, passwordNueva });
+      await services.actualizarPerfilPropioJunta({ nombre: nombre.trim(), telefono: telefono.trim(), passwordActual, passwordNueva });
       navigation.goBack();
     } catch (err) {
       if (err.campos) {
@@ -72,14 +72,14 @@ export function EditarPerfilJuntaScreen({ navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre completo</Text>
@@ -155,6 +155,6 @@ export function EditarPerfilJuntaScreen({ navigation }) {
 
         <Text style={styles.nota}>Para modificar tu información debes escribir siempre la contraseña actual.</Text>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

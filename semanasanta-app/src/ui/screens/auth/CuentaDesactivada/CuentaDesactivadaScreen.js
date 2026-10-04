@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useAuth } from '../../../../application/context';
-import { solicitarReactivacion } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './CuentaDesactivadaScreen.styles';
 
@@ -16,7 +16,7 @@ import { styles } from './CuentaDesactivadaScreen.styles';
 // exigirJunta): crea una solicitud que el Administrador ve y acepta/rechaza,
 // ver SolicitudesReactivacionScreen.
 export function CuentaDesactivadaScreen({ navigation }) {
-  const { cerrarSesion } = useAuth();
+  const { cerrarSesion } = context.useAuth();
   const [enviando, setEnviando] = useState(false);
   const [solicitudEnviada, setSolicitudEnviada] = useState(false);
   const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ export function CuentaDesactivadaScreen({ navigation }) {
     setError(null);
     setEnviando(true);
     try {
-      await solicitarReactivacion();
+      await services.solicitarReactivacion();
       setSolicitudEnviada(true);
     } catch (err) {
       setError(err.message);
@@ -41,7 +41,7 @@ export function CuentaDesactivadaScreen({ navigation }) {
   }
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <Ionicons name="lock-closed-outline" size={40} color={colors.subtitle} />
       <Text style={styles.title}>Cuenta desactivada</Text>
       <Text style={styles.description}>
@@ -69,6 +69,6 @@ export function CuentaDesactivadaScreen({ navigation }) {
       <TouchableOpacity style={styles.cerrarSesionButton} onPress={salir} activeOpacity={0.85}>
         <Text style={styles.cerrarSesionTexto}>Cerrar sesión</Text>
       </TouchableOpacity>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

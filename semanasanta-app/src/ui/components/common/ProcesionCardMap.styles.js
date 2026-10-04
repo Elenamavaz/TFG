@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, radii, spacing } from '../../../theme';
+import { colors } from '../../../theme';
+import { fontFamilies } from '../../../theme';
+import { radii } from '../../../theme';
+import { spacing } from '../../../theme';
 
 // Mockup "Mapa en Vivo": punto a la izquierda, textos en el centro y botón
 // de centrar a la derecha, en una sola fila.

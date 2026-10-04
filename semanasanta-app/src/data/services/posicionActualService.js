@@ -1,4 +1,4 @@
-import { apiFetch } from '../../infrastructure/api/apiClient';
+import { api } from '../../infrastructure';
 
 // Ping de posición de un Cofrade compartiendo ubicación durante una
 // procesión (2026-08-21, ver CofradeContext). A diferencia del resto de
@@ -8,7 +8,7 @@ import { apiFetch } from '../../infrastructure/api/apiClient';
 // ver CofradeContext), y un header pasado a mano ya gana al de la sesión
 // global en apiFetch.
 export async function registrarPosicion(procesionId, latitud, longitud, token) {
-  return apiFetch(`/procesiones/${procesionId}/posiciones`, {
+  return api.apiFetch(`/procesiones/${procesionId}/posiciones`, {
     method: 'POST',
     body: { latitud, longitud },
     headers: { Authorization: `Bearer ${token}` },
@@ -23,5 +23,5 @@ export async function registrarPosicion(procesionId, latitud, longitud, token) {
 // hasta el más adelantado (cabeza)-, ver EstelaProcesionResponse del
 // backend. Solo avanza, nunca retrocede. Las dos a 0 = aún no hay pings.
 export async function getEstelaProcesion(procesionId) {
-  return apiFetch(`/procesiones/${procesionId}/estela`);
+  return api.apiFetch(`/procesiones/${procesionId}/estela`);
 }

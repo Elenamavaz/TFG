@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useCiudad } from '../../../../application/context';
-import { guardarModoAcceso } from '../../../../data/services';
-import { resolverPantallaCiudadano } from '../../../utils/arranqueCiudadano';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
+import { arranqueCiudadano } from '../../../utils';
 import { colors } from '../../../../theme';
 import { styles } from './WelcomeScreen.styles';
 
@@ -12,19 +12,19 @@ import { styles } from './WelcomeScreen.styles';
 // aquí solo elige seguir sin cuenta), mientras que Cofrades, Juntas de
 // Cofradía y Administradores sí tienen cuenta y pasan por Iniciar sesión.
 export function WelcomeScreen({ navigation }) {
-  const { seleccionarCiudad } = useCiudad();
+  const { seleccionarCiudad } = context.useCiudad();
   const [cargando, setCargando] = useState(false);
 
   async function continuarComoCiudadano() {
     if (cargando) return;
     setCargando(true);
-    await guardarModoAcceso('ciudadano');
-    const pantalla = await resolverPantallaCiudadano(seleccionarCiudad);
+    await services.guardarModoAcceso('ciudadano');
+    const pantalla = await arranqueCiudadano.resolverPantallaCiudadano(seleccionarCiudad);
     navigation.reset({ index: 0, routes: [{ name: pantalla }] });
   }
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <View style={styles.contenido}>
         <MaterialCommunityIcons name="cross" size={56} color={colors.gold} />
         <Text style={styles.title}>Semana Santa</Text>
@@ -58,6 +58,6 @@ export function WelcomeScreen({ navigation }) {
           Cofrades (con su código de acceso), miembros de las Juntas de Cofradía y Administradores acceden aquí.
         </Text>
       </View>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getCiudadPorId, getCofradiasPorCiudad, getProcesionesPorCiudad } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './ProcesionesScreen.styles';
 
 const COLOR_POR_ESTADO = {
@@ -61,11 +61,11 @@ export function ProcesionesScreen({ route, navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getCiudadPorId(ciudadId), getCofradiasPorCiudad(ciudadId), getProcesionesPorCiudad(ciudadId)]).then(
+    Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasPorCiudad(ciudadId), services.getProcesionesPorCiudad(ciudadId)]).then(
       ([ciudadCargada, listaCofradias, listaProcesiones]) => {
         setCiudad(ciudadCargada);
-        setCofradias(ordenarPorNombre(listaCofradias));
-        setProcesiones(ordenarPorNombre(listaProcesiones));
+        setCofradias(orden.ordenarPorNombre(listaCofradias));
+        setProcesiones(orden.ordenarPorNombre(listaProcesiones));
         setCargando(false);
       }
     );
@@ -85,7 +85,7 @@ export function ProcesionesScreen({ route, navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Procesiones</Text>
         <Text style={styles.subtitle}>{ciudad ? `Procesiones de ${ciudad.nombre}` : ''}</Text>
@@ -155,6 +155,6 @@ export function ProcesionesScreen({ route, navigation }) {
         </Pressable>
       </Modal>
 
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

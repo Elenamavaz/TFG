@@ -1,15 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, SearchInput, ProcesionCard, PasoListItem, StatusBadge } from '../../../components/common';
-import { useCiudad, useFavoritos } from '../../../../application/context';
-import {
-  getProcesionesPorCiudad,
-  getEventosPorCiudad,
-  getCofradiasPorCiudad,
-  getPasosPorCofradia,
-  getDiasSemanaSanta,
-} from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './SearchScreen.styles';
 
@@ -33,8 +27,8 @@ const ABREVIATURA_DIA = {
 };
 
 export function BuscarScreen({ navigation }) {
-  const { ciudadSeleccionada } = useCiudad();
-  const { esFavorito, alternarFavorito } = useFavoritos();
+  const { ciudadSeleccionada } = context.useCiudad();
+  const { esFavorito, alternarFavorito } = context.useFavoritos();
 
   const [texto, setTexto] = useState('');
   const [filtrosVisibles, setFiltrosVisibles] = useState(false);
@@ -48,21 +42,21 @@ export function BuscarScreen({ navigation }) {
   const [cofradiasPorId, setCofradiasPorId] = useState({});
 
   useEffect(() => {
-    getDiasSemanaSanta().then(setDiasSemanaSanta);
+    services.getDiasSemanaSanta().then(setDiasSemanaSanta);
   }, []);
 
   useEffect(() => {
     if (!ciudadSeleccionada) return;
     const ciudadId = ciudadSeleccionada.id;
     Promise.all([
-      getProcesionesPorCiudad(ciudadId),
-      getEventosPorCiudad(ciudadId),
-      getCofradiasPorCiudad(ciudadId),
+      services.getProcesionesPorCiudad(ciudadId),
+      services.getEventosPorCiudad(ciudadId),
+      services.getCofradiasPorCiudad(ciudadId),
     ]).then(([listaProcesiones, listaEventos, listaCofradias]) => {
       setProcesiones(listaProcesiones);
       setEventos(listaEventos);
       setCofradiasPorId(Object.fromEntries(listaCofradias.map((c) => [c.id, c.nombre])));
-      Promise.all(listaCofradias.map((c) => getPasosPorCofradia(c.id))).then((listasPasos) => {
+      Promise.all(listaCofradias.map((c) => services.getPasosPorCofradia(c.id))).then((listasPasos) => {
         setPasos(listasPasos.flat());
       });
     });
@@ -134,13 +128,13 @@ export function BuscarScreen({ navigation }) {
   const sinResultados = resultados.length === 0 && resultadosPasos.length === 0;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>Buscar</Text>
 
         <View style={styles.searchRow}>
           <View style={styles.searchInputWrapper}>
-            <SearchInput value={texto} onChangeText={setTexto} placeholder="Procesiones, pasos, eventos, ..." />
+            <common.SearchInput value={texto} onChangeText={setTexto} placeholder="Procesiones, pasos, eventos, ..." />
           </View>
           <TouchableOpacity
             style={[styles.filtroButton, filtrosVisibles && styles.filtroButtonActivo]}
@@ -195,14 +189,14 @@ export function BuscarScreen({ navigation }) {
         ) : null}
 
         {resultados.map((item) => (
-          <ProcesionCard
+          <common.ProcesionCard
             key={`${item.categoria}-${item.id}`}
             titulo={item.nombre}
             subtitulo={item.cofradiaNombre}
             dia={item.diaNombre}
             hora={item.hora}
             ruta={item.rutaTexto}
-            badge={item.categoria === 'evento' ? <StatusBadge estado="EVENTO" /> : <StatusBadge estado={item.estado} />}
+            badge={item.categoria === 'evento' ? <common.StatusBadge estado="EVENTO" /> : <common.StatusBadge estado={item.estado} />}
             esFavorito={esFavorito(item.id, item.categoria)}
             onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
             onPress={item.onPress}
@@ -212,7 +206,7 @@ export function BuscarScreen({ navigation }) {
         {resultadosPasos.length > 0 ? (
           <>
             {resultadosPasos.map((paso) => (
-              <PasoListItem
+              <common.PasoListItem
                 key={paso.id}
                 label={paso.tipo}
                 title={paso.nombre}
@@ -227,6 +221,6 @@ export function BuscarScreen({ navigation }) {
 
         {sinResultados ? <Text style={styles.empty}>No se encontraron resultados.</Text> : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './EventoCreadoScreen.styles';
 
@@ -11,7 +11,7 @@ export function EventoCreadoScreen({ route, navigation }) {
   const { nombreEvento, ciudadId, eventoId } = route.params;
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <View style={styles.check}>
         <Ionicons name="checkmark" size={40} color={colors.gold} />
       </View>
@@ -28,6 +28,6 @@ export function EventoCreadoScreen({ route, navigation }) {
       <TouchableOpacity style={styles.boton} onPress={() => navigation.popToTop()} activeOpacity={0.85}>
         <Text style={styles.botonTexto}>Hacerlo más tarde</Text>
       </TouchableOpacity>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

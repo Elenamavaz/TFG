@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, radii, spacing } from '../../../../theme';
+import { colors } from '../../../../theme';
+import { fontFamilies } from '../../../../theme';
+import { radii } from '../../../../theme';
+import { spacing } from '../../../../theme';
 
 // Misma base que EditarPerfilJuntaScreen.styles, con título y campos de
 // texto largo (historia/patrimonio).

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useAuth, useCofrade } from '../../../../application/context';
-import { getCofradiaPorId } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './PerfilCofradeScreen.styles';
 
@@ -16,7 +16,7 @@ import { styles } from './PerfilCofradeScreen.styles';
 // compartir (la lógica vive en CofradeContext, para que los pings sigan
 // aunque la pantalla se desmonte).
 export function PerfilCofradeScreen({ navigation }) {
-  const { cerrarSesion: cerrarSesionAuth } = useAuth();
+  const { cerrarSesion: cerrarSesionAuth } = context.useAuth();
   const {
     cofradiaId,
     compartiendo,
@@ -28,12 +28,12 @@ export function PerfilCofradeScreen({ navigation }) {
     elegirProcesion,
     cancelarEleccion,
     detenerCompartir,
-  } = useCofrade();
+  } = context.useCofrade();
   const [cofradia, setCofradia] = useState(null);
 
   useEffect(() => {
     if (!cofradiaId) return;
-    getCofradiaPorId(cofradiaId)
+    services.getCofradiaPorId(cofradiaId)
       .then(setCofradia)
       .catch(() => setCofradia(null));
   }, [cofradiaId]);
@@ -45,7 +45,7 @@ export function PerfilCofradeScreen({ navigation }) {
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>La Semana Santa de {ciudad?.nombre ?? ''}</Text>
         <Text style={styles.subtitulo}>{cofradia ? cofradia.nombre : 'Cofrade'}</Text>
@@ -111,6 +111,6 @@ export function PerfilCofradeScreen({ navigation }) {
           </Pressable>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

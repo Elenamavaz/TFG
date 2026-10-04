@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Octicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useCiudad } from '../../../../application/context';
-import { getCofradiasPorCiudad, olvidarSesionLocal } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './PerfilScreen.styles';
 
@@ -13,13 +13,13 @@ const NOTIFICACIONES_INICIALES = [
 ];
 
 export function PerfilScreen({ navigation }) {
-  const { ciudadSeleccionada } = useCiudad();
+  const { ciudadSeleccionada } = context.useCiudad();
   const [numCofradias, setNumCofradias] = useState(0);
   const [notificaciones, setNotificaciones] = useState(NOTIFICACIONES_INICIALES);
 
   useEffect(() => {
     if (!ciudadSeleccionada) return;
-    getCofradiasPorCiudad(ciudadSeleccionada.id).then((lista) => setNumCofradias(lista.length));
+    services.getCofradiasPorCiudad(ciudadSeleccionada.id).then((lista) => setNumCofradias(lista.length));
   }, [ciudadSeleccionada]);
 
   function alternarNotificacion(id) {
@@ -30,12 +30,12 @@ export function PerfilScreen({ navigation }) {
   // la ciudad/modo guardados en este dispositivo y volver a Bienvenida, como
   // la primera vez que se abre la app (ver preferenciasService).
   async function cerrarSesion() {
-    await olvidarSesionLocal();
+    await services.olvidarSesionLocal();
     navigation.getParent()?.reset({ index: 0, routes: [{ name: 'Welcome' }] });
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Mi Perfil</Text>
 
@@ -85,6 +85,6 @@ export function PerfilScreen({ navigation }) {
           <Text style={styles.cerrarSesionTexto}>Cerrar sesión</Text>
         </TouchableOpacity>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

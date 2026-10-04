@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './MiembroCreadoScreen.styles';
 
@@ -11,7 +11,7 @@ export function MiembroCreadoScreen({ route, navigation }) {
   const { nombreMiembro, juntaId } = route.params;
 
   return (
-    <ScreenContainer style={styles.container}>
+    <common.ScreenContainer style={styles.container}>
       <View style={styles.check}>
         <Ionicons name="checkmark" size={40} color={colors.gold} />
       </View>
@@ -37,6 +37,6 @@ export function MiembroCreadoScreen({ route, navigation }) {
       >
         <Text style={styles.botonSecundarioTexto}>Ok</Text>
       </TouchableOpacity>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

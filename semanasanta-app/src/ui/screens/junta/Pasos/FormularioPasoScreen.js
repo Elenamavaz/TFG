@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getCofradiasGestion, getPasoPorId, crearPaso, actualizarPaso, eliminarPaso } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './FormularioPasoScreen.styles';
 
@@ -48,7 +48,7 @@ export function FormularioPasoScreen({ route, navigation }) {
   }, [navigation, editando]);
 
   useEffect(() => {
-    Promise.all([getCofradiasGestion(ciudadId), editando ? getPasoPorId(pasoId) : Promise.resolve(null)]).then(
+    Promise.all([services.getCofradiasGestion(ciudadId), editando ? services.getPasoPorId(pasoId) : Promise.resolve(null)]).then(
       ([cofradias, paso]) => {
         setCofradiasDisponibles(cofradias);
         if (paso) {
@@ -80,10 +80,10 @@ export function FormularioPasoScreen({ route, navigation }) {
     setGuardando(true);
     try {
       if (editando) {
-        await actualizarPaso(pasoId, datosFormulario());
+        await services.actualizarPaso(pasoId, datosFormulario());
         navigation.replace('PasoActualizado', { ciudadId });
       } else {
-        const pasoCreado = await crearPaso(datosFormulario());
+        const pasoCreado = await services.crearPaso(datosFormulario());
         navigation.replace('PasoCreado', { nombrePaso: pasoCreado.nombre, ciudadId });
       }
     } catch (err) {
@@ -106,7 +106,7 @@ export function FormularioPasoScreen({ route, navigation }) {
         onPress: async () => {
           setEliminando(true);
           try {
-            await eliminarPaso(pasoId);
+            await services.eliminarPaso(pasoId);
             navigation.navigate('Pasos', { ciudadId });
           } finally {
             setEliminando(false);
@@ -118,14 +118,14 @@ export function FormularioPasoScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre del paso</Text>
@@ -237,6 +237,6 @@ export function FormularioPasoScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

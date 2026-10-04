@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
-import { ScreenContainer, StatusBadge, InfoSection, PasoListItem } from '../../../components/common';
-import { MapaUbicacion } from '../../../components/maps';
-import { getEventoPorId, getPasosPorIds, getCofradiaPorId, getUbicacionPorId } from '../../../../data/services';
-import { formatearDuracion } from '../../../utils/tiempo';
-import { useFavoritos } from '../../../../application/context';
+import { common } from '../../../components';
+import { maps } from '../../../components';
+import { services } from '../../../../data';
+import { tiempo } from '../../../utils';
+import { context } from '../../../../application';
 import { colors } from '../../../../theme';
 import { styles } from './DetailEventoScreen.styles';
 
@@ -16,13 +16,13 @@ import { styles } from './DetailEventoScreen.styles';
 // mostrarlos -Evento no los tenía cuando se escribió originalmente.
 export function DetalleEventoScreen({ route, navigation }) {
   const { eventoId } = route.params;
-  const { esFavorito, alternarFavorito } = useFavoritos();
+  const { esFavorito, alternarFavorito } = context.useFavoritos();
   const [evento, setEvento] = useState(null);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
   const { data: ubicacion } = useQuery({
     queryKey: ['ubicacion', evento?.ubicacionId],
-    queryFn: () => getUbicacionPorId(evento.ubicacionId),
+    queryFn: () => services.getUbicacionPorId(evento.ubicacionId),
     enabled: !!evento?.ubicacionId,
   });
 
@@ -41,13 +41,13 @@ export function DetalleEventoScreen({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    getEventoPorId(eventoId).then((data) => {
+    services.getEventoPorId(eventoId).then((data) => {
       setEvento(data);
       if (!data) return;
       // Un evento puede tener varias cofradías participantes (N:M real en el
       // backend, no una sola organizadora): se muestran todas, separadas por
       // coma (decisión del 2026-08-15).
-      Promise.all(data.cofradiaIds.map((id) => getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+      Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
         setCofradiaNombre(
           cofradias
             .map((c) => c?.nombre)
@@ -55,16 +55,16 @@ export function DetalleEventoScreen({ route, navigation }) {
             .join(', ')
         )
       );
-      getPasosPorIds(data.pasoIds).then(setPasos);
+      services.getPasosPorIds(data.pasoIds).then(setPasos);
     });
   }, [eventoId]);
 
   if (!evento) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
-        <StatusBadge estado={evento.estado} />
+        <common.StatusBadge estado={evento.estado} />
         <Text style={styles.title}>{evento.nombre}</Text>
         {cofradiaNombre ? <Text style={styles.subtitle}>{cofradiaNombre}</Text> : null}
 
@@ -80,28 +80,28 @@ export function DetalleEventoScreen({ route, navigation }) {
           {evento.duracionMin ? (
             <View style={styles.infoBox}>
               <Text style={styles.infoLabel}>Duración</Text>
-              <Text style={styles.infoValue}>{formatearDuracion(evento.duracionMin)}</Text>
+              <Text style={styles.infoValue}>{tiempo.formatearDuracion(evento.duracionMin)}</Text>
             </View>
           ) : null}
         </View>
 
         {evento.historia ? (
-          <InfoSection title="Historia">
+          <common.InfoSection title="Historia">
             <Text style={styles.body}>{evento.historia}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
 
         {evento.tradicion ? (
-          <InfoSection title="Tradición">
+          <common.InfoSection title="Tradición">
             <Text style={styles.body}>{evento.tradicion}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
 
         {pasos.length > 0 ? (
           <>
             <Text style={styles.sectionTitle}>Pasos</Text>
             {pasos.map((paso) => (
-              <PasoListItem
+              <common.PasoListItem
                 key={paso.id}
                 label={paso.tipo}
                 title={paso.nombre}
@@ -121,11 +121,11 @@ export function DetalleEventoScreen({ route, navigation }) {
         </View>
         {ubicacion ? (
           <View style={styles.mapaUbicacion}>
-            <MapaUbicacion latitud={ubicacion.latitud} longitud={ubicacion.longitud} titulo={evento.nombre} />
+            <maps.MapaUbicacion latitud={ubicacion.latitud} longitud={ubicacion.longitud} titulo={evento.nombre} />
           </View>
         ) : null}
 
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

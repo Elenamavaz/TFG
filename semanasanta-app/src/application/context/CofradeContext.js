@@ -1,10 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
-import {
-  getProcesionesPorCofradia,
-  solicitarPermisoUbicacion,
-  obtenerPosicionActual,
-  registrarPosicion,
-} from '../../data/services';
+import { services } from '../../data';
 import { useAuth } from './AuthContext';
 
 const CofradeContext = createContext(null);
@@ -52,10 +47,10 @@ export function CofradeProvider({ children }) {
 
   const enviarPing = useCallback(
     async (idProcesion, jwt) => {
-      const posicion = await obtenerPosicionActual();
+      const posicion = await services.obtenerPosicionActual();
       if (!posicion) return; // sin GPS disponible en este ciclo, se reintenta en el siguiente
       try {
-        await registrarPosicion(idProcesion, posicion.latitud, posicion.longitud, jwt);
+        await services.registrarPosicion(idProcesion, posicion.latitud, posicion.longitud, jwt);
       } catch (err) {
         // La procesión ha terminado (2026-09-30, decisión de Elena: si a un
         // cofrade se le olvida parar, se le echa al llegar la hora de fin):
@@ -76,7 +71,7 @@ export function CofradeProvider({ children }) {
 
   const iniciarCompartir = useCallback(
     async (procesion) => {
-      const permiso = await solicitarPermisoUbicacion();
+      const permiso = await services.solicitarPermisoUbicacion();
       if (!permiso) {
         setError('Necesitas dar permiso de ubicación para compartir con tu cofradía.');
         return;
@@ -104,7 +99,7 @@ export function CofradeProvider({ children }) {
     setCargando(true);
     setError(null);
     try {
-      const procesiones = await getProcesionesPorCofradia(cofradiaId);
+      const procesiones = await services.getProcesionesPorCofradia(cofradiaId);
       const enCurso = procesiones.filter((p) => p.estado === 'EN_CURSO');
       if (enCurso.length === 0) {
         setError('Tu cofradía no tiene ninguna procesión en curso ahora mismo.');

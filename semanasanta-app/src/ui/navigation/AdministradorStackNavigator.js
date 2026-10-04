@@ -1,19 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  PerfilAdministradorScreen,
-  EditarPerfilScreen,
-  CiudadesScreen,
-  FormularioCiudadScreen,
-  CiudadCreadaScreen,
-  JuntasScreen,
-  FormularioJuntaScreen,
-  JuntaCreadaScreen,
-  SolicitudesReactivacionScreen,
-  MiembrosScreen,
-  FormularioMiembroScreen,
-  MiembroCreadoScreen,
-} from '../screens/administrador';
-import { colors, fontFamilies } from '../../theme';
+import { administrador } from '../screens';
+import { colors } from '../../theme';
+import { fontFamilies } from '../../theme';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,8 +24,8 @@ const screenOptions = {
 export function AdministradorStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name="PerfilAdministrador" component={PerfilAdministradorScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="EditarPerfilAdministrador" component={EditarPerfilScreen} />
+      <Stack.Screen name="PerfilAdministrador" component={administrador.PerfilAdministradorScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="EditarPerfilAdministrador" component={administrador.EditarPerfilScreen} />
       {/* Sin headerShown: false (no como PerfilAdministrador): SÍ necesitan
           la flecha de volver del header nativo -mockup del panel Admin,
           corregido 2026-08-21 tras detectar que faltaba comparando con el
@@ -46,16 +34,16 @@ export function AdministradorStackNavigator() {
           SolicitudesReactivacionScreen ya usaban) -dejarlo solo en el
           navigator con title:'' dejaba un hueco raro encima del título
           grande del cuerpo, distinto del resto de pantallas del panel. */}
-      <Stack.Screen name="Ciudades" component={CiudadesScreen} />
-      <Stack.Screen name="FormularioCiudad" component={FormularioCiudadScreen} />
-      <Stack.Screen name="CiudadCreada" component={CiudadCreadaScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Juntas" component={JuntasScreen} />
-      <Stack.Screen name="FormularioJunta" component={FormularioJuntaScreen} />
-      <Stack.Screen name="JuntaCreada" component={JuntaCreadaScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SolicitudesReactivacion" component={SolicitudesReactivacionScreen} />
-      <Stack.Screen name="Miembros" component={MiembrosScreen} />
-      <Stack.Screen name="FormularioMiembro" component={FormularioMiembroScreen} />
-      <Stack.Screen name="MiembroCreado" component={MiembroCreadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Ciudades" component={administrador.CiudadesScreen} />
+      <Stack.Screen name="FormularioCiudad" component={administrador.FormularioCiudadScreen} />
+      <Stack.Screen name="CiudadCreada" component={administrador.CiudadCreadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Juntas" component={administrador.JuntasScreen} />
+      <Stack.Screen name="FormularioJunta" component={administrador.FormularioJuntaScreen} />
+      <Stack.Screen name="JuntaCreada" component={administrador.JuntaCreadaScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SolicitudesReactivacion" component={administrador.SolicitudesReactivacionScreen} />
+      <Stack.Screen name="Miembros" component={administrador.MiembrosScreen} />
+      <Stack.Screen name="FormularioMiembro" component={administrador.FormularioMiembroScreen} />
+      <Stack.Screen name="MiembroCreado" component={administrador.MiembroCreadoScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

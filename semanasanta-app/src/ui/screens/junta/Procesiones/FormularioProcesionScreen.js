@@ -2,19 +2,10 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getCofradiasPorCiudad,
-  getDiasSemanaSanta,
-  getProcesionPorId,
-  getPasosPorCofradia,
-  crearProcesion,
-  actualizarProcesion,
-  eliminarProcesion,
-  importarGpxRecorrido,
-} from '../../../../data/services';
-import { EstadoEvento } from '../../../../data/models';
-import { combinarFechaHora, sumarMinutos, formatearDuracionCorta, parsearDuracionCorta } from '../../../../data/utils/fechaSemanaSanta';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { models } from '../../../../data';
+import { fechaSemanaSanta } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './FormularioProcesionScreen.styles';
 
@@ -40,10 +31,10 @@ import { styles } from './FormularioProcesionScreen.styles';
 // 2026-10-02) cancela sin avisar: al guardar se abre "Crear Notificación"
 // con la cancelación ya elegida, para dar motivo y prioridad.
 const OPCIONES_ESTADO = [
-  { valor: EstadoEvento.PROGRAMADO, etiqueta: 'Programada', background: colors.backgroundOrange, texto: colors.orangeText },
-  { valor: EstadoEvento.EN_CURSO, etiqueta: 'En curso', background: colors.greenBackground, texto: colors.lightGreenText },
-  { valor: EstadoEvento.FINALIZADO, etiqueta: 'Finalizada', background: colors.backgroundRed, texto: colors.redText },
-  { valor: EstadoEvento.CANCELADO, etiqueta: 'Cancelada', background: colors.backgroundRed, texto: colors.redText },
+  { valor: models.EstadoEvento.PROGRAMADO, etiqueta: 'Programada', background: colors.backgroundOrange, texto: colors.orangeText },
+  { valor: models.EstadoEvento.EN_CURSO, etiqueta: 'En curso', background: colors.greenBackground, texto: colors.lightGreenText },
+  { valor: models.EstadoEvento.FINALIZADO, etiqueta: 'Finalizada', background: colors.backgroundRed, texto: colors.redText },
+  { valor: models.EstadoEvento.CANCELADO, etiqueta: 'Cancelada', background: colors.backgroundRed, texto: colors.redText },
 ];
 
 export function FormularioProcesionScreen({ route, navigation }) {
@@ -66,8 +57,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
   const [webOficial, setWebOficial] = useState('');
   const [historia, setHistoria] = useState('');
   const [tradicion, setTradicion] = useState('');
-  const [estado, setEstado] = useState(EstadoEvento.PROGRAMADO);
-  const [estadoOriginal, setEstadoOriginal] = useState(EstadoEvento.PROGRAMADO);
+  const [estado, setEstado] = useState(models.EstadoEvento.PROGRAMADO);
+  const [estadoOriginal, setEstadoOriginal] = useState(models.EstadoEvento.PROGRAMADO);
   const [recorridoId, setRecorridoId] = useState(null);
   const [recorridoInfo, setRecorridoInfo] = useState(null);
   const [importandoGpx, setImportandoGpx] = useState(false);
@@ -94,9 +85,9 @@ export function FormularioProcesionScreen({ route, navigation }) {
 
   useEffect(() => {
     Promise.all([
-      getCofradiasPorCiudad(ciudadId),
-      getDiasSemanaSanta(),
-      editando ? getProcesionPorId(procesionId) : Promise.resolve(null),
+      services.getCofradiasPorCiudad(ciudadId),
+      services.getDiasSemanaSanta(),
+      editando ? services.getProcesionPorId(procesionId) : Promise.resolve(null),
     ]).then(([cofradias, dias, procesion]) => {
       setCofradiasDisponibles(cofradias);
       setDiasSemanaSanta(dias);
@@ -106,11 +97,11 @@ export function FormularioProcesionScreen({ route, navigation }) {
         setNombre(procesion.nombre);
         setCofradiaSeleccionada(cofradia);
         if (cofradia) {
-          getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+          services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
         }
         setDiaSeleccionado(dias.find((d) => d.nombre === procesion.dia) ?? null);
         setHoraSalida(procesion.horaSalida ?? '');
-        setDuracionTexto(formatearDuracionCorta(procesion.duracionMin ?? 0));
+        setDuracionTexto(fechaSemanaSanta.formatearDuracionCorta(procesion.duracionMin ?? 0));
         setWebOficial(procesion.web ?? '');
         setHistoria(procesion.historia ?? '');
         setTradicion(procesion.tradicion ?? '');
@@ -129,7 +120,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
   function seleccionarCofradia(cofradia) {
     setCofradiaSeleccionada(cofradia);
     setModalCofradiaVisible(false);
-    getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+    services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
   }
 
   async function importarGpx() {
@@ -141,7 +132,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
     setImportandoGpx(true);
     setErrorGpx(null);
     try {
-      const recorrido = await importarGpxRecorrido(archivo);
+      const recorrido = await services.importarGpxRecorrido(archivo);
       setRecorridoId(recorrido.id);
       setRecorridoInfo(
         `${archivo.name} importado -${recorrido.distanciaTotal != null ? `${recorrido.distanciaTotal} km` : 'ruta sin distancia calculada'}`
@@ -154,8 +145,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
   }
 
   function datosFormulario() {
-    const fechaInicio = combinarFechaHora(diaSeleccionado?.fecha, horaSalida);
-    const duracionMin = parsearDuracionCorta(duracionTexto);
+    const fechaInicio = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaSalida);
+    const duracionMin = fechaSemanaSanta.parsearDuracionCorta(duracionTexto);
     return {
       nombre: nombre.trim(),
       historia: historia.trim() || null,
@@ -165,7 +156,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
       ubicacionId: null,
       web: webOficial.trim() || null,
       fechaInicio,
-      fechaFin: sumarMinutos(fechaInicio, duracionMin),
+      fechaFin: fechaSemanaSanta.sumarMinutos(fechaInicio, duracionMin),
       recorridoId,
       pasosIds: null,
       estado: editando ? estado : null, // al crear, el backend la deja PROGRAMADO
@@ -179,7 +170,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
     setGuardando(true);
     try {
       if (editando) {
-        await actualizarProcesion(procesionId, datosFormulario());
+        await services.actualizarProcesion(procesionId, datosFormulario());
         navigation.replace('ProcesionActualizada', {
           nombreProcesion: nombre.trim(),
           ciudadId,
@@ -187,7 +178,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
           estadoNuevo: estado !== estadoOriginal ? estado : null,
         });
       } else {
-        const procesionCreada = await crearProcesion(datosFormulario());
+        const procesionCreada = await services.crearProcesion(datosFormulario());
         navigation.replace('ProcesionCreada', { nombreProcesion: procesionCreada.nombre, ciudadId, procesionId: procesionCreada.id });
       }
     } catch (err) {
@@ -216,7 +207,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
         onPress: async () => {
           setEliminando(true);
           try {
-            await eliminarProcesion(procesionId);
+            await services.eliminarProcesion(procesionId);
             navigation.navigate('Procesiones', { ciudadId });
           } finally {
             setEliminando(false);
@@ -228,14 +219,14 @@ export function FormularioProcesionScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre de la procesión</Text>
@@ -272,11 +263,11 @@ export function FormularioProcesionScreen({ route, navigation }) {
               })}
             </View>
             <Text style={styles.ayudaEstado}>
-              {estado === EstadoEvento.CANCELADO && estadoOriginal === EstadoEvento.CANCELADO
+              {estado === models.EstadoEvento.CANCELADO && estadoOriginal === models.EstadoEvento.CANCELADO
                 ? 'Procesión cancelada. Elige "Programada" si vuelve a celebrarse.'
-                : estado === EstadoEvento.CANCELADO
+                : estado === models.EstadoEvento.CANCELADO
                   ? 'Al guardar podrás explicar a los ciudadanos el motivo.'
-                  : estado !== estadoOriginal && estado !== EstadoEvento.PROGRAMADO
+                  : estado !== estadoOriginal && estado !== models.EstadoEvento.PROGRAMADO
                     ? 'Al guardar se avisará automáticamente a los ciudadanos.'
                     : 'Cambia sola a "En curso" y "Finalizada" a la hora de salida y de fin.'}
             </Text>
@@ -504,6 +495,6 @@ export function FormularioProcesionScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

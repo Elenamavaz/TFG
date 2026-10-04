@@ -1,21 +1,21 @@
-import { Paso } from '../models';
+import * as models from '../models';
 
 export const pasosMock = [
-  new Paso({
+  new models.Paso({
     id: 'sentencia',
     cofradiaId: 'vera-cruz',
     nombre: 'Cristo de la Sentencia',
     tipo: 'Paso de Misterio',
     descripcion: 'Talla que representa el momento en que Cristo es condenado a muerte.',
   }),
-  new Paso({
+  new models.Paso({
     id: 'esperanza',
     cofradiaId: 'vera-cruz',
     nombre: 'Ntra. Sra. de la Esperanza',
     tipo: 'Paso de Palio',
     descripcion: 'Imagen mariana bajo palio que acompaña al Cristo de la Sentencia.',
   }),
-  new Paso({
+  new models.Paso({
     id: 'cristo-luz',
     cofradiaId: 'santo-cristo-luz',
     nombre: 'Santo Cristo de la Luz',

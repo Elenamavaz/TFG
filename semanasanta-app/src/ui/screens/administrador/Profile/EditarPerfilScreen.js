@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useAuth } from '../../../../application/context';
-import { obtenerAdministrador, actualizarPerfilPropio } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './EditarPerfilScreen.styles';
 
@@ -13,7 +13,7 @@ import { styles } from './EditarPerfilScreen.styles';
 // cambiar la contraseña -confirma que es el propio Administrador quien
 // edita, ver AdministradorPerfilRequest del backend.
 export function EditarPerfilScreen({ navigation }) {
-  const { sesion } = useAuth();
+  const { sesion } = context.useAuth();
   const [cargandoDatos, setCargandoDatos] = useState(true);
   const [email, setEmail] = useState('');
   const [nombre, setNombre] = useState('');
@@ -44,7 +44,7 @@ export function EditarPerfilScreen({ navigation }) {
   }, [navigation]);
 
   useEffect(() => {
-    obtenerAdministrador(sesion.usuarioId).then((admin) => {
+    services.obtenerAdministrador(sesion.usuarioId).then((admin) => {
       setEmail(admin.email);
       setNombre(admin.nombre ?? '');
       setTelefono(admin.telefono ?? '');
@@ -58,7 +58,7 @@ export function EditarPerfilScreen({ navigation }) {
     setErroresCampos({});
     setGuardando(true);
     try {
-      await actualizarPerfilPropio({ nombre: nombre.trim(), telefono: telefono.trim(), passwordActual, passwordNueva });
+      await services.actualizarPerfilPropio({ nombre: nombre.trim(), telefono: telefono.trim(), passwordActual, passwordNueva });
       navigation.goBack();
     } catch (err) {
       if (err.campos) {
@@ -73,14 +73,14 @@ export function EditarPerfilScreen({ navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre completo</Text>
@@ -153,6 +153,6 @@ export function EditarPerfilScreen({ navigation }) {
 
         <Text style={styles.nota}>Para modificar tu información debes escribir siempre la contraseña actual.</Text>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

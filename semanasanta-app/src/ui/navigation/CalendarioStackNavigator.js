@@ -1,12 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  CalendarioScreen,
-  DetalleProcesionScreen,
-  DetalleProcesionInfoScreen,
-  DetallePasoScreen,
-  DetalleEventoScreen,
-} from '../screens/ciudadano';
-import { colors, fontFamilies } from '../../theme';
+import { ciudadano } from '../screens';
+import { colors } from '../../theme';
+import { fontFamilies } from '../../theme';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,11 +16,11 @@ const screenOptions = {
 export function CalendarioStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name="CalendarioHome" component={CalendarioScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="DetalleProcesion" component={DetalleProcesionScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetalleProcesionInfo" component={DetalleProcesionInfoScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetallePaso" component={DetallePasoScreen} options={{ title: '' }} />
-      <Stack.Screen name="DetalleEvento" component={DetalleEventoScreen} options={{ title: '' }} />
+      <Stack.Screen name="CalendarioHome" component={ciudadano.CalendarioScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="DetalleProcesion" component={ciudadano.DetalleProcesionScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleProcesionInfo" component={ciudadano.DetalleProcesionInfoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetallePaso" component={ciudadano.DetallePasoScreen} options={{ title: '' }} />
+      <Stack.Screen name="DetalleEvento" component={ciudadano.DetalleEventoScreen} options={{ title: '' }} />
     </Stack.Navigator>
   );
 }

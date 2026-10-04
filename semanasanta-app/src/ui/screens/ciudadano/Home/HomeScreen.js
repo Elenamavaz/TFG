@@ -2,20 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Dimensions, FlatList, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ScreenContainer, ListItemCard, StatusBadge } from '../../../components/common';
-import { useCiudad, useDia, useFavoritos } from '../../../../application/context';
-import {
-  getCofradiasPorCiudad,
-  getProcesionesPorCiudad,
-  getProcesionEnCurso,
-  getEventosPorCiudad,
-  getDiasSemanaSanta,
-  getNotificacionesActivas,
-  getNotificacionesDescartadasIds,
-  descartarNotificacion,
-} from '../../../../data/services';
-import { formatearDuracion, MESES } from '../../../utils/tiempo';
-import { colors, spacing } from '../../../../theme';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
+import { tiempo } from '../../../utils';
+import { colors } from '../../../../theme';
+import { spacing } from '../../../../theme';
 import { styles } from './HomeScreen.styles';
 
 const OPCIONES_MENU = [
@@ -42,7 +34,7 @@ const ANCHO_TARJETA = Dimensions.get('window').width - spacing.lg * 2;
 
 function formatearFechaCorta(fechaIso) {
   const [, mes, dia] = fechaIso.split('-').map(Number);
-  return `${dia} de ${MESES[mes - 1]}`;
+  return `${dia} de ${tiempo.MESES[mes - 1]}`;
 }
 
 function formatearNumero(numero) {
@@ -51,8 +43,8 @@ function formatearNumero(numero) {
 }
 
 export function InicioScreen({ navigation }) {
-  const { ciudadSeleccionada } = useCiudad();
-  const { diaSeleccionado, seleccionarDia: setDiaSeleccionado } = useDia();
+  const { ciudadSeleccionada } = context.useCiudad();
+  const { diaSeleccionado, seleccionarDia: setDiaSeleccionado } = context.useDia();
   const [menuVisible, setMenuVisible] = useState(false);
   const [diaMenuVisible, setDiaMenuVisible] = useState(false);
   const [numCofradias, setNumCofradias] = useState(0);
@@ -62,10 +54,10 @@ export function InicioScreen({ navigation }) {
   const [indiceNotificacion, setIndiceNotificacion] = useState(0);
   const [dias, setDias] = useState([]);
   const [agenda, setAgenda] = useState([]);
-  const { esFavorito, alternarFavorito } = useFavoritos();
+  const { esFavorito, alternarFavorito } = context.useFavoritos();
 
   useEffect(() => {
-    getDiasSemanaSanta().then((lista) => {
+    services.getDiasSemanaSanta().then((lista) => {
       setDias(lista);
       const hoy = new Date().toISOString().slice(0, 10);
       setDiaSeleccionado((actual) => actual ?? lista.find((d) => d.fecha === hoy) ?? lista[0]);
@@ -78,9 +70,9 @@ export function InicioScreen({ navigation }) {
       const ciudadId = ciudadSeleccionada.id;
 
       Promise.all([
-        getCofradiasPorCiudad(ciudadId),
-        getProcesionEnCurso(ciudadId),
-        getProcesionesPorCiudad(ciudadId),
+        services.getCofradiasPorCiudad(ciudadId),
+        services.getProcesionEnCurso(ciudadId),
+        services.getProcesionesPorCiudad(ciudadId),
       ]).then(([cofradias, enCurso, procesiones]) => {
         setNumCofradias(cofradias.length);
         setNumProcesionesTotal(procesiones.length);
@@ -99,7 +91,7 @@ export function InicioScreen({ navigation }) {
       // liga ninguna a un día de Semana Santa, ver alertaService): solo de la
       // ciudad. Las que el usuario ya descartó a mano (icono de papelera) no
       // se vuelven a mostrar -pero sí una nueva, si llega.
-      Promise.all([getNotificacionesActivas(ciudadId), getNotificacionesDescartadasIds()]).then(
+      Promise.all([services.getNotificacionesActivas(ciudadId), services.getNotificacionesDescartadasIds()]).then(
         ([activas, descartadasIds]) => {
           setNotificaciones(activas.filter((n) => !descartadasIds.includes(n.id)));
           setIndiceNotificacion(0);
@@ -114,9 +106,9 @@ export function InicioScreen({ navigation }) {
       const ciudadId = ciudadSeleccionada.id;
 
       Promise.all([
-        getProcesionesPorCiudad(ciudadId),
-        getEventosPorCiudad(ciudadId),
-        getCofradiasPorCiudad(ciudadId),
+        services.getProcesionesPorCiudad(ciudadId),
+        services.getEventosPorCiudad(ciudadId),
+        services.getCofradiasPorCiudad(ciudadId),
       ]).then(([procesiones, eventos, cofradias]) => {
         const nombrePorCofradiaId = Object.fromEntries(cofradias.map((c) => [c.id, c.nombre]));
         // Un evento/procesión puede tener varias cofradías participantes
@@ -158,7 +150,7 @@ export function InicioScreen({ navigation }) {
   // Solo desaparece de este dispositivo (preferenciasService), no borra nada
   // en el backend -el ciudadano no tiene sesión ni permisos para eso.
   function descartarNotif(notificacion) {
-    descartarNotificacion(notificacion.id);
+    services.descartarNotificacion(notificacion.id);
     setNotificaciones((actuales) => actuales.filter((n) => n.id !== notificacion.id));
   }
 
@@ -170,7 +162,7 @@ export function InicioScreen({ navigation }) {
   if (!ciudadSeleccionada || !diaSeleccionado) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
           <View style={styles.headerText}>
@@ -273,13 +265,13 @@ export function InicioScreen({ navigation }) {
             <Text style={styles.sectionTitle}>En curso ahora</Text>
             <View style={styles.enCursoCard}>
             <View style={styles.enCursoLeft}>
-              <StatusBadge estado="EN_CURSO" />
+              <common.StatusBadge estado="EN_CURSO" />
               <Text style={styles.enCursoTitle}>{procesionEnCurso.nombre}</Text>
               <Text style={styles.enCursoMeta}>{procesionEnCurso.cofradiaNombre}</Text>
             </View>
             <View style={styles.enCursoRight}>
               <Text style={styles.enCursoHora}>{procesionEnCurso.horaSalida}</Text>
-              <Text style={styles.enCursoDuracion}>{formatearDuracion(procesionEnCurso.duracionMin)}</Text>
+              <Text style={styles.enCursoDuracion}>{tiempo.formatearDuracion(procesionEnCurso.duracionMin)}</Text>
             </View>
             </View>
           </>
@@ -305,13 +297,13 @@ export function InicioScreen({ navigation }) {
 
         <Text style={styles.sectionTitle}>Procesiones y eventos de hoy</Text>
         {agenda.map((item) => (
-          <ListItemCard
+          <common.ListItemCard
             key={`${item.categoria}-${item.id}`}
             icon={item.categoria === 'procesion' ? 'candle' : 'church'}
             title={item.nombre}
             subtitle={item.cofradiaNombre}
             hora={item.horaSalida}
-            badge={<StatusBadge estado={item.estado} />}
+            badge={<common.StatusBadge estado={item.estado} />}
             mostrarFavorito
             esFavorito={esFavorito(item.id, item.categoria)}
             onToggleFavorito={() => alternarFavorito(item.id, item.categoria)}
@@ -354,6 +346,6 @@ export function InicioScreen({ navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

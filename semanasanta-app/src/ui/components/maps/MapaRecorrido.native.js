@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
-import { getEstelaProcesion } from '../../../data/services';
-import { tramoDeRecorrido, puntoEnFraccion } from '../../utils/geo';
+import { services } from '../../../data';
+import { geo } from '../../utils';
 import { colors } from '../../../theme';
 import { estiloMapaOscuro } from './estiloMapa';
 import { MarcadoresInicioFin } from './MarcadoresInicioFin';
-import { styles, ALTO_MAPA } from './mapas.styles';
+import { styles } from './mapas.styles';
 
 const INTERVALO_REFRESCO_MS = 15000;
 const MARGEN_ENCUADRE = { top: 40, right: 40, bottom: 40, left: 40 };
@@ -31,7 +31,7 @@ export function MapaRecorrido({ puntos, procesionId, enCurso }) {
   useEffect(() => {
     if (!enCurso) return undefined;
     const cargar = () =>
-      getEstelaProcesion(procesionId)
+      services.getEstelaProcesion(procesionId)
         .then(setEstela)
         .catch(() => {});
     cargar();
@@ -50,8 +50,8 @@ export function MapaRecorrido({ puntos, procesionId, enCurso }) {
 
   if (coordenadas.length < 2) return null;
 
-  const tramo = estela ? tramoDeRecorrido(coordenadas, estela.progresoCola, estela.progresoCabeza) : [];
-  const cabeza = estela ? puntoEnFraccion(coordenadas, estela.progresoCabeza) : null;
+  const tramo = estela ? geo.tramoDeRecorrido(coordenadas, estela.progresoCola, estela.progresoCabeza) : [];
+  const cabeza = estela ? geo.puntoEnFraccion(coordenadas, estela.progresoCabeza) : null;
 
   return (
     // Tamaño exacto en píxeles medido de la tarjeta (onLayout): si el
@@ -61,7 +61,7 @@ export function MapaRecorrido({ puntos, procesionId, enCurso }) {
       {ancho ? (
         <MapView
           ref={mapaRef}
-          style={{ width: ancho, height: ALTO_MAPA }}
+          style={{ ...styles.mapa, width: ancho }}
           provider={PROVIDER_GOOGLE}
           customMapStyle={estiloMapaOscuro}
           initialRegion={{
@@ -97,7 +97,7 @@ export function MapaRecorrido({ puntos, procesionId, enCurso }) {
           ) : null}
         </MapView>
       ) : (
-        <View style={{ height: ALTO_MAPA }} />
+        <View style={styles.mapa} />
       )}
       {enCurso ? (
         <View style={styles.pildoraEnCurso}>

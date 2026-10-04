@@ -2,15 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getJuntasCofradias,
-  getMiembrosDeJunta,
-  actualizarMiembroJuntaCofradia,
-  reenviarInvitacion,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './MiembrosScreen.styles';
 
 const COLOR_POR_ESTADO = {
@@ -74,8 +69,8 @@ export function MiembrosScreen({ route, navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    getJuntasCofradias().then((listaJuntas) => {
-      const juntasOrdenadas = ordenarPorNombre(listaJuntas);
+    services.getJuntasCofradias().then((listaJuntas) => {
+      const juntasOrdenadas = orden.ordenarPorNombre(listaJuntas);
       setJuntas(juntasOrdenadas);
       // Sin Junta preseleccionada (o si la que había ya no existe), se cae en
       // la primera por orden alfabético -nunca en un "Todos" (ver comentario
@@ -89,8 +84,8 @@ export function MiembrosScreen({ route, navigation }) {
         setCargando(false);
         return;
       }
-      getMiembrosDeJunta(juntaActivaId).then((lista) => {
-        setMiembros(ordenarPorNombre(lista));
+      services.getMiembrosDeJunta(juntaActivaId).then((lista) => {
+        setMiembros(orden.ordenarPorNombre(lista));
         setCargando(false);
       });
     });
@@ -104,7 +99,7 @@ export function MiembrosScreen({ route, navigation }) {
     if (procesandoId) return;
     setProcesandoId(miembro.id);
     try {
-      await actualizarMiembroJuntaCofradia(miembro.id, {
+      await services.actualizarMiembroJuntaCofradia(miembro.id, {
         nombre: miembro.nombre,
         email: miembro.email,
         telefono: miembro.telefono,
@@ -121,7 +116,7 @@ export function MiembrosScreen({ route, navigation }) {
     if (procesandoId) return;
     setProcesandoId(miembro.id);
     try {
-      await reenviarInvitacion(miembro.id);
+      await services.reenviarInvitacion(miembro.id);
       cargar();
     } finally {
       setProcesandoId(null);
@@ -131,7 +126,7 @@ export function MiembrosScreen({ route, navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Miembros</Text>
         <Text style={styles.subtitle}>
@@ -224,6 +219,6 @@ export function MiembrosScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

@@ -1,14 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, radii, spacing } from '../../../theme';
+import { colors } from '../../../theme';
+import { fontFamilies } from '../../../theme';
+import { radii } from '../../../theme';
+import { spacing } from '../../../theme';
 
 // Mapas pequeños de las pantallas de detalle (MapaRecorrido, MapaUbicacion).
-// Alto del mapa pequeño. El MapView recibe ancho y alto exactos en píxeles
-// (ancho medido con onLayout), no flex ni posición absoluta: en la nueva
-// arquitectura de React Native el mapa nativo calculaba mal su tamaño
-// -o se quedaba sin él, o más alto de lo visible y con la cámara
-// descentrada- (2026-10-04).
-export const ALTO_MAPA = 220;
-
 export const styles = StyleSheet.create({
   tarjeta: {
     borderRadius: radii.lg,
@@ -16,6 +12,14 @@ export const styles = StyleSheet.create({
     borderColor: colors.subtitle,
     overflow: 'hidden',
     backgroundColor: colors.backgroundAlt,
+  },
+  // Alto del mapa pequeño. El MapView recibe ancho y alto exactos en
+  // píxeles (el ancho, medido con onLayout), no flex ni posición absoluta:
+  // en la nueva arquitectura de React Native el mapa nativo calculaba mal su
+  // tamaño -o se quedaba sin él, o más alto de lo visible y con la cámara
+  // descentrada- (2026-10-04).
+  mapa: {
+    height: 220,
   },
   pildoraEnCurso: {
     position: 'absolute',

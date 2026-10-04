@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, spacing } from '../../../../theme';
+import { colors } from '../../../../theme';
+import { fontFamilies } from '../../../../theme';
+import { spacing } from '../../../../theme';
 
 export const styles = StyleSheet.create({
   headerBackground: {

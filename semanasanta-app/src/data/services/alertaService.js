@@ -1,5 +1,5 @@
-import { apiFetch } from '../../infrastructure/api/apiClient';
-import { Notificacion } from '../models';
+import { api } from '../../infrastructure';
+import * as models from '../models';
 
 // GET /notificaciones?ciudadId= es público y ya viene ordenado por
 // fechaCreacion descendente (ver NotificacionService.listarDeCiudad del
@@ -10,8 +10,8 @@ import { Notificacion } from '../models';
 // (ver memoria del TFG, 2026-08-15) -no hay "las de este día", solo "las
 // activas de esta ciudad ahora mismo".
 export async function getNotificacionesActivas(ciudadId) {
-  const notificaciones = await apiFetch(`/notificaciones?ciudadId=${ciudadId}`);
-  return notificaciones.map((n) => new Notificacion(n)).filter((n) => n.activa);
+  const notificaciones = await api.apiFetch(`/notificaciones?ciudadId=${ciudadId}`);
+  return notificaciones.map((n) => new models.Notificacion(n)).filter((n) => n.activa);
 }
 
 // POST /notificaciones (Junta de la ciudad, ver NotificacionController):
@@ -19,9 +19,9 @@ export async function getNotificacionesActivas(ciudadId) {
 // estado asociado -distinto de cancelarProcesion, que además cambia el
 // estado de la procesión en el mismo paso (ver ProcesionService.cancelar).
 export async function crearNotificacion({ titulo, mensaje, ciudadId, tipo, prioridad }) {
-  const notificacion = await apiFetch('/notificaciones', {
+  const notificacion = await api.apiFetch('/notificaciones', {
     method: 'POST',
     body: { titulo, mensaje: mensaje || null, ciudadId, tipo, prioridad },
   });
-  return new Notificacion(notificacion);
+  return new models.Notificacion(notificacion);
 }

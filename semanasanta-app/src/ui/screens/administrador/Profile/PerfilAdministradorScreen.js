@@ -2,9 +2,9 @@ import { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ScreenContainer } from '../../../components/common';
-import { useAuth } from '../../../../application/context';
-import { getCiudadesAdmin, getJuntasCofradias } from '../../../../data/services';
+import { common } from '../../../components';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './PerfilAdministradorScreen.styles';
 
@@ -54,13 +54,13 @@ const OPCIONES_GESTION = [
 // invalida el JWT de verdad (AuthContext), a diferencia del mismo botón en
 // el perfil de Ciudadano/Cofrade (que no tiene sesión real que cerrar).
 export function PerfilAdministradorScreen({ navigation }) {
-  const { cerrarSesion } = useAuth();
+  const { cerrarSesion } = context.useAuth();
   const [numCiudades, setNumCiudades] = useState(0);
   const [numJuntas, setNumJuntas] = useState(0);
 
   useFocusEffect(
     useCallback(() => {
-      Promise.all([getCiudadesAdmin(), getJuntasCofradias()]).then(([ciudades, juntas]) => {
+      Promise.all([services.getCiudadesAdmin(), services.getJuntasCofradias()]).then(([ciudades, juntas]) => {
         setNumCiudades(ciudades.length);
         setNumJuntas(juntas.length);
       });
@@ -78,7 +78,7 @@ export function PerfilAdministradorScreen({ navigation }) {
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>La Semana Santa</Text>
 
@@ -133,6 +133,6 @@ export function PerfilAdministradorScreen({ navigation }) {
           <Text style={styles.cerrarSesionTexto}>Cerrar Sesión</Text>
         </TouchableOpacity>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

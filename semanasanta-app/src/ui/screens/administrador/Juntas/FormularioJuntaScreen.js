@@ -1,18 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getJuntaCofradiasPorId,
-  getJuntasCofradias,
-  getCiudadesAdmin,
-  crearJuntaCofradias,
-  actualizarJuntaCofradias,
-  eliminarJuntaCofradias,
-  getMiembrosDeJunta,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './FormularioJuntaScreen.styles';
 
 // Formulario compartido entre "Nueva Junta" y "Editar Junta" (mockup del
@@ -59,12 +51,12 @@ export function FormularioJuntaScreen({ route, navigation }) {
 
   useEffect(() => {
     Promise.all([
-      getCiudadesAdmin(),
-      getJuntasCofradias(),
-      editando ? getJuntaCofradiasPorId(juntaId) : Promise.resolve(null),
+      services.getCiudadesAdmin(),
+      services.getJuntasCofradias(),
+      editando ? services.getJuntaCofradiasPorId(juntaId) : Promise.resolve(null),
     ]).then(([ciudades, juntas, junta]) => {
       const ciudadIdActual = junta?.ciudadId ?? null;
-      const disponibles = ordenarPorNombre(
+      const disponibles = orden.ordenarPorNombre(
         ciudades.filter((c) => c.id === ciudadIdActual || !juntas.some((j) => j.ciudadId === c.id))
       );
       setCiudadesDisponibles(disponibles);
@@ -75,7 +67,7 @@ export function FormularioJuntaScreen({ route, navigation }) {
         setTelefono(junta.telefono ?? '');
         setActiva(junta.activa);
         setCiudadSeleccionada(disponibles.find((c) => c.id === junta.ciudadId) ?? null);
-        getMiembrosDeJunta(junta.id).then((miembros) => setNumMiembros(miembros.length));
+        services.getMiembrosDeJunta(junta.id).then((miembros) => setNumMiembros(miembros.length));
       } else if (ciudadIdPreseleccionada) {
         setCiudadSeleccionada(disponibles.find((c) => c.id === ciudadIdPreseleccionada) ?? null);
       }
@@ -97,10 +89,10 @@ export function FormularioJuntaScreen({ route, navigation }) {
         activa,
       };
       if (editando) {
-        await actualizarJuntaCofradias(juntaId, datos);
+        await services.actualizarJuntaCofradias(juntaId, datos);
         navigation.popToTop(); // al inicio del panel de Administrador (2026-10-03)
       } else {
-        const juntaCreada = await crearJuntaCofradias(datos);
+        const juntaCreada = await services.crearJuntaCofradias(datos);
         // reset, no replace (2026-08-21, Elena: "atrás" desde aquí en
         // adelante -o desde el alta de Miembro que sigue- no debe volver a
         // enseñar "Junta de Cofradías creada" ni la lista de Juntas, mejor
@@ -132,7 +124,7 @@ export function FormularioJuntaScreen({ route, navigation }) {
         text: 'Eliminar',
         style: 'destructive',
         onPress: async () => {
-          await eliminarJuntaCofradias(juntaId);
+          await services.eliminarJuntaCofradias(juntaId);
           navigation.navigate('Juntas');
         },
       },
@@ -141,14 +133,14 @@ export function FormularioJuntaScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Nombre de la Junta de Cofradías</Text>
@@ -261,6 +253,6 @@ export function FormularioJuntaScreen({ route, navigation }) {
           </View>
         </Pressable>
       </Modal>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

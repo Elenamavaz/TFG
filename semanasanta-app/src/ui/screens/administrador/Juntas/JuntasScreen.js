@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getJuntasCofradias, getCiudadesAdmin, actualizarJuntaCofradias } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
-import { ordenarPorNombre } from '../../../utils/ordenarPorNombre';
+import { orden } from '../../../utils';
 import { styles } from './JuntasScreen.styles';
 
 const COLOR_POR_ESTADO = {
@@ -43,13 +43,13 @@ export function JuntasScreen({ navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getJuntasCofradias(), getCiudadesAdmin()]).then(([juntas, ciudades]) => {
+    Promise.all([services.getJuntasCofradias(), services.getCiudadesAdmin()]).then(([juntas, ciudades]) => {
       const filasCalculadas = ciudades.map((ciudad) => {
         const junta = juntas.find((j) => j.ciudadId === ciudad.id) ?? null;
         const estado = !junta ? 'Pendiente' : junta.activa ? 'Activa' : 'Desactivada';
         return { ciudad, junta, estado };
       });
-      setFilas(ordenarPorNombre(filasCalculadas, (fila) => fila.junta ? fila.junta.nombre : fila.ciudad.nombre));
+      setFilas(orden.ordenarPorNombre(filasCalculadas, (fila) => fila.junta ? fila.junta.nombre : fila.ciudad.nombre));
       setCargando(false);
     });
   }, []);
@@ -58,7 +58,7 @@ export function JuntasScreen({ navigation }) {
 
   async function alternarActiva(fila) {
     const { junta } = fila;
-    await actualizarJuntaCofradias(junta.id, {
+    await services.actualizarJuntaCofradias(junta.id, {
       nombre: junta.nombre,
       email: junta.email,
       telefono: junta.telefono,
@@ -71,7 +71,7 @@ export function JuntasScreen({ navigation }) {
   if (cargando) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Juntas de Cofradías</Text>
 
@@ -117,6 +117,6 @@ export function JuntasScreen({ navigation }) {
         ))}
         {filas.length === 0 ? <Text style={styles.empty}>No hay ciudades todavía.</Text> : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

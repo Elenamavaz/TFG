@@ -2,15 +2,9 @@ import { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from '../../../../application/context';
-import {
-  getMiembroJuntaCofradiaPorId,
-  getJuntaCofradiasPorId,
-  getCiudadPorId,
-  getCofradiasPorCiudad,
-  getProcesionesPorCiudad,
-} from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { context } from '../../../../application';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './PerfilJuntaScreen.styles';
 
@@ -56,19 +50,19 @@ const OPCIONES_GESTION = [
 // "si quieren consultar información como un ciudadano que cierren sesión y
 // entren como ciudadano") -mismo criterio que el panel de Administrador.
 export function PerfilJuntaScreen({ navigation }) {
-  const { sesion, cerrarSesion } = useAuth();
+  const { sesion, cerrarSesion } = context.useAuth();
   const [ciudad, setCiudad] = useState(null);
   const [numProcesiones, setNumProcesiones] = useState(0);
   const [numCofradias, setNumCofradias] = useState(0);
 
   useFocusEffect(
     useCallback(() => {
-      getMiembroJuntaCofradiaPorId(sesion.usuarioId)
-        .then((miembro) => getJuntaCofradiasPorId(miembro.juntaCofradiasId))
-        .then((junta) => getCiudadPorId(junta.ciudadId))
+      services.getMiembroJuntaCofradiaPorId(sesion.usuarioId)
+        .then((miembro) => services.getJuntaCofradiasPorId(miembro.juntaCofradiasId))
+        .then((junta) => services.getCiudadPorId(junta.ciudadId))
         .then((ciudadCargada) => {
           setCiudad(ciudadCargada);
-          return Promise.all([getCofradiasPorCiudad(ciudadCargada.id), getProcesionesPorCiudad(ciudadCargada.id)]);
+          return Promise.all([services.getCofradiasPorCiudad(ciudadCargada.id), services.getProcesionesPorCiudad(ciudadCargada.id)]);
         })
         .then(([cofradias, procesiones]) => {
           setNumCofradias(cofradias.length);
@@ -93,7 +87,7 @@ export function PerfilJuntaScreen({ navigation }) {
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>La Semana Santa de {ciudad?.nombre ?? ''}</Text>
 
@@ -153,6 +147,6 @@ export function PerfilJuntaScreen({ navigation }) {
           <Text style={styles.cerrarSesionTexto}>Cerrar Sesion</Text>
         </TouchableOpacity>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

@@ -5,15 +5,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { CiudadProvider } from './src/application/context/CiudadContext';
-import { DiaProvider } from './src/application/context/DiaContext';
-import { FavoritosProvider } from './src/application/context/FavoritosContext';
-import { AuthProvider } from './src/application/context/AuthContext';
-import { CofradeProvider } from './src/application/context/CofradeContext';
+import { context } from './src/application';
 import { RootNavigator } from './src/ui/navigation/RootNavigator';
-import { colors, fontsToLoad } from './src/theme';
-import { queryClient, persistOptions } from './src/infrastructure/api/queryClient';
-import { configurarManejoNotificaciones } from './src/data/services';
+import { colors } from './src/theme';
+import { fontsToLoad } from './src/theme';
+import { cache } from './src/infrastructure';
+import { services } from './src/data';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,27 +24,27 @@ export default function App() {
   // Una sola vez por arranque, no depende de fontsLoaded ni de nada más -ver
   // pushService.js.
   useEffect(() => {
-    configurarManejoNotificaciones();
+    services.configurarManejoNotificaciones();
   }, []);
 
   if (!fontsLoaded) return null;
 
   return (
     <View style={styles.container}>
-      <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
-        <AuthProvider>
-          <CiudadProvider>
-            <DiaProvider>
-              <FavoritosProvider>
-                <CofradeProvider>
+      <PersistQueryClientProvider client={cache.queryClient} persistOptions={cache.persistOptions}>
+        <context.AuthProvider>
+          <context.CiudadProvider>
+            <context.DiaProvider>
+              <context.FavoritosProvider>
+                <context.CofradeProvider>
                   <NavigationContainer>
                     <RootNavigator />
                   </NavigationContainer>
-                </CofradeProvider>
-              </FavoritosProvider>
-            </DiaProvider>
-          </CiudadProvider>
-        </AuthProvider>
+                </context.CofradeProvider>
+              </context.FavoritosProvider>
+            </context.DiaProvider>
+          </context.CiudadProvider>
+        </context.AuthProvider>
       </PersistQueryClientProvider>
       <StatusBar style="light" />
     </View>

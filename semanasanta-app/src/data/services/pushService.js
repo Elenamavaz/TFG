@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
-import { apiFetch } from '../../infrastructure/api/apiClient';
+import { api } from '../../infrastructure';
 
 // Notificaciones push (2026-08-23): Expo Push, no Firebase/APNs directamente
 // -ver PushNotificacionService del backend. expo-notifications abstrae la
@@ -65,5 +65,5 @@ async function obtenerTokenPush() {
 export async function registrarDispositivoPush(ciudadId) {
   const token = await obtenerTokenPush();
   if (!token) return;
-  await apiFetch('/dispositivos-push', { method: 'POST', body: { token, ciudadId } }).catch(() => {});
+  await api.apiFetch('/dispositivos-push', { method: 'POST', body: { token, ciudadId } }).catch(() => {});
 }

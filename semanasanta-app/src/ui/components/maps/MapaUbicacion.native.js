@@ -4,7 +4,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../../theme';
 import { estiloMapaOscuro } from './estiloMapa';
-import { styles, ALTO_MAPA } from './mapas.styles';
+import { styles } from './mapas.styles';
 
 // Mapa pequeño con el sitio donde se celebra un evento (2026-10-04, mockup
 // de Elena): marcador redondo con una estrella sobre la Ubicacion del
@@ -18,7 +18,7 @@ export function MapaUbicacion({ latitud, longitud, titulo }) {
     <View style={styles.tarjeta} onLayout={(e) => setAncho(e.nativeEvent.layout.width)}>
       {ancho ? (
         <MapView
-          style={{ width: ancho, height: ALTO_MAPA }}
+          style={{ ...styles.mapa, width: ancho }}
           provider={PROVIDER_GOOGLE}
           customMapStyle={estiloMapaOscuro}
           initialRegion={{ ...coordenada, latitudeDelta: 0.006, longitudeDelta: 0.006 }}
@@ -32,7 +32,7 @@ export function MapaUbicacion({ latitud, longitud, titulo }) {
           </Marker>
         </MapView>
       ) : (
-        <View style={{ height: ALTO_MAPA }} />
+        <View style={styles.mapa} />
       )}
     </View>
   );

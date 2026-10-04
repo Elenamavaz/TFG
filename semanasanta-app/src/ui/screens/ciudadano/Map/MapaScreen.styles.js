@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamilies, radii, spacing } from '../../../../theme';
+import { colors } from '../../../../theme';
+import { fontFamilies } from '../../../../theme';
+import { radii } from '../../../../theme';
+import { spacing } from '../../../../theme';
 
 // Mockup "Mapa en Vivo" (2026-10-03): título grande, mapa en tarjeta con
 // borde dorado, píldora "En curso" arriba a la derecha, leyenda abajo a la

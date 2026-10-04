@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getProcesionPorId, getPasosPorCofradia, actualizarProcesion } from '../../../../data/services';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './SeleccionarPasosScreen.styles';
 
@@ -42,8 +42,8 @@ export function SeleccionarPasosScreen({ route, navigation }) {
   }, [navigation]);
 
   useEffect(() => {
-    getProcesionPorId(procesionId).then(async (procesion) => {
-      const porCofradia = await Promise.all(procesion.cofradiaIds.map((id) => getPasosPorCofradia(id)));
+    services.getProcesionPorId(procesionId).then(async (procesion) => {
+      const porCofradia = await Promise.all(procesion.cofradiaIds.map((id) => services.getPasosPorCofradia(id)));
       setNombreProcesion(procesion.nombre);
       setPasosDisponibles(porCofradia.flat());
       setSeleccionados(procesion.pasoIds);
@@ -72,7 +72,7 @@ export function SeleccionarPasosScreen({ route, navigation }) {
     setError(null);
     setGuardando(true);
     try {
-      await actualizarProcesion(procesionId, { ...datosBase, pasosIds: seleccionados });
+      await services.actualizarProcesion(procesionId, { ...datosBase, pasosIds: seleccionados });
       navigation.navigate('Procesiones', { ciudadId });
     } catch (err) {
       setError(err.message);
@@ -83,14 +83,14 @@ export function SeleccionarPasosScreen({ route, navigation }) {
 
   if (cargando) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.subtitle}>{nombreProcesion}</Text>
         <Text style={styles.ayuda}>Elige qué pasos de las cofradías participantes desfilan en esta procesión.</Text>
@@ -133,6 +133,6 @@ export function SeleccionarPasosScreen({ route, navigation }) {
           <Text style={styles.cancelarTexto}>Hacerlo más tarde</Text>
         </TouchableOpacity>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

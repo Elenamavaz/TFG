@@ -2,14 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator, Alert, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  getCofradiaPorId,
-  getCodigosAccesoDeCofradia,
-  emitirCodigoAcceso,
-  revocarCodigoAcceso,
-} from '../../../../data/services';
-import { EstadoCodigo } from '../../../../data/models';
-import { ScreenContainer } from '../../../components/common';
+import { services } from '../../../../data';
+import { models } from '../../../../data';
+import { common } from '../../../components';
 import { colors } from '../../../../theme';
 import { styles } from './CodigosAccesoScreen.styles';
 
@@ -17,9 +12,9 @@ import { styles } from './CodigosAccesoScreen.styles';
 // VALIDADO valen igual para entrar (el código no se gasta); la diferencia
 // solo informa de si alguien lo ha usado ya.
 const BADGE_POR_ESTADO = {
-  [EstadoCodigo.EMITIDO]: { etiqueta: 'Sin usar', background: colors.backgroundOrange, texto: colors.orangeText },
-  [EstadoCodigo.VALIDADO]: { etiqueta: 'En uso', background: colors.greenBackground, texto: colors.lightGreenText },
-  [EstadoCodigo.REVOCADO]: { etiqueta: 'Revocado', background: colors.backgroundRed, texto: colors.redText },
+  [models.EstadoCodigo.EMITIDO]: { etiqueta: 'Sin usar', background: colors.backgroundOrange, texto: colors.orangeText },
+  [models.EstadoCodigo.VALIDADO]: { etiqueta: 'En uso', background: colors.greenBackground, texto: colors.lightGreenText },
+  [models.EstadoCodigo.REVOCADO]: { etiqueta: 'Revocado', background: colors.backgroundRed, texto: colors.redText },
 };
 
 // Códigos de acceso de una cofradía (2026-10-02, sin mockup): era el hueco
@@ -47,7 +42,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
   }, [navigation]);
 
   const cargar = useCallback(() => {
-    Promise.all([getCofradiaPorId(cofradiaId), getCodigosAccesoDeCofradia(cofradiaId)])
+    Promise.all([services.getCofradiaPorId(cofradiaId), services.getCodigosAccesoDeCofradia(cofradiaId)])
       .then(([cofradiaCargada, lista]) => {
         setCofradia(cofradiaCargada);
         setCodigos(lista);
@@ -63,7 +58,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
     setGenerando(true);
     setError(null);
     try {
-      const nuevo = await emitirCodigoAcceso(cofradiaId);
+      const nuevo = await services.emitirCodigoAcceso(cofradiaId);
       setCodigos((actuales) => [nuevo, ...actuales]);
     } catch (err) {
       setError(err.message);
@@ -94,7 +89,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
             setRevocandoId(codigo.id);
             setError(null);
             try {
-              const revocado = await revocarCodigoAcceso(codigo.id);
+              const revocado = await services.revocarCodigoAcceso(codigo.id);
               setCodigos((actuales) => actuales.map((c) => (c.id === revocado.id ? revocado : c)));
             } catch (err) {
               setError(err.message);
@@ -109,9 +104,9 @@ export function CodigosAccesoScreen({ route, navigation }) {
 
   if (cargando) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
@@ -119,7 +114,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
   const revocados = codigos.filter((c) => !c.activo);
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Códigos de acceso</Text>
         <Text style={styles.subtitle}>{cofradia ? cofradia.nombre : ''}</Text>
@@ -170,7 +165,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
           </>
         ) : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }
 

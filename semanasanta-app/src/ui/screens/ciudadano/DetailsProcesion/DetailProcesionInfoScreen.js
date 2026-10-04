@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, InfoSection } from '../../../components/common';
-import { getProcesionPorId, getCofradiaPorId } from '../../../../data/services';
+import { common } from '../../../components';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './DetailProcesionInfoScreen.styles';
 
@@ -26,13 +26,13 @@ export function DetalleProcesionInfoScreen({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    getProcesionPorId(procesionId).then((data) => {
+    services.getProcesionPorId(procesionId).then((data) => {
       setProcesion(data);
       if (!data) return;
       // Una procesión puede tener varias cofradías participantes (N:M real
       // en el backend): se muestran todas, separadas por coma (decisión del
       // 2026-08-15).
-      Promise.all(data.cofradiaIds.map((id) => getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+      Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
         setCofradiaNombre(
           cofradias
             .map((c) => c?.nombre)
@@ -46,23 +46,23 @@ export function DetalleProcesionInfoScreen({ route, navigation }) {
   if (!procesion) return null;
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>{procesion.nombre}</Text>
         {cofradiaNombre ? <Text style={styles.subtitle}>{cofradiaNombre}</Text> : null}
 
         {procesion.historia ? (
-          <InfoSection title="Historia">
+          <common.InfoSection title="Historia">
             <Text style={styles.body}>{procesion.historia}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
 
         {procesion.tradicion ? (
-          <InfoSection title="Tradición">
+          <common.InfoSection title="Tradición">
             <Text style={styles.body}>{procesion.tradicion}</Text>
-          </InfoSection>
+          </common.InfoSection>
         ) : null}
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

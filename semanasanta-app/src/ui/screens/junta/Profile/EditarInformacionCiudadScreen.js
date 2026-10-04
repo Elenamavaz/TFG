@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { ScreenContainer } from '../../../components/common';
-import { getCiudadPorId, actualizarInformacionCiudad } from '../../../../data/services';
+import { common } from '../../../components';
+import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './EditarInformacionCiudadScreen.styles';
 
@@ -29,7 +29,7 @@ export function EditarInformacionCiudadScreen({ route, navigation }) {
   }, [navigation]);
 
   useEffect(() => {
-    getCiudadPorId(ciudadId)
+    services.getCiudadPorId(ciudadId)
       .then((ciudad) => {
         setNombreCiudad(ciudad.nombre);
         setHistoria(ciudad.historia ?? '');
@@ -44,7 +44,7 @@ export function EditarInformacionCiudadScreen({ route, navigation }) {
     setError(null);
     setGuardando(true);
     try {
-      await actualizarInformacionCiudad(ciudadId, {
+      await services.actualizarInformacionCiudad(ciudadId, {
         historia: historia.trim() || null,
         patrimonio: patrimonio.trim() || null,
       });
@@ -58,14 +58,14 @@ export function EditarInformacionCiudadScreen({ route, navigation }) {
 
   if (cargandoDatos) {
     return (
-      <ScreenContainer style={styles.cargando}>
+      <common.ScreenContainer style={styles.cargando}>
         <ActivityIndicator color={colors.gold} />
-      </ScreenContainer>
+      </common.ScreenContainer>
     );
   }
 
   return (
-    <ScreenContainer>
+    <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>{nombreCiudad}</Text>
         <Text style={styles.explicacion}>Esta información la verán los ciudadanos en la página de la ciudad.</Text>
@@ -103,6 +103,6 @@ export function EditarInformacionCiudadScreen({ route, navigation }) {
           {guardando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>Guardar</Text>}
         </TouchableOpacity>
       </ScrollView>
-    </ScreenContainer>
+    </common.ScreenContainer>
   );
 }

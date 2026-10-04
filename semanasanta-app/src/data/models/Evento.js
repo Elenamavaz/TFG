@@ -1,5 +1,5 @@
 import { Favoriteable } from './Favoriteable';
-import { partirFechaHora, minutosEntre } from '../utils/fechaSemanaSanta';
+import * as fechaSemanaSanta from '../utils/fechaSemanaSanta';
 
 // Campos alineados con EventoResponse del backend -- 2026-08-15:
 // - "descripcion" no existe en el backend (solo historia + tradicion, este
@@ -33,7 +33,7 @@ export class Evento extends Favoriteable {
     ubicacionId = null,
   }) {
     super();
-    const partida = partirFechaHora(fecha);
+    const partida = fechaSemanaSanta.partirFechaHora(fecha);
     this.id = id;
     this.cofradiaIds = cofradiaIds; // participan: N Cofradia
     this.pasoIds = pasosIds; // desfilan: N Paso
@@ -43,7 +43,7 @@ export class Evento extends Favoriteable {
     this.fecha = partida.fecha;
     this.dia = partida.dia;
     this.hora = partida.hora;
-    this.duracionMin = minutosEntre(fecha, fechaFin);
+    this.duracionMin = fechaSemanaSanta.minutosEntre(fecha, fechaFin);
     this.estado = estado;
     this.ubicacionId = ubicacionId; // seCelebraEn: 0..1 Ubicacion
   }

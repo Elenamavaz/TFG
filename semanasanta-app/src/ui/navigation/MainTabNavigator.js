@@ -5,8 +5,9 @@ import { InicioStackNavigator } from './InicioStackNavigator';
 import { CalendarioStackNavigator } from './CalendarioStackNavigator';
 import { BuscarStackNavigator } from './BuscarStackNavigator';
 import { PerfilStackNavigator } from './PerfilStackNavigator';
-import { MapaScreen } from '../screens/ciudadano';
-import { colors, fontFamilies } from '../../theme';
+import { ciudadano } from '../screens';
+import { colors } from '../../theme';
+import { fontFamilies } from '../../theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -73,7 +74,7 @@ export function MainTabNavigator() {
         })}
       />
       <Tab.Screen name="Calendario" component={CalendarioStackNavigator} />
-      <Tab.Screen name="Mapa" component={MapaScreen} />
+      <Tab.Screen name="Mapa" component={ciudadano.MapaScreen} />
       <Tab.Screen name="Buscar" component={BuscarStackNavigator} />
       <Tab.Screen name="Perfil" component={PerfilStackNavigator} />
     </Tab.Navigator>
