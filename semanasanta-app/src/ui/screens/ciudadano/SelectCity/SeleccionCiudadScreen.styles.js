@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
   },
+  volver: {
+    alignSelf: 'flex-start',
+    marginBottom: spacing.sm,
+  },
   eyebrow: {
     color: colors.gold,
     fontFamily: fontFamilies.uiRegular,

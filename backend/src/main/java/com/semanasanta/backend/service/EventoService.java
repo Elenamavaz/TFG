@@ -8,6 +8,7 @@ import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Cofradia;
 import com.semanasanta.backend.model.EstadoEvento;
 import com.semanasanta.backend.model.Evento;
+import com.semanasanta.backend.model.Procesion;
 import com.semanasanta.backend.model.TipoNotificacion;
 import com.semanasanta.backend.model.Ubicacion;
 import com.semanasanta.backend.repository.EventoRepository;
@@ -37,19 +38,27 @@ public class EventoService {
         this.notificacionService = notificacionService;
     }
 
+    // Herencia JOINED: un findAll/findBy... de Evento devuelve también las
+    // Procesion (son Evento). El cliente pide las procesiones aparte
+    // (GET /procesiones) y junta las dos listas en Inicio, Calendario,
+    // Buscar... -sin este filtro cada procesión salía dos veces (2026-10-10).
     public List<Evento> listar() {
-        return eventoRepository.findAll();
+        return sinProcesiones(eventoRepository.findAll());
     }
 
     // Filtrados para el ciudadano (RI-01, GET público) y para
     // DetailCofradiaScreen del cliente -mismo patrón que
     // CofradiaService.listarDeCiudad. listar() sin filtro se mantiene.
     public List<Evento> listarDeCiudad(Long ciudadId) {
-        return eventoRepository.findDistinctByCofradias_Ciudad_Id(ciudadId);
+        return sinProcesiones(eventoRepository.findDistinctByCofradias_Ciudad_Id(ciudadId));
     }
 
     public List<Evento> listarDeCofradia(Long cofradiaId) {
-        return eventoRepository.findDistinctByCofradias_Id(cofradiaId);
+        return sinProcesiones(eventoRepository.findDistinctByCofradias_Id(cofradiaId));
+    }
+
+    private static List<Evento> sinProcesiones(List<Evento> eventos) {
+        return eventos.stream().filter(evento -> !(evento instanceof Procesion)).toList();
     }
 
     public Evento obtener(Long id) {

@@ -1,3 +1,4 @@
+import { File as ArchivoExpo } from 'expo-file-system';
 import { api } from '../../infrastructure';
 import * as models from '../models';
 
@@ -52,13 +53,12 @@ export async function importarGpxRecorrido(archivo) {
     // Expo Web: DocumentPicker ya da un File real del navegador.
     formData.append('archivo', archivo.file, archivo.name ?? 'recorrido.gpx');
   } else {
-    // Android/iOS: FormData de React Native espera este objeto {uri, name,
-    // type}, no un Blob real -no hay equivalente a File ahí.
-    formData.append('archivo', {
-      uri: archivo.uri,
-      name: archivo.name ?? 'recorrido.gpx',
-      type: archivo.mimeType ?? 'application/gpx+xml',
-    });
+    // Android/iOS: desde el SDK 57 el fetch global es el de Expo, que ya no
+    // acepta el viejo objeto {uri, name, type} de React Native ("Unsupported
+    // FormDataPart implementation", 2026-10-10): necesita algo con bytes(),
+    // y el File de expo-file-system lo tiene -lee el archivo de la caché
+    // donde lo dejó DocumentPicker (copyToCacheDirectory).
+    formData.append('archivo', new ArchivoExpo(archivo.uri));
   }
   const recorrido = await api.apiFetch('/recorridos/importar-gpx', { method: 'POST', body: formData });
   return new models.Recorrido(recorrido);

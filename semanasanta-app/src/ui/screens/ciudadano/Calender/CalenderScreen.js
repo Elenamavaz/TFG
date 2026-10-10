@@ -248,12 +248,15 @@ export function CalendarioScreen({ navigation }) {
                   if (!celda) return <View key={indiceCelda} style={styles.diaCelda} />;
                   const tieneAgenda = diasConAgenda.has(celda.fecha);
                   const esDiaDeHome = celda.fecha === diaHome?.fecha;
+                  // Todos los días se pueden tocar (2026-10-10): antes solo
+                  // los que tenían agenda, y tocar cualquier otro -incluido el
+                  // día resaltado de Inicio- no hacía nada, parecía roto. Un
+                  // día vacío abre igual la vista de semana con "sin agenda".
                   return (
                     <TouchableOpacity
                       key={celda.fecha}
                       style={[styles.diaCelda, esDiaDeHome && styles.diaCeldaActiva]}
                       onPress={() => alternarDia(celda.fecha)}
-                      disabled={!tieneAgenda}
                     >
                       <Text style={[styles.diaNumero, esDiaDeHome && styles.diaNumeroActivo]}>{celda.numero}</Text>
                       {tieneAgenda ? (

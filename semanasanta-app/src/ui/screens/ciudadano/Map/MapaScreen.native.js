@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, Platform } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { common } from '../../../components';
@@ -135,7 +135,8 @@ export function MapaScreen({ route }) {
           <MapView
             ref={mapaRef}
             style={tamanoMapa}
-            provider={PROVIDER_GOOGLE}
+            // Google Maps en Android; en iOS, Apple Maps (no necesita API key).
+            provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
             //customMapStyle={maps.estiloMapaOscuro}
             initialRegion={regionInicial}
             showsUserLocation={permisoUbicacion}

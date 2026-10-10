@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../../theme';
@@ -19,7 +19,8 @@ export function MapaUbicacion({ latitud, longitud, titulo }) {
       {ancho ? (
         <MapView
           style={{ ...styles.mapa, width: ancho }}
-          provider={PROVIDER_GOOGLE}
+          // Google Maps en Android; en iOS, Apple Maps (no necesita API key).
+          provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
           //customMapStyle={estiloMapaOscuro}
           initialRegion={{ ...coordenada, latitudeDelta: 0.006, longitudeDelta: 0.006 }}
           zoomControlEnabled

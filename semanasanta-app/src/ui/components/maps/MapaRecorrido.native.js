@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import { services } from '../../../data';
 import { geo } from '../../utils';
@@ -62,7 +62,8 @@ export function MapaRecorrido({ puntos, procesionId, enCurso }) {
         <MapView
           ref={mapaRef}
           style={{ ...styles.mapa, width: ancho }}
-          provider={PROVIDER_GOOGLE}
+          // Google Maps en Android; en iOS, Apple Maps (no necesita API key).
+          provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
           //customMapStyle={estiloMapaOscuro}
           initialRegion={{
             ...coordenadas[0],
