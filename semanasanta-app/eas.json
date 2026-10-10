@@ -10,10 +10,19 @@
       "environment": "development"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://virtual.lab.inf.uva.es:20102"
+      }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://virtual.lab.inf.uva.es:20102"
+      }
     }
   },
   "submit": {

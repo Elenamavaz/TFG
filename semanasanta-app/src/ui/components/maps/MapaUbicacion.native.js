@@ -20,7 +20,7 @@ export function MapaUbicacion({ latitud, longitud, titulo }) {
         <MapView
           style={{ ...styles.mapa, width: ancho }}
           provider={PROVIDER_GOOGLE}
-          customMapStyle={estiloMapaOscuro}
+          //customMapStyle={estiloMapaOscuro}
           initialRegion={{ ...coordenada, latitudeDelta: 0.006, longitudeDelta: 0.006 }}
           zoomControlEnabled
           toolbarEnabled={false}
