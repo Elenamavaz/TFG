@@ -5,13 +5,22 @@ import Constants from 'expo-constants';
 // etc.) -pasar por él aquí crearía una dependencia circular en tiempo de carga.
 import * as sesionService from '../../data/services/sesionService';
 
-// Puerto por defecto de Spring Boot (backend/src/main/resources/application.properties
-// no fija server.port, así que es el 8080 de siempre).
+// Puerto del backend en local (server.port=${PORT:8080} en
+// application.properties: sin la variable PORT, el 8080 de siempre).
 const BACKEND_PORT = 8080;
 
-// Aún no hay backend desplegado (Railway pendiente, ver memoria del TFG): en
-// desarrollo, la app y el backend corren en la misma máquina (tu PC), pero
-// "misma máquina" significa cosas distintas según cómo se esté probando:
+// Backend desplegado en el servidor de la UVa (2026-10-09): si está puesta
+// EXPO_PUBLIC_API_URL, se usa tal cual y manda sobre todo lo demás. En las
+// builds de EAS la fija eas.json (perfiles preview/production); en desarrollo,
+// un .env.local con EXPO_PUBLIC_API_URL=http://virtual.lab.inf.uva.es:20102
+// para probar contra el servidor, o nada para seguir contra el backend local.
+// Tiene que leerse así, process.env.EXPO_PUBLIC_API_URL literal: Expo solo
+// sustituye el valor en el bundle si se escribe con punto, sin desestructurar.
+const API_URL_CONFIGURADA = process.env.EXPO_PUBLIC_API_URL;
+
+// Sin EXPO_PUBLIC_API_URL, la app y el backend corren en la misma máquina
+// (tu PC), pero "misma máquina" significa cosas distintas según cómo se esté
+// probando:
 // - Expo Web: el navegador SÍ puede usar localhost tal cual (mismo origen).
 // - Android/iOS (emulador o Expo Go en el móvil físico, misma WiFi):
 //   "localhost" en el dispositivo es el propio dispositivo, no tu PC. Se
@@ -20,6 +29,10 @@ const BACKEND_PORT = 8080;
 //   cambiándole el puerto por el del backend -es la misma IP LAN por la que
 //   el dispositivo ya te está viendo, así que siempre es alcanzable.
 function resolverBaseUrl() {
+  if (API_URL_CONFIGURADA) {
+    return API_URL_CONFIGURADA.replace(/\/+$/, '');
+  }
+
   if (Platform.OS === 'web') {
     return `http://localhost:${BACKEND_PORT}`;
   }
@@ -30,9 +43,8 @@ function resolverBaseUrl() {
     return `http://${host}:${BACKEND_PORT}`;
   }
 
-  // Sin hostUri (p.ej. build de producción sin servidor de Metro delante):
-  // hace falta una URL real configurada (Railway) antes de llegar aquí. Por
-  // ahora, mientras no exista ese despliegue, no hay mejor fallback posible.
+  // Sin hostUri (p.ej. build de producción sin servidor de Metro delante) y
+  // sin EXPO_PUBLIC_API_URL: build mal configurada, no hay mejor fallback.
   return `http://localhost:${BACKEND_PORT}`;
 }
 

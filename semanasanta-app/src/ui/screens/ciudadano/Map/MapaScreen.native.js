@@ -136,7 +136,7 @@ export function MapaScreen({ route }) {
             ref={mapaRef}
             style={tamanoMapa}
             provider={PROVIDER_GOOGLE}
-            customMapStyle={maps.estiloMapaOscuro}
+            //customMapStyle={maps.estiloMapaOscuro}
             initialRegion={regionInicial}
             showsUserLocation={permisoUbicacion}
             showsMyLocationButton={false}

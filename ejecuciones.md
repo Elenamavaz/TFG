@@ -25,32 +25,10 @@ Esas dos variables solo viven en esa ventana de PowerShell mientras esté abiert
 
 Avísame cuando lo tengas arriba y seguimos probando lo de crear un Miembro.
 
-Lista de cosas por hacer:
-
-3. **Mapa en vivo:** [MapaScreen.js](semanasanta-app/src/ui/screens/ciudadano/Map/MapaScreen.js) sigue siendo un "Próximamente". Ya tienes `expo-dev-client` y `eas.json`. Faltan:
-   - instalar una librería de mapas;
-   - la API key de Google Maps asociada al SHA-1 de tu build;
-   - leer `/procesiones/{id}/ubicacion` y `/estela`;
-   - dibujar el recorrido en el detalle de procesión (hoy se muestra como una lista de puntos).
-4. **Despliegue en Railway:** no está hecho. [apiClient.js](semanasanta-app/src/infrastructure/api/apiClient.js#L12) solo conoce `localhost` y la IP de tu red local, así que una build instalada fuera de Expo no encontrará el backend. En Railway hay que configurar `JWT_SECRET`, `ADMIN_BOOTSTRAP_SECRET`, `MAIL_USERNAME` y `MAIL_PASSWORD`.
-
-### 🟡 Importante para la entrega
-5. **Pruebas:** en el backend solo existe el test que viene por defecto (`BackendApplicationTests`), y el capítulo [memoria/70_pruebas](memoria/70_pruebas/1_pruebas.tex) está vacío (38 bytes). Merecerían tests como mínimo:
-   - `GeometriaRuta` y la estela;
-   - las comprobaciones de rol y de ciudad;
-   - el login con código;
-   - `GpxParser`.
-7. **Actualizar la memoria del TFG:** el diagrama de dominio y el Apéndice C arrastran muchas diferencias con lo construido. Por ejemplo:
-   - la relación N:M entre `Evento` y `Cofradia`;
-   - `Notificacion` como una sola clase;
-   - el Cofrade sin fila en `usuarios`;
-   - el push por Expo en vez de Firebase Cloud Messaging.
-
-### 🟢 Limpieza / mejoras
-8. Borrar los mocks que ya no usa nadie: `data/mock/{ciudades,cofradias,eventos,pasos,procesiones}.js`. Solo se sigue usando `diasSemanaSanta`.
-9. Comentarios obsoletos:
-   - "sigue en mock" en `DetailPasoScreen` y `DetailCofradiaScreen`;
-   - el TODO de Firestore en `diaService`;
-   - "llegará en la Iteración 2" en el mapa.
-10. Cuando caduca el token (24 h) no se renueva ni se cierra la sesión automáticamente.
-11. En los listados, la ubicación y el recorrido no se cargan; solo se ven en las pantallas de detalle.
+ssh -p 20101 usuario@virtual.lab.inf.uva.es
+Ver si está funcionando	systemctl status semanasanta
+Ver el log en directo	sudo journalctl -u semanasanta -f
+Pararlo	sudo systemctl stop semanasanta
+Arrancarlo	sudo systemctl start semanasanta
+Reiniciarlo (tras cambiar backend.env)	sudo systemctl restart semanasanta
+Actualizar a la última versión de GitHub	cd ~/TFG && git pull && cd backend && ./mvnw package -DskipTests && sudo systemctl restart semanasanta

@@ -63,7 +63,7 @@ export function MapaRecorrido({ puntos, procesionId, enCurso }) {
           ref={mapaRef}
           style={{ ...styles.mapa, width: ancho }}
           provider={PROVIDER_GOOGLE}
-          customMapStyle={estiloMapaOscuro}
+          //customMapStyle={estiloMapaOscuro}
           initialRegion={{
             ...coordenadas[0],
             latitudeDelta: 0.02,
