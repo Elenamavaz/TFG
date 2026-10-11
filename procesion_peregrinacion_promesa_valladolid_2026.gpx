@@ -1,100 +1,280 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gpx version="1.1"
-     creator="ChatGPT"
+     creator="TFG Semana Santa"
      xmlns="http://www.topografix.com/GPX/1/1"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.topografix.com/GPX/1/1
                          http://www.topografix.com/GPX/1/1/gpx.xsd">
   <metadata>
     <name>Procesión de la Peregrinación de la Promesa – Valladolid 2026</name>
-    <desc>Itinerario del Martes Santo, 31 de marzo de 2026, inicio 22:30. Hermandad Penitencial de Nuestro Padre Jesús Atado a la Columna.</desc>
+    <desc>Itinerario del Martes Santo, 31 de marzo de 2026, inicio 22:30. Hermandad Penitencial de Nuestro Padre Jesús Atado a la Columna. Orden de calles según jcssva.org; trazado por las calles calculado sobre OpenStreetMap (© colaboradores de OpenStreetMap, ODbL).</desc>
     <time>2026-03-31T22:30:00+02:00</time>
   </metadata>
 
   <rte>
-    <name>Procesión de la Peregrinación de la Promesa</name>
-    <desc>Recorrido publicado por Valladolid Cofrade. La parada en la Basílica corresponde a la renovación de la Promesa de Silencio.</desc>
-      <rtept lat="41.651237" lon="-4.724672"><name>Inicio – Iglesia de las Esclavas</name></rtept>
-      <rtept lat="41.650990" lon="-4.725040"><name>Plaza del Salvador</name></rtept>
-      <rtept lat="41.651550" lon="-4.725550"><name>Castelar</name></rtept>
-      <rtept lat="41.651758" lon="-4.725281"><name>Regalado – tramo Catedral</name></rtept>
-      <rtept lat="41.652554" lon="-4.723844"><name>Catedral de Valladolid</name></rtept>
-      <rtept lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad</name></rtept>
-      <rtept lat="41.653650" lon="-4.724200"><name>Angustias</name></rtept>
-      <rtept lat="41.653300" lon="-4.725100"><name>Macías Picavea</name></rtept>
-      <rtept lat="41.653823" lon="-4.726436"><name>Platería – ida</name></rtept>
-      <rtept lat="41.653823" lon="-4.726436"><name>Vera Cruz – incorporación del paso</name></rtept>
-      <rtept lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo</name></rtept>
-      <rtept lat="41.652900" lon="-4.726700"><name>Vicente Moliner</name></rtept>
-      <rtept lat="41.652124" lon="-4.726462"><name>Plaza de Fuente Dorada</name></rtept>
-      <rtept lat="41.651600" lon="-4.726100"><name>Cánovas del Castillo</name></rtept>
-      <rtept lat="41.651758" lon="-4.725281"><name>Regalado</name></rtept>
-      <rtept lat="41.650733" lon="-4.722475"><name>Núñez de Arce</name></rtept>
-      <rtept lat="41.649800" lon="-4.721800"><name>López Gómez – Santuario</name></rtept>
-      <rtept lat="41.649500" lon="-4.721600"><name>Basílica Nacional de la Gran Promesa – renovación</name></rtept>
-      <rtept lat="41.650300" lon="-4.721000"><name>Alonso Pesquera</name></rtept>
-      <rtept lat="41.651500" lon="-4.720130"><name>Plaza Colegio de Santa Cruz</name></rtept>
-      <rtept lat="41.652000" lon="-4.720500"><name>Librería</name></rtept>
-      <rtept lat="41.652850" lon="-4.721500"><name>Plaza de la Universidad</name></rtept>
-      <rtept lat="41.652000" lon="-4.722000"><name>López Gómez – regreso</name></rtept>
-      <rtept lat="41.652600" lon="-4.723200"><name>Arribas</name></rtept>
-      <rtept lat="41.652554" lon="-4.723844"><name>Catedral – regreso</name></rtept>
-      <rtept lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad – regreso</name></rtept>
-      <rtept lat="41.653300" lon="-4.725100"><name>Macías Picavea – regreso</name></rtept>
-      <rtept lat="41.653823" lon="-4.726436"><name>Platería – regreso</name></rtept>
-      <rtept lat="41.653823" lon="-4.726436"><name>Vera Cruz – se deja el paso</name></rtept>
-      <rtept lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo – regreso</name></rtept>
-      <rtept lat="41.653250" lon="-4.727400"><name>Lonja</name></rtept>
-      <rtept lat="41.652900" lon="-4.727600"><name>Quiñones</name></rtept>
-      <rtept lat="41.651600" lon="-4.727000"><name>Duque de la Victoria</name></rtept>
-      <rtept lat="41.651300" lon="-4.726900"><name>Regalado – final</name></rtept>
-      <rtept lat="41.651000" lon="-4.725900"><name>Teresa Gil</name></rtept>
-      <rtept lat="41.650700" lon="-4.725500"><name>San Felipe Neri</name></rtept>
-      <rtept lat="41.650990" lon="-4.725040"><name>Plaza del Salvador – final</name></rtept>
-      <rtept lat="41.651237" lon="-4.724672"><name>Fin – Iglesia de las Esclavas</name></rtept>
+    <name>Procesión de la Peregrinación de la Promesa – itinerario</name>
+    <desc>Puntos de paso del itinerario oficial, en orden. La parada en la Basílica corresponde a la renovación de la Promesa de Silencio.</desc>
+    <rtept lat="41.651241" lon="-4.724693"><name>Inicio – Iglesia de las Esclavas</name></rtept>
+    <rtept lat="41.650982" lon="-4.725031"><name>Plaza del Salvador</name></rtept>
+    <rtept lat="41.651420" lon="-4.724985"><name>Castelar</name></rtept>
+    <rtept lat="41.651966" lon="-4.724662"><name>Regalado</name></rtept>
+    <rtept lat="41.652531" lon="-4.724289"><name>Catedral</name></rtept>
+    <rtept lat="41.653084" lon="-4.724524"><name>Plaza de la Libertad</name></rtept>
+    <rtept lat="41.653850" lon="-4.724309"><name>Angustias</name></rtept>
+    <rtept lat="41.653285" lon="-4.725574"><name>Macías Picavea</name></rtept>
+    <rtept lat="41.653544" lon="-4.726551"><name>Platería</name></rtept>
+    <rtept lat="41.653644" lon="-4.726586"><name>Vera Cruz – recogida del paso</name></rtept>
+    <rtept lat="41.653451" lon="-4.726605"><name>Platería</name></rtept>
+    <rtept lat="41.652509" lon="-4.726989"><name>Plaza del Ochavo</name></rtept>
+    <rtept lat="41.652296" lon="-4.726314"><name>Vicente Moliner</name></rtept>
+    <rtept lat="41.652196" lon="-4.726358"><name>Plaza de Fuente Dorada</name></rtept>
+    <rtept lat="41.652102" lon="-4.725385"><name>Cánovas del Castillo</name></rtept>
+    <rtept lat="41.652076" lon="-4.724370"><name>Regalado</name></rtept>
+    <rtept lat="41.651899" lon="-4.723574"><name>Núñez de Arce</name></rtept>
+    <rtept lat="41.651034" lon="-4.723176"><name>López Gómez</name></rtept>
+    <rtept lat="41.649980" lon="-4.723320"><name>Santuario</name></rtept>
+    <rtept lat="41.649600" lon="-4.721700"><name>Basílica de la Gran Promesa – renovación de la Promesa</name></rtept>
+    <rtept lat="41.650331" lon="-4.720811"><name>Alonso Pesquera</name></rtept>
+    <rtept lat="41.651260" lon="-4.720810"><name>Plaza del Colegio de Santa Cruz</name></rtept>
+    <rtept lat="41.652220" lon="-4.721130"><name>Librería</name></rtept>
+    <rtept lat="41.652720" lon="-4.722090"><name>Plaza de la Universidad</name></rtept>
+    <rtept lat="41.652070" lon="-4.722500"><name>López Gómez</name></rtept>
+    <rtept lat="41.652241" lon="-4.723336"><name>Arribas</name></rtept>
+    <rtept lat="41.652531" lon="-4.724289"><name>Catedral</name></rtept>
+    <rtept lat="41.653084" lon="-4.724524"><name>Plaza de la Libertad</name></rtept>
+    <rtept lat="41.653285" lon="-4.725574"><name>Macías Picavea</name></rtept>
+    <rtept lat="41.653544" lon="-4.726551"><name>Platería</name></rtept>
+    <rtept lat="41.653644" lon="-4.726586"><name>Vera Cruz – se deja el paso</name></rtept>
+    <rtept lat="41.652509" lon="-4.726989"><name>Plaza del Ochavo</name></rtept>
+    <rtept lat="41.652156" lon="-4.727324"><name>Quiñones</name></rtept>
+    <rtept lat="41.651450" lon="-4.727000"><name>Duque de la Victoria</name></rtept>
+    <rtept lat="41.651500" lon="-4.726030"><name>Regalado</name></rtept>
+    <rtept lat="41.651214" lon="-4.726104"><name>San Felipe Neri</name></rtept>
+    <rtept lat="41.650982" lon="-4.725031"><name>Plaza del Salvador</name></rtept>
+    <rtept lat="41.651241" lon="-4.724693"><name>Fin – Iglesia de las Esclavas</name></rtept>
   </rte>
 
   <trk>
-    <name>Procesión de la Peregrinación de la Promesa – trazado de referencia</name>
+    <name>Procesión de la Peregrinación de la Promesa – trazado por las calles</name>
     <trkseg>
-        <trkpt lat="41.651237" lon="-4.724672"><name>Inicio – Iglesia de las Esclavas</name></trkpt>
-        <trkpt lat="41.650990" lon="-4.725040"><name>Plaza del Salvador</name></trkpt>
-        <trkpt lat="41.651550" lon="-4.725550"><name>Castelar</name></trkpt>
-        <trkpt lat="41.651758" lon="-4.725281"><name>Regalado – tramo Catedral</name></trkpt>
-        <trkpt lat="41.652554" lon="-4.723844"><name>Catedral de Valladolid</name></trkpt>
-        <trkpt lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad</name></trkpt>
-        <trkpt lat="41.653650" lon="-4.724200"><name>Angustias</name></trkpt>
-        <trkpt lat="41.653300" lon="-4.725100"><name>Macías Picavea</name></trkpt>
-        <trkpt lat="41.653823" lon="-4.726436"><name>Platería – ida</name></trkpt>
-        <trkpt lat="41.653823" lon="-4.726436"><name>Vera Cruz – incorporación del paso</name></trkpt>
-        <trkpt lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo</name></trkpt>
-        <trkpt lat="41.652900" lon="-4.726700"><name>Vicente Moliner</name></trkpt>
-        <trkpt lat="41.652124" lon="-4.726462"><name>Plaza de Fuente Dorada</name></trkpt>
-        <trkpt lat="41.651600" lon="-4.726100"><name>Cánovas del Castillo</name></trkpt>
-        <trkpt lat="41.651758" lon="-4.725281"><name>Regalado</name></trkpt>
-        <trkpt lat="41.650733" lon="-4.722475"><name>Núñez de Arce</name></trkpt>
-        <trkpt lat="41.649800" lon="-4.721800"><name>López Gómez – Santuario</name></trkpt>
-        <trkpt lat="41.649500" lon="-4.721600"><name>Basílica Nacional de la Gran Promesa – renovación</name></trkpt>
-        <trkpt lat="41.650300" lon="-4.721000"><name>Alonso Pesquera</name></trkpt>
-        <trkpt lat="41.651500" lon="-4.720130"><name>Plaza Colegio de Santa Cruz</name></trkpt>
-        <trkpt lat="41.652000" lon="-4.720500"><name>Librería</name></trkpt>
-        <trkpt lat="41.652850" lon="-4.721500"><name>Plaza de la Universidad</name></trkpt>
-        <trkpt lat="41.652000" lon="-4.722000"><name>López Gómez – regreso</name></trkpt>
-        <trkpt lat="41.652600" lon="-4.723200"><name>Arribas</name></trkpt>
-        <trkpt lat="41.652554" lon="-4.723844"><name>Catedral – regreso</name></trkpt>
-        <trkpt lat="41.653110" lon="-4.724530"><name>Plaza de la Libertad – regreso</name></trkpt>
-        <trkpt lat="41.653300" lon="-4.725100"><name>Macías Picavea – regreso</name></trkpt>
-        <trkpt lat="41.653823" lon="-4.726436"><name>Platería – regreso</name></trkpt>
-        <trkpt lat="41.653823" lon="-4.726436"><name>Vera Cruz – se deja el paso</name></trkpt>
-        <trkpt lat="41.653500" lon="-4.727000"><name>Plaza del Ochavo – regreso</name></trkpt>
-        <trkpt lat="41.653250" lon="-4.727400"><name>Lonja</name></trkpt>
-        <trkpt lat="41.652900" lon="-4.727600"><name>Quiñones</name></trkpt>
-        <trkpt lat="41.651600" lon="-4.727000"><name>Duque de la Victoria</name></trkpt>
-        <trkpt lat="41.651300" lon="-4.726900"><name>Regalado – final</name></trkpt>
-        <trkpt lat="41.651000" lon="-4.725900"><name>Teresa Gil</name></trkpt>
-        <trkpt lat="41.650700" lon="-4.725500"><name>San Felipe Neri</name></trkpt>
-        <trkpt lat="41.650990" lon="-4.725040"><name>Plaza del Salvador – final</name></trkpt>
-        <trkpt lat="41.651237" lon="-4.724672"><name>Fin – Iglesia de las Esclavas</name></trkpt>
+      <trkpt lat="41.651179" lon="-4.724829"/>
+      <trkpt lat="41.651116" lon="-4.724777"/>
+      <trkpt lat="41.651093" lon="-4.724758"/>
+      <trkpt lat="41.651047" lon="-4.724721"/>
+      <trkpt lat="41.651025" lon="-4.724769"/>
+      <trkpt lat="41.651025" lon="-4.724844"/>
+      <trkpt lat="41.650932" lon="-4.724845"/>
+      <trkpt lat="41.650932" lon="-4.724979"/>
+      <trkpt lat="41.650939" lon="-4.724980"/>
+      <trkpt lat="41.650938" lon="-4.725013"/>
+      <trkpt lat="41.650939" lon="-4.724980"/>
+      <trkpt lat="41.650932" lon="-4.724979"/>
+      <trkpt lat="41.650932" lon="-4.724845"/>
+      <trkpt lat="41.651025" lon="-4.724844"/>
+      <trkpt lat="41.651025" lon="-4.724769"/>
+      <trkpt lat="41.651047" lon="-4.724721"/>
+      <trkpt lat="41.651093" lon="-4.724758"/>
+      <trkpt lat="41.651116" lon="-4.724777"/>
+      <trkpt lat="41.651234" lon="-4.724873"/>
+      <trkpt lat="41.651263" lon="-4.724925"/>
+      <trkpt lat="41.651275" lon="-4.724913"/>
+      <trkpt lat="41.651420" lon="-4.724985"/>
+      <trkpt lat="41.651602" lon="-4.725094"/>
+      <trkpt lat="41.651788" lon="-4.725180"/>
+      <trkpt lat="41.651919" lon="-4.724783"/>
+      <trkpt lat="41.651966" lon="-4.724662"/>
+      <trkpt lat="41.652076" lon="-4.724370"/>
+      <trkpt lat="41.652133" lon="-4.724333"/>
+      <trkpt lat="41.652338" lon="-4.724306"/>
+      <trkpt lat="41.652446" lon="-4.724289"/>
+      <trkpt lat="41.652531" lon="-4.724289"/>
+      <trkpt lat="41.652628" lon="-4.724341"/>
+      <trkpt lat="41.652877" lon="-4.724470"/>
+      <trkpt lat="41.652953" lon="-4.724503"/>
+      <trkpt lat="41.652961" lon="-4.724377"/>
+      <trkpt lat="41.653091" lon="-4.724513"/>
+      <trkpt lat="41.653104" lon="-4.724527"/>
+      <trkpt lat="41.653136" lon="-4.724589"/>
+      <trkpt lat="41.653192" lon="-4.724700"/>
+      <trkpt lat="41.653216" lon="-4.724742"/>
+      <trkpt lat="41.653307" lon="-4.724695"/>
+      <trkpt lat="41.653368" lon="-4.724653"/>
+      <trkpt lat="41.653401" lon="-4.724629"/>
+      <trkpt lat="41.653414" lon="-4.724620"/>
+      <trkpt lat="41.653565" lon="-4.724513"/>
+      <trkpt lat="41.653575" lon="-4.724506"/>
+      <trkpt lat="41.653633" lon="-4.724463"/>
+      <trkpt lat="41.653850" lon="-4.724309"/>
+      <trkpt lat="41.653633" lon="-4.724463"/>
+      <trkpt lat="41.653575" lon="-4.724506"/>
+      <trkpt lat="41.653565" lon="-4.724513"/>
+      <trkpt lat="41.653414" lon="-4.724620"/>
+      <trkpt lat="41.653401" lon="-4.724629"/>
+      <trkpt lat="41.653368" lon="-4.724653"/>
+      <trkpt lat="41.653307" lon="-4.724695"/>
+      <trkpt lat="41.653313" lon="-4.724786"/>
+      <trkpt lat="41.653311" lon="-4.724831"/>
+      <trkpt lat="41.653290" lon="-4.725080"/>
+      <trkpt lat="41.653278" lon="-4.725253"/>
+      <trkpt lat="41.653285" lon="-4.725574"/>
+      <trkpt lat="41.653430" lon="-4.726233"/>
+      <trkpt lat="41.653457" lon="-4.726546"/>
+      <trkpt lat="41.653461" lon="-4.726598"/>
+      <trkpt lat="41.653544" lon="-4.726551"/>
+      <trkpt lat="41.653589" lon="-4.726611"/>
+      <trkpt lat="41.653630" lon="-4.726633"/>
+      <trkpt lat="41.653589" lon="-4.726611"/>
+      <trkpt lat="41.653544" lon="-4.726551"/>
+      <trkpt lat="41.653461" lon="-4.726598"/>
+      <trkpt lat="41.653451" lon="-4.726605"/>
+      <trkpt lat="41.652642" lon="-4.727087"/>
+      <trkpt lat="41.652616" lon="-4.727103"/>
+      <trkpt lat="41.652555" lon="-4.727141"/>
+      <trkpt lat="41.652509" lon="-4.726989"/>
+      <trkpt lat="41.652296" lon="-4.726314"/>
+      <trkpt lat="41.652207" lon="-4.726016"/>
+      <trkpt lat="41.652181" lon="-4.725932"/>
+      <trkpt lat="41.652156" lon="-4.725968"/>
+      <trkpt lat="41.652131" lon="-4.726006"/>
+      <trkpt lat="41.652232" lon="-4.726339"/>
+      <trkpt lat="41.652131" lon="-4.726006"/>
+      <trkpt lat="41.652156" lon="-4.725968"/>
+      <trkpt lat="41.652181" lon="-4.725932"/>
+      <trkpt lat="41.652151" lon="-4.725842"/>
+      <trkpt lat="41.652123" lon="-4.725646"/>
+      <trkpt lat="41.652102" lon="-4.725385"/>
+      <trkpt lat="41.652068" lon="-4.724886"/>
+      <trkpt lat="41.652049" lon="-4.724790"/>
+      <trkpt lat="41.652006" lon="-4.724715"/>
+      <trkpt lat="41.651966" lon="-4.724662"/>
+      <trkpt lat="41.652076" lon="-4.724370"/>
+      <trkpt lat="41.652092" lon="-4.724272"/>
+      <trkpt lat="41.652047" lon="-4.724149"/>
+      <trkpt lat="41.651899" lon="-4.723574"/>
+      <trkpt lat="41.651794" lon="-4.723212"/>
+      <trkpt lat="41.651716" lon="-4.722992"/>
+      <trkpt lat="41.651588" lon="-4.722806"/>
+      <trkpt lat="41.651166" lon="-4.723088"/>
+      <trkpt lat="41.651145" lon="-4.723102"/>
+      <trkpt lat="41.651126" lon="-4.723115"/>
+      <trkpt lat="41.651034" lon="-4.723176"/>
+      <trkpt lat="41.650897" lon="-4.723269"/>
+      <trkpt lat="41.650272" lon="-4.723685"/>
+      <trkpt lat="41.650256" lon="-4.723695"/>
+      <trkpt lat="41.650237" lon="-4.723709"/>
+      <trkpt lat="41.650143" lon="-4.723771"/>
+      <trkpt lat="41.650113" lon="-4.723691"/>
+      <trkpt lat="41.650102" lon="-4.723662"/>
+      <trkpt lat="41.650083" lon="-4.723614"/>
+      <trkpt lat="41.649980" lon="-4.723316"/>
+      <trkpt lat="41.649751" lon="-4.722656"/>
+      <trkpt lat="41.649713" lon="-4.722524"/>
+      <trkpt lat="41.649607" lon="-4.721698"/>
+      <trkpt lat="41.649498" lon="-4.720854"/>
+      <trkpt lat="41.649494" lon="-4.720822"/>
+      <trkpt lat="41.649483" lon="-4.720736"/>
+      <trkpt lat="41.649719" lon="-4.720759"/>
+      <trkpt lat="41.649935" lon="-4.720777"/>
+      <trkpt lat="41.650331" lon="-4.720812"/>
+      <trkpt lat="41.650347" lon="-4.720813"/>
+      <trkpt lat="41.650367" lon="-4.720815"/>
+      <trkpt lat="41.650420" lon="-4.720819"/>
+      <trkpt lat="41.650645" lon="-4.720806"/>
+      <trkpt lat="41.650665" lon="-4.720805"/>
+      <trkpt lat="41.650727" lon="-4.720801"/>
+      <trkpt lat="41.650759" lon="-4.720799"/>
+      <trkpt lat="41.650827" lon="-4.720799"/>
+      <trkpt lat="41.650940" lon="-4.720801"/>
+      <trkpt lat="41.651260" lon="-4.720806"/>
+      <trkpt lat="41.651361" lon="-4.720807"/>
+      <trkpt lat="41.651753" lon="-4.720915"/>
+      <trkpt lat="41.652219" lon="-4.721134"/>
+      <trkpt lat="41.652679" lon="-4.721351"/>
+      <trkpt lat="41.652674" lon="-4.721391"/>
+      <trkpt lat="41.652692" lon="-4.721406"/>
+      <trkpt lat="41.652758" lon="-4.721461"/>
+      <trkpt lat="41.652823" lon="-4.721619"/>
+      <trkpt lat="41.652873" lon="-4.721783"/>
+      <trkpt lat="41.652707" lon="-4.722011"/>
+      <trkpt lat="41.652720" lon="-4.722029"/>
+      <trkpt lat="41.652744" lon="-4.722064"/>
+      <trkpt lat="41.652721" lon="-4.722092"/>
+      <trkpt lat="41.652608" lon="-4.722230"/>
+      <trkpt lat="41.652597" lon="-4.722238"/>
+      <trkpt lat="41.652540" lon="-4.722277"/>
+      <trkpt lat="41.652447" lon="-4.722324"/>
+      <trkpt lat="41.652073" lon="-4.722504"/>
+      <trkpt lat="41.652148" lon="-4.722752"/>
+      <trkpt lat="41.652165" lon="-4.722844"/>
+      <trkpt lat="41.652172" lon="-4.722941"/>
+      <trkpt lat="41.652221" lon="-4.723171"/>
+      <trkpt lat="41.652231" lon="-4.723260"/>
+      <trkpt lat="41.652241" lon="-4.723336"/>
+      <trkpt lat="41.652327" lon="-4.723651"/>
+      <trkpt lat="41.652478" lon="-4.724165"/>
+      <trkpt lat="41.652483" lon="-4.724184"/>
+      <trkpt lat="41.652531" lon="-4.724289"/>
+      <trkpt lat="41.652628" lon="-4.724341"/>
+      <trkpt lat="41.652877" lon="-4.724470"/>
+      <trkpt lat="41.652953" lon="-4.724503"/>
+      <trkpt lat="41.652961" lon="-4.724377"/>
+      <trkpt lat="41.653091" lon="-4.724513"/>
+      <trkpt lat="41.653104" lon="-4.724527"/>
+      <trkpt lat="41.653136" lon="-4.724589"/>
+      <trkpt lat="41.653192" lon="-4.724700"/>
+      <trkpt lat="41.653216" lon="-4.724742"/>
+      <trkpt lat="41.653307" lon="-4.724695"/>
+      <trkpt lat="41.653313" lon="-4.724786"/>
+      <trkpt lat="41.653311" lon="-4.724831"/>
+      <trkpt lat="41.653290" lon="-4.725080"/>
+      <trkpt lat="41.653278" lon="-4.725253"/>
+      <trkpt lat="41.653285" lon="-4.725574"/>
+      <trkpt lat="41.653430" lon="-4.726233"/>
+      <trkpt lat="41.653457" lon="-4.726546"/>
+      <trkpt lat="41.653461" lon="-4.726598"/>
+      <trkpt lat="41.653544" lon="-4.726551"/>
+      <trkpt lat="41.653589" lon="-4.726611"/>
+      <trkpt lat="41.653630" lon="-4.726633"/>
+      <trkpt lat="41.653589" lon="-4.726611"/>
+      <trkpt lat="41.653544" lon="-4.726551"/>
+      <trkpt lat="41.653461" lon="-4.726598"/>
+      <trkpt lat="41.653451" lon="-4.726605"/>
+      <trkpt lat="41.652642" lon="-4.727087"/>
+      <trkpt lat="41.652616" lon="-4.727103"/>
+      <trkpt lat="41.652555" lon="-4.727141"/>
+      <trkpt lat="41.652509" lon="-4.726989"/>
+      <trkpt lat="41.652555" lon="-4.727141"/>
+      <trkpt lat="41.652437" lon="-4.727209"/>
+      <trkpt lat="41.652415" lon="-4.727221"/>
+      <trkpt lat="41.652214" lon="-4.727333"/>
+      <trkpt lat="41.652200" lon="-4.727337"/>
+      <trkpt lat="41.652187" lon="-4.727334"/>
+      <trkpt lat="41.652156" lon="-4.727325"/>
+      <trkpt lat="41.652002" lon="-4.727226"/>
+      <trkpt lat="41.651975" lon="-4.727210"/>
+      <trkpt lat="41.651899" lon="-4.727168"/>
+      <trkpt lat="41.651838" lon="-4.727137"/>
+      <trkpt lat="41.651818" lon="-4.727129"/>
+      <trkpt lat="41.651453" lon="-4.726986"/>
+      <trkpt lat="41.651224" lon="-4.726896"/>
+      <trkpt lat="41.651441" lon="-4.726213"/>
+      <trkpt lat="41.651502" lon="-4.726031"/>
+      <trkpt lat="41.651441" lon="-4.726213"/>
+      <trkpt lat="41.651214" lon="-4.726104"/>
+      <trkpt lat="41.650894" lon="-4.725307"/>
+      <trkpt lat="41.650885" lon="-4.725286"/>
+      <trkpt lat="41.650827" lon="-4.725168"/>
+      <trkpt lat="41.650735" lon="-4.725030"/>
+      <trkpt lat="41.650938" lon="-4.725013"/>
+      <trkpt lat="41.650939" lon="-4.724980"/>
+      <trkpt lat="41.650932" lon="-4.724979"/>
+      <trkpt lat="41.650932" lon="-4.724845"/>
+      <trkpt lat="41.651025" lon="-4.724844"/>
+      <trkpt lat="41.651025" lon="-4.724769"/>
+      <trkpt lat="41.651047" lon="-4.724721"/>
+      <trkpt lat="41.651093" lon="-4.724758"/>
+      <trkpt lat="41.651116" lon="-4.724777"/>
+      <trkpt lat="41.651179" lon="-4.724829"/>
     </trkseg>
   </trk>
 </gpx>

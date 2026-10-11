@@ -35,9 +35,13 @@ export function CuentaDesactivadaScreen({ navigation }) {
     }
   }
 
+  // navigation.reset directo, no getParent()?.reset como en los perfiles
+  // (2026-10-11): esta pantalla cuelga del propio RootNavigator, no de un
+  // stack anidado -no tiene padre, getParent() daba undefined y "Cerrar
+  // sesión" borraba la sesión pero se quedaba aquí sin navegar.
   function salir() {
     cerrarSesion();
-    navigation.getParent()?.reset({ index: 0, routes: [{ name: 'Welcome' }] });
+    navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] });
   }
 
   return (

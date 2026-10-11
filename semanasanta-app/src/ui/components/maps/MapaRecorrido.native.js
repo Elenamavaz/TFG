@@ -76,7 +76,7 @@ export function MapaRecorrido({ puntos, procesionId, enCurso }) {
         >
           <Polyline
             coordinates={coordenadas}
-            strokeColor={colors.cream}
+            strokeColor={colors.recorrido}
             strokeWidth={4}
             lineCap="round"
             lineJoin="round"

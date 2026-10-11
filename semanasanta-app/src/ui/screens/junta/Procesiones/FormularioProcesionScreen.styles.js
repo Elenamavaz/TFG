@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
   },
   estadoChipTexto: {
     fontFamily: fontFamilies.uiSemiBold,
-    fontSize: 13,
+    fontSize: 12,
   },
   ayudaEstado: {
     color: colors.subtitle,

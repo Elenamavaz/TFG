@@ -7,6 +7,7 @@ export const colors = {
 
   backgroundRed: '#4B0D0D',
   borderRed: '#8A1B1B',
+  recorrido: '#7e2222',
   redText: '#E35757',
 
   backgroundOrange: '#4B2E0D',
