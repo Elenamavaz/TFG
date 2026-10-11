@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<rect width="1024" height="1024" fill="#120A06"/>
+  <clipPath id="c"><rect width="1024" height="1024"/></clipPath>
+    <g id="calles" clip-path="url(#c)" fill="none" stroke="#2E1D10" stroke-linecap="round">
+      <g stroke-width="34">
+        <path d="M-20 300 L1044 220"/>
+        <path d="M-20 640 C300 610 600 700 1044 650"/>
+        <path d="M260 -20 L340 1044"/>
+        <path d="M720 -20 C690 300 770 600 730 1044"/>
+        <path d="M-20 900 L500 790 L1044 920"/>
+      </g>
+      <g stroke-width="18">
+        <path d="M500 -20 L470 620"/>
+        <path d="M0 460 L300 440"/>
+        <path d="M740 440 L1044 480"/>
+        <path d="M500 790 L540 1044"/>
+        <path d="M60 -20 L120 300"/>
+        <path d="M880 230 L960 650"/>
+      </g>
+    </g>
+</svg>

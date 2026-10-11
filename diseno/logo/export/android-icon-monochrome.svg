@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<g transform="translate(512 512) scale(.78) translate(-512 -512)" fill="#FFFFFF">
+  <ellipse cx="512" cy="800" rx="90" ry="22" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+  <path fill-rule="evenodd" d="M512 800 C512 800 312 590 312 400 A200 200 0 1 1 712 400 C712 590 512 800 512 800 Z M367 400 A145 145 0 1 0 657 400 A145 145 0 1 0 367 400 Z"/>
+  <path fill-rule="evenodd" d="M512 272 C520 345 540 415 556 457 L574 507 Q512 524 450 507 L468 457 C484 415 504 345 512 272 Z M485 417 a11 7 0 1 0 22 0 a11 7 0 1 0 -22 0 Z M517 417 a11 7 0 1 0 22 0 a11 7 0 1 0 -22 0 Z"/>
+</g></svg>

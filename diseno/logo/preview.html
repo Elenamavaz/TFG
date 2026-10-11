@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Bocetos de logo</title>
+<style>
+ body{margin:0;padding:24px;background:#2a1d14;color:#F0E0C8;font-family:system-ui,sans-serif}
+ h1{font-weight:600;font-size:20px}
+ .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+ .card{background:#1E1008;border:1px solid #472F17;border-radius:14px;padding:16px}
+ .card h2{font-size:15px;margin:0 0 12px;color:#C9A84C}
+ .row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px}
+ .round{flex:none;border-radius:50%;overflow:hidden;width:96px;height:96px}
+ .round img{width:100%;height:100%;transform:scale(1.15)}
+ small{color:#9A7D60;display:block;margin-top:10px}
+</style></head><body>
+<h1>Bocetos de logo: tamaño grande, icono de móvil, icono pequeño y recorte circular de Android</h1>
+<div class="grid" id="g"></div>
+<script>
+const items=[["14-calles-pin-nazareno.svg","14 · Calles + pin con nazareno"],["15-calles-nazareno-anillo.svg","15 · Calles + nazareno sobre anillo"],["16-pin-nazareno.svg","16 · Pin con nazareno (sin mapa)"],["17-nazareno-anillo.svg","17 · Nazareno sobre anillo (sin mapa)"],["11-mapa-nazareno-anillo.svg","11 · Mapa + nazareno sobre anillo"],["12-mapa-pin-nazareno.svg","12 · Mapa + pin con nazareno"],["13-mapa-nazareno-cirio.svg","13 · Mapa + nazareno con cirio"],["1-capirote.svg","1 · Capirote"],["3-cruz-guia-pin.svg","3 · Cruz de guía"],["7-capirote-cruz-anillo.svg","7 · Capirote + cruz + anillo"],["8-capirote-pin.svg","8 · Capirote-pin"],["9-nazareno-cruz-guia.svg","9 · Nazareno con cruz de guía"],["10-cruz-delante-capirote.svg","10 · Cruz delante del capirote"],["2-pin-cirio.svg","2 · Pin con cirio"]];
+document.getElementById('g').innerHTML=items.map(([f,n])=>`<div class="card"><h2>${n}</h2><div class="row">
+<img src="${f}" width="160"><img src="${f}" width="72"><img src="${f}" width="40"><div class="round"><img src="${f}"></div></div><small>${f}</small></div>`).join('');
+</script></body></html>
