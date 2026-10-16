@@ -32,3 +32,7 @@ Pararlo	sudo systemctl stop semanasanta
 Arrancarlo	sudo systemctl start semanasanta
 Reiniciarlo (tras cambiar backend.env)	sudo systemctl restart semanasanta
 Actualizar a la última versión de GitHub	cd ~/TFG && git pull && cd backend && ./mvnw package -DskipTests && sudo systemctl restart semanasanta
+
+
+actualizar git 
+cd ~/TFG && git pull && cd backend && ./mvnw package -DskipTests && sudo systemctl restart semanasanta

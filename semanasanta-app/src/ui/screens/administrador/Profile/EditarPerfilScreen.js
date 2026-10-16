@@ -52,10 +52,21 @@ export function EditarPerfilScreen({ navigation }) {
     });
   }, [sesion.usuarioId]);
 
+  // Campos obligatorios: se marcan con su mensaje al pulsar el botón en vez
+  // de dejarlo deshabilitado sin explicar por qué.
+  function validar() {
+    const errores = {};
+    if (!nombre.trim()) errores.nombre = 'El nombre es obligatorio';
+    if (!passwordActual) errores.passwordActual = 'Introduce tu contraseña actual para guardar los cambios';
+    return errores;
+  }
+
   async function guardar() {
     if (guardando) return;
+    const errores = validar();
     setError(null);
-    setErroresCampos({});
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     setGuardando(true);
     try {
       await services.actualizarPerfilPropio({ nombre: nombre.trim(), telefono: telefono.trim(), passwordActual, passwordNueva });
@@ -146,7 +157,7 @@ export function EditarPerfilScreen({ navigation }) {
           style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || !nombre || !passwordActual}
+          disabled={guardando}
         >
           {guardando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>Guardar</Text>}
         </TouchableOpacity>

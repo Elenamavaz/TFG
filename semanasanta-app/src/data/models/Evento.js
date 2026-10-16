@@ -19,6 +19,12 @@ import * as fechaSemanaSanta from '../utils/fechaSemanaSanta';
 //   las procesiones -la relación se subió a Evento en el backend. Mismo
 //   nombre de campo que Procesion.js (pasoIds, no pasosIds) por consistencia
 //   entre los dos modelos -no es un typo, ya estaba así en Procesion.js.
+// - fechaHora/fechaFin/web (2026-10-16): el PUT /eventos/{id} sustituye el
+//   evento entero, así que SeleccionarPasosEventoScreen necesita reenviar
+//   los valores tal cual vienen del backend. `fecha` aquí es solo el día
+//   ("2026-04-02") y el backend exige fecha y hora: sin fechaHora el PUT
+//   fallaba y los pasos no se guardaban; sin fechaFin/web se borraban la
+//   duración y la web del evento al guardarlo.
 export class Evento extends Favoriteable {
   constructor({
     id,
@@ -31,6 +37,7 @@ export class Evento extends Favoriteable {
     fechaFin = null,
     estado,
     ubicacionId = null,
+    web = null,
   }) {
     super();
     const partida = fechaSemanaSanta.partirFechaHora(fecha);
@@ -43,9 +50,12 @@ export class Evento extends Favoriteable {
     this.fecha = partida.fecha;
     this.dia = partida.dia;
     this.hora = partida.hora;
+    this.fechaHora = fecha; // LocalDateTime ISO tal cual del backend
+    this.fechaFin = fechaFin;
     this.duracionMin = fechaSemanaSanta.minutosEntre(fecha, fechaFin);
     this.estado = estado;
     this.ubicacionId = ubicacionId; // seCelebraEn: 0..1 Ubicacion
+    this.web = web;
   }
 
   getFavoritoRef() {

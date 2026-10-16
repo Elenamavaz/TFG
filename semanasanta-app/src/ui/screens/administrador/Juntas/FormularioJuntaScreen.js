@@ -34,10 +34,14 @@ export function FormularioJuntaScreen({ route, navigation }) {
   // vez de como aviso genérico, ver también FormularioCiudadScreen/EditarPerfilScreen.
   const [erroresCampos, setErroresCampos] = useState({});
 
+  function limpiarError(campo) {
+    if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+  }
+
   function cambiarCampo(setter, campo) {
     return (texto) => {
       setter(texto);
-      if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+      limpiarError(campo);
     };
   }
 
@@ -75,10 +79,21 @@ export function FormularioJuntaScreen({ route, navigation }) {
     });
   }, [juntaId, editando, ciudadIdPreseleccionada]);
 
+  // Campos obligatorios: se marcan con su mensaje al pulsar el botón en vez
+  // de dejarlo deshabilitado sin explicar por qué.
+  function validar() {
+    const errores = {};
+    if (!nombre.trim()) errores.nombre = 'El nombre de la Junta es obligatorio';
+    if (!ciudadSeleccionada) errores.ciudad = 'Selecciona la ciudad asignada';
+    return errores;
+  }
+
   async function guardar() {
-    if (guardando || !ciudadSeleccionada) return;
+    if (guardando) return;
+    const errores = validar();
     setError(null);
-    setErroresCampos({});
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     setGuardando(true);
     try {
       const datos = {
@@ -156,6 +171,7 @@ export function FormularioJuntaScreen({ route, navigation }) {
             </Text>
             <Ionicons name="chevron-down" size={16} color={colors.subtitle} />
           </TouchableOpacity>
+          {erroresCampos.ciudad ? <Text style={styles.errorCampo}>{erroresCampos.ciudad}</Text> : null}
           <Text style={styles.ayuda}>Solo aparecen ciudades sin Junta asignada todavía.</Text>
         </View>
 
@@ -208,10 +224,10 @@ export function FormularioJuntaScreen({ route, navigation }) {
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
         <TouchableOpacity
-          style={[styles.boton, (guardando || !ciudadSeleccionada) && styles.botonDeshabilitado]}
+          style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || !nombre.trim() || !ciudadSeleccionada}
+          disabled={guardando}
         >
           {guardando ? (
             <ActivityIndicator color={colors.background} />
@@ -243,6 +259,7 @@ export function FormularioJuntaScreen({ route, navigation }) {
                   style={styles.modalItem}
                   onPress={() => {
                     setCiudadSeleccionada(ciudad);
+                    limpiarError('ciudad');
                     setModalCiudadVisible(false);
                   }}
                 >

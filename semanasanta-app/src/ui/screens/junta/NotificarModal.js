@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Modal, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { services } from '../../../data';
 import { models } from '../../../data';
@@ -46,6 +46,7 @@ export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar,
   const [prioridad, setPrioridad] = useState(null);
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState(null);
+  const [erroresCampos, setErroresCampos] = useState({});
 
   // Cada apertura empieza limpia, aunque se abra para el mismo elemento.
   useEffect(() => {
@@ -55,6 +56,7 @@ export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar,
     setMensaje('');
     setPrioridad(null);
     setError(null);
+    setErroresCampos({});
   }, [elemento, tipoInicial]);
 
   function cerrar() {
@@ -62,8 +64,25 @@ export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar,
     onCerrar();
   }
 
+  // Tocar fuera del modal con el teclado abierto solo lo baja: si no, se
+  // cerraba el modal entero y se perdía lo ya escrito en "Motivos".
+  function tocarFuera() {
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+      return;
+    }
+    cerrar();
+  }
+
   async function enviar() {
-    if (!tipo || !prioridad || enviando) return;
+    if (enviando) return;
+    // Tipo y prioridad son obligatorios: se avisa en cada campo en vez de
+    // dejar "Enviar" deshabilitado sin explicar por qué.
+    const errores = {};
+    if (!tipo) errores.tipo = 'Selecciona el tipo de aviso';
+    if (!prioridad) errores.prioridad = 'Selecciona la prioridad';
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     const mensajeLimpio = mensaje.trim();
     setEnviando(true);
     setError(null);
@@ -93,87 +112,105 @@ export function NotificarModal({ elemento, ciudadId, etiquetaCancelar, cancelar,
 
   return (
     <Modal transparent visible={elemento !== null} animationType="fade" onRequestClose={cerrar}>
-      <Pressable style={styles.overlay} onPress={cerrar}>
-        <Pressable style={styles.modal} onPress={() => {}}>
-          <Text style={styles.titulo}>Notificar</Text>
-          <Text style={styles.subtitulo}>
-            {elemento
-              ? `Este aviso será visible para los ciudadanos e informará de los cambios en "${elemento.nombre}".`
-              : ''}
-          </Text>
+      {/* El teclado tapaba "Enviar notificaciones" y no había forma de
+          bajarlo: KeyboardAvoidingView sube el modal por encima del teclado,
+          el ScrollView deja llegar al botón si aun así no cabe, y tocar en
+          cualquier parte del modal fuera del campo de texto baja el teclado. */}
+      <KeyboardAvoidingView style={styles.teclado} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Pressable style={styles.overlay} onPress={tocarFuera}>
+          <Pressable style={styles.modal} onPress={Keyboard.dismiss}>
+            <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+              <Text style={styles.titulo}>Notificar</Text>
+              <Text style={styles.subtitulo}>
+                {elemento
+                  ? `Este aviso será visible para los ciudadanos e informará de los cambios en "${elemento.nombre}".`
+                  : ''}
+              </Text>
 
-          <Text style={styles.etiqueta}>Tipo</Text>
-          <TouchableOpacity
-            style={styles.selector}
-            onPress={() => setDesplegableTipoAbierto((abierto) => !abierto)}
-            activeOpacity={0.8}
-          >
-            <Text style={opcionTipo ? styles.selectorTexto : styles.selectorPlaceholder}>
-              {opcionTipo ? opcionTipo.etiqueta : 'Seleccionar tipo'}
-            </Text>
-            <Ionicons name={desplegableTipoAbierto ? 'chevron-up' : 'chevron-down'} size={16} color={colors.subtitle} />
-          </TouchableOpacity>
-          {desplegableTipoAbierto ? (
-            <View style={styles.desplegable}>
-              {OPCIONES_TIPO.map((opcion) => (
-                <TouchableOpacity
-                  key={opcion.valor}
-                  style={styles.desplegableItem}
-                  onPress={() => {
-                    setTipo(opcion.valor);
-                    setDesplegableTipoAbierto(false);
-                  }}
-                >
-                  <Text style={[styles.desplegableTexto, tipo === opcion.valor && { color: colors.gold }]}>
-                    {opcion.etiqueta}
-                  </Text>
+              <Text style={styles.etiqueta}>Tipo</Text>
+              <TouchableOpacity
+                style={styles.selector}
+                onPress={() => setDesplegableTipoAbierto((abierto) => !abierto)}
+                activeOpacity={0.8}
+              >
+                <Text style={opcionTipo ? styles.selectorTexto : styles.selectorPlaceholder}>
+                  {opcionTipo ? opcionTipo.etiqueta : 'Seleccionar tipo'}
+                </Text>
+                <Ionicons name={desplegableTipoAbierto ? 'chevron-up' : 'chevron-down'} size={16} color={colors.subtitle} />
+              </TouchableOpacity>
+              {desplegableTipoAbierto ? (
+                <View style={styles.desplegable}>
+                  {OPCIONES_TIPO.map((opcion) => (
+                    <TouchableOpacity
+                      key={opcion.valor}
+                      style={styles.desplegableItem}
+                      onPress={() => {
+                        setTipo(opcion.valor);
+                        setErroresCampos((actual) => ({ ...actual, tipo: null }));
+                        setDesplegableTipoAbierto(false);
+                      }}
+                    >
+                      <Text style={[styles.desplegableTexto, tipo === opcion.valor && { color: colors.gold }]}>
+                        {opcion.etiqueta}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ) : null}
+              {erroresCampos.tipo ? <Text style={styles.errorCampo}>{erroresCampos.tipo}</Text> : null}
+
+              <Text style={styles.etiqueta}>Motivos</Text>
+              <TextInput
+                style={[styles.input, styles.inputMultilinea]}
+                value={mensaje}
+                onChangeText={setMensaje}
+                placeholder="Ej. cancelación de la procesión por lluvias"
+                placeholderTextColor={colors.subtitle}
+                multiline
+                // Multilínea, el Intro añadía saltos de línea y no había forma
+                // de cerrar el teclado: ahora lo cierra (el motivo es una frase).
+                returnKeyType="done"
+                submitBehavior="blurAndSubmit"
+              />
+
+              <Text style={styles.etiqueta}>Prioridad</Text>
+              <View style={styles.prioridadRow}>
+                {OPCIONES_PRIORIDAD.map((opcion) => {
+                  const seleccionada = prioridad === opcion.valor;
+                  return (
+                    <TouchableOpacity
+                      key={opcion.valor}
+                      style={[styles.prioridadChip, { backgroundColor: opcion.background }, seleccionada && { borderColor: opcion.texto }]}
+                      onPress={() => {
+                        setPrioridad(opcion.valor);
+                        setErroresCampos((actual) => ({ ...actual, prioridad: null }));
+                      }}
+                    >
+                      <Text style={[styles.prioridadChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              {erroresCampos.prioridad ? <Text style={styles.errorCampo}>{erroresCampos.prioridad}</Text> : null}
+
+              {error ? <Text style={styles.error}>{error}</Text> : null}
+
+              <View style={styles.acciones}>
+                <TouchableOpacity style={styles.cancelarButton} onPress={cerrar} disabled={enviando}>
+                  <Text style={styles.cancelarTexto}>Cancelar</Text>
                 </TouchableOpacity>
-              ))}
-            </View>
-          ) : null}
-
-          <Text style={styles.etiqueta}>Motivos</Text>
-          <TextInput
-            style={[styles.input, styles.inputMultilinea]}
-            value={mensaje}
-            onChangeText={setMensaje}
-            placeholder="Ej. cancelación de la procesión por lluvias"
-            placeholderTextColor={colors.subtitle}
-            multiline
-          />
-
-          <Text style={styles.etiqueta}>Prioridad</Text>
-          <View style={styles.prioridadRow}>
-            {OPCIONES_PRIORIDAD.map((opcion) => {
-              const seleccionada = prioridad === opcion.valor;
-              return (
                 <TouchableOpacity
-                  key={opcion.valor}
-                  style={[styles.prioridadChip, { backgroundColor: opcion.background }, seleccionada && { borderColor: opcion.texto }]}
-                  onPress={() => setPrioridad(opcion.valor)}
+                  style={[styles.enviarButton, enviando && styles.botonDeshabilitado]}
+                  onPress={enviar}
+                  disabled={enviando}
                 >
-                  <Text style={[styles.prioridadChipTexto, { color: opcion.texto }]}>{opcion.etiqueta}</Text>
+                  <Text style={styles.enviarTexto}>Enviar notificaciones</Text>
                 </TouchableOpacity>
-              );
-            })}
-          </View>
-
-          {error ? <Text style={styles.error}>{error}</Text> : null}
-
-          <View style={styles.acciones}>
-            <TouchableOpacity style={styles.cancelarButton} onPress={cerrar} disabled={enviando}>
-              <Text style={styles.cancelarTexto}>Cancelar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.enviarButton, (!tipo || !prioridad || enviando) && styles.botonDeshabilitado]}
-              onPress={enviar}
-              disabled={!tipo || !prioridad || enviando}
-            >
-              <Text style={styles.enviarTexto}>Enviar notificaciones</Text>
-            </TouchableOpacity>
-          </View>
+              </View>
+            </ScrollView>
+          </Pressable>
         </Pressable>
-      </Pressable>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

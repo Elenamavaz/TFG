@@ -39,10 +39,14 @@ export function FormularioMiembroScreen({ route, navigation }) {
   const [error, setError] = useState(null);
   const [erroresCampos, setErroresCampos] = useState({});
 
+  function limpiarError(campo) {
+    if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+  }
+
   function cambiarCampo(setter, campo) {
     return (texto) => {
       setter(texto);
-      if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+      limpiarError(campo);
     };
   }
 
@@ -84,10 +88,22 @@ export function FormularioMiembroScreen({ route, navigation }) {
     };
   }
 
+  // Campos obligatorios: se marcan con su mensaje al pulsar el botón en vez
+  // de dejarlo deshabilitado sin explicar por qué.
+  function validar() {
+    const errores = {};
+    if (!nombre.trim()) errores.nombre = 'El nombre es obligatorio';
+    if (!email.trim()) errores.email = 'El correo electrónico es obligatorio';
+    if (!juntaSeleccionada) errores.junta = 'Selecciona la Junta de Cofradías';
+    return errores;
+  }
+
   async function guardar() {
-    if (guardando || !juntaSeleccionada) return;
+    if (guardando) return;
+    const errores = validar();
     setError(null);
-    setErroresCampos({});
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     setGuardando(true);
     try {
       if (editando) {
@@ -151,6 +167,7 @@ export function FormularioMiembroScreen({ route, navigation }) {
             </Text>
             {editando ? null : <Ionicons name="chevron-down" size={16} color={colors.subtitle} />}
           </TouchableOpacity>
+          {erroresCampos.junta ? <Text style={styles.errorCampo}>{erroresCampos.junta}</Text> : null}
         </View>
 
         <View style={styles.campo}>
@@ -188,10 +205,10 @@ export function FormularioMiembroScreen({ route, navigation }) {
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
         <TouchableOpacity
-          style={[styles.boton, (guardando || !juntaSeleccionada) && styles.botonDeshabilitado]}
+          style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || !nombre.trim() || !email.trim() || !juntaSeleccionada}
+          disabled={guardando}
         >
           {guardando ? (
             <ActivityIndicator color={colors.background} />
@@ -223,6 +240,7 @@ export function FormularioMiembroScreen({ route, navigation }) {
                   style={styles.modalItem}
                   onPress={() => {
                     setJuntaSeleccionada(junta);
+                    limpiarError('junta');
                     setModalJuntaVisible(false);
                   }}
                 >

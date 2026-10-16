@@ -68,10 +68,14 @@ export function FormularioProcesionScreen({ route, navigation }) {
   const [error, setError] = useState(null);
   const [erroresCampos, setErroresCampos] = useState({});
 
+  function limpiarError(campo) {
+    if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+  }
+
   function cambiarCampo(setter, campo) {
     return (texto) => {
       setter(texto);
-      if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+      limpiarError(campo);
     };
   }
 
@@ -119,6 +123,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
 
   function seleccionarCofradia(cofradia) {
     setCofradiaSeleccionada(cofradia);
+    limpiarError('cofradia');
     setModalCofradiaVisible(false);
     services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
   }
@@ -145,7 +150,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
   }
 
   function datosFormulario() {
-    const fechaInicio = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaSalida);
+    const fechaInicio = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaSalida.trim());
     const duracionMin = fechaSemanaSanta.parsearDuracionCorta(duracionTexto);
     return {
       nombre: nombre.trim(),
@@ -163,10 +168,23 @@ export function FormularioProcesionScreen({ route, navigation }) {
     };
   }
 
+  // Campos obligatorios: el botón ya no se deshabilita en silencio cuando
+  // falta alguno, se marca cada uno con su mensaje al pulsar "Crear".
+  function validar() {
+    const errores = {};
+    if (!nombre.trim()) errores.nombre = 'El nombre de la procesión es obligatorio';
+    if (!cofradiaSeleccionada) errores.cofradia = 'Selecciona la cofradía';
+    if (!diaSeleccionado) errores.dia = 'Selecciona el día';
+    if (!fechaSemanaSanta.esHoraValida(horaSalida)) errores.horaSalida = 'Indica la hora de salida (00:00)';
+    return errores;
+  }
+
   async function guardar() {
     if (guardando) return;
+    const errores = validar();
     setError(null);
-    setErroresCampos({});
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     setGuardando(true);
     try {
       if (editando) {
@@ -242,6 +260,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
             </Text>
             <Ionicons name="chevron-down" size={16} color={colors.subtitle} />
           </TouchableOpacity>
+          {erroresCampos.cofradia ? <Text style={styles.errorCampo}>{erroresCampos.cofradia}</Text> : null}
         </View>
 
         {editando ? (
@@ -294,7 +313,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
             </View>
             <TextInput
               value={horaSalida}
-              onChangeText={setHoraSalida}
+              onChangeText={cambiarCampo(setHoraSalida, 'horaSalida')}
               placeholder="00:00"
               placeholderTextColor={colors.subtitle}
               style={styles.inputCompacto}
@@ -315,6 +334,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
             />
           </View>
         </View>
+        {erroresCampos.dia ? <Text style={styles.errorCampoFila}>{erroresCampos.dia}</Text> : null}
+        {erroresCampos.horaSalida ? <Text style={styles.errorCampoFila}>{erroresCampos.horaSalida}</Text> : null}
 
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Web Oficial</Text>
@@ -419,7 +440,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
             >
               <View>
                 <Text style={styles.pasosTitulo}>Lista de pasos</Text>
-                <Text style={styles.pasosMeta}>{numPasos} pasos (se asignan al guardar)</Text>
+                <Text style={styles.pasosMeta}>{numPasos} pasos (los eliges tras crear la procesión)</Text>
               </View>
               <View style={styles.pasosVerLista}>
                 <Text style={styles.pasosVerListaTexto}>Ver Lista</Text>
@@ -435,7 +456,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
           style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || eliminando || !nombre.trim() || !cofradiaSeleccionada}
+          disabled={guardando || eliminando}
         >
           {guardando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>{editando ? 'Guardar' : 'Crear'}</Text>}
         </TouchableOpacity>
@@ -486,6 +507,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
                 style={styles.modalItem}
                 onPress={() => {
                   setDiaSeleccionado(dia);
+                  limpiarError('dia');
                   setModalDiaVisible(false);
                 }}
               >

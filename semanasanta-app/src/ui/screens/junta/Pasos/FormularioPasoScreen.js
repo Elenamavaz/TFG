@@ -34,9 +34,13 @@ export function FormularioPasoScreen({ route, navigation }) {
   const [error, setError] = useState(null);
   const [erroresCampos, setErroresCampos] = useState({});
 
+  function limpiarError(campo) {
+    if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+  }
+
   function cambiarNombre(texto) {
     setNombre(texto);
-    if (erroresCampos.nombre) setErroresCampos((actual) => ({ ...actual, nombre: null }));
+    limpiarError('nombre');
   }
 
   useEffect(() => {
@@ -73,10 +77,21 @@ export function FormularioPasoScreen({ route, navigation }) {
     };
   }
 
+  // Campos obligatorios: se marcan con su mensaje al pulsar "Crear" en vez
+  // de dejar el botón deshabilitado sin explicar por qué.
+  function validar() {
+    const errores = {};
+    if (!nombre.trim()) errores.nombre = 'El nombre del paso es obligatorio';
+    if (!cofradiaSeleccionada) errores.cofradia = 'Selecciona la cofradía';
+    return errores;
+  }
+
   async function guardar() {
     if (guardando) return;
+    const errores = validar();
     setError(null);
-    setErroresCampos({});
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     setGuardando(true);
     try {
       if (editando) {
@@ -141,6 +156,7 @@ export function FormularioPasoScreen({ route, navigation }) {
             </Text>
             <Ionicons name="chevron-down" size={16} color={colors.subtitle} />
           </TouchableOpacity>
+          {erroresCampos.cofradia ? <Text style={styles.errorCampo}>{erroresCampos.cofradia}</Text> : null}
         </View>
 
         <View style={styles.campo}>
@@ -185,7 +201,7 @@ export function FormularioPasoScreen({ route, navigation }) {
           style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || eliminando || !nombre.trim() || !cofradiaSeleccionada}
+          disabled={guardando || eliminando}
         >
           {guardando ? (
             <ActivityIndicator color={colors.background} />
@@ -227,6 +243,7 @@ export function FormularioPasoScreen({ route, navigation }) {
                   style={styles.modalItem}
                   onPress={() => {
                     setCofradiaSeleccionada(cofradia);
+                    limpiarError('cofradia');
                     setModalCofradiaVisible(false);
                   }}
                 >

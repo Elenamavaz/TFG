@@ -103,10 +103,20 @@ export function FormularioCofradiaScreen({ route, navigation }) {
     };
   }
 
+  // Campos obligatorios: se marcan con su mensaje al pulsar el botón en vez
+  // de dejarlo deshabilitado sin explicar por qué.
+  function validar() {
+    const errores = {};
+    if (!nombre.trim()) errores.nombre = 'El nombre de la cofradía es obligatorio';
+    return errores;
+  }
+
   async function guardar() {
     if (guardando) return;
+    const errores = validar();
     setError(null);
-    setErroresCampos({});
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     setGuardando(true);
     try {
       if (editando) {
@@ -282,7 +292,7 @@ export function FormularioCofradiaScreen({ route, navigation }) {
           style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || eliminando || !nombre.trim()}
+          disabled={guardando || eliminando}
         >
           {guardando ? (
             <ActivityIndicator color={colors.background} />

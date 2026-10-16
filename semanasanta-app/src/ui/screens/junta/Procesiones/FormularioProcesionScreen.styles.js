@@ -28,6 +28,14 @@ export const styles = StyleSheet.create({
     fontSize: 11,
     marginTop: spacing.xs,
   },
+  // Error de un campo de una fila compacta (Día/Salida), debajo de la fila.
+  errorCampoFila: {
+    color: colors.redText,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 11,
+    marginTop: -spacing.sm,
+    marginBottom: spacing.sm,
+  },
   input: {
     backgroundColor: colors.backgroundAlt,
     borderRadius: radii.md,

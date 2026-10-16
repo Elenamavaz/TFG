@@ -28,6 +28,11 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<!-- Tests etiquetados @Tag("integracion") (levantan la aplicación
+		     completa contra PostgreSQL en Docker) se excluyen por defecto
+		     para que "mvnw test" funcione sin Docker. Para incluirlos:
+		     mvnw test -Dtests.excluidos=ninguno -->
+		<tests.excluidos>integracion</tests.excluidos>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -133,6 +138,42 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludedGroups>${tests.excluidos}</excludedGroups>
+				</configuration>
+			</plugin>
+			<!-- Cobertura de código de los tests: tras "mvnw test" el informe
+			     queda en target/site/jacoco/index.html. Se excluyen las clases
+			     sin lógica (DTOs, configuración de arranque y datos semilla). -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.13</version>
+				<configuration>
+					<excludes>
+						<exclude>com/semanasanta/backend/dto/**</exclude>
+						<exclude>com/semanasanta/backend/seed/**</exclude>
+						<exclude>com/semanasanta/backend/BackendApplication.class</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

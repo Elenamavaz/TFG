@@ -40,7 +40,8 @@ export function SeleccionarPasosEventoScreen({ route, navigation }) {
         nombre: evento.nombre,
         historia: evento.historia,
         tradicion: evento.tradicion,
-        fecha: evento.fecha,
+        fecha: evento.fechaHora, // con hora: evento.fecha es solo el día
+        fechaFin: evento.fechaFin,
         cofradiaIds: evento.cofradiaIds,
         ubicacionId: evento.ubicacionId,
         web: evento.web,
@@ -79,7 +80,7 @@ export function SeleccionarPasosEventoScreen({ route, navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.subtitle}>{nombreEvento}</Text>
-        <Text style={styles.ayuda}>Elige qué pasos de las cofradías participantes desfilan en este evento.</Text>
+        <Text style={styles.ayuda}>Elige qué pasos participan en este evento.</Text>
 
         {pasosDisponibles.length === 0 ? (
           <Text style={styles.empty}>Las cofradías de este evento todavía no tienen pasos creados.</Text>

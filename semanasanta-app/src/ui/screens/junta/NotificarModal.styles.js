@@ -7,6 +7,9 @@ import { spacing } from '../../../theme';
 // Ver NotificarModal (compartido por procesiones y eventos). Botones según
 // el mockup "Procesión Actualizada": Cancelar en rojo, Enviar con borde dorado.
 export const styles = StyleSheet.create({
+  teclado: {
+    flex: 1,
+  },
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -22,6 +25,7 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     width: '100%',
     maxWidth: 360,
+    maxHeight: '100%', // con el teclado abierto, el ScrollView de dentro se encarga del resto
   },
   titulo: {
     color: colors.textPrimary,
@@ -119,6 +123,15 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiRegular,
     fontSize: 13,
     marginBottom: spacing.sm,
+  },
+  // Campo obligatorio sin rellenar (tipo/prioridad): pegado al campo de
+  // arriba, que ya trae su propio margen inferior.
+  errorCampo: {
+    color: colors.redText,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 11,
+    marginTop: -spacing.sm,
+    marginBottom: spacing.md,
   },
   acciones: {
     flexDirection: 'row',

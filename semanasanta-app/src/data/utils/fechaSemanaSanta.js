@@ -29,6 +29,12 @@ export function minutosEntre(fechaInicioIso, fechaFinIso) {
 // un día de Semana Santa (de la misma tabla fija diasSemanaSantaMock) y una
 // hora de salida sueltos, no un LocalDateTime -esto los junta en el formato
 // que sí entiende el backend ("2027-03-21T21:00:00").
+// Hora de salida tecleada a mano en los formularios de la Junta: "HH:MM" con
+// dos dígitos, que es lo que combinarFechaHora puede pegar tal cual.
+export function esHoraValida(hora) {
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test((hora ?? '').trim());
+}
+
 export function combinarFechaHora(fechaDia, hora) {
   if (!fechaDia || !hora) return null;
   return `${fechaDia}T${hora}:00`;

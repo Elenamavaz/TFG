@@ -66,10 +66,14 @@ export function FormularioEventoScreen({ route, navigation }) {
   const [error, setError] = useState(null);
   const [erroresCampos, setErroresCampos] = useState({});
 
+  function limpiarError(campo) {
+    if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+  }
+
   function cambiarCampo(setter, campo) {
     return (texto) => {
       setter(texto);
-      if (erroresCampos[campo]) setErroresCampos((actual) => ({ ...actual, [campo]: null }));
+      limpiarError(campo);
     };
   }
 
@@ -119,6 +123,7 @@ export function FormularioEventoScreen({ route, navigation }) {
 
   function seleccionarCofradia(cofradia) {
     setCofradiaSeleccionada(cofradia);
+    limpiarError('cofradia');
     setModalCofradiaVisible(false);
     services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
   }
@@ -137,14 +142,28 @@ export function FormularioEventoScreen({ route, navigation }) {
     return creada.id;
   }
 
+  // Campos obligatorios: el botón ya no se deshabilita en silencio cuando
+  // falta alguno, se marca cada uno con su mensaje al pulsar "Crear".
+  function validar() {
+    const errores = {};
+    if (!nombre.trim()) errores.nombre = 'El nombre del evento es obligatorio';
+    if (!cofradiaSeleccionada) errores.cofradia = 'Selecciona la cofradía';
+    if (!diaSeleccionado) errores.dia = 'Selecciona el día';
+    if (!fechaSemanaSanta.esHoraValida(horaInicio)) errores.horaInicio = 'Indica la hora de inicio (00:00)';
+    if (!ubicacionValida) errores.ubicacion = 'Indica la latitud y la longitud';
+    return errores;
+  }
+
   async function guardar() {
-    if (guardando || !ubicacionValida) return;
+    if (guardando) return;
+    const errores = validar();
     setError(null);
-    setErroresCampos({});
+    setErroresCampos(errores);
+    if (Object.keys(errores).length > 0) return;
     setGuardando(true);
     try {
       const idUbicacion = await resolverUbicacionId();
-      const fecha = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaInicio);
+      const fecha = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaInicio.trim());
       const duracionMin = fechaSemanaSanta.parsearDuracionCorta(duracionTexto);
       const datos = {
         nombre: nombre.trim(),
@@ -230,6 +249,7 @@ export function FormularioEventoScreen({ route, navigation }) {
             </Text>
             <Ionicons name="chevron-down" size={16} color={colors.subtitle} />
           </TouchableOpacity>
+          {erroresCampos.cofradia ? <Text style={styles.errorCampo}>{erroresCampos.cofradia}</Text> : null}
         </View>
 
         {editando ? (
@@ -282,7 +302,7 @@ export function FormularioEventoScreen({ route, navigation }) {
             </View>
             <TextInput
               value={horaInicio}
-              onChangeText={setHoraInicio}
+              onChangeText={cambiarCampo(setHoraInicio, 'horaInicio')}
               placeholder="00:00"
               placeholderTextColor={colors.subtitle}
               style={styles.inputCompacto}
@@ -303,6 +323,8 @@ export function FormularioEventoScreen({ route, navigation }) {
             />
           </View>
         </View>
+        {erroresCampos.dia ? <Text style={styles.errorCampoFila}>{erroresCampos.dia}</Text> : null}
+        {erroresCampos.horaInicio ? <Text style={styles.errorCampoFila}>{erroresCampos.horaInicio}</Text> : null}
 
         <View style={styles.campo}>
           <Text style={styles.etiqueta}>Web Oficial</Text>
@@ -340,7 +362,7 @@ export function FormularioEventoScreen({ route, navigation }) {
               <Text style={styles.etiquetaCompactaTexto}>Latitud</Text>
               <TextInput
                 value={latitud}
-                onChangeText={setLatitud}
+                onChangeText={cambiarCampo(setLatitud, 'ubicacion')}
                 placeholder="37.1880"
                 placeholderTextColor={colors.subtitle}
                 keyboardType="numbers-and-punctuation"
@@ -351,7 +373,7 @@ export function FormularioEventoScreen({ route, navigation }) {
               <Text style={styles.etiquetaCompactaTexto}>Longitud</Text>
               <TextInput
                 value={longitud}
-                onChangeText={setLongitud}
+                onChangeText={cambiarCampo(setLongitud, 'ubicacion')}
                 placeholder="-3.6080"
                 placeholderTextColor={colors.subtitle}
                 keyboardType="numbers-and-punctuation"
@@ -359,6 +381,7 @@ export function FormularioEventoScreen({ route, navigation }) {
               />
             </View>
           </View>
+          {erroresCampos.ubicacion ? <Text style={styles.errorCampo}>{erroresCampos.ubicacion}</Text> : null}
           <Text style={styles.ayuda}>Coordenadas del sitio (sin geocodificación automática todavía).</Text>
         </View>
 
@@ -398,7 +421,7 @@ export function FormularioEventoScreen({ route, navigation }) {
             >
               <View>
                 <Text style={styles.pasosTitulo}>Lista de pasos</Text>
-                <Text style={styles.pasosMeta}>{numPasos} pasos (se asignan al guardar)</Text>
+                <Text style={styles.pasosMeta}>{numPasos} pasos (los eliges tras crear el evento)</Text>
               </View>
               <View style={styles.pasosVerLista}>
                 <Text style={styles.pasosVerListaTexto}>Ver Lista</Text>
@@ -414,7 +437,7 @@ export function FormularioEventoScreen({ route, navigation }) {
           style={[styles.boton, guardando && styles.botonDeshabilitado]}
           onPress={guardar}
           activeOpacity={0.85}
-          disabled={guardando || eliminando || !nombre.trim() || !cofradiaSeleccionada || !ubicacionValida}
+          disabled={guardando || eliminando}
         >
           {guardando ? (
             <ActivityIndicator color={colors.background} />
@@ -469,6 +492,7 @@ export function FormularioEventoScreen({ route, navigation }) {
                 style={styles.modalItem}
                 onPress={() => {
                   setDiaSeleccionado(dia);
+                  limpiarError('dia');
                   setModalDiaVisible(false);
                 }}
               >
