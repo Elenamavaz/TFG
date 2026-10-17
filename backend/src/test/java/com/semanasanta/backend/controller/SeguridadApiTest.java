@@ -112,7 +112,7 @@ class SeguridadApiTest {
         @Test
         void elLoginEsPublico() throws Exception {
             when(authService.login("a@test.es", "Clave.123"))
-                    .thenReturn(new AuthResponse("token", "ADMIN", 1L, true));
+                    .thenReturn(new AuthResponse("token", "ADMIN", 1L, true, false));
 
             mockMvc.perform(json(post("/auth/login"), """
                             {"email":"a@test.es","password":"Clave.123"}"""))

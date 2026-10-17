@@ -43,8 +43,9 @@ public class AuthService {
         // aviso de "cuenta desactivada" en vez de al panel. El rechazo de
         // verdad está en las escrituras, ver MiembroJuntaCofradiaService.exigirJunta.
         boolean activo = !(usuario instanceof MiembroJuntaCofradia miembro) || miembro.isActivo();
+        boolean passwordProvisional = usuario instanceof MiembroJuntaCofradia miembro && miembro.isPasswordProvisional();
         String token = jwtService.generarToken(usuario.getId(), rol);
-        return new AuthResponse(token, rol, usuario.getId(), activo);
+        return new AuthResponse(token, rol, usuario.getId(), activo, passwordProvisional);
     }
 
     // Decisión del 2026-08-11: sin contraseña Y sin crear ningún usuario. El
@@ -69,7 +70,7 @@ public class AuthService {
 
         Long cofradiaId = codigoAcceso.getCofradia().getId();
         String token = jwtService.generarToken(cofradiaId, "COFRADE", codigoAcceso.getId());
-        return new AuthResponse(token, "COFRADE", cofradiaId, true);
+        return new AuthResponse(token, "COFRADE", cofradiaId, true, false);
     }
 
     // Para Administrador y MiembroJuntaCofradia -el Cofrade no tiene

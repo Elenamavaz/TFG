@@ -24,6 +24,8 @@ const Stack = createNativeStackNavigator();
 //   desactivada" -mismo destino al que ya la mandó el login.
 // - Si hay sesión de Cofrade (código de acceso, 2026-10-03), va directa a su
 //   propio panel (CofradeStack).
+// - Si hay sesión de Junta activa pero con la contraseña provisional del
+//   correo sin cambiar, va a cambiarla antes de nada (2026-10-17).
 // - Si hay sesión de Junta activa, va directa a su propio flujo (JuntaStack).
 // - Si no, y ya se entró antes como Ciudadano (modo guardado en el
 //   dispositivo), se salta la Bienvenida y se resuelve la ciudad como siempre.
@@ -41,7 +43,8 @@ async function resolverArranque(seleccionarCiudad, sesion, avisoSesion) {
     return 'CofradeStack';
   }
   if (sesion) {
-    return sesion.activo === false ? 'CuentaDesactivada' : 'JuntaStack';
+    if (sesion.activo === false) return 'CuentaDesactivada';
+    return sesion.passwordProvisional ? 'CambiarPasswordObligatorio' : 'JuntaStack';
   }
   const modoAcceso = await services.getModoAccesoGuardado();
   if (modoAcceso === 'ciudadano') {
@@ -105,6 +108,7 @@ export function RootNavigator() {
       <Stack.Screen name="Welcome" component={auth.WelcomeScreen} />
       <Stack.Screen name="Login" component={auth.LoginScreen} />
       <Stack.Screen name="CuentaDesactivada" component={auth.CuentaDesactivadaScreen} />
+      <Stack.Screen name="CambiarPasswordObligatorio" component={auth.CambiarPasswordObligatorioScreen} />
       <Stack.Screen name="AdministradorStack" component={AdministradorStackNavigator} />
       <Stack.Screen name="JuntaStack" component={JuntaStackNavigator} />
       <Stack.Screen name="CofradeStack" component={CofradeStackNavigator} />

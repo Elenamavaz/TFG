@@ -10,7 +10,7 @@ const AuthContext = createContext(null);
 // AsyncStorage al arrancar (sesionService), para no pedir login otra vez si
 // ya había una guardada.
 export function AuthProvider({ children }) {
-  const [sesion, setSesion] = useState(null); // { token, rol, usuarioId, activo } | null
+  const [sesion, setSesion] = useState(null); // { token, rol, usuarioId, activo, passwordProvisional } | null
   const [cargando, setCargando] = useState(true);
   // Mensaje para el inicio de sesión cuando la sesión se ha cerrado por
   // caducar (bug 8 de bugs.md); RootNavigator lleva entonces a Login.
@@ -43,10 +43,21 @@ export function AuthProvider({ children }) {
   // "activo" solo importa para rol JUNTA (ver AuthResponse del backend): un
   // miembro desactivado igual recibe token, pero la app lo manda a un aviso
   // de "cuenta desactivada" en vez de al panel, ver RootNavigator/LoginScreen.
-  const iniciarSesion = useCallback(({ token, rol, usuarioId, activo }) => {
+  const iniciarSesion = useCallback(({ token, rol, usuarioId, activo, passwordProvisional = false }) => {
     setAvisoSesion(null);
-    setSesion({ token, rol, usuarioId, activo });
-    services.guardarSesion({ token, rol, usuarioId, activo });
+    setSesion({ token, rol, usuarioId, activo, passwordProvisional });
+    services.guardarSesion({ token, rol, usuarioId, activo, passwordProvisional });
+  }, []);
+
+  // Tras cambiar la contraseña provisional (CambiarPasswordObligatorioScreen):
+  // el mismo JWT sigue sirviendo, solo deja de estar pendiente el alta.
+  const marcarPasswordCambiada = useCallback(() => {
+    setSesion((actual) => {
+      if (!actual) return actual;
+      const nueva = { ...actual, passwordProvisional: false };
+      services.guardarSesion(nueva);
+      return nueva;
+    });
   }, []);
 
   const cerrarSesion = useCallback(() => {
@@ -57,8 +68,8 @@ export function AuthProvider({ children }) {
   const limpiarAvisoSesion = useCallback(() => setAvisoSesion(null), []);
 
   const value = useMemo(
-    () => ({ sesion, cargandoSesion: cargando, iniciarSesion, cerrarSesion, avisoSesion, limpiarAvisoSesion }),
-    [sesion, cargando, iniciarSesion, cerrarSesion, avisoSesion, limpiarAvisoSesion]
+    () => ({ sesion, cargandoSesion: cargando, iniciarSesion, cerrarSesion, marcarPasswordCambiada, avisoSesion, limpiarAvisoSesion }),
+    [sesion, cargando, iniciarSesion, cerrarSesion, marcarPasswordCambiada, avisoSesion, limpiarAvisoSesion]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

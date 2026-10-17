@@ -89,6 +89,16 @@ class MiembroJuntaCofradiaServiceTest {
     }
 
     @Test
+    void exigirJuntaRechazaAUnMiembroQueNoHaCambiadoLaContrasenaProvisional() {
+        autenticarComo(2L, "JUNTA");
+        miembroDeLaCiudad(2L, 1L).setPasswordProvisional(true);
+
+        assertThatThrownBy(() -> miembroService.exigirJunta())
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("contraseña provisional");
+    }
+
+    @Test
     void exigirJuntaRechazaAUnMiembroActivoDeUnaJuntaDesactivada() {
         autenticarComo(2L, "JUNTA");
         miembroDeLaCiudad(2L, 1L).getJuntaCofradias().setActiva(false);

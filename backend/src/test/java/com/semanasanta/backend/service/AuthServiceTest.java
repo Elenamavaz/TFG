@@ -60,7 +60,7 @@ class AuthServiceTest {
 
         AuthResponse respuesta = authService.login("admin1@test.es", "Clave.123");
 
-        assertThat(respuesta).isEqualTo(new AuthResponse("token-admin", "ADMIN", 1L, true));
+        assertThat(respuesta).isEqualTo(new AuthResponse("token-admin", "ADMIN", 1L, true, false));
     }
 
     @Test
@@ -74,6 +74,20 @@ class AuthServiceTest {
 
         assertThat(respuesta.rol()).isEqualTo("JUNTA");
         assertThat(respuesta.activo()).isTrue();
+        assertThat(respuesta.passwordProvisional()).isFalse();
+    }
+
+    @Test
+    void unMiembroConLaContrasenaProvisionalSinCambiarLoIndicaAlIniciarSesion() {
+        MiembroJuntaCofradia miembro = miembro(2L, junta(1L, ciudad(1L)));
+        miembro.setPasswordProvisional(true);
+        when(usuarioRepository.findByEmail(miembro.getEmail())).thenReturn(Optional.of(miembro));
+        when(passwordEncoder.matches("Provisional.1", "hash")).thenReturn(true);
+        when(jwtService.generarToken(2L, "JUNTA")).thenReturn("token-junta");
+
+        AuthResponse respuesta = authService.login(miembro.getEmail(), "Provisional.1");
+
+        assertThat(respuesta.passwordProvisional()).isTrue();
     }
 
     @Test
@@ -122,7 +136,7 @@ class AuthServiceTest {
 
         AuthResponse respuesta = authService.loginConCodigoAcceso("ABCD1234");
 
-        assertThat(respuesta).isEqualTo(new AuthResponse("token-cofrade", "COFRADE", 5L, true));
+        assertThat(respuesta).isEqualTo(new AuthResponse("token-cofrade", "COFRADE", 5L, true, false));
         assertThat(codigo.getEstado()).isEqualTo(EstadoCodigo.VALIDADO);
         verify(codigoAccesoRepository).save(codigo);
     }
@@ -174,6 +188,7 @@ class AuthServiceTest {
     @Test
     void cambiarContrasenaGuardaElNuevoHashYTerminaElAltaProvisional() {
         MiembroJuntaCofradia miembro = miembro(2L, junta(1L, ciudad(1L)));
+        miembro.setPasswordProvisional(true);
         autenticarComo(2L, "JUNTA");
         when(usuarioRepository.findById(2L)).thenReturn(Optional.of(miembro));
         when(passwordEncoder.matches("Actual.1", "hash")).thenReturn(true);

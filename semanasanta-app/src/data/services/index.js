@@ -84,5 +84,5 @@ export {
 } from './procesionService';
 export { getDiasSemanaSanta } from './diaService';
 export { getNotificacionesActivas, crearNotificacion } from './alertaService';
-export { login, loginConCodigoAcceso } from './authService';
+export { cambiarPassword, login, loginConCodigoAcceso } from './authService';
 export { getSesionGuardada, guardarSesion, borrarSesion, sesionHaCaducado, configurarSesionCaducada } from './sesionService';

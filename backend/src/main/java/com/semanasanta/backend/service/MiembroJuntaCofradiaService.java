@@ -220,6 +220,14 @@ public class MiembroJuntaCofradiaService {
         if (!miembro.isActivo()) {
             throw new AccesoDenegadoException("Tu cuenta de Junta está desactivada; solicita al Administrador que la reactive");
         }
+        // Contraseña provisional sin cambiar (2026-10-17): la app ya le lleva
+        // a cambiarla antes de dejarle entrar al panel, pero se exige también
+        // aquí para que no baste con llamar a la API directamente. Cambiarla
+        // va por AuthService.cambiarPassword (PUT /usuarios/password), que no
+        // pasa por aquí -si no, nunca podría salir de este estado.
+        if (miembro.isPasswordProvisional()) {
+            throw new AccesoDenegadoException("Debes cambiar tu contraseña provisional antes de hacer cambios");
+        }
         // Desactivar la Junta entera (JuntaCofradias.activa, desde el panel
         // de Administrador) no impedía nada: sus miembros seguían pudiendo
         // escribir (bug 9 de bugs.md, 2026-10-16). Desactivar la CIUDAD, en

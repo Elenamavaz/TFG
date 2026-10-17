@@ -76,7 +76,9 @@ export function LoginScreen({ navigation }) {
       iniciarSesion(respuesta);
       // Administrador y Junta tienen cada uno su propio panel real; una
       // Junta desactivada (respuesta.activo === false, ver AuthResponse del
-      // backend) va a un aviso de que no puede hacer cambios, no al panel.
+      // backend) va a un aviso de que no puede hacer cambios, no al panel; y
+      // una que aún tiene la contraseña provisional del correo, a cambiarla
+      // primero (respuesta.passwordProvisional, 2026-10-17).
       const destino =
         respuesta.rol === 'ADMIN'
           ? 'AdministradorStack'
@@ -84,7 +86,9 @@ export function LoginScreen({ navigation }) {
             ? 'CofradeStack'
             : respuesta.activo === false
               ? 'CuentaDesactivada'
-              : 'JuntaStack';
+              : respuesta.passwordProvisional
+                ? 'CambiarPasswordObligatorio'
+                : 'JuntaStack';
       navigation.reset({ index: 0, routes: [{ name: destino }] });
     } catch (err) {
       setError(err.message);

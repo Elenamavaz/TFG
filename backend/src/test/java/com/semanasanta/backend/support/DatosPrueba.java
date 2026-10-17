@@ -63,8 +63,13 @@ public final class DatosPrueba {
         return conId(new JuntaCofradias("Junta " + id, "junta" + id + "@test.es", null, ciudad), id);
     }
 
+    // Miembro con el alta ya completada (contraseña provisional cambiada):
+    // es el caso normal en casi todos los tests. Para probar la invitación
+    // pendiente, volver a ponerle setPasswordProvisional(true).
     public static MiembroJuntaCofradia miembro(Long id, JuntaCofradias junta) {
-        return conId(new MiembroJuntaCofradia("Miembro " + id, "miembro" + id + "@test.es", null, "hash", junta), id);
+        MiembroJuntaCofradia miembro = new MiembroJuntaCofradia("Miembro " + id, "miembro" + id + "@test.es", null, "hash", junta);
+        miembro.setPasswordProvisional(false);
+        return conId(miembro, id);
     }
 
     public static Administrador administrador(Long id) {
