@@ -81,10 +81,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing.md,
   },
-  notificacionRowConBorde: {
-    borderTopWidth: 0.5,
-    borderTopColor: colors.surfaceAlt,
-  },
   notificacionTextBlock: {
     flex: 1,
     marginRight: spacing.sm,

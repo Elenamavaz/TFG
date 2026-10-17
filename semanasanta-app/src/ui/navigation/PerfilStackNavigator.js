@@ -18,6 +18,8 @@ export function PerfilStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="PerfilHome" component={PerfilScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Listado" component={ciudadano.ListadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="DetalleCofradia" component={ciudadano.DetalleCofradiaScreen} options={{ title: '' }} />
       <Stack.Screen name="DetallePaso" component={ciudadano.DetallePasoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleEvento" component={ciudadano.DetalleEventoScreen} options={{ title: '' }} />
       <Stack.Screen name="DetalleProcesion" component={ciudadano.DetalleProcesionScreen} options={{ title: '' }} />

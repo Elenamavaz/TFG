@@ -12,11 +12,15 @@ En tercer lugar, la imagen de un \texttt{Paso} se guarda hoy como una URL de tex
 
 En cuarto lugar, la importación del recorrido desde un archivo GPX podría aprovechar más información del propio archivo. Hoy solo se leen las coordenadas de los puntos, y los puntos de interés se marcan después uno a uno desde la aplicación, lo que resulta lento en un recorrido largo. El formato GPX permite incluir puntos con nombre (\texttt{<wpt>}) junto al trazado, de modo que la Junta podría señalar en la propia herramienta con la que dibuja la ruta los puntos de interés que quiere marcar, y la aplicación crearlos automáticamente al importar el archivo, dejando la edición posterior solo para completar o corregir su información.
 
+En quinto lugar, las notificaciones solo pueden activarse o desactivarse en bloque, desde el permiso de notificaciones del dispositivo. Una mejora natural sería permitir al ciudadano elegir desde la propia aplicación qué tipos de aviso quiere recibir (por ejemplo, solo los de procesiones o solo los de eventos). Esto exigiría guardar esas preferencias junto a cada dispositivo registrado y asociar cada notificación al tipo de acto del que informa, para que el backend pueda filtrar a quién se la envía.
+
+En sexto lugar, el acceso de los cofrades podría simplificarse mostrando el código de acceso de cada cofradía también como un código QR, de modo que el cofrade pudiera entrar al modo cofrade escaneándolo con la cámara del móvil en lugar de tener que escribirlo a mano.
+
 Por último, sería interesante adaptar la interfaz en función de la Semana Santa de cada ciudad, asociando a cada una la terminología propia que se emplea localmente, de forma que la experiencia resulte más cercana y personalizada para cada usuario.
 
 \section{Puntos débiles}\label{cap:puntosDebiles}
 
-El sistema presenta una seguridad limitada en el acceso de los cofrades, que se realiza mediante el escaneo de un código QR. No obstante, se ha priorizado la usabilidad frente a la seguridad, ya que el nivel de riesgo asociado a este método de acceso se considera asumible dado el contexto de uso de la aplicación.
+El sistema presenta una seguridad limitada en el acceso de los cofrades, que se realiza introduciendo un código de acceso compartido por toda la cofradía. No obstante, se ha priorizado la usabilidad frente a la seguridad, ya que el nivel de riesgo asociado a este método de acceso se considera asumible dado el contexto de uso de la aplicación, y la Junta de Cofradías puede revocar el código en cualquier momento.
 
 Por otro lado, la introducción de información a través del dispositivo móvil resulta costosa para el usuario. Una alternativa más adecuada sería ofrecer una página web con capacidad de edición tanto para las juntas de cofradías como para los administradores. Sin embargo, por motivos de acotación del alcance del proyecto y de la carga de trabajo disponible, esta funcionalidad no se ha llegado a implementar.
 

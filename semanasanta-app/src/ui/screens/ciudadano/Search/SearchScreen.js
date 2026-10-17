@@ -13,6 +13,7 @@ const FILTROS_ESTADO = [
   { id: 'en-curso', label: 'En curso', valores: ['EN_CURSO'] },
   { id: 'programado', label: 'Programado', valores: ['PROGRAMADO'] },
   { id: 'finalizado', label: 'Finalizado', valores: ['FINALIZADO'] },
+  { id: 'cancelado', label: 'Cancelado', valores: ['CANCELADO'] },
 ];
 
 const ABREVIATURA_DIA = {
@@ -39,6 +40,7 @@ export function BuscarScreen({ navigation }) {
   const [procesiones, setProcesiones] = useState([]);
   const [eventos, setEventos] = useState([]);
   const [pasos, setPasos] = useState([]);
+  const [cofradias, setCofradias] = useState([]);
   const [cofradiasPorId, setCofradiasPorId] = useState({});
 
   // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
@@ -60,6 +62,7 @@ export function BuscarScreen({ navigation }) {
     ]).then(([listaProcesiones, listaEventos, listaCofradias]) => {
       setProcesiones(listaProcesiones);
       setEventos(listaEventos);
+      setCofradias(listaCofradias);
       setCofradiasPorId(Object.fromEntries(listaCofradias.map((c) => [c.id, c.nombre])));
       return Promise.all(listaCofradias.map((c) => services.getPasosPorCofradia(c.id))).then((listasPasos) => {
         setPasos(listasPasos.flat());
@@ -137,13 +140,21 @@ export function BuscarScreen({ navigation }) {
     return pasos.filter((p) => !textoNormalizado || p.nombre.toLowerCase().includes(textoNormalizado));
   }, [pasos, texto, diaFiltroId, estadoFiltroId]);
 
+  // Cofradías: mismo criterio que los pasos -no tienen día ni estado, así
+  // que solo salen sin filtros de día/estado activos (2026-10-17).
+  const resultadosCofradias = useMemo(() => {
+    if (diaFiltroId !== 'todos' || estadoFiltroId) return [];
+    const textoNormalizado = texto.trim().toLowerCase();
+    return cofradias.filter((c) => !textoNormalizado || c.nombre.toLowerCase().includes(textoNormalizado));
+  }, [cofradias, texto, diaFiltroId, estadoFiltroId]);
+
   function alternarFiltroEstado(id) {
     setEstadoFiltroId((actual) => (actual === id ? null : id));
   }
 
   if (!ciudadSeleccionada) return null;
 
-  const sinResultados = resultados.length === 0 && resultadosPasos.length === 0;
+  const sinResultados = resultados.length === 0 && resultadosPasos.length === 0 && resultadosCofradias.length === 0;
 
   return (
     <common.ScreenContainer>
@@ -153,7 +164,7 @@ export function BuscarScreen({ navigation }) {
 
         <View style={styles.searchRow}>
           <View style={styles.searchInputWrapper}>
-            <common.SearchInput value={texto} onChangeText={setTexto} placeholder="Procesiones, pasos, eventos, ..." />
+            <common.SearchInput value={texto} onChangeText={setTexto} placeholder="Procesiones, cofradías, pasos, eventos, ..." />
           </View>
           <TouchableOpacity
             style={[styles.filtroButton, filtrosVisibles && styles.filtroButtonActivo]}
@@ -243,6 +254,19 @@ export function BuscarScreen({ navigation }) {
             ))}
           </>
         ) : null}
+
+        {resultadosCofradias.map((cofradia) => (
+          <common.ListItemCard
+            key={`cofradia-${cofradia.id}`}
+            icon="account-multiple"
+            title={cofradia.nombre}
+            mostrarFavorito
+            esFavorito={esFavorito(cofradia.id, 'cofradia')}
+            onToggleFavorito={() => alternarFavorito(cofradia.id, 'cofradia')}
+            onPress={() => navigation.navigate('DetalleCofradia', { cofradiaId: cofradia.id })}
+            rightIcon="chevron-forward"
+          />
+        ))}
 
         {sinResultados ? <Text style={styles.empty}>No se encontraron resultados.</Text> : null}
       </ScrollView>
