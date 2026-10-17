@@ -9,6 +9,7 @@ import com.semanasanta.backend.exception.RecursoDuplicadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Administrador;
 import com.semanasanta.backend.repository.AdministradorRepository;
+import com.semanasanta.backend.repository.UsuarioRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,13 +39,15 @@ class AdministradorServiceTest {
     @Mock
     private AdministradorRepository administradorRepository;
     @Mock
+    private UsuarioRepository usuarioRepository;
+    @Mock
     private PasswordEncoder passwordEncoder;
 
     private AdministradorService administradorService;
 
     @BeforeEach
     void preparar() {
-        administradorService = new AdministradorService(administradorRepository, passwordEncoder, SECRETO_BOOTSTRAP);
+        administradorService = new AdministradorService(administradorRepository, usuarioRepository, passwordEncoder, SECRETO_BOOTSTRAP);
     }
 
     @AfterEach
@@ -169,6 +172,56 @@ class AdministradorServiceTest {
                 new AdministradorPerfilRequest("Elena", null, "mala", null)))
                 .isInstanceOf(CredencialesInvalidasException.class);
         verify(administradorRepository, never()).save(any());
+    }
+
+    @Test
+    void noSePuedeCrearUnAdministradorConUnEmailYaRegistrado() {
+        autenticarComo(1L, "ADMIN");
+        when(usuarioRepository.existsByEmailIgnoreCase("ana@test.es")).thenReturn(true);
+
+        assertThatThrownBy(() -> administradorService.crear(new AdministradorRequest("ana@test.es", "Clave.123")))
+                .isInstanceOf(RecursoDuplicadoException.class)
+                .hasMessageContaining("ana@test.es");
+        verify(administradorRepository, never()).save(any());
+    }
+
+    @Test
+    void elBootstrapTambienRechazaUnEmailYaRegistrado() {
+        when(administradorRepository.count()).thenReturn(0L);
+        when(usuarioRepository.existsByEmailIgnoreCase("ana@test.es")).thenReturn(true);
+
+        assertThatThrownBy(() -> administradorService.crearBootstrap(
+                new AdministradorBootstrapRequest(SECRETO_BOOTSTRAP, "ana@test.es", "Clave.123")))
+                .isInstanceOf(RecursoDuplicadoException.class);
+    }
+
+    // --- eliminar / consultar: solo Administrador ---
+
+    @ParameterizedTest
+    @ValueSource(strings = {"JUNTA", "COFRADE"})
+    void soloUnAdministradorPuedeEliminarAdministradores(String rol) {
+        autenticarComo(5L, rol);
+
+        assertThatThrownBy(() -> administradorService.eliminar(1L)).isInstanceOf(AccesoDenegadoException.class);
+        verify(administradorRepository, never()).delete(any());
+    }
+
+    @Test
+    void unAdministradorPuedeEliminarOtro() {
+        autenticarComo(1L, "ADMIN");
+        Administrador otro = administrador(2L);
+        when(administradorRepository.findById(2L)).thenReturn(Optional.of(otro));
+
+        administradorService.eliminar(2L);
+
+        verify(administradorRepository).delete(otro);
+    }
+
+    @Test
+    void losDatosDeUnAdministradorSoloLosConsultaOtroAdministrador() {
+        autenticarComo(2L, "JUNTA");
+
+        assertThatThrownBy(() -> administradorService.consultar(1L)).isInstanceOf(AccesoDenegadoException.class);
     }
 
     @Test

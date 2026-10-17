@@ -38,6 +38,7 @@ export {
   olvidarSesionLocal,
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
+export { iniciarSeguimiento, detenerSeguimiento, getEstadoSeguimiento } from './seguimientoService';
 export { configurarManejoNotificaciones, registrarDispositivoPush } from './pushService';
 export { registrarPosicion, getEstelaProcesion } from './posicionActualService';
 export { getCodigosAccesoDeCofradia, emitirCodigoAcceso, revocarCodigoAcceso } from './codigoAccesoService';
@@ -82,4 +83,4 @@ export {
 export { getDiasSemanaSanta } from './diaService';
 export { getNotificacionesActivas, crearNotificacion } from './alertaService';
 export { login, loginConCodigoAcceso } from './authService';
-export { getSesionGuardada, guardarSesion, borrarSesion } from './sesionService';
+export { getSesionGuardada, guardarSesion, borrarSesion, sesionHaCaducado, configurarSesionCaducada } from './sesionService';

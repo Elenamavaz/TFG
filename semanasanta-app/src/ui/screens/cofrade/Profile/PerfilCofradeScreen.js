@@ -22,6 +22,7 @@ export function PerfilCofradeScreen({ navigation }) {
     compartiendo,
     cargando,
     error,
+    aviso,
     procesionNombre,
     procesionesPendientes,
     empezarACompartir,
@@ -30,11 +31,18 @@ export function PerfilCofradeScreen({ navigation }) {
     detenerCompartir,
   } = context.useCofrade();
   const [cofradia, setCofradia] = useState(null);
+  // Para el título "La Semana Santa de <ciudad>": el JWT del cofrade solo
+  // trae su cofradía, la ciudad sale de ella. Antes el título usaba una
+  // variable `ciudad` que no existía y la pantalla se cerraba al abrirla.
+  const [ciudad, setCiudad] = useState(null);
 
   useEffect(() => {
     if (!cofradiaId) return;
     services.getCofradiaPorId(cofradiaId)
-      .then(setCofradia)
+      .then((cargada) => {
+        setCofradia(cargada);
+        return services.getCiudadPorId(cargada.ciudadId).then(setCiudad);
+      })
       .catch(() => setCofradia(null));
   }, [cofradiaId]);
 
@@ -82,6 +90,9 @@ export function PerfilCofradeScreen({ navigation }) {
               finalizado sola a su hora de fin y se ha cortado el compartir
               (ver CofradeContext.enviarPing). */}
           {!compartiendo && error ? <Text style={styles.modalError}>{error}</Text> : null}
+          {/* Sin permiso de ubicación "todo el tiempo": comparte, pero solo
+              con la app abierta (ver CofradeContext). */}
+          {compartiendo && aviso ? <Text style={styles.avisoCompartir}>{aviso}</Text> : null}
         </View>
 
         <TouchableOpacity style={styles.cerrarSesionButton} onPress={cerrarSesion} activeOpacity={0.85}>

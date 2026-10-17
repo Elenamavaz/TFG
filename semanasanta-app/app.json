@@ -28,7 +28,10 @@
       },
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_LOCATION"
       ],
       "package": "com.elenaaaamavaz.semanasantaapp"
     },
@@ -49,7 +52,11 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Usamos tu ubicación para seleccionar automáticamente la ciudad más cercana al abrir la app."
+          "locationWhenInUsePermission": "Usamos tu ubicación para seleccionar automáticamente la ciudad más cercana y, si eres cofrade, para compartir el avance de tu procesión.",
+          "locationAlwaysAndWhenInUsePermission": "Si eres cofrade, tu ubicación se comparte durante la procesión aunque bloquees el móvil, para que los ciudadanos puedan seguirla en el mapa.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true,
+          "isIosBackgroundLocationEnabled": true
         }
       ],
       "expo-notifications",

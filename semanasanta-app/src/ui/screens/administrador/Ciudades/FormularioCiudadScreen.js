@@ -123,8 +123,14 @@ export function FormularioCiudadScreen({ route, navigation }) {
         text: 'Eliminar',
         style: 'destructive',
         onPress: async () => {
-          await services.eliminarCiudad(ciudadId);
-          navigation.navigate('Ciudades');
+          // Sin catch, un rechazo del backend (p.ej. datos asociados que
+          // impiden borrarlo) se perdía sin que se viera ningún aviso.
+          try {
+            await services.eliminarCiudad(ciudadId);
+            navigation.navigate('Ciudades');
+          } catch (err) {
+            Alert.alert('No se ha podido eliminar', err.message);
+          }
         },
       },
     ]);

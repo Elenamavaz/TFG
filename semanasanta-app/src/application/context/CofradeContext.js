@@ -1,4 +1,5 @@
-import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { AppState } from 'react-native';
 import { services } from '../../data';
 import { useAuth } from './AuthContext';
 
@@ -12,9 +13,11 @@ const INTERVALO_PING_MS = 30000;
 // del backend), normalmente porque se ha finalizado sola al llegar su hora
 // de fin (CambioEstadoAutomaticoService).
 const STATUS_PROCESION_NO_EN_CURSO = 410;
-// 401/403 en un ping = el JWT de Cofrade ya no vale (caducado, 24h por
-// defecto) -seguir mandando pings no serviría de nada.
-const STATUS_SESION_INVALIDA = [401, 403];
+// 401 en un ping = el JWT de Cofrade ha caducado (24h por defecto); 403 =
+// ya no puede compartir (código revocado o cofradía desactivada, el backend
+// lo explica en el mensaje) -seguir mandando pings no serviría de nada.
+const STATUS_SESION_CADUCADA = 401;
+const STATUS_ACCESO_RETIRADO = 403;
 
 // Compartir ubicación como Cofrade. Desde el 2026-10-03 el Cofrade entra
 // por "Iniciar sesión" (pestaña Cofrade, con su código de acceso), al mismo
@@ -24,6 +27,11 @@ const STATUS_SESION_INVALIDA = [401, 403];
 // elegir procesión en curso y mandar los pings periódicos. Sigue siendo un
 // Context (no estado de la pantalla) para que los pings no dependan de qué
 // pantalla esté montada.
+//
+// Desde el 2026-10-16 (bug 6 de bugs.md) los pings salen de una tarea en
+// segundo plano (seguimientoService) que sigue funcionando con la pantalla
+// bloqueada. El setInterval de aquí queda solo como alternativa cuando el
+// usuario no da permiso de ubicación "todo el tiempo" (modo 'soloPrimerPlano').
 export function CofradeProvider({ children }) {
   const { sesion } = useAuth();
   const esCofrade = sesion?.rol === 'COFRADE';
@@ -35,6 +43,7 @@ export function CofradeProvider({ children }) {
   const [compartiendo, setCompartiendo] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
+  const [aviso, setAviso] = useState(null); // informativo, no error: p.ej. "solo con la app abierta"
   const intervaloRef = useRef(null);
 
   const detenerCompartir = useCallback(() => {
@@ -42,8 +51,50 @@ export function CofradeProvider({ children }) {
       clearInterval(intervaloRef.current);
       intervaloRef.current = null;
     }
+    services.detenerSeguimiento();
     setCompartiendo(false);
+    setAviso(null);
   }, []);
+
+  // La tarea en segundo plano vive fuera de React: al abrir la app (o volver
+  // a ella) se recupera si sigue compartiendo, y si paró sola (procesión
+  // finalizada, código revocado...) se muestra el motivo.
+  const sincronizarConSeguimiento = useCallback(async () => {
+    if (!esCofrade || intervaloRef.current) return; // el modo primer plano ya lleva su propio estado
+    const { seguimiento, motivoFin } = await services.getEstadoSeguimiento();
+    if (seguimiento) {
+      setProcesionNombre(seguimiento.procesionNombre);
+      setCompartiendo(true);
+    } else {
+      setCompartiendo(false);
+    }
+    if (motivoFin) setError(motivoFin);
+  }, [esCofrade]);
+
+  useEffect(() => {
+    if (!esCofrade) {
+      // Sesión cerrada o de otro rol: no puede quedar ningún seguimiento
+      // mandando pings con un JWT que ya no es el de la sesión actual.
+      if (intervaloRef.current) clearInterval(intervaloRef.current);
+      intervaloRef.current = null;
+      services.detenerSeguimiento();
+      setCompartiendo(false);
+      return undefined;
+    }
+    sincronizarConSeguimiento();
+    const suscripcion = AppState.addEventListener('change', (estado) => {
+      if (estado === 'active') sincronizarConSeguimiento();
+    });
+    return () => suscripcion.remove();
+  }, [esCofrade, sincronizarConSeguimiento]);
+
+  // Con la app abierta, refresca cada cierto tiempo por si la tarea se ha
+  // detenido sola mientras se mira la pantalla (p.ej. la procesión finaliza).
+  useEffect(() => {
+    if (!compartiendo) return undefined;
+    const comprobacion = setInterval(sincronizarConSeguimiento, INTERVALO_PING_MS);
+    return () => clearInterval(comprobacion);
+  }, [compartiendo, sincronizarConSeguimiento]);
 
   const enviarPing = useCallback(
     async (idProcesion, jwt) => {
@@ -55,10 +106,10 @@ export function CofradeProvider({ children }) {
         // La procesión ha terminado (2026-09-30, decisión de Elena: si a un
         // cofrade se le olvida parar, se le echa al llegar la hora de fin):
         // se corta el compartir y se le explica por qué.
-        if (err.status === STATUS_PROCESION_NO_EN_CURSO) {
+        if (err.status === STATUS_PROCESION_NO_EN_CURSO || err.status === STATUS_ACCESO_RETIRADO) {
           detenerCompartir();
           setError(err.message);
-        } else if (STATUS_SESION_INVALIDA.includes(err.status)) {
+        } else if (err.status === STATUS_SESION_CADUCADA) {
           detenerCompartir();
           setError('Tu sesión de cofrade ha caducado. Cierra sesión y vuelve a entrar con tu código.');
         }
@@ -79,10 +130,24 @@ export function CofradeProvider({ children }) {
       setProcesionNombre(procesion.nombre);
       setProcesionesPendientes([]);
       setError(null);
-      setCompartiendo(true);
+      setAviso(null);
       if (intervaloRef.current) clearInterval(intervaloRef.current);
-      enviarPing(procesion.id, token); // primero inmediato, no esperar 30s
-      intervaloRef.current = setInterval(() => enviarPing(procesion.id, token), INTERVALO_PING_MS);
+      intervaloRef.current = null;
+      enviarPing(procesion.id, token); // primero inmediato, no esperar al primer aviso del GPS
+
+      const modo = await services.iniciarSeguimiento({
+        procesionId: procesion.id,
+        procesionNombre: procesion.nombre,
+        token,
+      });
+      if (modo === 'soloPrimerPlano') {
+        intervaloRef.current = setInterval(() => enviarPing(procesion.id, token), INTERVALO_PING_MS);
+        setAviso(
+          'Solo se compartirá mientras tengas la app abierta. Para que siga con la pantalla bloqueada, ' +
+            'permite la ubicación "Todo el tiempo" en los ajustes del móvil.'
+        );
+      }
+      setCompartiendo(true);
     },
     [enviarPing, token]
   );
@@ -123,6 +188,7 @@ export function CofradeProvider({ children }) {
       compartiendo,
       cargando,
       error,
+      aviso,
       procesionNombre,
       procesionesPendientes,
       empezarACompartir,
@@ -131,7 +197,7 @@ export function CofradeProvider({ children }) {
       detenerCompartir,
       limpiarError: () => setError(null),
     }),
-    [cofradiaId, compartiendo, cargando, error, procesionNombre, procesionesPendientes, empezarACompartir, elegirProcesion, detenerCompartir]
+    [cofradiaId, compartiendo, cargando, error, aviso, procesionNombre, procesionesPendientes, empezarACompartir, elegirProcesion, detenerCompartir]
   );
 
   return <CofradeContext.Provider value={value}>{children}</CofradeContext.Provider>;

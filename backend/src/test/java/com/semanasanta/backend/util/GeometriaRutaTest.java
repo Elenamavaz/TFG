@@ -4,6 +4,7 @@ import com.semanasanta.backend.util.GeometriaRuta.Proyeccion;
 import com.semanasanta.backend.util.GeometriaRuta.PuntoGeo;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -91,5 +92,63 @@ class GeometriaRutaTest {
 
         assertThat(p.distanciaMetros()).isCloseTo(0, within(0.01));
         assertThat(p.progreso()).isCloseTo(0.5, within(0.001));
+    }
+
+    // --- recorridos circulares (bug 7): salida y llegada en el mismo templo ---
+
+    // Cuadrado de ~220 x ~250 m que empieza y acaba en A (41.650, -4.720).
+    private static final List<PuntoGeo> CIRCULAR = List.of(
+            new PuntoGeo(41.650, -4.720),
+            new PuntoGeo(41.652, -4.720),
+            new PuntoGeo(41.652, -4.717),
+            new PuntoGeo(41.650, -4.717),
+            new PuntoGeo(41.650, -4.720));
+
+    // Junto al templo pero algo más cerca del ÚLTIMO tramo que del primero.
+    private static final double LAT_JUNTO_AL_TEMPLO = 41.65005;
+    private static final double LON_JUNTO_AL_TEMPLO = -4.7199;
+
+    @Test
+    void sinReferenciaUnPingJuntoAlTemploPuedeCaerAlFinalDelRecorrido() {
+        // El comportamiento que causaba el bug: el tramo más cercano a secas es el último.
+        Proyeccion p = GeometriaRuta.proyectar(CIRCULAR, LAT_JUNTO_AL_TEMPLO, LON_JUNTO_AL_TEMPLO);
+
+        assertThat(p.progreso()).isGreaterThan(0.95);
+    }
+
+    @Test
+    void alSalirUnPingJuntoAlTemploCuentaComoInicioDelRecorrido() {
+        Proyeccion p = GeometriaRuta.proyectar(CIRCULAR, LAT_JUNTO_AL_TEMPLO, LON_JUNTO_AL_TEMPLO, 0.0, 0.0);
+
+        assertThat(p.progreso()).isLessThan(0.05);
+    }
+
+    @Test
+    void alLlegarUnPingJuntoAlTemploCuentaComoFinalDelRecorrido() {
+        Proyeccion p = GeometriaRuta.proyectar(CIRCULAR, LAT_JUNTO_AL_TEMPLO, LON_JUNTO_AL_TEMPLO, 0.80, 0.95);
+
+        assertThat(p.progreso()).isGreaterThan(0.95);
+    }
+
+    @Test
+    void conUnaReferenciaDeTodoElRecorridoSeComportaComoSinReferencia() {
+        Proyeccion sinReferencia = GeometriaRuta.proyectar(CIRCULAR, 41.651, -4.7199);
+        Proyeccion conReferenciaTotal = GeometriaRuta.proyectar(CIRCULAR, 41.651, -4.7199, 0.0, 1.0);
+
+        assertThat(conReferenciaTotal).isEqualTo(sinReferencia);
+    }
+
+    @Test
+    void laReferenciaNoRetrasaElAvanceEnUnGpxConPuntosMuySeguidos() {
+        // 21 puntos cada ~11 m: los tramos vecinos están todos a menos de 30 m.
+        List<PuntoGeo> denso = new ArrayList<>();
+        for (int i = 0; i <= 20; i++) {
+            denso.add(new PuntoGeo(41.650 + i * 0.0001, LON));
+        }
+
+        Proyeccion p = GeometriaRuta.proyectar(denso, 41.651, LON, 0.0, 0.0);
+
+        assertThat(p.progreso()).isCloseTo(0.5, within(0.01));
+        assertThat(p.distanciaMetros()).isCloseTo(0, within(0.01));
     }
 }

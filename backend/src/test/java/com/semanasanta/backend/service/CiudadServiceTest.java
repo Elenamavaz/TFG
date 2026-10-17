@@ -4,7 +4,14 @@ import com.semanasanta.backend.dto.CiudadRequest;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Ciudad;
+import com.semanasanta.backend.model.DispositivoPush;
+import com.semanasanta.backend.model.Notificacion;
+import com.semanasanta.backend.model.TipoNotificacion;
 import com.semanasanta.backend.repository.CiudadRepository;
+import com.semanasanta.backend.repository.CofradiaRepository;
+import com.semanasanta.backend.repository.DispositivoPushRepository;
+import com.semanasanta.backend.repository.JuntaCofradiasRepository;
+import com.semanasanta.backend.repository.NotificacionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,6 +37,14 @@ class CiudadServiceTest {
     private CiudadRepository ciudadRepository;
     @Mock
     private AdministradorService administradorService;
+    @Mock
+    private CofradiaRepository cofradiaRepository;
+    @Mock
+    private JuntaCofradiasRepository juntaCofradiasRepository;
+    @Mock
+    private NotificacionRepository notificacionRepository;
+    @Mock
+    private DispositivoPushRepository dispositivoPushRepository;
 
     @InjectMocks
     private CiudadService ciudadService;
@@ -77,6 +92,46 @@ class CiudadServiceTest {
         ciudadService.actualizar(1L, request(false));
 
         assertThat(ciudad.isActiva()).isFalse();
+    }
+
+    // --- eliminar ---
+
+    @Test
+    void eliminarUnaCiudadSinCofradiasBorraTambienSusAvisosYDispositivos() {
+        Ciudad ciudad = ciudad(1L);
+        List<Notificacion> avisos = List.of(new Notificacion("t", null, ciudad, TipoNotificacion.FIN, null, null));
+        List<DispositivoPush> dispositivos = List.of(new DispositivoPush("tok", ciudad));
+        when(ciudadRepository.findById(1L)).thenReturn(Optional.of(ciudad));
+        when(cofradiaRepository.findByCiudadId(1L)).thenReturn(List.of());
+        when(notificacionRepository.findByCiudadIdOrderByFechaCreacionDesc(1L)).thenReturn(avisos);
+        when(dispositivoPushRepository.findByCiudadId(1L)).thenReturn(dispositivos);
+
+        ciudadService.eliminar(1L);
+
+        verify(notificacionRepository).deleteAll(avisos);
+        verify(dispositivoPushRepository).deleteAll(dispositivos);
+        verify(ciudadRepository).delete(ciudad);
+    }
+
+    @Test
+    void noSePuedeEliminarUnaCiudadConCofradias() {
+        Ciudad ciudad = ciudad(1L);
+        when(ciudadRepository.findById(1L)).thenReturn(Optional.of(ciudad));
+        when(cofradiaRepository.findByCiudadId(1L)).thenReturn(List.of(cofradia(3L, ciudad)));
+
+        assertThatThrownBy(() -> ciudadService.eliminar(1L))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("cofradías");
+        verify(ciudadRepository, never()).delete(any());
+    }
+
+    @Test
+    void noSePuedeEliminarUnaCiudadConJunta() {
+        when(ciudadRepository.findById(1L)).thenReturn(Optional.of(ciudad(1L)));
+        when(juntaCofradiasRepository.existsByCiudadId(1L)).thenReturn(true);
+
+        assertThatThrownBy(() -> ciudadService.eliminar(1L)).isInstanceOf(IllegalStateException.class);
+        verify(ciudadRepository, never()).delete(any());
     }
 
     @Test

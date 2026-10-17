@@ -65,6 +65,9 @@ export function PasosScreen({ route, navigation }) {
           try {
             await services.eliminarPaso(paso.id);
             cargar();
+          } catch (err) {
+            // Antes sin catch: un rechazo del backend no mostraba ningún aviso.
+            Alert.alert('No se ha podido eliminar', err.message);
           } finally {
             setEliminandoId(null);
           }

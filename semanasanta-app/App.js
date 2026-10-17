@@ -8,6 +8,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { context } from './src/application';
 import { RootNavigator } from './src/ui/navigation/RootNavigator';
+import { navigationRef } from './src/ui/navigation/navigationRef';
 import { colors } from './src/theme';
 import { fontsToLoad } from './src/theme';
 import { cache } from './src/infrastructure';
@@ -43,7 +44,7 @@ export default function App() {
               <context.DiaProvider>
                 <context.FavoritosProvider>
                   <context.CofradeProvider>
-                    <NavigationContainer>
+                    <NavigationContainer ref={navigationRef}>
                       <RootNavigator />
                     </NavigationContainer>
                   </context.CofradeProvider>

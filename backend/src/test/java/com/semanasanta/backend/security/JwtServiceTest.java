@@ -24,6 +24,15 @@ class JwtServiceTest {
     }
 
     @Test
+    void elTokenDeUnCofradeLlevaElCodigoDeAccesoYElDelRestoNo() {
+        Claims cofrade = jwtService.validarYExtraerClaims(jwtService.generarToken(5L, "COFRADE", 8L));
+        Claims junta = jwtService.validarYExtraerClaims(jwtService.generarToken(7L, "JUNTA"));
+
+        assertThat(cofrade.get("codigoId", Number.class).longValue()).isEqualTo(8L);
+        assertThat(junta.get("codigoId")).isNull();
+    }
+
+    @Test
     void unTokenManipuladoNoEsValido() {
         String token = jwtService.generarToken(7L, "JUNTA");
         String manipulado = token.substring(0, token.length() - 2) + "xx";

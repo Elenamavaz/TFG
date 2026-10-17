@@ -115,9 +115,10 @@ class AuthServiceTest {
     @Test
     void codigoEmitidoSeMarcaComoValidadoYDaRolCofradeConLaCofradia() {
         Cofradia cofradia = cofradia(5L, ciudad(1L));
-        CodigoAcceso codigo = new CodigoAcceso("ABCD1234", cofradia);
+        CodigoAcceso codigo = conId(new CodigoAcceso("ABCD1234", cofradia), 8L);
         when(codigoAccesoRepository.findByCodigo("ABCD1234")).thenReturn(Optional.of(codigo));
-        when(jwtService.generarToken(5L, "COFRADE")).thenReturn("token-cofrade");
+        // El JWT lleva el código para poder invalidarlo si se revoca.
+        when(jwtService.generarToken(5L, "COFRADE", 8L)).thenReturn("token-cofrade");
 
         AuthResponse respuesta = authService.loginConCodigoAcceso("ABCD1234");
 
@@ -128,10 +129,10 @@ class AuthServiceTest {
 
     @Test
     void codigoYaValidadoSigueSirviendoSinVolverAGuardarse() {
-        CodigoAcceso codigo = new CodigoAcceso("ABCD1234", cofradia(5L, ciudad(1L)));
+        CodigoAcceso codigo = conId(new CodigoAcceso("ABCD1234", cofradia(5L, ciudad(1L))), 8L);
         codigo.setEstado(EstadoCodigo.VALIDADO);
         when(codigoAccesoRepository.findByCodigo("ABCD1234")).thenReturn(Optional.of(codigo));
-        when(jwtService.generarToken(5L, "COFRADE")).thenReturn("token");
+        when(jwtService.generarToken(5L, "COFRADE", 8L)).thenReturn("token");
 
         authService.loginConCodigoAcceso("ABCD1234");
 
@@ -147,6 +148,17 @@ class AuthServiceTest {
         assertThatThrownBy(() -> authService.loginConCodigoAcceso("ABCD1234"))
                 .isInstanceOf(CredencialesInvalidasException.class)
                 .hasMessageContaining("revocado");
+    }
+
+    @Test
+    void elCodigoDeUnaCofradiaDesactivadaNoPermiteEntrar() {
+        Cofradia cofradia = cofradia(5L, ciudad(1L));
+        cofradia.setActiva(false);
+        when(codigoAccesoRepository.findByCodigo("ABCD1234")).thenReturn(Optional.of(new CodigoAcceso("ABCD1234", cofradia)));
+
+        assertThatThrownBy(() -> authService.loginConCodigoAcceso("ABCD1234"))
+                .isInstanceOf(CredencialesInvalidasException.class)
+                .hasMessageContaining("desactivada");
     }
 
     @Test

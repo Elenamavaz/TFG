@@ -4,6 +4,7 @@ import com.semanasanta.backend.dto.MiembroJuntaCofradiaPerfilRequest;
 import com.semanasanta.backend.dto.MiembroJuntaCofradiaRequest;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.CredencialesInvalidasException;
+import com.semanasanta.backend.exception.RecursoDuplicadoException;
 import com.semanasanta.backend.model.JuntaCofradias;
 import com.semanasanta.backend.model.MiembroJuntaCofradia;
 import com.semanasanta.backend.repository.MiembroJuntaCofradiaRepository;
@@ -88,6 +89,16 @@ class MiembroJuntaCofradiaServiceTest {
     }
 
     @Test
+    void exigirJuntaRechazaAUnMiembroActivoDeUnaJuntaDesactivada() {
+        autenticarComo(2L, "JUNTA");
+        miembroDeLaCiudad(2L, 1L).getJuntaCofradias().setActiva(false);
+
+        assertThatThrownBy(() -> miembroService.exigirJunta())
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("Junta de Cofradías de tu ciudad está desactivada");
+    }
+
+    @Test
     void exigirJuntaDeLaCiudadPermiteLaJuntaDeEsaCiudad() {
         autenticarComo(2L, "JUNTA");
         miembroDeLaCiudad(2L, 1L);
@@ -134,6 +145,58 @@ class MiembroJuntaCofradiaServiceTest {
                 .isInstanceOf(AccesoDenegadoException.class);
         verify(miembroRepository, never()).save(any());
         verify(correoService, never()).enviarBienvenidaMiembroJunta(any(), any(), any());
+    }
+
+    @Test
+    void noSePuedeCrearUnMiembroConUnEmailYaRegistrado() {
+        doThrow(new RecursoDuplicadoException("email repetido")).when(administradorService).exigirEmailLibre("ana@test.es");
+
+        assertThatThrownBy(() -> miembroService.crear(
+                new MiembroJuntaCofradiaRequest("Ana", "ana@test.es", null, 1L, true)))
+                .isInstanceOf(RecursoDuplicadoException.class);
+        verify(miembroRepository, never()).save(any());
+        verify(correoService, never()).enviarBienvenidaMiembroJunta(any(), any(), any());
+    }
+
+    // --- consulta de datos personales ---
+
+    @Test
+    void unMiembroPuedeConsultarSusPropiosDatos() {
+        autenticarComo(2L, "JUNTA");
+        MiembroJuntaCofradia miembro = miembroDeLaCiudad(2L, 1L);
+
+        assertThat(miembroService.consultar(2L)).isSameAs(miembro);
+    }
+
+    @Test
+    void unAdministradorPuedeConsultarCualquierMiembro() {
+        autenticarComo(1L, "ADMIN");
+        MiembroJuntaCofradia miembro = miembroDeLaCiudad(2L, 1L);
+
+        assertThat(miembroService.consultar(2L)).isSameAs(miembro);
+    }
+
+    @Test
+    void unMiembroNoPuedeConsultarLosDatosDeOtro() {
+        autenticarComo(3L, "JUNTA");
+
+        assertThatThrownBy(() -> miembroService.consultar(2L)).isInstanceOf(AccesoDenegadoException.class);
+    }
+
+    @Test
+    void unCofradeNoPuedeConsultarMiembrosAunqueSuIdCoincida() {
+        // El id del JWT de un Cofrade es su cofradía, no un usuario.
+        autenticarComo(2L, "COFRADE");
+
+        assertThatThrownBy(() -> miembroService.consultar(2L)).isInstanceOf(AccesoDenegadoException.class);
+    }
+
+    @Test
+    void laListaDeMiembrosDeUnaJuntaEsSoloParaElAdministrador() {
+        doThrow(new AccesoDenegadoException("solo admin")).when(administradorService).exigirAdministrador();
+
+        assertThatThrownBy(() -> miembroService.listarDeJunta(1L)).isInstanceOf(AccesoDenegadoException.class);
+        verify(miembroRepository, never()).findByJuntaCofradiasId(any());
     }
 
     @Test

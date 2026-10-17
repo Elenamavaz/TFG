@@ -13,6 +13,7 @@ import com.semanasanta.backend.model.EstadoEvento;
 import com.semanasanta.backend.model.Prioridad;
 import com.semanasanta.backend.model.Procesion;
 import com.semanasanta.backend.model.TipoNotificacion;
+import com.semanasanta.backend.repository.PosicionActualRepository;
 import com.semanasanta.backend.repository.ProcesionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,6 +54,8 @@ class ProcesionServiceTest {
     private MiembroJuntaCofradiaService miembroJuntaCofradiaService;
     @Mock
     private NotificacionService notificacionService;
+    @Mock
+    private PosicionActualRepository posicionActualRepository;
 
     @InjectMocks
     private ProcesionService procesionService;
@@ -208,6 +211,7 @@ class ProcesionServiceTest {
         procesionService.eliminar(10L);
 
         verify(miembroJuntaCofradiaService).exigirJuntaDeLaCiudad(1L);
+        verify(posicionActualRepository).deleteByProcesionId(10L); // sus pings GPS, que si no bloquean el borrado
         verify(procesionRepository).delete(procesion);
     }
 

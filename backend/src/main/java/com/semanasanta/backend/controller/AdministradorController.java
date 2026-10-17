@@ -23,7 +23,7 @@ public class AdministradorController {
 
     @GetMapping("/{id}")
     public AdministradorResponse obtener(@PathVariable Long id) {
-        Administrador administrador = administradorService.obtener(id);
+        Administrador administrador = administradorService.consultar(id);
         return AdministradorResponse.from(administrador);
     }
 

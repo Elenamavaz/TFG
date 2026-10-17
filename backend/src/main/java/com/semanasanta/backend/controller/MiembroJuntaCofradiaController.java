@@ -24,7 +24,7 @@ public class MiembroJuntaCofradiaController {
 
     @GetMapping("/{id}")
     public MiembroJuntaCofradiaResponse obtener(@PathVariable Long id) {
-        MiembroJuntaCofradia miembro = miembroJuntaCofradiaService.obtener(id);
+        MiembroJuntaCofradia miembro = miembroJuntaCofradiaService.consultar(id);
         return MiembroJuntaCofradiaResponse.from(miembro);
     }
 

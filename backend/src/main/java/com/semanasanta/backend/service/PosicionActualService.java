@@ -6,11 +6,14 @@ import com.semanasanta.backend.dto.PosicionAgregadaResponse;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.ProcesionNoEnCursoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
+import com.semanasanta.backend.model.CodigoAcceso;
 import com.semanasanta.backend.model.Cofrade;
+import com.semanasanta.backend.model.EstadoCodigo;
 import com.semanasanta.backend.model.EstadoEvento;
 import com.semanasanta.backend.model.PosicionActual;
 import com.semanasanta.backend.model.Procesion;
 import com.semanasanta.backend.model.Recorrido;
+import com.semanasanta.backend.repository.CodigoAccesoRepository;
 import com.semanasanta.backend.repository.PosicionActualRepository;
 import com.semanasanta.backend.security.SecurityUtils;
 import com.semanasanta.backend.security.UsuarioPrincipal;
@@ -38,12 +41,15 @@ public class PosicionActualService {
     private final PosicionActualRepository posicionActualRepository;
     private final ProcesionService procesionService;
     private final RecorridoPuntoRutaService recorridoPuntoRutaService;
+    private final CodigoAccesoRepository codigoAccesoRepository;
 
     public PosicionActualService(PosicionActualRepository posicionActualRepository, ProcesionService procesionService,
-                                  RecorridoPuntoRutaService recorridoPuntoRutaService) {
+                                  RecorridoPuntoRutaService recorridoPuntoRutaService,
+                                  CodigoAccesoRepository codigoAccesoRepository) {
         this.posicionActualRepository = posicionActualRepository;
         this.procesionService = procesionService;
         this.recorridoPuntoRutaService = recorridoPuntoRutaService;
+        this.codigoAccesoRepository = codigoAccesoRepository;
     }
 
     // Registra un ping anónimo (cada ~30s desde el cliente cofrade). No hay
@@ -152,10 +158,16 @@ public class PosicionActualService {
         List<PosicionActual> pingsRecientes = posicionActualRepository.findByProcesionIdAndTimestampAfter(procesionId, desde);
 
         if (!pingsRecientes.isEmpty()) {
+            // Referencia para desambiguar recorridos circulares o que se
+            // cruzan (ver GeometriaRuta.proyectar): el tramo ya recorrido
+            // según la marca de agua, o el inicio si aún no hay ninguna.
+            double referenciaMin = procesion.getProgresoColaAlcanzado() != null ? procesion.getProgresoColaAlcanzado() : 0.0;
+            double referenciaMax = procesion.getProgresoCabezaAlcanzado() != null ? procesion.getProgresoCabezaAlcanzado() : 0.0;
             double candidatoCola = 1.0;
             double candidatoCabeza = 0.0;
             for (PosicionActual ping : pingsRecientes) {
-                double progreso = GeometriaRuta.proyectar(puntos, ping.getLatitud(), ping.getLongitud()).progreso();
+                double progreso = GeometriaRuta.proyectar(puntos, ping.getLatitud(), ping.getLongitud(),
+                        referenciaMin, referenciaMax).progreso();
                 candidatoCola = Math.min(candidatoCola, progreso);
                 candidatoCabeza = Math.max(candidatoCabeza, progreso);
             }
@@ -189,6 +201,27 @@ public class PosicionActualService {
             throw new AccesoDenegadoException(
                     "Solo un cofrade de una cofradía participante puede compartir su ubicación en esta procesión");
         }
+        exigirCodigoVigente(actual);
         return Cofrade.autenticado(actual.id());
+    }
+
+    // Revocar un código solo impedía volver a iniciar sesión con él: el JWT
+    // ya emitido seguía sirviendo hasta 24h para mandar pings, también en
+    // otras procesiones (bug 10 de bugs.md, 2026-10-16). Ahora el JWT lleva
+    // el código (ver UsuarioPrincipal.codigoId) y se comprueba en cada ping,
+    // igual que si la cofradía se ha desactivado mientras tanto.
+    private void exigirCodigoVigente(UsuarioPrincipal actual) {
+        if (actual.codigoId() == null) {
+            // JWT emitido antes de este cambio, sin código dentro.
+            throw new AccesoDenegadoException("Tu sesión de cofrade es antigua: cierra sesión y vuelve a entrar con tu código");
+        }
+        CodigoAcceso codigo = codigoAccesoRepository.findById(actual.codigoId()).orElse(null);
+        if (codigo == null || codigo.getEstado() == EstadoCodigo.REVOCADO
+                || !codigo.getCofradia().getId().equals(actual.id())) {
+            throw new AccesoDenegadoException("La Junta ha revocado tu código de acceso: ya no puedes compartir tu ubicación");
+        }
+        if (!codigo.getCofradia().isActiva()) {
+            throw new AccesoDenegadoException("Tu cofradía está desactivada: ya no puedes compartir tu ubicación");
+        }
     }
 }

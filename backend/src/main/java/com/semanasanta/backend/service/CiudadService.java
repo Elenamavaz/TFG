@@ -4,7 +4,12 @@ import com.semanasanta.backend.dto.CiudadRequest;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Ciudad;
 import com.semanasanta.backend.repository.CiudadRepository;
+import com.semanasanta.backend.repository.CofradiaRepository;
+import com.semanasanta.backend.repository.DispositivoPushRepository;
+import com.semanasanta.backend.repository.JuntaCofradiasRepository;
+import com.semanasanta.backend.repository.NotificacionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,10 +18,20 @@ public class CiudadService {
 
     private final CiudadRepository ciudadRepository;
     private final AdministradorService administradorService;
+    private final CofradiaRepository cofradiaRepository;
+    private final JuntaCofradiasRepository juntaCofradiasRepository;
+    private final NotificacionRepository notificacionRepository;
+    private final DispositivoPushRepository dispositivoPushRepository;
 
-    public CiudadService(CiudadRepository ciudadRepository, AdministradorService administradorService) {
+    public CiudadService(CiudadRepository ciudadRepository, AdministradorService administradorService,
+                          CofradiaRepository cofradiaRepository, JuntaCofradiasRepository juntaCofradiasRepository,
+                          NotificacionRepository notificacionRepository, DispositivoPushRepository dispositivoPushRepository) {
         this.ciudadRepository = ciudadRepository;
         this.administradorService = administradorService;
+        this.cofradiaRepository = cofradiaRepository;
+        this.juntaCofradiasRepository = juntaCofradiasRepository;
+        this.notificacionRepository = notificacionRepository;
+        this.dispositivoPushRepository = dispositivoPushRepository;
     }
 
     // Solo las activas: es lo que ve el ciudadano en el selector de ciudad
@@ -60,9 +75,21 @@ public class CiudadService {
         return ciudadRepository.save(ciudad);
     }
 
+    // Cofradías y Junta se gestionan aparte y tienen sus propios datos
+    // (pasos, eventos, miembros...): se exige eliminarlas antes, con un
+    // mensaje claro en vez de que la FK lo rechace con un error genérico.
+    // Avisos y dispositivos push sí son de la propia ciudad y se borran con
+    // ella -si no, ninguna ciudad con usuarios se podría eliminar nunca.
+    @Transactional
     public void eliminar(Long id) {
         administradorService.exigirAdministrador();
         Ciudad ciudad = obtener(id);
+        if (juntaCofradiasRepository.existsByCiudadId(id) || !cofradiaRepository.findByCiudadId(id).isEmpty()) {
+            throw new IllegalStateException(
+                    "No se puede eliminar la ciudad mientras tenga Junta de Cofradías o cofradías. Elimínalas antes, o desactiva la ciudad.");
+        }
+        notificacionRepository.deleteAll(notificacionRepository.findByCiudadIdOrderByFechaCreacionDesc(id));
+        dispositivoPushRepository.deleteAll(dispositivoPushRepository.findByCiudadId(id));
         ciudadRepository.delete(ciudad);
     }
 }

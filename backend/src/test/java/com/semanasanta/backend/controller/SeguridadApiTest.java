@@ -16,6 +16,7 @@ import com.semanasanta.backend.service.CiudadService;
 import com.semanasanta.backend.service.CodigoAccesoService;
 import com.semanasanta.backend.service.DispositivoPushService;
 import com.semanasanta.backend.service.InformacionCiudadService;
+import com.semanasanta.backend.service.MiembroJuntaCofradiaService;
 import com.semanasanta.backend.service.PosicionActualService;
 import com.semanasanta.backend.service.ProcesionService;
 import org.junit.jupiter.api.Nested;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,7 +33,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 
 import static com.semanasanta.backend.support.DatosPrueba.*;
+import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,7 +53,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // devuelve cada error.
 @WebMvcTest(controllers = {
         AuthController.class, CiudadController.class, CodigoAccesoController.class,
-        ProcesionController.class, AdministradorController.class, DispositivoPushController.class
+        ProcesionController.class, AdministradorController.class, DispositivoPushController.class,
+        MiembroJuntaCofradiaController.class
 })
 @Import({SecurityConfig.class, JwtService.class})
 class SeguridadApiTest {
@@ -75,6 +80,8 @@ class SeguridadApiTest {
     private AdministradorService administradorService;
     @MockitoBean
     private DispositivoPushService dispositivoPushService;
+    @MockitoBean
+    private MiembroJuntaCofradiaService miembroJuntaCofradiaService;
 
     private static final String CIUDAD_JSON = """
             {"nombre":"Valladolid","comunidadAutonoma":"Castilla y León","provincia":"Valladolid",
@@ -136,8 +143,12 @@ class SeguridadApiTest {
 
         @Test
         void escribirSinTokenSeRechazaSinLlegarAlServicio() throws Exception {
+            // 401 (no 403) y marcado como sesión inválida: así la app sabe
+            // que tiene que volver a pedir el inicio de sesión (bug 8).
             mockMvc.perform(json(post("/ciudades"), CIUDAD_JSON))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.sesionInvalida").value(true))
+                    .andExpect(jsonPath("$.mensaje").value(startsWith("Tu sesión ha caducado")));
 
             verify(ciudadService, never()).crear(any());
         }
@@ -145,7 +156,7 @@ class SeguridadApiTest {
         @Test
         void eliminarSinTokenSeRechaza() throws Exception {
             mockMvc.perform(delete("/ciudades/1"))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isUnauthorized());
 
             verify(ciudadService, never()).eliminar(any());
         }
@@ -153,7 +164,7 @@ class SeguridadApiTest {
         @Test
         void unTokenFalsoSeTrataComoSinSesion() throws Exception {
             mockMvc.perform(json(post("/ciudades"), CIUDAD_JSON).header("Authorization", "Bearer token-inventado"))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isUnauthorized());
 
             verify(ciudadService, never()).crear(any());
         }
@@ -170,9 +181,27 @@ class SeguridadApiTest {
         @Test
         void losCodigosDeAccesoNoSonPublicosAunqueSeanGet() throws Exception {
             mockMvc.perform(get("/codigos-acceso/8"))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isUnauthorized());
 
             verify(codigoAccesoService, never()).obtener(any());
+        }
+
+        @Test
+        void losDatosPersonalesDeAdministradoresYMiembrosNoSonPublicos() throws Exception {
+            mockMvc.perform(get("/administradores/1")).andExpect(status().isUnauthorized());
+            mockMvc.perform(get("/miembros-junta/2")).andExpect(status().isUnauthorized());
+
+            verify(administradorService, never()).consultar(any());
+            verify(miembroJuntaCofradiaService, never()).consultar(any());
+        }
+
+        @Test
+        void conSesionLaConsultaDeUnMiembroPasaPorElControlDePermisos() throws Exception {
+            when(miembroJuntaCofradiaService.consultar(2L)).thenReturn(miembro(2L, junta(1L, ciudad(1L))));
+
+            mockMvc.perform(conToken(get("/miembros-junta/2"), "JUNTA"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.email").value("miembro2@test.es"));
         }
 
         @Test
@@ -228,6 +257,27 @@ class SeguridadApiTest {
         }
 
         @Test
+        void eliminarAlgoConDatosAsociadosDevuelve409ConMensajeEnVezDe500() throws Exception {
+            doThrow(new DataIntegrityViolationException("fk"))
+                    .when(ciudadService).eliminar(1L);
+
+            mockMvc.perform(conToken(delete("/ciudades/1"), "ADMIN"))
+                    .andExpect(status().isConflict())
+                    .andExpect(jsonPath("$.mensaje").value(startsWith("No se puede eliminar")));
+        }
+
+        @Test
+        void unaContrasenaIncorrectaEsUn401SinMarcaDeSesionInvalida() throws Exception {
+            // Para que la app no cierre la sesión por un simple error de contraseña.
+            when(authService.login(any(), any())).thenThrow(new CredencialesInvalidasException("Email o contraseña incorrectos"));
+
+            mockMvc.perform(json(post("/auth/login"), """
+                            {"email":"a@test.es","password":"mala"}"""))
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(jsonPath("$.sesionInvalida").doesNotExist());
+        }
+
+        @Test
         void pingAProcesionQueYaNoEstaEnCursoDevuelve410() throws Exception {
             when(posicionActualService.registrarPing(10L, 41.65, -4.72)).thenThrow(new ProcesionNoEnCursoException());
 
@@ -274,6 +324,32 @@ class SeguridadApiTest {
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.latitud").exists())
                     .andExpect(jsonPath("$.longitud").exists());
+        }
+    }
+
+    @Nested
+    class ErroresDeFormato {
+
+        @Test
+        void unCampoConFormatoInvalidoSeIndicaPorSuNombre() throws Exception {
+            mockMvc.perform(conToken(json(post("/procesiones/10/posiciones"), """
+                            {"latitud":"no-es-un-numero","longitud":-4.72}"""), "COFRADE"))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.mensaje").value("El campo \"latitud\" no tiene un formato válido."));
+        }
+
+        @Test
+        void unJsonMalFormadoDevuelveUnMensajeGenerico() throws Exception {
+            mockMvc.perform(json(post("/auth/login"), "{esto no es json"))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.mensaje").value("Los datos enviados no tienen un formato válido."));
+        }
+
+        @Test
+        void unIdQueNoEsNumericoDevuelve400ConMensaje() throws Exception {
+            mockMvc.perform(get("/ciudades/abc"))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.mensaje").value("El parámetro \"id\" no tiene un formato válido."));
         }
     }
 

@@ -42,7 +42,22 @@ public class MiembroJuntaCofradiaService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe el miembro de Junta con id " + id));
     }
 
+    // GET /miembros-junta/{id}: devuelve email y teléfono, así que solo lo
+    // consulta un Administrador o el propio miembro (su pantalla de perfil).
+    // obtener() a secas queda para uso interno de los Services.
+    public MiembroJuntaCofradia consultar(Long id) {
+        UsuarioPrincipal actual = SecurityUtils.usuarioActual();
+        boolean esElPropioMiembro = "JUNTA".equals(actual.rol()) && actual.id().equals(id);
+        if (!"ADMIN".equals(actual.rol()) && !esElPropioMiembro) {
+            throw new AccesoDenegadoException("Solo un Administrador o el propio miembro pueden consultar estos datos");
+        }
+        return obtener(id);
+    }
+
+    // Mismo motivo que consultar(): la lista lleva los datos de contacto de
+    // todos los miembros, la usa solo el panel de Administrador.
     public List<MiembroJuntaCofradia> listarDeJunta(Long juntaCofradiasId) {
+        administradorService.exigirAdministrador();
         juntaCofradiasService.obtener(juntaCofradiasId); // 404 si la Junta no existe
         return miembroJuntaCofradiaRepository.findByJuntaCofradiasId(juntaCofradiasId);
     }
@@ -59,6 +74,7 @@ public class MiembroJuntaCofradiaService {
     @Transactional
     public MiembroJuntaCofradia crear(MiembroJuntaCofradiaRequest request) {
         administradorService.exigirAdministrador();
+        administradorService.exigirEmailLibre(request.email()); // 409 en vez de un 500 por el UNIQUE
         JuntaCofradias junta = juntaCofradiasService.obtener(request.juntaCofradiasId()); // 404 si no existe
         String passwordGenerada = generarPassword();
         String passwordHash = passwordEncoder.encode(passwordGenerada);
@@ -200,8 +216,18 @@ public class MiembroJuntaCofradiaService {
         if (!"JUNTA".equals(actual.rol())) {
             throw new AccesoDenegadoException("Esta operación solo puede realizarla una Junta de Cofradías");
         }
-        if (!obtener(actual.id()).isActivo()) {
+        MiembroJuntaCofradia miembro = obtener(actual.id());
+        if (!miembro.isActivo()) {
             throw new AccesoDenegadoException("Tu cuenta de Junta está desactivada; solicita al Administrador que la reactive");
+        }
+        // Desactivar la Junta entera (JuntaCofradias.activa, desde el panel
+        // de Administrador) no impedía nada: sus miembros seguían pudiendo
+        // escribir (bug 9 de bugs.md, 2026-10-16). Desactivar la CIUDAD, en
+        // cambio, no bloquea a su Junta a propósito: es como el Administrador
+        // la oculta a los ciudadanos mientras la Junta la prepara.
+        if (!miembro.getJuntaCofradias().isActiva()) {
+            throw new AccesoDenegadoException(
+                    "La Junta de Cofradías de tu ciudad está desactivada; contacta con el Administrador");
         }
     }
 

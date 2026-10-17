@@ -123,6 +123,9 @@ export function FormularioPasoScreen({ route, navigation }) {
           try {
             await services.eliminarPaso(pasoId);
             navigation.navigate('Pasos', { ciudadId });
+          } catch (err) {
+            // Antes sin catch: un rechazo del backend no mostraba ningún aviso.
+            Alert.alert('No se ha podido eliminar', err.message);
           } finally {
             setEliminando(false);
           }

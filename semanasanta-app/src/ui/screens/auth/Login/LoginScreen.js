@@ -42,7 +42,7 @@ const ICONO_POR_ROL = { JUNTA: 'account', ADMIN: 'shield-crown-outline', COFRADE
 // código de acceso (POST /auth/codigo-acceso). Los tres guardan su JWT en
 // AuthContext y van a su propio panel.
 export function LoginScreen({ navigation }) {
-  const { iniciarSesion } = context.useAuth();
+  const { iniciarSesion, avisoSesion } = context.useAuth();
   const [rolId, setRolId] = useState(ROLES.JUNTA.id);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -97,7 +97,11 @@ export function LoginScreen({ navigation }) {
     <common.ScreenContainer style={styles.container}>
       <TouchableOpacity
         style={styles.volver}
-        onPress={() => navigation.goBack()}
+        // Tras caducar la sesión se llega aquí con la pila reiniciada (ver
+        // RootNavigator): sin pantalla anterior, "volver" lleva a la bienvenida.
+        onPress={() =>
+          navigation.canGoBack() ? navigation.goBack() : navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] })
+        }
         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       >
         <Ionicons name="chevron-back" size={22} color={colors.subtitle} />
@@ -176,6 +180,7 @@ export function LoginScreen({ navigation }) {
       )}
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
+      {!error && avisoSesion ? <Text style={styles.error}>{avisoSesion}</Text> : null}
 
       {rol.nota ? (
         <>

@@ -76,6 +76,18 @@ export class ApiError extends Error {
 // getSesionGuardada() lee de AsyncStorage en vez de venir de un argumento:
 // apiFetch es una función suelta (la usan los data/services, fuera de
 // cualquier componente), no puede leer el AuthContext de React directamente.
+// Sesión caducada (bug 8 de bugs.md, 2026-10-16): el backend responde 401
+// con sesionInvalida=true (ver SecurityConfig.SESION_INVALIDA) cuando el JWT
+// ha caducado o no vale. AuthContext registra aquí qué hacer entonces
+// (cerrar la sesión y volver al inicio de sesión); este módulo no conoce
+// React, solo avisa. Un 401 SIN esa marca es otra cosa (p.ej. contraseña
+// incorrecta) y no cierra nada.
+let alCaducarSesion = null;
+
+export function configurarSesionCaducada(callback) {
+  alCaducarSesion = callback;
+}
+
 async function cabeceraAutorizacion() {
   const sesion = await sesionService.getSesionGuardada();
   return sesion?.token ? { Authorization: `Bearer ${sesion.token}` } : {};
@@ -103,6 +115,10 @@ export async function apiFetch(path, options = {}) {
   const datos = texto ? JSON.parse(texto) : null;
 
   if (!response.ok) {
+    if (response.status === 401 && datos?.sesionInvalida && auth.Authorization) {
+      alCaducarSesion?.(datos.mensaje);
+      throw new ApiError(datos.mensaje, null, response.status);
+    }
     if (response.status === 400 && datos && datos.mensaje === undefined) {
       throw new ApiError('Revisa los campos marcados.', datos, response.status);
     }

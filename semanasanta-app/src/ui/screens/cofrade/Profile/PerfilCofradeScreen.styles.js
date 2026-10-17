@@ -96,6 +96,13 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.md,
     lineHeight: 18,
   },
+  avisoCompartir: {
+    color: colors.orangeText,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    lineHeight: 16,
+    marginTop: spacing.sm,
+  },
   modalError: {
     color: colors.redText,
     fontFamily: fontFamilies.uiRegular,

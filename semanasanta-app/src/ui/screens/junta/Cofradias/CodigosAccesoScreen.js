@@ -79,7 +79,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
   function confirmarRevocar(codigo) {
     Alert.alert(
       'Revocar código',
-      `El código ${codigo.codigo} dejará de servir para entrar como cofrade. Quien ya lo esté usando seguirá compartiendo hasta que pare o acabe la procesión. Esta acción no se puede deshacer.`,
+      `El código ${codigo.codigo} dejará de servir para entrar como cofrade. Quien lo esté usando dejará de compartir su ubicación en ese momento. Esta acción no se puede deshacer.`,
       [
         { text: 'Cancelar', style: 'cancel' },
         {

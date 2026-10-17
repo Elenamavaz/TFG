@@ -116,6 +116,11 @@ export function FormularioMiembroScreen({ route, navigation }) {
     } catch (err) {
       if (err.campos) {
         setErroresCampos(err.campos);
+      } else if (err.status === 409) {
+        // El único conflicto posible al guardar un miembro es el email ya
+        // registrado (ver AdministradorService.exigirEmailLibre): se marca
+        // en su campo en vez de como error general.
+        setErroresCampos({ email: err.message });
       } else {
         setError(err.message);
       }
@@ -131,8 +136,14 @@ export function FormularioMiembroScreen({ route, navigation }) {
         text: 'Eliminar',
         style: 'destructive',
         onPress: async () => {
-          await services.eliminarMiembroJuntaCofradia(miembroId);
-          navigation.navigate('Miembros', { juntaId: juntaSeleccionada?.id });
+          // Sin catch, un rechazo del backend (p.ej. datos asociados que
+          // impiden borrarlo) se perdía sin que se viera ningún aviso.
+          try {
+            await services.eliminarMiembroJuntaCofradia(miembroId);
+            navigation.navigate('Miembros', { juntaId: juntaSeleccionada?.id });
+          } catch (err) {
+            Alert.alert('No se ha podido eliminar', err.message);
+          }
         },
       },
     ]);

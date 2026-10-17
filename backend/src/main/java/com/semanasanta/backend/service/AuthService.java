@@ -59,13 +59,16 @@ public class AuthService {
         if (codigoAcceso.getEstado() == EstadoCodigo.REVOCADO) {
             throw new CredencialesInvalidasException("Código de acceso revocado");
         }
+        if (!codigoAcceso.getCofradia().isActiva()) {
+            throw new CredencialesInvalidasException("La cofradía de este código está desactivada");
+        }
         if (codigoAcceso.getEstado() == EstadoCodigo.EMITIDO) {
             codigoAcceso.setEstado(EstadoCodigo.VALIDADO); // marca que ya se ha usado al menos una vez
             codigoAccesoRepository.save(codigoAcceso);
         }
 
         Long cofradiaId = codigoAcceso.getCofradia().getId();
-        String token = jwtService.generarToken(cofradiaId, "COFRADE");
+        String token = jwtService.generarToken(cofradiaId, "COFRADE", codigoAcceso.getId());
         return new AuthResponse(token, "COFRADE", cofradiaId, true);
     }
 

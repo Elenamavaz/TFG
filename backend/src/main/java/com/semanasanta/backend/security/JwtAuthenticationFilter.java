@@ -40,7 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (claims != null) {
                 Long usuarioId = Long.valueOf(claims.getSubject());
                 String rol = claims.get("rol", String.class);
-                UsuarioPrincipal principal = new UsuarioPrincipal(usuarioId, rol);
+                // Number y no Long: según su tamaño, jjwt lo lee como Integer.
+                Number codigoId = claims.get("codigoId", Number.class);
+                UsuarioPrincipal principal = new UsuarioPrincipal(usuarioId, rol,
+                        codigoId != null ? codigoId.longValue() : null);
 
                 var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + rol));
                 var authentication = new UsernamePasswordAuthenticationToken(principal, null, authorities);

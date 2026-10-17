@@ -3,16 +3,20 @@ package com.semanasanta.backend.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 // Reglas reales (sustituye al permitAll temporal): todo GET queda público
@@ -27,7 +31,9 @@ import java.util.List;
 // (el propio código es la contraseña del cofrade), listarlos no puede ser
 // público aunque sea un GET -si no, cualquiera podría leer códigos ajenos-,
 // así que sus rutas se excluyen ANTES de la regla general (el orden importa:
-// gana el primer matcher que encaja).
+// gana el primer matcher que encaja). Mismo caso para los datos personales
+// (email y teléfono) de Administradores y Miembros de Junta (2026-10-16):
+// eran públicos; quién puede verlos lo decide después la capa Service.
 //
 // Excepción simétrica para escrituras: /administradores/bootstrap es
 // permitAll aunque sea un POST -es la única vía para crear el primer
@@ -80,6 +86,20 @@ public class SecurityConfig {
         return source;
     }
 
+    // Sin esto, una petición sin JWT válido (o con uno caducado) a una ruta
+    // protegida recibía un 403 vacío -indistinguible de "no tienes permiso"-,
+    // y la app no podía saber que la sesión había caducado (bug 8 de
+    // bugs.md, 2026-10-16). Ahora es 401 con el mismo formato que el resto de
+    // errores (GlobalExceptionHandler.ErrorResponse) más "sesionInvalida",
+    // para no confundirlo con el 401 de una contraseña incorrecta.
+    private static final AuthenticationEntryPoint SESION_INVALIDA = (request, response, ex) -> {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.getWriter().write(
+                "{\"mensaje\":\"Tu sesión ha caducado o no es válida. Vuelve a iniciar sesión.\",\"sesionInvalida\":true}");
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -88,11 +108,14 @@ public class SecurityConfig {
                 // API stateless: cada petición se autentica con su propio JWT,
                 // no hay sesión de servidor que mantener entre peticiones.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(errores -> errores.authenticationEntryPoint(SESION_INVALIDA))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/administradores/bootstrap").permitAll()
                         .requestMatchers(HttpMethod.POST, "/dispositivos-push").permitAll()
                         .requestMatchers(HttpMethod.GET, "/codigos-acceso/**", "/cofradias/*/codigos-acceso").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/administradores/**", "/miembros-junta/**",
+                                "/juntas-cofradias/*/miembros").authenticated()
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .anyRequest().authenticated()
                 )

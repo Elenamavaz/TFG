@@ -12,18 +12,39 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [sesion, setSesion] = useState(null); // { token, rol, usuarioId, activo } | null
   const [cargando, setCargando] = useState(true);
+  // Mensaje para el inicio de sesión cuando la sesión se ha cerrado por
+  // caducar (bug 8 de bugs.md); RootNavigator lleva entonces a Login.
+  const [avisoSesion, setAvisoSesion] = useState(null);
 
   useEffect(() => {
     services.getSesionGuardada().then((guardada) => {
-      setSesion(guardada);
+      if (guardada && services.sesionHaCaducado(guardada)) {
+        services.borrarSesion();
+        setSesion(null);
+        setAvisoSesion('Tu sesión ha caducado. Vuelve a iniciar sesión.');
+      } else {
+        setSesion(guardada);
+      }
       setCargando(false);
     });
+  }, []);
+
+  // Caducada mientras se usa la app: la primera petición rechazada cierra la
+  // sesión (si no, cada acción seguiría fallando con un error genérico).
+  useEffect(() => {
+    services.configurarSesionCaducada((mensaje) => {
+      setSesion(null);
+      services.borrarSesion();
+      setAvisoSesion(mensaje || 'Tu sesión ha caducado. Vuelve a iniciar sesión.');
+    });
+    return () => services.configurarSesionCaducada(null);
   }, []);
 
   // "activo" solo importa para rol JUNTA (ver AuthResponse del backend): un
   // miembro desactivado igual recibe token, pero la app lo manda a un aviso
   // de "cuenta desactivada" en vez de al panel, ver RootNavigator/LoginScreen.
   const iniciarSesion = useCallback(({ token, rol, usuarioId, activo }) => {
+    setAvisoSesion(null);
     setSesion({ token, rol, usuarioId, activo });
     services.guardarSesion({ token, rol, usuarioId, activo });
   }, []);
@@ -33,9 +54,11 @@ export function AuthProvider({ children }) {
     services.borrarSesion();
   }, []);
 
+  const limpiarAvisoSesion = useCallback(() => setAvisoSesion(null), []);
+
   const value = useMemo(
-    () => ({ sesion, cargandoSesion: cargando, iniciarSesion, cerrarSesion }),
-    [sesion, cargando, iniciarSesion, cerrarSesion]
+    () => ({ sesion, cargandoSesion: cargando, iniciarSesion, cerrarSesion, avisoSesion, limpiarAvisoSesion }),
+    [sesion, cargando, iniciarSesion, cerrarSesion, avisoSesion, limpiarAvisoSesion]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -7,8 +7,10 @@ import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.RecursoDuplicadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.*;
+import com.semanasanta.backend.repository.PosicionActualRepository;
 import com.semanasanta.backend.repository.ProcesionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -23,11 +25,12 @@ public class ProcesionService {
     private final PasoService pasoService;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
     private final NotificacionService notificacionService;
+    private final PosicionActualRepository posicionActualRepository;
 
     public ProcesionService(ProcesionRepository procesionRepository, CofradiaService cofradiaService,
                              UbicacionService ubicacionService, RecorridoService recorridoService,
                              PasoService pasoService, MiembroJuntaCofradiaService miembroJuntaCofradiaService,
-                             NotificacionService notificacionService) {
+                             NotificacionService notificacionService, PosicionActualRepository posicionActualRepository) {
         this.procesionRepository = procesionRepository;
         this.cofradiaService = cofradiaService;
         this.ubicacionService = ubicacionService;
@@ -35,6 +38,7 @@ public class ProcesionService {
         this.pasoService = pasoService;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
         this.notificacionService = notificacionService;
+        this.posicionActualRepository = posicionActualRepository;
     }
 
     public List<Procesion> listar() {
@@ -131,10 +135,15 @@ public class ProcesionService {
         procesionRepository.save(procesion);
     }
 
+    // Borra antes sus pings (posiciones_actuales): con la FK, una procesión
+    // en la que algún cofrade hubiera compartido ubicación ya no se podía
+    // eliminar. @Transactional: o se borra todo, o nada.
+    @Transactional
     public void eliminar(Long id) {
         Procesion procesion = obtener(id);
         Long ciudadActualId = procesion.getCofradias().iterator().next().getCiudad().getId();
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudadActualId);
+        posicionActualRepository.deleteByProcesionId(id);
         procesionRepository.delete(procesion);
     }
 

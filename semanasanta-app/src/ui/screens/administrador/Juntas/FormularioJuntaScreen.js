@@ -139,8 +139,14 @@ export function FormularioJuntaScreen({ route, navigation }) {
         text: 'Eliminar',
         style: 'destructive',
         onPress: async () => {
-          await services.eliminarJuntaCofradias(juntaId);
-          navigation.navigate('Juntas');
+          // Sin catch, un rechazo del backend (p.ej. datos asociados que
+          // impiden borrarlo) se perdía sin que se viera ningún aviso.
+          try {
+            await services.eliminarJuntaCofradias(juntaId);
+            navigation.navigate('Juntas');
+          } catch (err) {
+            Alert.alert('No se ha podido eliminar', err.message);
+          }
         },
       },
     ]);

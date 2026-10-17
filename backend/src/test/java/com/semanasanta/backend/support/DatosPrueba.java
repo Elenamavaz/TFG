@@ -38,6 +38,15 @@ public final class DatosPrueba {
         SecurityContextHolder.getContext().setAuthentication(autenticacion);
     }
 
+    // Cofrade: el JWT lleva además el código de acceso con el que entró
+    // (ver UsuarioPrincipal.codigoId).
+    public static void autenticarComoCofrade(Long cofradiaId, Long codigoId) {
+        UsuarioPrincipal principal = new UsuarioPrincipal(cofradiaId, "COFRADE", codigoId);
+        var autenticacion = new UsernamePasswordAuthenticationToken(
+                principal, null, List.of(new SimpleGrantedAuthority("ROLE_COFRADE")));
+        SecurityContextHolder.getContext().setAuthentication(autenticacion);
+    }
+
     public static void cerrarSesion() {
         SecurityContextHolder.clearContext();
     }

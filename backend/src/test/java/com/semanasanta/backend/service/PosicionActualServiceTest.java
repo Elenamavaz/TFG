@@ -6,9 +6,13 @@ import com.semanasanta.backend.dto.PosicionAgregadaResponse;
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.ProcesionNoEnCursoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
+import com.semanasanta.backend.model.CodigoAcceso;
+import com.semanasanta.backend.model.Cofradia;
+import com.semanasanta.backend.model.EstadoCodigo;
 import com.semanasanta.backend.model.EstadoEvento;
 import com.semanasanta.backend.model.PosicionActual;
 import com.semanasanta.backend.model.Procesion;
+import com.semanasanta.backend.repository.CodigoAccesoRepository;
 import com.semanasanta.backend.repository.PosicionActualRepository;
 import com.semanasanta.backend.util.GeometriaRuta.PuntoGeo;
 import org.junit.jupiter.api.AfterEach;
@@ -22,6 +26,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.semanasanta.backend.support.DatosPrueba.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,15 +57,21 @@ class PosicionActualServiceTest {
     private ProcesionService procesionService;
     @Mock
     private RecorridoPuntoRutaService recorridoPuntoRutaService;
+    @Mock
+    private CodigoAccesoRepository codigoAccesoRepository;
 
     @InjectMocks
     private PosicionActualService servicio;
 
+    private static final Long CODIGO_ID = 8L;
+
     private Procesion procesion;
+    private Cofradia cofradiaParticipante;
 
     @BeforeEach
     void preparar() {
-        procesion = procesion(10L, cofradia(COFRADIA_PARTICIPANTE, ciudad(1L)), recorrido(20L));
+        cofradiaParticipante = cofradia(COFRADIA_PARTICIPANTE, ciudad(1L));
+        procesion = procesion(10L, cofradiaParticipante, recorrido(20L));
         procesion.setEstado(EstadoEvento.EN_CURSO);
         when(procesionService.obtener(10L)).thenReturn(procesion);
     }
@@ -70,11 +81,19 @@ class PosicionActualServiceTest {
         cerrarSesion();
     }
 
+    // Cofrade de la cofradía participante, con un código de acceso sin revocar.
+    private CodigoAcceso autenticarCofradeConCodigoVigente() {
+        autenticarComoCofrade(COFRADIA_PARTICIPANTE, CODIGO_ID);
+        CodigoAcceso codigo = conId(new CodigoAcceso("ABCD1234", cofradiaParticipante), CODIGO_ID);
+        when(codigoAccesoRepository.findById(CODIGO_ID)).thenReturn(Optional.of(codigo));
+        return codigo;
+    }
+
     // --- registrar ping ---
 
     @Test
     void unCofradeParticipanteRegistraUnPingSobreElRecorrido() {
-        autenticarComo(COFRADIA_PARTICIPANTE, "COFRADE");
+        autenticarCofradeConCodigoVigente();
         when(recorridoPuntoRutaService.puntosGeo(20L)).thenReturn(RUTA);
         when(posicionActualRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
@@ -86,7 +105,7 @@ class PosicionActualServiceTest {
 
     @Test
     void unPingLejosDelRecorridoSeDescartaSinGuardarse() {
-        autenticarComo(COFRADIA_PARTICIPANTE, "COFRADE");
+        autenticarCofradeConCodigoVigente();
         when(recorridoPuntoRutaService.puntosGeo(20L)).thenReturn(RUTA);
 
         // 0.002º de longitud a esta latitud son ~166 m: muy por encima de los 50 m de margen.
@@ -98,7 +117,7 @@ class PosicionActualServiceTest {
 
     @Test
     void unPingCercanoAlRecorridoDentroDelMargenSeGuarda() {
-        autenticarComo(COFRADIA_PARTICIPANTE, "COFRADE");
+        autenticarCofradeConCodigoVigente();
         when(recorridoPuntoRutaService.puntosGeo(20L)).thenReturn(RUTA);
         when(posicionActualRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
@@ -111,7 +130,7 @@ class PosicionActualServiceTest {
     @Test
     void sinRecorridoAsignadoSeAceptaCualquierPing() {
         procesion.setRecorrido(null);
-        autenticarComo(COFRADIA_PARTICIPANTE, "COFRADE");
+        autenticarCofradeConCodigoVigente();
         when(posicionActualRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         assertThat(servicio.registrarPing(10L, 40.0, -3.0).guardado()).isTrue();
@@ -134,11 +153,43 @@ class PosicionActualServiceTest {
                 .isInstanceOf(AccesoDenegadoException.class);
     }
 
+    // --- código revocado / cofradía desactivada (bug 10) ---
+
+    @Test
+    void conUnCodigoRevocadoDespuesDeEntrarYaNoSeAceptanPings() {
+        autenticarCofradeConCodigoVigente().setEstado(EstadoCodigo.REVOCADO);
+
+        assertThatThrownBy(() -> servicio.registrarPing(10L, 41.651, LON))
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("revocado");
+        verify(posicionActualRepository, never()).save(any());
+    }
+
+    @Test
+    void siLaCofradiaSeDesactivaYaNoSeAceptanPings() {
+        autenticarCofradeConCodigoVigente();
+        cofradiaParticipante.setActiva(false);
+
+        assertThatThrownBy(() -> servicio.registrarPing(10L, 41.651, LON))
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("desactivada");
+    }
+
+    @Test
+    void unJwtDeCofradeSinCodigoSeRechaza() {
+        // Emitido antes de que el JWT incluyera el código.
+        autenticarComo(COFRADIA_PARTICIPANTE, "COFRADE");
+
+        assertThatThrownBy(() -> servicio.registrarPing(10L, 41.651, LON))
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("vuelve a entrar");
+    }
+
     @ParameterizedTest
     @EnumSource(value = EstadoEvento.class, names = {"PROGRAMADO", "FINALIZADO", "CANCELADO"})
     void soloSeAceptanPingsMientrasLaProcesionEstaEnCurso(EstadoEvento estado) {
         procesion.setEstado(estado);
-        autenticarComo(COFRADIA_PARTICIPANTE, "COFRADE");
+        autenticarCofradeConCodigoVigente();
 
         assertThatThrownBy(() -> servicio.registrarPing(10L, 41.651, LON))
                 .isInstanceOf(ProcesionNoEnCursoException.class);

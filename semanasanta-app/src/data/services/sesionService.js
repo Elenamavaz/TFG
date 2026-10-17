@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api } from '../../infrastructure';
 
 // Persistencia local del JWT de Junta/Administrador/Cofrade (login real, ver
 // authService.js) -distinto de preferenciasService: eso es preferencias sin
@@ -34,4 +35,25 @@ export async function borrarSesion() {
     // No hay nada mejor que hacer si falla el borrado; en el peor caso queda
     // un token viejo guardado que el backend rechazará igualmente al caducar.
   }
+}
+
+// El JWT dura 24h (jwt.expiration-ms del backend). Al arrancar la app con
+// una sesión guardada de hace días, se comprueba aquí su "exp" en vez de
+// dejar entrar al panel y que cada acción falle (bug 8 de bugs.md). Solo se
+// lee el payload, sin verificar la firma: eso lo hace el backend.
+export function sesionHaCaducado(sesion) {
+  try {
+    const base64 = sesion.token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const relleno = '='.repeat((4 - (base64.length % 4)) % 4);
+    const { exp } = JSON.parse(atob(base64 + relleno));
+    return typeof exp === 'number' && exp * 1000 <= Date.now();
+  } catch {
+    return false; // si no se puede leer, que decida el backend en la primera petición
+  }
+}
+
+// Qué hacer cuando el backend rechaza una petición por sesión caducada
+// (ver apiClient.configurarSesionCaducada); lo registra AuthContext.
+export function configurarSesionCaducada(callback) {
+  api.configurarSesionCaducada(callback);
 }

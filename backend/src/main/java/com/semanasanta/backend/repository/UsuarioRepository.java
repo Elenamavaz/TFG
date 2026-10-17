@@ -11,4 +11,10 @@ import java.util.Optional;
 // únicos roles con email). Se usará para el login por email+contraseña.
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String email);
+
+    // Antes de dar de alta un Administrador o Miembro de Junta: el email es
+    // UNIQUE en usuarios, y sin esta comprobación el duplicado reventaba como
+    // un 500 de la base de datos. Sin distinguir mayúsculas, para que
+    // "Ana@x.es" y "ana@x.es" no acaben siendo dos cuentas distintas.
+    boolean existsByEmailIgnoreCase(String email);
 }

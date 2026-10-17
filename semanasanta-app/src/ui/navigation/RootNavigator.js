@@ -8,6 +8,7 @@ import { MainTabNavigator } from './MainTabNavigator';
 import { AdministradorStackNavigator } from './AdministradorStackNavigator';
 import { JuntaStackNavigator } from './JuntaStackNavigator';
 import { CofradeStackNavigator } from './CofradeStackNavigator';
+import { navigationRef } from './navigationRef';
 import { context } from '../../application';
 import { services } from '../../data';
 import { arranqueCiudadano } from '../utils';
@@ -27,7 +28,12 @@ const Stack = createNativeStackNavigator();
 // - Si no, y ya se entró antes como Ciudadano (modo guardado en el
 //   dispositivo), se salta la Bienvenida y se resuelve la ciudad como siempre.
 // - Si no hay nada guardado (primer arranque), se muestra la Bienvenida para elegir.
-async function resolverArranque(seleccionarCiudad, sesion) {
+async function resolverArranque(seleccionarCiudad, sesion, avisoSesion) {
+  // Había una sesión guardada pero ha caducado (AuthContext ya la ha
+  // borrado): directamente al inicio de sesión, con el aviso.
+  if (avisoSesion) {
+    return 'Login';
+  }
   if (sesion?.rol === 'ADMIN') {
     return 'AdministradorStack';
   }
@@ -46,19 +52,27 @@ async function resolverArranque(seleccionarCiudad, sesion) {
 
 export function RootNavigator() {
   const { seleccionarCiudad } = context.useCiudad();
-  const { sesion, cargandoSesion } = context.useAuth();
+  const { sesion, cargandoSesion, avisoSesion } = context.useAuth();
   const [pantallaInicial, setPantallaInicial] = useState(null);
 
   useEffect(() => {
     if (cargandoSesion) return; // espera a que AuthContext termine de leer AsyncStorage
     let cancelado = false;
-    resolverArranque(seleccionarCiudad, sesion).then((pantalla) => {
+    resolverArranque(seleccionarCiudad, sesion, avisoSesion).then((pantalla) => {
       if (!cancelado) setPantallaInicial(pantalla);
     });
     return () => {
       cancelado = true;
     };
   }, [cargandoSesion]);
+
+  // Sesión caducada mientras se usaba la app (la primera petición rechazada
+  // la cierra, ver AuthContext): fuera del panel y al inicio de sesión.
+  useEffect(() => {
+    if (!avisoSesion || !pantallaInicial || !navigationRef.isReady()) return;
+    if (navigationRef.getCurrentRoute()?.name === 'Login') return;
+    navigationRef.reset({ index: 0, routes: [{ name: 'Login' }] });
+  }, [avisoSesion, pantallaInicial]);
 
   if (!pantallaInicial) {
     return (

@@ -27,11 +27,19 @@ public class JwtService {
     }
 
     public String generarToken(Long usuarioId, String rol) {
+        return generarToken(usuarioId, rol, null);
+    }
+
+    // Cofrade: además del id (su cofradía), el código de acceso con el que
+    // entró, para poder invalidar el JWT si el código se revoca (ver
+    // UsuarioPrincipal.codigoId).
+    public String generarToken(Long usuarioId, String rol, Long codigoId) {
         Date ahora = new Date();
         Date expiracion = new Date(ahora.getTime() + expiracionMs);
         return Jwts.builder()
                 .subject(usuarioId.toString())
                 .claim("rol", rol)
+                .claim("codigoId", codigoId) // jjwt omite el claim si es null
                 .issuedAt(ahora)
                 .expiration(expiracion)
                 .signWith(clave)

@@ -28,20 +28,47 @@ public final class GeometriaRuta {
     public record Proyeccion(double distanciaMetros, double progreso) {
     }
 
+    // Margen para considerar "igual de cerca" dos tramos distintos del
+    // recorrido: del orden del error de un GPS de móvil en la calle.
+    private static final double TOLERANCIA_AMBIGUEDAD_METROS = 30.0;
+    // Dos tramos a menos de esto A LO LARGO del recorrido son el mismo sitio
+    // de la ruta (p.ej. tramos consecutivos de un GPX con puntos muy
+    // seguidos), no una ambigüedad real: no se desempatan por la referencia.
+    private static final double SEPARACION_MISMO_SITIO_METROS = 100.0;
+
     // ruta debe venir ORDENADA (mismo orden que RecorridoPuntoRuta.orden).
     // Con menos de 2 puntos no hay ningún tramo que proyectar: se devuelve
     // una proyección "nula" (distancia 0, progreso 0), y quien llama decide
     // qué hacer (normalmente: no filtrar).
+    // Sin referencia de avance: el tramo más cercano, sin más.
     public static Proyeccion proyectar(List<PuntoGeo> ruta, double latitud, double longitud) {
+        return proyectar(ruta, latitud, longitud, 0.0, 1.0);
+    }
+
+    // Con referencia de avance [progresoMin, progresoMax] (fracciones 0..1,
+    // normalmente lo ya recorrido por la procesión). Arregla los recorridos
+    // circulares -casi todas las procesiones vuelven a su templo, así que
+    // salida y llegada son el mismo punto- y los que se cruzan consigo
+    // mismos (bug 7 de bugs.md, 2026-10-16): un ping junto al templo está
+    // igual de cerca del primer tramo que del último, y "el más cercano" a
+    // secas podía darle progreso 1.0 al salir, con lo que la estela quedaba
+    // pintada entera desde el primer minuto. Ahora, entre los tramos casi
+    // igual de cercanos (TOLERANCIA_AMBIGUEDAD_METROS), gana el que cae
+    // dentro de la referencia o más cerca de ella. Con [0, 1] todos caen
+    // dentro y se queda el más cercano (mismo resultado que sin referencia).
+    public static Proyeccion proyectar(List<PuntoGeo> ruta, double latitud, double longitud,
+                                       double progresoMin, double progresoMax) {
         if (ruta.size() < 2) {
             return new Proyeccion(0.0, 0.0);
         }
 
+        int tramos = ruta.size() - 1;
+        double[] distancias = new double[tramos];
+        double[] avances = new double[tramos]; // metros desde el inicio hasta la proyección en cada tramo
         double acumulado = 0.0;
         double mejorDistancia = Double.MAX_VALUE;
-        double mejorProgreso = 0.0;
 
-        for (int i = 0; i < ruta.size() - 1; i++) {
+        for (int i = 0; i < tramos; i++) {
             PuntoGeo a = ruta.get(i);
             PuntoGeo b = ruta.get(i + 1);
             double largoTramo = distanciaMetros(a.latitud(), a.longitud(), b.latitud(), b.longitud());
@@ -49,18 +76,45 @@ public final class GeometriaRuta {
             double t = proyeccionEnTramo(a, b, latitud, longitud);
             double proyeccionLat = a.latitud() + t * (b.latitud() - a.latitud());
             double proyeccionLon = a.longitud() + t * (b.longitud() - a.longitud());
-            double distanciaAlTramo = distanciaMetros(latitud, longitud, proyeccionLat, proyeccionLon);
-
-            if (distanciaAlTramo < mejorDistancia) {
-                mejorDistancia = distanciaAlTramo;
-                mejorProgreso = acumulado + t * largoTramo;
-            }
+            distancias[i] = distanciaMetros(latitud, longitud, proyeccionLat, proyeccionLon);
+            avances[i] = acumulado + t * largoTramo;
+            mejorDistancia = Math.min(mejorDistancia, distancias[i]);
             acumulado += largoTramo;
         }
 
         double longitudTotal = acumulado;
-        double progresoFraccion = longitudTotal > 0 ? mejorProgreso / longitudTotal : 0.0;
-        return new Proyeccion(mejorDistancia, Math.max(0.0, Math.min(1.0, progresoFraccion)));
+
+        // 1) Entre los candidatos (casi igual de cerca que el más cercano),
+        //    el que mejor encaja con la referencia de avance.
+        int elegido = -1;
+        double mejorAlejamiento = Double.MAX_VALUE;
+        for (int i = 0; i < tramos; i++) {
+            if (distancias[i] > mejorDistancia + TOLERANCIA_AMBIGUEDAD_METROS) {
+                continue; // claramente más lejos que el tramo más cercano: no es candidato
+            }
+            double progreso = longitudTotal > 0 ? avances[i] / longitudTotal : 0.0;
+            double alejamiento = Math.max(0.0, Math.max(progresoMin - progreso, progreso - progresoMax));
+            boolean mejor = alejamiento < mejorAlejamiento
+                    || (alejamiento == mejorAlejamiento && distancias[i] < distancias[elegido]);
+            if (mejor) {
+                elegido = i;
+                mejorAlejamiento = alejamiento;
+            }
+        }
+
+        // 2) Dentro de ese mismo sitio de la ruta, el tramo realmente más
+        //    cercano: la referencia solo decide ENTRE sitios distintos, no
+        //    debe arrastrar el resultado unos metros hacia ella.
+        double avanceElegido = avances[elegido];
+        for (int i = 0; i < tramos; i++) {
+            boolean mismoSitio = Math.abs(avances[i] - avanceElegido) <= SEPARACION_MISMO_SITIO_METROS;
+            if (mismoSitio && distancias[i] < distancias[elegido]) {
+                elegido = i;
+            }
+        }
+
+        double progresoFraccion = longitudTotal > 0 ? avances[elegido] / longitudTotal : 0.0;
+        return new Proyeccion(distancias[elegido], Math.max(0.0, Math.min(1.0, progresoFraccion)));
     }
 
     // t en [0,1]: posición del punto más cercano a (latitud, longitud)

@@ -9,6 +9,7 @@ import com.semanasanta.backend.exception.RecursoDuplicadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.Administrador;
 import com.semanasanta.backend.repository.AdministradorRepository;
+import com.semanasanta.backend.repository.UsuarioRepository;
 import com.semanasanta.backend.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,12 +19,15 @@ import org.springframework.stereotype.Service;
 public class AdministradorService {
 
     private final AdministradorRepository administradorRepository;
+    private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final String bootstrapSecret;
 
-    public AdministradorService(AdministradorRepository administradorRepository, PasswordEncoder passwordEncoder,
+    public AdministradorService(AdministradorRepository administradorRepository, UsuarioRepository usuarioRepository,
+                                 PasswordEncoder passwordEncoder,
                                  @Value("${admin.bootstrap-secret}") String bootstrapSecret) {
         this.administradorRepository = administradorRepository;
+        this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.bootstrapSecret = bootstrapSecret;
     }
@@ -31,6 +35,14 @@ public class AdministradorService {
     public Administrador obtener(Long id) {
         return administradorRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe el administrador con id " + id));
+    }
+
+    // GET /administradores/{id}: obtener() a secas es para uso interno; desde
+    // fuera devuelve email y teléfono, así que solo puede consultarlo otro
+    // Administrador (antes era un GET público, como todos).
+    public Administrador consultar(Long id) {
+        exigirAdministrador();
+        return obtener(id);
     }
 
     // Cierra el hueco de escalada de privilegios que había hasta ahora: como
@@ -42,6 +54,7 @@ public class AdministradorService {
     // todavía).
     public Administrador crear(AdministradorRequest request) {
         exigirAdministrador();
+        exigirEmailLibre(request.email());
         String passwordHash = passwordEncoder.encode(request.password());
         Administrador administrador = new Administrador(request.email(), passwordHash);
         return administradorRepository.save(administrador);
@@ -62,12 +75,16 @@ public class AdministradorService {
             throw new RecursoDuplicadoException(
                     "Ya existe al menos un Administrador; el bootstrap solo funciona para crear el primero");
         }
+        exigirEmailLibre(request.email());
         String passwordHash = passwordEncoder.encode(request.password());
         Administrador administrador = new Administrador(request.email(), passwordHash);
         return administradorRepository.save(administrador);
     }
 
+    // Faltaba exigirAdministrador(): cualquier usuario autenticado (una Junta,
+    // incluso un Cofrade) podía borrar Administradores.
     public void eliminar(Long id) {
+        exigirAdministrador();
         Administrador administrador = obtener(id);
         administradorRepository.delete(administrador);
     }
@@ -99,6 +116,14 @@ public class AdministradorService {
     public void exigirAdministrador() {
         if (!"ADMIN".equals(SecurityUtils.usuarioActual().rol())) {
             throw new AccesoDenegadoException("Esta operación solo puede realizarla un Administrador");
+        }
+    }
+
+    // Compartido con MiembroJuntaCofradiaService: el email es UNIQUE en
+    // usuarios para los dos subtipos, así que se comprueba contra todos.
+    public void exigirEmailLibre(String email) {
+        if (usuarioRepository.existsByEmailIgnoreCase(email)) {
+            throw new RecursoDuplicadoException("Ya existe un usuario registrado con el email " + email);
         }
     }
 }
