@@ -95,8 +95,13 @@ export function ListadoScreen({ route, navigation }) {
   const { favoritos, esFavorito, alternarFavorito } = context.useFavoritos();
   const [items, setItems] = useState([]);
   const [busqueda, setBusqueda] = useState('');
+  // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
+  const [errorCarga, setErrorCarga] = useState(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
 
   useEffect(() => {
+    setErrorCarga(null);
+    const fallo = (err) => setErrorCarga(err.message);
     if (tipo === 'favoritos') {
       Promise.all(
         favoritos.map((f) => {
@@ -104,12 +109,17 @@ export function ListadoScreen({ route, navigation }) {
           if (!cfg) return Promise.resolve(null);
           return cfg.obtener(f.id).then((item) => item && { ...item, categoria: f.tipo, icono: cfg.icono });
         }),
-      ).then((lista) => setItems(orden.ordenarPorNombre(lista.filter(Boolean))));
+      )
+        .then((lista) => setItems(orden.ordenarPorNombre(lista.filter(Boolean))))
+        .catch(fallo);
       return;
     }
     if (!ciudadSeleccionada) return;
-    config.cargar(ciudadSeleccionada.id).then((lista) => setItems(orden.ordenarPorNombre(lista)));
-  }, [ciudadSeleccionada, tipo, favoritos]);
+    config
+      .cargar(ciudadSeleccionada.id)
+      .then((lista) => setItems(orden.ordenarPorNombre(lista)))
+      .catch(fallo);
+  }, [ciudadSeleccionada, tipo, favoritos, intentoCarga]);
 
   const itemsFiltrados = useMemo(() => {
     const texto = busqueda.trim().toLowerCase();
@@ -145,6 +155,7 @@ export function ListadoScreen({ route, navigation }) {
         onChangeText={setBusqueda}
         placeholder={`Buscar en ${config.titulo.toLowerCase()}...`}
       />
+      {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={() => setIntentoCarga((n) => n + 1)} /> : null}
 
       <FlatList
         data={itemsFiltrados}

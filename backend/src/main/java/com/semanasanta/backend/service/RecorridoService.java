@@ -7,6 +7,8 @@ import com.semanasanta.backend.model.PuntoRuta;
 import com.semanasanta.backend.model.Recorrido;
 import com.semanasanta.backend.model.RecorridoPuntoRuta;
 import com.semanasanta.backend.model.Ubicacion;
+import com.semanasanta.backend.repository.EventoRepository;
+import com.semanasanta.backend.repository.ProcesionRepository;
 import com.semanasanta.backend.repository.PuntoRutaRepository;
 import com.semanasanta.backend.repository.RecorridoPuntoRutaRepository;
 import com.semanasanta.backend.repository.RecorridoRepository;
@@ -26,15 +28,23 @@ public class RecorridoService {
     private final PuntoRutaRepository puntoRutaRepository;
     private final RecorridoPuntoRutaRepository recorridoPuntoRutaRepository;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final AutorizacionRecorridoService autorizacionRecorridoService;
+    private final ProcesionRepository procesionRepository;
+    private final EventoRepository eventoRepository;
 
     public RecorridoService(RecorridoRepository recorridoRepository, UbicacionRepository ubicacionRepository,
                              PuntoRutaRepository puntoRutaRepository, RecorridoPuntoRutaRepository recorridoPuntoRutaRepository,
-                             MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+                             MiembroJuntaCofradiaService miembroJuntaCofradiaService,
+                             AutorizacionRecorridoService autorizacionRecorridoService,
+                             ProcesionRepository procesionRepository, EventoRepository eventoRepository) {
         this.recorridoRepository = recorridoRepository;
         this.ubicacionRepository = ubicacionRepository;
         this.puntoRutaRepository = puntoRutaRepository;
         this.recorridoPuntoRutaRepository = recorridoPuntoRutaRepository;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.autorizacionRecorridoService = autorizacionRecorridoService;
+        this.procesionRepository = procesionRepository;
+        this.eventoRepository = eventoRepository;
     }
 
     public List<Recorrido> listar() {
@@ -56,16 +66,62 @@ public class RecorridoService {
     }
 
     public Recorrido actualizar(Long id, RecorridoRequest request) {
-        miembroJuntaCofradiaService.exigirJunta();
+        autorizacionRecorridoService.exigirPuedeEditarRecorrido(id); // bug 25: el de su procesión, no cualquiera
         Recorrido recorrido = obtener(id);
         recorrido.setDistanciaTotal(request.distanciaTotal());
         recorrido.setTiempoEstimado(request.tiempoEstimado());
         return recorridoRepository.save(recorrido);
     }
 
+    // Antes solo borraba la fila del recorrido, y sus puntos (con su FK) lo
+    // impedían. Uno asignado a una procesión no se borra suelto: se sustituye
+    // importando otro GPX desde la procesión (ver eliminarSiHuerfano).
+    @Transactional
     public void eliminar(Long id) {
-        miembroJuntaCofradiaService.exigirJunta();
+        autorizacionRecorridoService.exigirPuedeEditarRecorrido(id);
         Recorrido recorrido = obtener(id);
+        if (procesionRepository.existsByRecorridoId(id)) {
+            throw new IllegalStateException(
+                    "El recorrido está asignado a una procesión: para cambiarlo, importa otro GPX desde la procesión.");
+        }
+        eliminarConPuntos(recorrido);
+    }
+
+    // Recorridos huérfanos (bug 26 de bugs.md, 2026-10-16): un GPX importado
+    // crea su Recorrido al momento, así que al sustituirlo por otro, o al
+    // eliminar la procesión, el anterior se quedaba en la base de datos sin
+    // nadie que lo usara. Lo llama ProcesionService en esos dos casos, y la
+    // app (vía eliminar) si se descarta el formulario sin guardar. Si
+    // resulta que sí está asignado, no hace nada.
+    @Transactional
+    public void eliminarSiHuerfano(Long recorridoId) {
+        if (recorridoId == null || procesionRepository.existsByRecorridoId(recorridoId)) {
+            return;
+        }
+        recorridoRepository.findById(recorridoId).ifPresent(this::eliminarConPuntos);
+    }
+
+    // Relaciones, y los puntos y ubicaciones que solo usaba este recorrido
+    // (los de un GPX importado siempre lo son). Un punto o ubicación que use
+    // otra cosa -otro recorrido, un evento- se conserva.
+    private void eliminarConPuntos(Recorrido recorrido) {
+        List<RecorridoPuntoRuta> relaciones = recorridoPuntoRutaRepository.findByRecorridoIdOrderByOrdenAsc(recorrido.getId());
+        recorridoPuntoRutaRepository.deleteAll(relaciones);
+        recorridoPuntoRutaRepository.flush();
+        for (RecorridoPuntoRuta relacion : relaciones) {
+            PuntoRuta puntoRuta = relacion.getPuntoRuta();
+            if (recorridoPuntoRutaRepository.existsByPuntoRutaId(puntoRuta.getId())) {
+                continue;
+            }
+            Ubicacion ubicacion = puntoRuta.getUbicacion();
+            puntoRutaRepository.delete(puntoRuta);
+            puntoRutaRepository.flush();
+            boolean ubicacionEnUso = puntoRutaRepository.existsByUbicacionId(ubicacion.getId())
+                    || eventoRepository.existsByUbicacionId(ubicacion.getId());
+            if (!ubicacionEnUso) {
+                ubicacionRepository.delete(ubicacion);
+            }
+        }
         recorridoRepository.delete(recorrido);
     }
 

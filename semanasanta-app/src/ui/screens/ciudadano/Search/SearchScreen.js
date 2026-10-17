@@ -41,6 +41,10 @@ export function BuscarScreen({ navigation }) {
   const [pasos, setPasos] = useState([]);
   const [cofradiasPorId, setCofradiasPorId] = useState({});
 
+  // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
+  const [errorCarga, setErrorCarga] = useState(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
+
   useEffect(() => {
     services.getDiasSemanaSanta().then(setDiasSemanaSanta);
   }, []);
@@ -48,6 +52,7 @@ export function BuscarScreen({ navigation }) {
   useEffect(() => {
     if (!ciudadSeleccionada) return;
     const ciudadId = ciudadSeleccionada.id;
+    setErrorCarga(null);
     Promise.all([
       services.getProcesionesPorCiudad(ciudadId),
       services.getEventosPorCiudad(ciudadId),
@@ -56,11 +61,11 @@ export function BuscarScreen({ navigation }) {
       setProcesiones(listaProcesiones);
       setEventos(listaEventos);
       setCofradiasPorId(Object.fromEntries(listaCofradias.map((c) => [c.id, c.nombre])));
-      Promise.all(listaCofradias.map((c) => services.getPasosPorCofradia(c.id))).then((listasPasos) => {
+      return Promise.all(listaCofradias.map((c) => services.getPasosPorCofradia(c.id))).then((listasPasos) => {
         setPasos(listasPasos.flat());
       });
-    });
-  }, [ciudadSeleccionada]);
+    }).catch((err) => setErrorCarga(err.message));
+  }, [ciudadSeleccionada, intentoCarga]);
 
   const idPorNombreDia = useMemo(() => new Map(diasSemanaSanta.map((d) => [d.nombre, d.id])), [diasSemanaSanta]);
   const diaPorFecha = useMemo(() => new Map(diasSemanaSanta.map((d) => [d.fecha, d])), [diasSemanaSanta]);
@@ -144,6 +149,7 @@ export function BuscarScreen({ navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>Buscar</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={() => setIntentoCarga((n) => n + 1)} /> : null}
 
         <View style={styles.searchRow}>
           <View style={styles.searchInputWrapper}>

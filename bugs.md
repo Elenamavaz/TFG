@@ -2,14 +2,15 @@
 
 Análisis del código de la app (`semanasanta-app`) y del backend (`backend`) realizado el 2026-10-16, mientras se probaba la aplicación en el móvil. Los números se mantienen fijos para poder referirse a cada bug; los nuevos se añaden al final con el siguiente número.
 
-**Estados:** ✅ Resuelto · ⏳ Pendiente
+**Estados:** ✅ Resuelto · ⏳ Pendiente · 🔍 En análisis
 
 | Prioridad | Total | Resueltos | Pendientes |
 |---|---|---|---|
 | 🔴 Crítica | 5 | 5 | 0 |
 | 🟠 Alta | 7 | 6 | 1 |
-| 🟡 Media | 15 | 0 | 15 |
-| 🟢 Baja | 7 | 0 | 7 |
+| 🟡 Media | 15 | 13 | 2 (13 y 17) |
+| 🟢 Baja | 7 | 1 | 6 |
+| 🧪 Encontrados en pruebas | 2 | 1 | 1 |
 
 ---
 
@@ -121,21 +122,88 @@ Análisis del código de la app (`semanasanta-app`) y del backend (`backend`) re
 
 ## 🟡 Medios
 
-13. ⏳ **Semana Santa fija en 2027.** Los días salen de un mock (`data/mock/diasSemanaSanta.js`, 21–28 de marzo de 2027). No se puede crear nada en otras fechas y, para las pruebas, los cambios automáticos de estado no se dispararán hasta 2027: hay que cambiar el estado a mano.
-14. ⏳ **Estadísticas a 0.** `numCofrades` y `numProcesiones` no existen en el backend ni en el modelo `Ciudad`: Inicio muestra "0 Cofrades" y el perfil del ciudadano "0 procesiones".
-15. ⏳ **Favoritos no persistentes.** `FavoritosContext` solo los guarda en memoria y se pierden al cerrar la app.
-16. ⏳ **Corazón decorativo en los detalles.** El icono de la cabecera de procesión, evento, cofradía y paso no hace nada.
-17. ⏳ **Avisos que no caducan.** Los "Ha comenzado" / "Ha finalizado" se crean sin `fechaExpiracion` y se acumulan para siempre en el carrusel de Inicio.
-18. ⏳ **Una sola procesión en curso.** `getProcesionEnCurso` devuelve solo la primera; Viernes Santo suele haber varias a la vez.
-19. ⏳ **"Hoy" en UTC.** Inicio calcula hoy con `toISOString()`: entre las 00:00 y las 02:00 (hora de España) toma el día anterior.
-20. ⏳ **Calendario sin refrescar.** Carga los datos con `useEffect` en vez de `useFocusEffect`: los cambios de la Junta no aparecen hasta cambiar de ciudad.
-21. ⏳ **Mapa sin actualizar.** No se recentra al cambiar de ciudad (`initialRegion` solo se aplica una vez) y guarda los recorridos en caché sin caducidad: tras reimportar un GPX sigue mostrando la ruta antigua.
-22. ⏳ **Agenda de Inicio desordenada.** No se ordena por hora (salen primero las procesiones y luego los eventos), y el título dice "de hoy" aunque se haya elegido otro día.
-23. ⏳ **El detalle del evento no muestra la web oficial.**
-24. ⏳ **Cofradía desactivada en procesiones.** El formulario de procesión solo carga cofradías activas (`getCofradiasPorCiudad`); el de evento usa `getCofradiasGestion`. Al editar una procesión de una cofradía desactivada, el campo queda vacío y no deja guardar.
-25. ⏳ **Recursos sin dueño.** `Recorrido`, `Ubicacion`, `PuntoRuta` y `PuntoDeInteres` solo exigen ser "alguna Junta": la de una ciudad puede editar el recorrido de otra.
-26. ⏳ **Recorridos huérfanos.** Importar un GPX crea el recorrido al momento; si se cancela el formulario, o se importa otro, el anterior queda en la base de datos sin procesión.
-27. ⏳ **Sin conexión, spinner infinito.** Si el backend no responde al arrancar, la app se queda cargando. Lo mismo en las pantallas de detalle (`return null`) y en muchas listas, cuyas promesas no tienen `.catch`.
+### 13. ⏳ Semana Santa fija en 2027
+Los días salen de un mock (`data/mock/diasSemanaSanta.js`, 21–28 de marzo de 2027). No se puede crear nada en otras fechas y, para las pruebas, los cambios automáticos de estado no se dispararán hasta 2027: hay que cambiar el estado a mano.
+
+### 14. ✅ Estadísticas a 0
+- **Qué pasaba:** `numCofrades` y `numProcesiones` no existen en el backend ni en el modelo `Ciudad`. Inicio mostraba "0 Cofrades" y el perfil del ciudadano "0 procesiones".
+- **Solución:**
+  - Inicio muestra Cofradías, Procesiones y **Eventos**, los tres contados con datos reales. "Cofrades" se quita porque ese dato no existe en la base de datos.
+  - El perfil cuenta las procesiones reales de la ciudad.
+
+### 15. ✅ Favoritos no persistentes
+- **Qué pasaba:** `FavoritosContext` solo los guardaba en memoria.
+- **Solución:** se guardan en el dispositivo (`AsyncStorage`, `preferenciasService.getFavoritosGuardados`/`guardarFavoritos`). No se escribe nada hasta haber leído los guardados, para que el `[]` inicial no los borre al arrancar.
+
+### 16. ✅ Corazón de la cabecera sin función
+- **Qué pasaba:** en los detalles de procesión (y su ficha de información), evento, cofradía y paso, el corazón de la cabecera era solo un icono.
+- **Solución:** nuevo componente `common.FavoritoCabecera`, que marca y desmarca el favorito (lleno y dorado cuando está marcado). Lee el contexto él mismo, así que se actualiza al pulsarlo sin volver a configurar la cabecera.
+
+### 17. ⏳ Avisos que no caducan
+Los "Ha comenzado" / "Ha finalizado" se crean sin `fechaExpiracion` y se acumulan para siempre en el carrusel de Inicio.
+
+### 18. ✅ Solo se mostraba una procesión en curso; el mapa no mostraba todas
+- **Qué pasaba:**
+  - `getProcesionEnCurso` devolvía solo la primera.
+  - En el mapa, si fallaba el recorrido de una procesión, `Promise.all` fallaba entero y no se actualizaba ninguna.
+  - Las procesiones sin recorrido no aparecían.
+  - Sin pings, la "cabeza" se pintaba en el punto de salida.
+- **Solución:**
+  - `getProcesionesEnCurso` devuelve todas. Inicio muestra una tarjeta por procesión en curso, con "Ver en el mapa".
+  - Mapa: cada procesión se carga por separado. Las que no tienen recorrido se muestran con la posición media de sus cofrades (nuevo `getPosicionActualProcesion` → `GET /procesiones/{id}/ubicacion`).
+  - Sin pings no se pinta cabeza ni estela.
+  - Al cargar se encuadran todas las procesiones en curso. Se sigue refrescando cada 15 s.
+
+### 19. ✅ "Hoy" en UTC
+- **Solución:** Inicio usa la fecha local (`calendario.formatearFechaISO`). Arreglado de paso con el 22, porque el título nuevo también depende de "hoy".
+
+### 20. ✅ Calendario sin refrescar
+- **Solución:** los datos se cargan con `useFocusEffect`, cada vez que se vuelve a la pestaña.
+
+### 21. ✅ Mapa sin recentrar al cambiar de ciudad y con caché de recorridos eterna
+- **Solución:**
+  - Al cambiar de ciudad, la cámara se mueve a la nueva y se olvida lo de la anterior.
+  - La caché de recorridos se vacía cada vez que se vuelve a la pestaña.
+
+### 22. ✅ Agenda de Inicio desordenada y título "de hoy" fijo
+- **Solución:**
+  - La agenda se ordena por hora, mezclando procesiones y eventos.
+  - El título dice "de hoy" solo si el día elegido es hoy; si no, "del <día>".
+
+### 23. ✅ El detalle del evento no mostraba la web oficial
+- **Solución:** sección "Web oficial" con `LinkBox`, igual que en la cofradía. El modelo `Evento` ya guarda la `web` (arreglado en la tanda anterior).
+
+### 24. ✅ Cofradía desactivada vacía en el formulario de procesión
+- **Solución:** el formulario de procesión usa `getCofradiasGestion`, que incluye las desactivadas, como el de evento.
+
+### 25. ✅ Una Junta podía editar recorridos y ubicaciones de otra ciudad
+- **Dónde:** nuevo `AutorizacionRecorridoService`; `RecorridoService`, `RecorridoPuntoRutaService`, `PuntoRutaService`, `PuntoDeInteresService`, `UbicacionService`.
+- **Solución:** la ciudad de cada recurso se deduce de para qué se usa:
+  - Recorrido → la procesión que lo sigue.
+  - Punto → los recorridos en los que aparece.
+  - Ubicación → los eventos y puntos que la usan.
+
+  Si ya está asignado, solo lo modifica la Junta de esa ciudad. Si aún no lo usa nadie (un GPX recién importado), cualquier Junta. Crear sigue abierto a cualquier Junta.
+- **Tests:** `AutorizacionRecorridoServiceTest` (6), `RecorridoPuntoRutaServiceTest.laJuntaDeOtraCiudadNoPuedeTocarLosPuntosDeUnRecorridoAjeno`, `RecorridoServiceTest.soloLaJuntaDeSuProcesionPuedeEliminarUnRecorrido`.
+
+### 26. ✅ Recorridos huérfanos
+- **Solución:**
+  - **Backend:** eliminar un recorrido borra también sus puntos y las ubicaciones que solo usaba él. Si está asignado a una procesión, devuelve 409.
+  - **Backend:** `ProcesionService` limpia el recorrido anterior al sustituirlo por otro GPX, y el de la procesión al eliminarla.
+  - **Backend:** al convertir un punto en punto de interés, se borra el punto sustituido.
+  - **App:** el formulario de procesión borra el GPX importado si se importa otro o se sale sin guardar (`beforeRemove`).
+- **Tests:** `RecorridoServiceTest` (5 nuevos), `ProcesionServiceTest.alSustituirElRecorridoSeLimpiaElAnterior`, `RecorridoPuntoRutaServiceTest.elPuntoSustituidoPorElPuntoDeInteresSeBorraSiNadieLoUsa`.
+
+### 27. ✅ Sin conexión: spinner infinito y pantallas en blanco (opción A)
+**Respuesta a la pregunta:** no, la app no mostraba sola la información estática sin conexión. Solo 5 pantallas usan la caché persistente (TanStack Query, 24 h) y las otras 37 piden los datos cada vez. Además, al arrancar sin conexión se quedaba en el spinner. Se ha elegido la **opción A** (mensajes y reintento). La B, modo sin conexión real, queda descartada por ahora.
+
+**Solución:**
+- **`apiClient`:** tiempo máximo por petición (15 s, 60 s para subir un GPX); antes, con el servidor caído, una petición podía no terminar nunca. Si no hay respuesta, `ApiError` con `sinConexion: true` y el mensaje "No se ha podido conectar con el servidor. Comprueba tu conexión a internet…", en vez de "Network request failed". También captura una respuesta que no sea JSON.
+- **Arranque:** si no se pueden descargar las ciudades, se usan las de la caché guardada, así que se puede entrar en la ciudad de siempre. Si no hay nada guardado, pantalla "Sin conexión" con **Reintentar** (`RootNavigator`).
+- **Detalles** (procesión y su ficha, evento, cofradía, paso, ciudad): spinner mientras cargan y, si fallan, el motivo con Reintentar, en vez de `return null`.
+- **Listas del ciudadano** (Inicio, Calendario, Listado/Favoritos, Buscar) y **de gestión** (Procesiones, Eventos, Cofradías, Pasos, Ciudades, Juntas, Miembros, Solicitudes): tarjeta de aviso con Reintentar. Se oculta el "No hay … todavía" cuando el problema es la conexión, para no dar a entender que no hay datos. Las peticiones anidadas se devuelven para que su fallo también se capture.
+- **Mapa:** sin conexión ya no dice "No hay ninguna procesión en curso", que era engañoso. Muestra el aviso, conserva lo último pintado y reintenta cada 15 s.
+- **Componentes nuevos:** `common.AvisoError` y `common.PantallaCargando`.
 
 ## 🟢 Bajos y mejoras
 
@@ -145,10 +213,26 @@ Análisis del código de la app (`semanasanta-app`) y del backend (`backend`) re
 31. ⏳ **Secretos por defecto:** `jwt.secret` y `admin.bootstrap-secret` tienen valores por defecto en `application.properties`. Si falta la variable de entorno en producción, se arranca con un secreto conocido.
 32. ⏳ **Logs con SQL:** `spring.jpa.show-sql=true` también en producción.
 33. ⏳ **Concurrencia en la estela:** `GET /estela` es público pero escribe en la base de datos; con muchos ciudadanos a la vez, una escritura puede pisar otra con un valor menor.
-34. ⏳ **API obsoleta:** `shouldShowAlert` está obsoleto en `expo-notifications`; ahora se usa `shouldShowBanner`/`shouldShowList`.
+34. ✅ **API obsoleta:** `shouldShowAlert` está obsoleto en `expo-notifications`. Sustituido por `shouldShowBanner` + `shouldShowList` en `pushService.configurarManejoNotificaciones` (mismo comportamiento: aviso emergente y en el centro de notificaciones).
 
 ---
 
 ## Bugs encontrados en las pruebas con el móvil
 
-_(Añadir aquí a partir del 35.)_
+### 35. ✅ Imágenes de cofradías, pasos y puntos de interés
+- **Qué pasaba:** las imágenes no se "importan": la Junta pega la URL de una imagen ya publicada en internet. Con eso:
+  1. Si se pegaba el enlace de una **página** (Google Imágenes, Drive, Instagram, la ficha de Wikipedia) en vez del archivo, la imagen no se veía en ningún sitio y nadie avisaba.
+  2. El formulario no mostraba vista previa: no había forma de comprobar el enlace.
+  3. Con un enlace roto, el ciudadano veía un cuadro vacío en vez del icono de "sin imagen".
+  4. Una URL de más de 500 caracteres (frecuente en Google) chocaba con la columna `VARCHAR(500)` y llegaba a la app con un mensaje sin relación ("No se puede eliminar…").
+- **Solución:**
+  - **Backend:** `@Size(max = 500)` y `@Pattern(^https?://\S+$)` en `imagen` de `CofradiaRequest`, `PasoRequest`, `PuntoDeInteresRequest` y `MarcarPuntoDeInteresRequest`, con mensajes claros.
+  - **App:** `common.VistaPreviaImagen` bajo el campo, en los formularios de cofradía y paso y en el modal de punto de interés. Carga el enlace tal como lo verá el ciudadano y dice si funciona o, si no, cómo conseguir el enlace directo ("mantén pulsada la imagen → Copiar dirección de la imagen"). Si el enlace no carga, no deja guardar.
+  - **App:** `common.ImagenRemota` en los detalles de cofradía y paso: si el enlace falla, muestra el icono de "sin imagen".
+- **Tests:** `ValidacionImagenTest` (9 casos).
+- **Pendiente relacionado:** la imagen de un punto de interés se guarda pero no se muestra al ciudadano en ninguna pantalla.
+
+### 36. ⏳ No se pueden subir fotos desde el móvil
+- **Qué pasa:** no hay importación real: solo se puede pegar una URL. Una Junta que tiene la foto del paso en el móvil no puede usarla sin subirla antes a otra web.
+- **Propuesta:** `expo-image-picker` en la app + un endpoint `POST /imagenes` (multipart) en el backend. El backend guardaría el archivo en disco o en la base de datos y lo serviría en `GET /imagenes/{id}`, y el campo `imagen` seguiría siendo una URL, así que no cambia nada más.
+- **A tener en cuenta:** tamaño máximo y redimensionado (las fotos de móvil ocupan varios MB), tipos permitidos (JPG/PNG), dónde se guardan en el servidor de la UVa y que se conserven entre despliegues.

@@ -36,14 +36,16 @@ export {
   getNotificacionesDescartadasIds,
   descartarNotificacion,
   olvidarSesionLocal,
+  getFavoritosGuardados,
+  guardarFavoritos,
 } from './preferenciasService';
 export { solicitarPermisoUbicacion, obtenerPosicionActual } from './ubicacionService';
 export { iniciarSeguimiento, detenerSeguimiento, getEstadoSeguimiento } from './seguimientoService';
 export { configurarManejoNotificaciones, registrarDispositivoPush } from './pushService';
-export { registrarPosicion, getEstelaProcesion } from './posicionActualService';
+export { registrarPosicion, getEstelaProcesion, getPosicionActualProcesion } from './posicionActualService';
 export { getCodigosAccesoDeCofradia, emitirCodigoAcceso, revocarCodigoAcceso } from './codigoAccesoService';
 export { getUbicacionPorId, crearUbicacion, actualizarUbicacion } from './lugarService';
-export { getRecorridoCompleto, importarGpxRecorrido, marcarPuntoDeInteres } from './recorridoService';
+export { getRecorridoCompleto, importarGpxRecorrido, marcarPuntoDeInteres, eliminarRecorrido } from './recorridoService';
 export { actualizarPuntoDeInteres } from './puntoDeInteresService';
 export {
   getCofradiasPorCiudad,
@@ -73,7 +75,7 @@ export {
 export {
   getProcesionesPorCiudad,
   getProcesionPorId,
-  getProcesionEnCurso,
+  getProcesionesEnCurso,
   getProcesionesPorCofradia,
   crearProcesion,
   actualizarProcesion,

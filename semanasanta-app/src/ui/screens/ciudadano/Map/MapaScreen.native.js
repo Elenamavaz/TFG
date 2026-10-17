@@ -18,6 +18,12 @@ const INTERVALO_REFRESCO_MS = 15000;
 
 // Encuadre por defecto si la ciudad no tiene coordenadas: centro de España.
 const REGION_ESPANA = { latitude: 40.2, longitude: -3.7, latitudeDelta: 8, longitudeDelta: 8 };
+
+function regionDeCiudad(ciudad) {
+  return ciudad?.latitud != null && ciudad?.longitud != null
+    ? { latitude: ciudad.latitud, longitude: ciudad.longitud, latitudeDelta: 0.03, longitudeDelta: 0.03 }
+    : REGION_ESPANA;
+}
 const MARGEN_ENCUADRE = { top: 60, right: 40, bottom: 60, left: 40 };
 
 // Mapa en Vivo (2026-10-03, mockup de Elena): las procesiones EN_CURSO de la
@@ -33,11 +39,18 @@ const MARGEN_ENCUADRE = { top: 60, right: 40, bottom: 60, left: 40 };
 export function MapaScreen({ route }) {
   const { ciudadSeleccionada } = context.useCiudad();
   const mapaRef = useRef(null);
-  // Los recorridos no cambian mientras la procesión está en curso: se piden
-  // una vez y se guardan aquí, y el refresco periódico solo pide la estela.
+  // Los recorridos no cambian mientras se mira el mapa: se piden una vez y
+  // el refresco periódico solo pide la estela. La caché se vacía cada vez que
+  // se vuelve a la pestaña (ver useFocusEffect): antes duraba para siempre y,
+  // si la Junta reimportaba el GPX, seguía viéndose la ruta antigua (bug 21).
   const recorridosRef = useRef({});
+  // Encuadrar todas las procesiones en curso la primera vez que se cargan
+  // para cada ciudad, sin pelearse luego con lo que mueva el usuario.
+  const encuadradoRef = useRef(false);
   const [enMovimiento, setEnMovimiento] = useState([]);
   const [cargado, setCargado] = useState(false);
+  // Sin conexión (bug 27): no es lo mismo que "no hay ninguna en curso".
+  const [errorCarga, setErrorCarga] = useState(null);
   const [permisoUbicacion, setPermisoUbicacion] = useState(false);
   // Tamaño exacto del mapa en píxeles, medido de la tarjeta (ver
   // components/maps/mapas.styles: con flex el mapa nativo se crea más alto
@@ -50,22 +63,33 @@ export function MapaScreen({ route }) {
   const cargar = useCallback(async () => {
     if (!ciudadId) return;
     try {
-      const procesiones = (await services.getProcesionesPorCiudad(ciudadId)).filter((p) => p.estado === 'EN_CURSO');
+      const procesiones = await services.getProcesionesEnCurso(ciudadId);
+      // Cada procesión por separado (bug 18): antes, si fallaba el recorrido
+      // de una sola, Promise.all rechazaba y no se actualizaba ninguna.
       const items = await Promise.all(
         procesiones.map(async (procesion) => {
-          const recorrido = procesion.recorridoId ? await obtenerRecorrido(procesion.recorridoId) : null;
-          const estela = await services.getEstelaProcesion(procesion.id).catch(() => null);
-          return construirItem(procesion, recorrido, estela);
+          const recorrido = procesion.recorridoId ? await obtenerRecorrido(procesion.recorridoId).catch(() => null) : null;
+          const conRecorrido = (recorrido?.puntos.length ?? 0) > 1;
+          // Con recorrido: la estela (tramo de la cola a la cabeza). Sin él:
+          // al menos dónde están ahora sus cofrades (posición media).
+          const estela = conRecorrido ? await services.getEstelaProcesion(procesion.id).catch(() => null) : null;
+          const posicion = conRecorrido ? null : await services.getPosicionActualProcesion(procesion.id);
+          return construirItem(procesion, recorrido, estela, posicion);
         }),
       );
       setEnMovimiento(items);
-    } catch {
+      setErrorCarga(null);
+      if (!encuadradoRef.current && !procesionAEnfocar && items.length > 0) {
+        encuadradoRef.current = encuadrarTodas(items);
+      }
+    } catch (err) {
       // Sin red un momento: se mantiene lo último pintado y se reintenta en
-      // el siguiente ciclo.
+      // el siguiente ciclo (cada 15 s), pero se avisa de que no está al día.
+      setErrorCarga(err.message);
     } finally {
       setCargado(true);
     }
-  }, [ciudadId]);
+  }, [ciudadId, procesionAEnfocar]);
 
   async function obtenerRecorrido(recorridoId) {
     if (!recorridosRef.current[recorridoId]) {
@@ -83,6 +107,7 @@ export function MapaScreen({ route }) {
 
   useFocusEffect(
     useCallback(() => {
+      recorridosRef.current = {};
       cargar();
       const intervalo = setInterval(cargar, INTERVALO_REFRESCO_MS);
       return () => clearInterval(intervalo);
@@ -92,6 +117,29 @@ export function MapaScreen({ route }) {
   useEffect(() => {
     services.solicitarPermisoUbicacion().then(setPermisoUbicacion);
   }, []);
+
+  // Cambio de ciudad con el mapa ya montado (las pestañas no se desmontan):
+  // initialRegion solo se aplica la primera vez, así que hay que mover la
+  // cámara a mano y olvidar lo de la ciudad anterior (bug 21).
+  useEffect(() => {
+    setEnMovimiento([]);
+    setCargado(false);
+    recorridosRef.current = {};
+    encuadradoRef.current = false;
+    mapaRef.current?.animateToRegion(regionDeCiudad(ciudadSeleccionada), 500);
+  }, [ciudadId]);
+
+  // Devuelve si ha podido encuadrar (hay coordenadas que mostrar).
+  function encuadrarTodas(items) {
+    const coordenadas = items.flatMap((item) => (item.puntos.length > 1 ? item.puntos : item.cabeza ? [item.cabeza] : []));
+    if (coordenadas.length === 0) return false;
+    if (coordenadas.length === 1) {
+      mapaRef.current?.animateToRegion({ ...coordenadas[0], latitudeDelta: 0.01, longitudeDelta: 0.01 }, 500);
+    } else {
+      mapaRef.current?.fitToCoordinates(coordenadas, { edgePadding: MARGEN_ENCUADRE, animated: true });
+    }
+    return true;
+  }
 
   // Llegando desde "Ir a la procesión" (DetailProcesionScreen): centrar en
   // ella en cuanto esté cargada.
@@ -110,15 +158,7 @@ export function MapaScreen({ route }) {
     }
   }
 
-  const regionInicial =
-    ciudadSeleccionada?.latitud != null && ciudadSeleccionada?.longitud != null
-      ? {
-          latitude: ciudadSeleccionada.latitud,
-          longitude: ciudadSeleccionada.longitud,
-          latitudeDelta: 0.03,
-          longitudeDelta: 0.03,
-        }
-      : REGION_ESPANA;
+  const regionInicial = regionDeCiudad(ciudadSeleccionada);
 
   return (
     <common.ScreenContainer style={styles.pantalla}>
@@ -171,7 +211,8 @@ export function MapaScreen({ route }) {
       {/* "En movimiento" siempre visible bajo el mapa (mockup); sin
           procesiones en curso, una tarjeta con el aviso en vez de la lista. */}
       <Text style={styles.sectionTitle}>En movimiento</Text>
-      {cargado && enMovimiento.length === 0 ? (
+      {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
+      {cargado && enMovimiento.length === 0 && !errorCarga ? (
         <View style={styles.vacioCard}>
           <View style={styles.puntoGrisGrande} />
           <Text style={styles.vacioTexto}>No hay ninguna procesión en curso ahora mismo</Text>
@@ -236,10 +277,11 @@ function MarcasProcesion({ item }) {
 // Junta procesión + recorrido + estela en lo que necesita el mapa. Sin pings
 // todavía (estela a 0/0), la cruz se pone al inicio del recorrido: la
 // procesión está en curso pero aún no hay cofrades compartiendo.
-function construirItem(procesion, recorrido, estela) {
+// Sin estela todavía (ningún ping), no se pinta cabeza ni cola: antes se
+// ponían en el punto de salida como si la procesión ya estuviera allí.
+function construirItem(procesion, recorrido, estela, posicion) {
   const puntos = recorrido?.puntos ?? [];
-  const cola = estela?.progresoCola ?? 0;
-  const cabeza = estela?.progresoCabeza ?? 0;
+  const conEstela = estela != null && puntos.length > 1;
   return {
     id: procesion.id,
     nombre: procesion.nombre,
@@ -247,8 +289,12 @@ function construirItem(procesion, recorrido, estela) {
     resumen: recorrido?.resumen ?? '',
     puntos,
     puntosRuta: recorrido?.puntosRuta ?? [],
-    estela: geo.tramoDeRecorrido(puntos, cola, cabeza),
-    cola: geo.puntoEnFraccion(puntos, cola),
-    cabeza: geo.puntoEnFraccion(puntos, cabeza),
+    estela: conEstela ? geo.tramoDeRecorrido(puntos, estela.progresoCola, estela.progresoCabeza) : [],
+    cola: conEstela ? geo.puntoEnFraccion(puntos, estela.progresoCola) : null,
+    cabeza: conEstela
+      ? geo.puntoEnFraccion(puntos, estela.progresoCabeza)
+      : posicion
+        ? { latitude: posicion.latitude, longitude: posicion.longitude }
+        : null,
   };
 }

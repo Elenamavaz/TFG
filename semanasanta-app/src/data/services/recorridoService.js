@@ -47,6 +47,13 @@ export async function marcarPuntoDeInteres(recorridoId, relacionId, datos) {
 // FormularioProcesionScreen) a POST /recorridos/importar-gpx: el backend
 // crea el Recorrido entero con todos sus puntos ya en orden -pedirlo a mano,
 // punto a punto, no es razonable a este nivel, ver memoria del TFG.
+// Para descartar un GPX importado que al final no se guarda en ninguna
+// procesión (bug 26): el backend lo borra con sus puntos, y lo rechaza si
+// resulta que sí está asignado a una.
+export async function eliminarRecorrido(recorridoId) {
+  await api.apiFetch(`/recorridos/${recorridoId}`, { method: 'DELETE' });
+}
+
 export async function importarGpxRecorrido(archivo) {
   const formData = new FormData();
   if (archivo.file) {

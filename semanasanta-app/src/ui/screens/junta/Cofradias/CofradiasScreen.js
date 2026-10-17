@@ -43,10 +43,16 @@ export function CofradiasScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+  // Sin conexión o error al cargar (bug 27): aviso con "Reintentar".
+  const [errorCarga, setErrorCarga] = useState(null);
   const cargar = useCallback(() => {
+    setErrorCarga(null);
     Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
       setCiudad(ciudadCargada);
       setCofradias(orden.ordenarPorNombre(listaCofradias));
+      setCargando(false);
+    }).catch((err) => {
+      setErrorCarga(err.message);
       setCargando(false);
     });
   }, [ciudadId]);
@@ -70,6 +76,7 @@ export function CofradiasScreen({ route, navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Cofradias</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
         <Text style={styles.subtitle}>{ciudad ? `Cofradias de ${ciudad.nombre}` : ''}</Text>
 
         <TouchableOpacity
@@ -98,7 +105,7 @@ export function CofradiasScreen({ route, navigation }) {
             </View>
           </View>
         ))}
-        {cofradias.length === 0 ? <Text style={styles.empty}>No hay cofradías todavía.</Text> : null}
+        {cofradias.length === 0 && !errorCarga ? <Text style={styles.empty}>No hay cofradías todavía.</Text> : null}
       </ScrollView>
     </common.ScreenContainer>
   );

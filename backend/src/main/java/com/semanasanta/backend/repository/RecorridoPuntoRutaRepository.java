@@ -12,4 +12,9 @@ public interface RecorridoPuntoRutaRepository extends JpaRepository<RecorridoPun
     boolean existsByRecorridoIdAndPuntoRutaId(Long recorridoId, Long puntoRutaId);
 
     boolean existsByRecorridoIdAndOrden(Long recorridoId, Integer orden);
+
+    // En qué recorridos aparece un punto (normalmente uno solo).
+    List<RecorridoPuntoRuta> findByPuntoRutaId(Long puntoRutaId);
+
+    boolean existsByPuntoRutaId(Long puntoRutaId);
 }

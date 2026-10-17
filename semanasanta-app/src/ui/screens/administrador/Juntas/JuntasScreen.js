@@ -42,7 +42,10 @@ export function JuntasScreen({ navigation }) {
     });
   }, [navigation]);
 
+  // Sin conexión o error al cargar (bug 27): aviso con "Reintentar".
+  const [errorCarga, setErrorCarga] = useState(null);
   const cargar = useCallback(() => {
+    setErrorCarga(null);
     Promise.all([services.getJuntasCofradias(), services.getCiudadesAdmin()]).then(([juntas, ciudades]) => {
       const filasCalculadas = ciudades.map((ciudad) => {
         const junta = juntas.find((j) => j.ciudadId === ciudad.id) ?? null;
@@ -50,6 +53,9 @@ export function JuntasScreen({ navigation }) {
         return { ciudad, junta, estado };
       });
       setFilas(orden.ordenarPorNombre(filasCalculadas, (fila) => fila.junta ? fila.junta.nombre : fila.ciudad.nombre));
+      setCargando(false);
+    }).catch((err) => {
+      setErrorCarga(err.message);
       setCargando(false);
     });
   }, []);
@@ -74,6 +80,7 @@ export function JuntasScreen({ navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Juntas de Cofradías</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
 
         <TouchableOpacity
           style={styles.nuevaButton}
@@ -115,7 +122,7 @@ export function JuntasScreen({ navigation }) {
             </View>
           </View>
         ))}
-        {filas.length === 0 ? <Text style={styles.empty}>No hay ciudades todavía.</Text> : null}
+        {filas.length === 0 && !errorCarga ? <Text style={styles.empty}>No hay ciudades todavía.</Text> : null}
       </ScrollView>
     </common.ScreenContainer>
   );

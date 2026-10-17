@@ -9,6 +9,7 @@ import com.semanasanta.backend.model.PuntoDeInteres;
 import com.semanasanta.backend.model.Recorrido;
 import com.semanasanta.backend.model.PuntoRuta;
 import com.semanasanta.backend.model.RecorridoPuntoRuta;
+import com.semanasanta.backend.repository.PuntoRutaRepository;
 import com.semanasanta.backend.repository.RecorridoPuntoRutaRepository;
 import com.semanasanta.backend.util.GeometriaRuta;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,20 @@ public class RecorridoPuntoRutaService {
     private final RecorridoService recorridoService;
     private final PuntoRutaService puntoRutaService;
     private final PuntoDeInteresService puntoDeInteresService;
-    private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final AutorizacionRecorridoService autorizacionRecorridoService;
+    private final PuntoRutaRepository puntoRutaRepository;
 
     public RecorridoPuntoRutaService(RecorridoPuntoRutaRepository recorridoPuntoRutaRepository,
                                       RecorridoService recorridoService, PuntoRutaService puntoRutaService,
                                       PuntoDeInteresService puntoDeInteresService,
-                                      MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+                                      AutorizacionRecorridoService autorizacionRecorridoService,
+                                      PuntoRutaRepository puntoRutaRepository) {
         this.recorridoPuntoRutaRepository = recorridoPuntoRutaRepository;
         this.recorridoService = recorridoService;
         this.puntoRutaService = puntoRutaService;
         this.puntoDeInteresService = puntoDeInteresService;
-        this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.autorizacionRecorridoService = autorizacionRecorridoService;
+        this.puntoRutaRepository = puntoRutaRepository;
     }
 
     public List<RecorridoPuntoRuta> listar(Long recorridoId) {
@@ -52,7 +56,8 @@ public class RecorridoPuntoRutaService {
 
     // Recorrido/PuntoRuta no tienen dueño único: basta con ser cualquier Junta.
     public RecorridoPuntoRuta agregar(Long recorridoId, PuntoEnRecorridoRequest request) {
-        miembroJuntaCofradiaService.exigirJunta();
+        // Del recurso concreto, no "cualquier Junta" (bug 25, ver AutorizacionRecorridoService).
+        autorizacionRecorridoService.exigirPuedeEditarRecorrido(recorridoId);
         Recorrido recorrido = recorridoService.obtener(recorridoId);
         PuntoRuta puntoRuta = puntoRutaService.obtener(request.puntoRutaId()); // 404 si el punto no existe
 
@@ -72,7 +77,7 @@ public class RecorridoPuntoRutaService {
     // Quita el punto de ESTE recorrido (no borra el PuntoRuta, que puede
     // seguir formando parte de otros recorridos).
     public void quitar(Long recorridoId, Long relacionId) {
-        miembroJuntaCofradiaService.exigirJunta();
+        autorizacionRecorridoService.exigirPuedeEditarRecorrido(recorridoId);
         RecorridoPuntoRuta relacion = recorridoPuntoRutaRepository.findById(relacionId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe esa relación punto-recorrido"));
         if (!relacion.getRecorrido().getId().equals(recorridoId)) {
@@ -92,17 +97,24 @@ public class RecorridoPuntoRutaService {
     // huérfano (deja de estar en ningún recorrido) pero no se borra, por si
     // formara parte de otro recorrido a la vez.
     public RecorridoPuntoRuta marcarComoPuntoDeInteres(Long recorridoId, Long relacionId, MarcarPuntoDeInteresRequest request) {
-        miembroJuntaCofradiaService.exigirJunta();
+        autorizacionRecorridoService.exigirPuedeEditarRecorrido(recorridoId);
         RecorridoPuntoRuta relacion = recorridoPuntoRutaRepository.findById(relacionId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No existe esa relación punto-recorrido"));
         if (!relacion.getRecorrido().getId().equals(recorridoId)) {
             throw new RecursoNoEncontradoException("Ese punto no pertenece al recorrido " + recorridoId);
         }
-        Long ubicacionId = relacion.getPuntoRuta().getUbicacion().getId();
+        PuntoRuta puntoAnterior = relacion.getPuntoRuta();
+        Long ubicacionId = puntoAnterior.getUbicacion().getId();
         PuntoDeInteres puntoDeInteres = puntoDeInteresService.crear(
                 new PuntoDeInteresRequest(request.tipo(), request.nombre(), request.descripcion(), request.imagen(), ubicacionId)
         );
         relacion.setPuntoRuta(puntoDeInteres);
-        return recorridoPuntoRutaRepository.save(relacion);
+        RecorridoPuntoRuta guardada = recorridoPuntoRutaRepository.save(relacion);
+        // El punto sustituido quedaba huérfano (bug 26): se borra si ya no lo
+        // usa ningún otro recorrido. Su Ubicacion no, la usa el nuevo punto.
+        if (!recorridoPuntoRutaRepository.existsByPuntoRutaId(puntoAnterior.getId())) {
+            puntoRutaRepository.delete(puntoAnterior);
+        }
+        return guardada;
     }
 }

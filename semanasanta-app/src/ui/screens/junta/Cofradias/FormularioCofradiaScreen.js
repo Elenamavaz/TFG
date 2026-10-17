@@ -32,6 +32,8 @@ export function FormularioCofradiaScreen({ route, navigation }) {
   const [web, setWeb] = useState('');
   const [historia, setHistoria] = useState('');
   const [imagen, setImagen] = useState('');
+  // Lo que dice la vista previa del enlace (ver common.VistaPreviaImagen).
+  const [estadoImagen, setEstadoImagen] = useState(common.ESTADO_IMAGEN.VACIA);
   const [activa, setActiva] = useState(true);
   // "Elementos de la cofradia" (2026-08-23): igual que "Lista de pasos" en
   // FormularioProcesionScreen/FormularioEventoScreen, pero aquí son tres
@@ -108,6 +110,11 @@ export function FormularioCofradiaScreen({ route, navigation }) {
   function validar() {
     const errores = {};
     if (!nombre.trim()) errores.nombre = 'El nombre de la cofradía es obligatorio';
+    // Un enlace que no carga no se ve en ninguna parte: mejor avisar al
+    // guardar que descubrirlo después en la ficha del ciudadano.
+    if (imagen.trim() && estadoImagen === common.ESTADO_IMAGEN.ERROR) {
+      errores.imagen = 'La imagen no se puede cargar: revisa el enlace o déjalo vacío';
+    }
     return errores;
   }
 
@@ -196,14 +203,19 @@ export function FormularioCofradiaScreen({ route, navigation }) {
           <Text style={styles.etiqueta}>Imagen</Text>
           <TextInput
             value={imagen}
-            onChangeText={setImagen}
+            onChangeText={(texto) => {
+              setImagen(texto);
+              if (erroresCampos.imagen) setErroresCampos((actual) => ({ ...actual, imagen: null }));
+            }}
             placeholder="URL de la imagen"
             placeholderTextColor={colors.subtitle}
             autoCapitalize="none"
             keyboardType="url"
             style={styles.input}
           />
-          <Text style={styles.ayuda}>Pega la URL del escudo o una imagen representativa ya subida (JPG, JPEG o PNG).</Text>
+          <Text style={styles.ayuda}>Pega el enlace directo al escudo o a una imagen representativa ya publicada en internet (JPG o PNG).</Text>
+          <common.VistaPreviaImagen url={imagen} onEstado={setEstadoImagen} />
+          {erroresCampos.imagen ? <Text style={styles.errorCampo}>{erroresCampos.imagen}</Text> : null}
         </View>
 
         {editando ? (

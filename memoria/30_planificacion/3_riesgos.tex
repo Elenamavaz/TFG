@@ -8,18 +8,17 @@ Los riesgos identificados se organizan en función de su prioridad, la cual se d
     RE = \text{probabilidad} \times \text{impacto}
 \end{equation}
 
-La variable probabilidad representa la probabilidad de que el riesgo se materialice en el proyecto (escala de 1 a 10), mientras que el impacto representa la gravedad de sus consecuencias en caso de ocurrir (escala de 1 a 10). En la Tabla~\ref{tab:riesgos} se muestran los riesgos identificados en el proyecto.
+La variable probabilidad representa la probabilidad de que el riesgo ocurra en el proyecto (escala de 1 a 10), mientras que el impacto representa la gravedad de sus consecuencias en caso de ocurrir (escala de 1 a 10). En la Tabla~\ref{tab:riesgos} se muestran los riesgos identificados en el proyecto.
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|l|c|c|c|}
+\begin{tabular}{|p{8cm}|c|c|c|}
 \hline
 \textbf{Riesgo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Prioridad} \\
 \hline
 1. Estimaciones de tiempo erróneas & 8 & 7 & 56 \\
 \hline
-2. Falta de experiencia con las tecnologías del backend 
-propio (Spring Boot) & 7 & 7 & 49 \\
+2. Falta de experiencia con las tecnologías del backend propio (Spring Boot) & 7 & 7 & 49 \\
 \hline
 3. Problemas con la integración de Google Maps & 6 & 8 & 48 \\
 \hline
@@ -45,7 +44,7 @@ tecnologías móviles & 7 & 6 & 42 \\
 
 \subsection{Planificación de riesgo}
 
-Tras realizar la identificación de los riesgos, el siguiente paso es la decisión de qué medidas se deben tomar para reducir la probabilidad de que el riesgo ocurra, de forma que se pueda disminuir su impacto una vez se materialice. En las Tablas~\ref{tab:riesgo1} a \ref{tab:riesgo10} se detallan, para cada uno de los riesgos identificados en la Tabla~\ref{tab:riesgos}, las medidas de reducción propuestas para disminuir su probabilidad y las medidas de contingencia previstas en caso de que finalmente se materialice.
+Tras realizar la identificación de los riesgos, el siguiente paso es la decisión de qué medidas se deben tomar para reducir la probabilidad de que el riesgo ocurra, de forma que se pueda disminuir su impacto. En las Tablas~\ref{tab:riesgo1} a \ref{tab:riesgo10} se detallan, para cada uno de los riesgos identificados en la Tabla~\ref{tab:riesgos}, las medidas de reducción propuestas para disminuir su probabilidad y las medidas de contingencia previstas en caso de que finalmente ocurran.
 
 \begin{table}[ht!]
 \centering
@@ -73,7 +72,7 @@ Tras realizar la identificación de los riesgos, el siguiente paso es la decisi�
 \centering
 \begin{tabular}{@{}p{3cm}p{10cm}@{}}
 \textbf{Riesgo} & Errores durante el desarrollo \\[0.4em]
-\textbf{Reducción} & Verificar que la funcionalidad está implementada correctamente antes de dar por finalizado el incremento. Realizar pruebas unitarias\footnote{Pruebas unitarias: pruebas que verifican el correcto funcionamiento de componentes individuales del código de forma aislada.} \\[0.4em]
+\textbf{Reducción} & Verificar que la funcionalidad está implementada correctamente antes de dar por finalizado el incremento. Realizar pruebas unitarias\footnotemark{Pruebas unitarias: pruebas que verifican el correcto funcionamiento de componentes individuales del código de forma aislada.} \\[0.4em]
 \textbf{Contingencia} & Volver al último punto correctamente probado y continuar desde ahí. Utilizar control de versiones \cite{github} para recuperar estados anteriores del código.
 \end{tabular}
 \caption{Riesgo 3: Errores durante el desarrollo}

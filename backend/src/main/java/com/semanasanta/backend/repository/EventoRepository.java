@@ -19,4 +19,10 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
 
     // Para CambioEstadoAutomaticoService: incluye también las Procesion.
     List<Evento> findByEstadoIn(List<EstadoEvento> estados);
+
+    // Eventos/procesiones que se celebran en una Ubicacion: de ellos sale su
+    // ciudad (ver AutorizacionRecorridoService) y si se puede borrar.
+    List<Evento> findByUbicacionId(Long ubicacionId);
+
+    boolean existsByUbicacionId(Long ubicacionId);
 }

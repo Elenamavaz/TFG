@@ -14,6 +14,9 @@ export function DetalleProcesionScreen({ route, navigation }) {
   const { procesionId } = route.params;
   const { esFavorito, alternarFavorito } = context.useFavoritos();
   const [procesion, setProcesion] = useState(null);
+  // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
+  const [errorCarga, setErrorCarga] = useState(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
   // Recorrido con sus puntos (y coordenadas) para el mapa de la sección
@@ -25,38 +28,54 @@ export function DetalleProcesionScreen({ route, navigation }) {
   });
 
   useEffect(() => {
-    services.getProcesionPorId(procesionId).then((data) => {
-      setProcesion(data);
-      if (!data) return;
+    setErrorCarga(null);
+    services.getProcesionPorId(procesionId)
+      .then((data) => {
+        setProcesion(data);
+        if (!data) return;
 
-      navigation.setOptions({
-        headerTintColor: colors.subtitle,
-        headerTitleAlign: 'center',
-        headerBackground: () => <View style={styles.headerBackground} />,
-        headerTitle: () => (
-          <View style={styles.headerBadge}>
-            <Text style={styles.headerBadgeText}>Detalles</Text>
-          </View>
-        ),
-        headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
-      });
+        navigation.setOptions({
+          headerTintColor: colors.subtitle,
+          headerTitleAlign: 'center',
+          headerBackground: () => <View style={styles.headerBackground} />,
+          headerTitle: () => (
+            <View style={styles.headerBadge}>
+              <Text style={styles.headerBadgeText}>Detalles</Text>
+            </View>
+          ),
+          headerRight: () => <common.FavoritoCabecera id={procesionId} tipo="procesion" />,
+        });
 
-      // Una procesión puede tener varias cofradías participantes (N:M real
-      // en el backend): se muestran todas, separadas por coma (decisión del
-      // 2026-08-15).
-      Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
-        setCofradiaNombre(
-          cofradias
-            .map((c) => c?.nombre)
-            .filter(Boolean)
-            .join(', ')
-        )
-      );
-      services.getPasosPorIds(data.pasoIds).then(setPasos);
-    });
-  }, [procesionId]);
+        // Una procesión puede tener varias cofradías participantes (N:M real
+        // en el backend): se muestran todas, separadas por coma (decisión del
+        // 2026-08-15).
+        Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+          setCofradiaNombre(
+            cofradias
+              .map((c) => c?.nombre)
+              .filter(Boolean)
+              .join(', ')
+          )
+        );
+        services.getPasosPorIds(data.pasoIds).then(setPasos);
+      })
+      .catch((err) => setErrorCarga(err.message));
+  }, [procesionId, intentoCarga]);
 
-  if (!procesion) return null;
+  if (errorCarga) {
+    return (
+      <common.ScreenContainer>
+        <common.AvisoError pantallaCompleta mensaje={errorCarga} onReintentar={() => setIntentoCarga((n) => n + 1)} />
+      </common.ScreenContainer>
+    );
+  }
+  if (!procesion) {
+    return (
+      <common.ScreenContainer>
+        <common.PantallaCargando />
+      </common.ScreenContainer>
+    );
+  }
 
   return (
     <common.ScreenContainer>

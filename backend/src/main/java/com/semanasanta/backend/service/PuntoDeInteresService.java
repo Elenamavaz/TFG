@@ -13,12 +13,15 @@ public class PuntoDeInteresService {
     private final PuntoDeInteresRepository puntoDeInteresRepository;
     private final UbicacionService ubicacionService;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final AutorizacionRecorridoService autorizacionRecorridoService;
 
     public PuntoDeInteresService(PuntoDeInteresRepository puntoDeInteresRepository, UbicacionService ubicacionService,
-                                  MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+                                  MiembroJuntaCofradiaService miembroJuntaCofradiaService,
+                                  AutorizacionRecorridoService autorizacionRecorridoService) {
         this.puntoDeInteresRepository = puntoDeInteresRepository;
         this.ubicacionService = ubicacionService;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.autorizacionRecorridoService = autorizacionRecorridoService;
     }
 
     public PuntoDeInteres obtener(Long id) {
@@ -37,7 +40,8 @@ public class PuntoDeInteresService {
     }
 
     public PuntoDeInteres actualizar(Long id, PuntoDeInteresRequest request) {
-        miembroJuntaCofradiaService.exigirJunta();
+        // Del recurso concreto, no "cualquier Junta" (bug 25, ver AutorizacionRecorridoService).
+        autorizacionRecorridoService.exigirPuedeEditarPuntoRuta(id);
         PuntoDeInteres puntoDeInteres = obtener(id);
         Ubicacion ubicacion = ubicacionService.obtener(request.ubicacionId());
         puntoDeInteres.setTipo(request.tipo());
@@ -49,7 +53,8 @@ public class PuntoDeInteresService {
     }
 
     public void eliminar(Long id) {
-        miembroJuntaCofradiaService.exigirJunta();
+        // Del recurso concreto, no "cualquier Junta" (bug 25, ver AutorizacionRecorridoService).
+        autorizacionRecorridoService.exigirPuedeEditarPuntoRuta(id);
         PuntoDeInteres puntoDeInteres = obtener(id);
         puntoDeInteresRepository.delete(puntoDeInteres);
     }

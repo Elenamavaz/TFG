@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { common } from '../../../components';
@@ -45,6 +46,9 @@ export function CalendarioScreen({ navigation }) {
   const [procesiones, setProcesiones] = useState([]);
   const [eventos, setEventos] = useState([]);
   const [cofradiasPorId, setCofradiasPorId] = useState({});
+  // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
+  const [errorCarga, setErrorCarga] = useState(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
   const { esFavorito, alternarFavorito } = context.useFavoritos();
 
   useEffect(() => {
@@ -58,19 +62,25 @@ export function CalendarioScreen({ navigation }) {
     });
   }, [diaHome]);
 
-  useEffect(() => {
-    if (!ciudadSeleccionada) return;
-    const ciudadId = ciudadSeleccionada.id;
-    Promise.all([
-      services.getProcesionesPorCiudad(ciudadId),
-      services.getEventosPorCiudad(ciudadId),
-      services.getCofradiasPorCiudad(ciudadId),
-    ]).then(([listaProcesiones, listaEventos, listaCofradias]) => {
-      setProcesiones(listaProcesiones);
-      setEventos(listaEventos);
-      setCofradiasPorId(Object.fromEntries(listaCofradias.map((c) => [c.id, c.nombre])));
-    });
-  }, [ciudadSeleccionada]);
+  // useFocusEffect y no useEffect (bug 20): se recarga cada vez que se
+  // vuelve a la pestaña, para que se vea lo que haya cambiado la Junta
+  // (antes solo al cambiar de ciudad).
+  useFocusEffect(
+    useCallback(() => {
+      if (!ciudadSeleccionada) return;
+      const ciudadId = ciudadSeleccionada.id;
+      setErrorCarga(null);
+      Promise.all([
+        services.getProcesionesPorCiudad(ciudadId),
+        services.getEventosPorCiudad(ciudadId),
+        services.getCofradiasPorCiudad(ciudadId),
+      ]).then(([listaProcesiones, listaEventos, listaCofradias]) => {
+        setProcesiones(listaProcesiones);
+        setEventos(listaEventos);
+        setCofradiasPorId(Object.fromEntries(listaCofradias.map((c) => [c.id, c.nombre])));
+      }).catch((err) => setErrorCarga(err.message));
+    }, [ciudadSeleccionada, intentoCarga]),
+  );
 
   const diasConAgenda = useMemo(() => {
     const nombrePorFecha = new Map(diasSemanaSanta.map((d) => [d.nombre, d.fecha]));
@@ -161,6 +171,7 @@ export function CalendarioScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Calendario</Text>
         <Text style={styles.subtitle}>{ciudadSeleccionada.nombre} · Semana Santa</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={() => setIntentoCarga((n) => n + 1)} /> : null}
 
         {diaAgenda ? (
           <>

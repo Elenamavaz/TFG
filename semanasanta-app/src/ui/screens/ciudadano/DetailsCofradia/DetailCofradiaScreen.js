@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { ScrollView, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { common } from '../../../components';
 import { services } from '../../../../data';
@@ -11,7 +10,7 @@ import { styles } from './DetailCofradiaScreen.styles';
 export function DetalleCofradiaScreen({ route, navigation }) {
   const { cofradiaId } = route.params;
   const { esFavorito, alternarFavorito } = context.useFavoritos();
-  const { data: cofradia = null } = useQuery({
+  const { data: cofradia = null, isError, error, refetch } = useQuery({
     queryKey: ['cofradia', cofradiaId],
     queryFn: () => services.getCofradiaPorId(cofradiaId),
   });
@@ -29,7 +28,7 @@ export function DetalleCofradiaScreen({ route, navigation }) {
           <Text style={styles.headerBadgeText}>Detalles</Text>
         </View>
       ),
-      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
+      headerRight: () => <common.FavoritoCabecera id={cofradiaId} tipo="cofradia" />,
     });
   }, []);
 
@@ -44,7 +43,21 @@ export function DetalleCofradiaScreen({ route, navigation }) {
     services.getPasosPorCofradia(cofradiaId).then(setPasos);
   }, [cofradia, cofradiaId]);
 
-  if (!cofradia) return null;
+  // Sin conexión y sin copia guardada (bug 27): el motivo y "Reintentar".
+  if (!cofradia && isError) {
+    return (
+      <common.ScreenContainer>
+        <common.AvisoError pantallaCompleta mensaje={error?.message} onReintentar={refetch} />
+      </common.ScreenContainer>
+    );
+  }
+  if (!cofradia) {
+    return (
+      <common.ScreenContainer>
+        <common.PantallaCargando />
+      </common.ScreenContainer>
+    );
+  }
 
   return (
     <common.ScreenContainer>
@@ -53,13 +66,7 @@ export function DetalleCofradiaScreen({ route, navigation }) {
           <View style={styles.headerText}>
             <Text style={styles.title}>{cofradia.nombre}</Text>
           </View>
-          {cofradia.imagen ? (
-            <Image source={{ uri: cofradia.imagen }} style={styles.imagen} resizeMode="cover" />
-          ) : (
-            <View style={styles.imagePlaceholder}>
-              <Ionicons name="image-outline" size={22} color={colors.subtitle} />
-            </View>
-          )}
+          <common.ImagenRemota uri={cofradia.imagen} style={styles.imagen} placeholderStyle={styles.imagePlaceholder} />
         </View>
 
         <common.InfoSection title="Historia">

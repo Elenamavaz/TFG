@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 // Reglas de horario compartidas por EventoService, ProcesionService y
 // CambioEstadoAutomaticoService (2026-09-30). LocalDateTime.now() es hora de
 // España porque BackendApplication fija esa zona por defecto al arrancar
-// (Railway corre en UTC).
+// (el servidor puede correr en UTC).
 final class HorarioEventos {
 
     private HorarioEventos() {

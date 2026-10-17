@@ -18,7 +18,7 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 		// Las fechas se guardan sin zona (LocalDateTime) y son hora de España
-		// -la que teclea la Junta-. Railway corre en UTC: sin esto,
+		// -la que teclea la Junta-. Si el servidor corre en UTC, sin esto
 		// LocalDateTime.now() iría 1-2 horas por detrás y los cambios de
 		// estado automáticos (y la ventana de pings) llegarían tarde.
 		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Madrid"));

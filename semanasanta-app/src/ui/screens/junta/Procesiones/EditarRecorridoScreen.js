@@ -38,6 +38,7 @@ export function EditarRecorridoScreen({ route, navigation }) {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState('');
+  const [estadoImagen, setEstadoImagen] = useState(common.ESTADO_IMAGEN.VACIA);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
 
@@ -77,6 +78,10 @@ export function EditarRecorridoScreen({ route, navigation }) {
   // sustituye en la lista local por el que devuelve el backend (id nuevo).
   async function guardar() {
     if (guardando || !tipo || !nombre.trim()) return;
+    if (imagen.trim() && estadoImagen === common.ESTADO_IMAGEN.ERROR) {
+      setError('La imagen no se puede cargar: revisa el enlace o déjalo vacío.');
+      return;
+    }
     setGuardando(true);
     setError(null);
     try {
@@ -164,12 +169,13 @@ export function EditarRecorridoScreen({ route, navigation }) {
             <TextInput
               value={imagen}
               onChangeText={setImagen}
-              placeholder="URL de la imagen (opcional)"
+              placeholder="Enlace directo a la imagen (opcional)"
               placeholderTextColor={colors.subtitle}
               autoCapitalize="none"
               keyboardType="url"
               style={styles.input}
             />
+            <common.VistaPreviaImagen url={imagen} onEstado={setEstadoImagen} />
 
             {error ? <Text style={styles.error}>{error}</Text> : null}
 

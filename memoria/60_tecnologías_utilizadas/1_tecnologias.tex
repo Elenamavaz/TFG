@@ -36,13 +36,14 @@ Este capítulo recoge, a modo de referencia, el conjunto de tecnologías, herram
 \section{Despliegue y alojamiento}
  
 \begin{itemize}
-    \item \textbf{Railway} \cite{railway}: plataforma \emph{PaaS} (\emph{Platform as a Service}) utilizada para alojar tanto la API de Spring Boot como la base de datos PostgreSQL. Se ha elegido frente a un servidor propio (VPS) porque simplifica el despliegue continuo desde GitHub, no requiere gestionar manualmente el sistema operativo del servidor y dispone de un plan gratuito suficiente para las necesidades del proyecto durante el desarrollo del TFG \cite{railwaypricing}, en línea con el planteamiento de \nameref{sec:decisionesTecnologicas} de priorizar el tiempo de desarrollo dado que el proyecto lo lleva a cabo una única persona. El manual de despliegue completo se recoge en el Apéndice~\ref{cap:manual_despliegue}.
+    \item \textbf{Servidor virtual de la Universidad de Valladolid}: máquina virtual Linux proporcionada por la Escuela de Ingeniería Informática, en la que se alojan tanto la API de Spring Boot, ejecutada como servicio del sistema mediante systemd, como la base de datos PostgreSQL. Al ser un recurso cedido por la universidad, no supone ningún coste para el proyecto; a cambio, la gestión del servidor (instalación de dependencias, configuración del servicio y actualización a cada nueva versión) se realiza de forma manual. El manual de despliegue completo se recoge en el Apéndice~\ref{cap:manual_despliegue}.
+    \item \textbf{EAS Build} \cite{expo}: servicio de compilación en la nube de Expo, utilizado para generar el ejecutable instalable de la aplicación móvil sin necesidad de compilarlo en local.
 \end{itemize}
  
 \section{Herramientas de desarrollo}
  
 \begin{itemize}
     \item \textbf{Android Studio} \cite{androidstudio} y \textbf{Visual Studio Code} \cite{vscode}: entornos de desarrollo utilizados para la aplicación móvil y para el backend, respectivamente.
-    \item \textbf{GitHub} \cite{github}: control de versiones y repositorio remoto del proyecto, utilizado además como origen del despliegue continuo en Railway.
+    \item \textbf{GitHub} \cite{github}: control de versiones y repositorio remoto del proyecto, desde el que además se descarga el código en el servidor en cada despliegue.
     \item \textbf{Figma} \cite{figma}: diseño de las interfaces mediante \emph{mockups}, tal y como se explica en la Sección~\ref{cap:1_iteracion}.
 \end{itemize}

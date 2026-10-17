@@ -1,14 +1,33 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { services } from '../../data';
 
 const FavoritosContext = createContext(null);
 
 // Favoritos guardados por el usuario (relación Usuario -guarda-> Favorito
 // -referencia-> Favoriteable del diagrama de clases), compartidos entre
-// Inicio, Calendario, Buscar y Mi Perfil. Solo en memoria por ahora: no
-// sobrevive a cerrar la app (persistencia en dispositivo, p. ej.
-// AsyncStorage, queda para una iteración posterior).
+// Inicio, Calendario, Buscar y Mi Perfil. Guardados en el dispositivo
+// (AsyncStorage, ver preferenciasService) desde el 2026-10-17: antes solo
+// vivían en memoria y se perdían al cerrar la app (bug 15).
 export function FavoritosProvider({ children }) {
   const [favoritos, setFavoritos] = useState([]); // [{ id, tipo }]
+  // Hasta que se lean los guardados no se escribe nada: si no, el [] inicial
+  // los borraría al arrancar.
+  const cargadosRef = useRef(false);
+
+  useEffect(() => {
+    services.getFavoritosGuardados().then((guardados) => {
+      // Lo marcado en el rato de carga (muy improbable) se suma a lo guardado.
+      setFavoritos((actuales) => [
+        ...guardados,
+        ...actuales.filter((f) => !guardados.some((g) => g.id === f.id && g.tipo === f.tipo)),
+      ]);
+      cargadosRef.current = true;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (cargadosRef.current) services.guardarFavoritos(favoritos);
+  }, [favoritos]);
 
   const esFavorito = useCallback(
     (id, tipo) => favoritos.some((f) => f.id === id && f.tipo === tipo),

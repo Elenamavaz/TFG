@@ -57,7 +57,7 @@ El coste de amortización así calculado asciende a \textbf{216,66€}, tal y co
 
 \begin{table}[ht!]
 \centering
-\begin{tabular}{|l|r|r|r|r|}
+\begin{tabularx}{\textwidth}{|X|r|c|c|X|}
 \hline
 \textbf{Recurso} & \textbf{Valor} & \textbf{Vida útil} & \textbf{Amort. (5 meses)} & \textbf{Amort. en el proyecto (300h, 40\%)} \\
 \hline
@@ -67,7 +67,7 @@ Dispositivo Android (x1) & 300,00€ & 3 años & 41,65€ & 16,66€ \\
 \hline
 \textbf{Total amortización} & & & 541,65€ & \textbf{216,66€} \\
 \hline
-\end{tabular}
+\end{tabularx}
 \caption{Amortización de los recursos de equipo, prorrateada al uso real del proyecto}
 \label{tab:amortizacion}
 \end{table}
@@ -75,6 +75,8 @@ Dispositivo Android (x1) & 300,00€ & 3 años & 41,65€ & 16,66€ \\
 \subsection{Costes de licencias de software}
 
 Buena parte de las herramientas empleadas disponen de planes gratuitos o licencias universitarias suficientes para un proyecto de este tamaño. Sin embargo, un equipo profesional de 6 personas necesitaría además herramientas colaborativas de pago para la gestión del proyecto y el diseño. La Tabla~\ref{tab:licencias} recoge el coste y la fuente de cada licencia.
+
+El backend se ha desplegado en un servidor virtual cedido por la Escuela de Ingeniería Informática de la Universidad de Valladolid, sin coste para el proyecto. Para reflejar lo que costaría fuera de ese entorno, se ha valorado un servidor virtual comercial de prestaciones similares (Hetzner Cloud CX23: 2 vCPU, 4 GB de RAM y 40 GB de disco NVMe), a 5,99€ al mes sin IVA con la dirección IPv4 pública incluida \cite{hetznerPricing}, lo que supone 29,95€ para los 5 meses del proyecto.
 
 \begin{table}[ht!]
 \centering
@@ -90,7 +92,9 @@ Overleaf (plan gratuito) & 0,00€ & --- \\
 \hline
 Expo Push Notifications (plan gratuito) & 0,00€ & \cite{expo} \\
 \hline
-Railway (plan gratuito) & 0,00€ & \cite{railwaypricing} \\
+Expo Application Services, EAS Build (plan gratuito) & 0,00€ & \cite{expo} \\
+\hline
+Servidor virtual (equivalente: Hetzner Cloud CX23, 5 meses) & 29,95€ & \cite{hetznerPricing} \\
 \hline
 Google Maps API (crédito gratuito) & 0,00€ & \cite{googlemapsapi} \\
 \hline
@@ -102,7 +106,7 @@ Figma Professional (1 licencia, 5 meses) & 69,00€ & \cite{figmaPricing} \\
 \hline
 Jira Software Standard (6 usuarios, 5 meses) & 218,40€ & \cite{jiraPricing} \\
 \hline
-\textbf{Total licencias} & \textbf{310,40€} & \\
+\textbf{Total licencias} & \textbf{340,35€} & \\
 \hline
 \end{tabular}
 \caption{Coste de licencias de software}
@@ -129,11 +133,11 @@ Personal (Tabla~\ref{tab:horas_personal}) & 7.395,00€ \\
 \hline
 Amortización de equipo, prorrateada (Tabla~\ref{tab:amortizacion}) & 216,66€ \\
 \hline
-Licencias de software (Tabla~\ref{tab:licencias}) & 310,40€ \\
+Licencias de software (Tabla~\ref{tab:licencias}) & 340,35€ \\
 \hline
 Costes estructurales, prorrateados (oficina y suministros) & 950,00€ \\
 \hline
-\textbf{Total} & \textbf{8.872,06€} \\
+\textbf{Total} & \textbf{8.902,01€} \\
 \hline
 \end{tabular}
 \caption{Costes totales del proyecto}

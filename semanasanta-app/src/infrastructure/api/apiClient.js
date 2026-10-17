@@ -61,12 +61,22 @@ const BASE_URL = resolverBaseUrl();
 // HTTP, 2026-09-30) para quien necesite distinguir un error concreto -p.ej.
 // CofradeContext con el 410 de "la procesión ya no está en curso".
 export class ApiError extends Error {
-  constructor(mensaje, campos = null, status = null) {
+  constructor(mensaje, campos = null, status = null, sinConexion = false) {
     super(mensaje);
     this.campos = campos;
     this.status = status;
+    // true = no se ha llegado al servidor (sin red, servidor caído o sin
+    // respuesta a tiempo): las pantallas lo usan para ofrecer "Reintentar".
+    this.sinConexion = sinConexion;
   }
 }
+
+// Sin conexión (bug 27 de bugs.md, 2026-10-17): fetch no tiene tiempo
+// máximo, y con el servidor caído una petición podía quedarse colgada para
+// siempre (la app, en el spinner). Más margen para subir un GPX.
+const TIEMPO_MAXIMO_MS = 15000;
+const TIEMPO_MAXIMO_SUBIDA_MS = 60000;
+const MENSAJE_SIN_CONEXION = 'No se ha podido conectar con el servidor. Comprueba tu conexión a internet y vuelve a intentarlo.';
 
 // Cierra el TODO que había aquí desde antes de que existiera login real
 // (2026-08-21, encontrado al dar 403 en /juntas-cofradias con sesión de
@@ -101,18 +111,36 @@ export async function apiFetch(path, options = {}) {
   // boundary correcto solo si se lo dejamos poner a él.
   const esFormData = typeof FormData !== 'undefined' && body instanceof FormData;
   const auth = await cabeceraAutorizacion();
-  const response = await fetch(`${BASE_URL}${path}`, {
-    ...resto,
-    headers: esFormData ? { ...auth, ...headers } : { 'Content-Type': 'application/json', ...auth, ...headers },
-    body: esFormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
-  });
+  const controlador = new AbortController();
+  const temporizador = setTimeout(() => controlador.abort(), esFormData ? TIEMPO_MAXIMO_SUBIDA_MS : TIEMPO_MAXIMO_MS);
+  let response;
+  try {
+    response = await fetch(`${BASE_URL}${path}`, {
+      ...resto,
+      headers: esFormData ? { ...auth, ...headers } : { 'Content-Type': 'application/json', ...auth, ...headers },
+      body: esFormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
+      signal: controlador.signal,
+    });
+  } catch {
+    // "Network request failed" (sin red) o abortada por el tiempo máximo:
+    // en los dos casos no ha habido respuesta del servidor.
+    throw new ApiError(MENSAJE_SIN_CONEXION, null, null, true);
+  } finally {
+    clearTimeout(temporizador);
+  }
 
   if (response.status === 204) {
     return null;
   }
 
   const texto = await response.text();
-  const datos = texto ? JSON.parse(texto) : null;
+  let datos = null;
+  try {
+    datos = texto ? JSON.parse(texto) : null;
+  } catch {
+    // Respuesta que no es JSON (p.ej. la página de error de un proxy).
+    if (response.ok) throw new ApiError('Respuesta inesperada del servidor.', null, response.status);
+  }
 
   if (!response.ok) {
     if (response.status === 401 && datos?.sesionInvalida && auth.Authorization) {

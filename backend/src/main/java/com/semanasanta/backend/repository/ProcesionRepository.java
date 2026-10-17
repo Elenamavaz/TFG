@@ -4,6 +4,7 @@ import com.semanasanta.backend.model.Procesion;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProcesionRepository extends JpaRepository<Procesion, Long> {
 
@@ -16,4 +17,8 @@ public interface ProcesionRepository extends JpaRepository<Procesion, Long> {
     List<Procesion> findDistinctByCofradias_Ciudad_Id(Long ciudadId);
 
     List<Procesion> findDistinctByCofradias_Id(Long cofradiaId);
+
+    // Dueño de un Recorrido (relación 1:1): para saber de qué ciudad es y,
+    // por tanto, qué Junta puede editarlo (ver AutorizacionRecorridoService).
+    Optional<Procesion> findByRecorridoId(Long recorridoId);
 }

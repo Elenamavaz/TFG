@@ -13,10 +13,13 @@ public class UbicacionService {
 
     private final UbicacionRepository ubicacionRepository;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final AutorizacionRecorridoService autorizacionRecorridoService;
 
-    public UbicacionService(UbicacionRepository ubicacionRepository, MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+    public UbicacionService(UbicacionRepository ubicacionRepository, MiembroJuntaCofradiaService miembroJuntaCofradiaService,
+                             AutorizacionRecorridoService autorizacionRecorridoService) {
         this.ubicacionRepository = ubicacionRepository;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.autorizacionRecorridoService = autorizacionRecorridoService;
     }
 
     public List<Ubicacion> listar() {
@@ -37,7 +40,8 @@ public class UbicacionService {
     }
 
     public Ubicacion actualizar(Long id, UbicacionRequest request) {
-        miembroJuntaCofradiaService.exigirJunta();
+        // Del recurso concreto, no "cualquier Junta" (bug 25, ver AutorizacionRecorridoService).
+        autorizacionRecorridoService.exigirPuedeEditarUbicacion(id);
         Ubicacion ubicacion = obtener(id);
         ubicacion.setLatitud(request.latitud());
         ubicacion.setLongitud(request.longitud());
@@ -46,7 +50,8 @@ public class UbicacionService {
     }
 
     public void eliminar(Long id) {
-        miembroJuntaCofradiaService.exigirJunta();
+        // Del recurso concreto, no "cualquier Junta" (bug 25, ver AutorizacionRecorridoService).
+        autorizacionRecorridoService.exigirPuedeEditarUbicacion(id);
         Ubicacion ubicacion = obtener(id);
         ubicacionRepository.delete(ubicacion);
     }

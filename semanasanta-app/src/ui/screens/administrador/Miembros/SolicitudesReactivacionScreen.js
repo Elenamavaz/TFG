@@ -25,10 +25,16 @@ export function SolicitudesReactivacionScreen({ navigation }) {
     });
   }, [navigation]);
 
+  // Sin conexión o error al cargar (bug 27): aviso con "Reintentar".
+  const [errorCarga, setErrorCarga] = useState(null);
   const cargar = useCallback(() => {
+    setErrorCarga(null);
     Promise.all([services.getSolicitudesReactivacion(), services.getJuntasCofradias()]).then(([lista, juntas]) => {
       setSolicitudes(lista);
       setJuntasPorId(Object.fromEntries(juntas.map((j) => [j.id, j])));
+      setCargando(false);
+    }).catch((err) => {
+      setErrorCarga(err.message);
       setCargando(false);
     });
   }, []);
@@ -52,6 +58,7 @@ export function SolicitudesReactivacionScreen({ navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Solicitudes de reactivación</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
         <Text style={styles.subtitle}>
           Miembros de Junta desactivados que han pedido volver a tener acceso.
         </Text>
@@ -73,7 +80,7 @@ export function SolicitudesReactivacionScreen({ navigation }) {
             </View>
           </View>
         ))}
-        {solicitudes.length === 0 ? <Text style={styles.empty}>No hay solicitudes pendientes.</Text> : null}
+        {solicitudes.length === 0 && !errorCarga ? <Text style={styles.empty}>No hay solicitudes pendientes.</Text> : null}
       </ScrollView>
     </common.ScreenContainer>
   );

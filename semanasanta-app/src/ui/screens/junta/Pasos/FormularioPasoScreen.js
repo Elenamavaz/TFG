@@ -29,6 +29,8 @@ export function FormularioPasoScreen({ route, navigation }) {
   const [historia, setHistoria] = useState('');
   const [analisisArtistico, setAnalisisArtistico] = useState('');
   const [imagen, setImagen] = useState('');
+  // Lo que dice la vista previa del enlace (ver common.VistaPreviaImagen).
+  const [estadoImagen, setEstadoImagen] = useState(common.ESTADO_IMAGEN.VACIA);
   const [guardando, setGuardando] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [error, setError] = useState(null);
@@ -83,6 +85,11 @@ export function FormularioPasoScreen({ route, navigation }) {
     const errores = {};
     if (!nombre.trim()) errores.nombre = 'El nombre del paso es obligatorio';
     if (!cofradiaSeleccionada) errores.cofradia = 'Selecciona la cofradía';
+    // Un enlace que no carga no se ve en ninguna parte: mejor avisar al
+    // guardar que descubrirlo después en la ficha del ciudadano.
+    if (imagen.trim() && estadoImagen === common.ESTADO_IMAGEN.ERROR) {
+      errores.imagen = 'La imagen no se puede cargar: revisa el enlace o déjalo vacío';
+    }
     return errores;
   }
 
@@ -188,14 +195,19 @@ export function FormularioPasoScreen({ route, navigation }) {
           <Text style={styles.etiqueta}>Imagen</Text>
           <TextInput
             value={imagen}
-            onChangeText={setImagen}
+            onChangeText={(texto) => {
+              setImagen(texto);
+              if (erroresCampos.imagen) setErroresCampos((actual) => ({ ...actual, imagen: null }));
+            }}
             placeholder="URL de la imagen"
             placeholderTextColor={colors.subtitle}
             autoCapitalize="none"
             keyboardType="url"
             style={styles.input}
           />
-          <Text style={styles.ayuda}>Pega la URL de una imagen ya subida (JPG, JPEG o PNG).</Text>
+          <Text style={styles.ayuda}>Pega el enlace directo a una imagen ya publicada en internet (JPG o PNG).</Text>
+          <common.VistaPreviaImagen url={imagen} onEstado={setEstadoImagen} />
+          {erroresCampos.imagen ? <Text style={styles.errorCampo}>{erroresCampos.imagen}</Text> : null}
         </View>
 
         {error ? <Text style={styles.error}>{error}</Text> : null}

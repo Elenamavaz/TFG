@@ -13,12 +13,15 @@ public class PuntoRutaService {
     private final PuntoRutaRepository puntoRutaRepository;
     private final UbicacionService ubicacionService;
     private final MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private final AutorizacionRecorridoService autorizacionRecorridoService;
 
     public PuntoRutaService(PuntoRutaRepository puntoRutaRepository, UbicacionService ubicacionService,
-                             MiembroJuntaCofradiaService miembroJuntaCofradiaService) {
+                             MiembroJuntaCofradiaService miembroJuntaCofradiaService,
+                             AutorizacionRecorridoService autorizacionRecorridoService) {
         this.puntoRutaRepository = puntoRutaRepository;
         this.ubicacionService = ubicacionService;
         this.miembroJuntaCofradiaService = miembroJuntaCofradiaService;
+        this.autorizacionRecorridoService = autorizacionRecorridoService;
     }
 
     public PuntoRuta obtener(Long id) {
@@ -36,7 +39,8 @@ public class PuntoRutaService {
     }
 
     public PuntoRuta actualizar(Long id, PuntoRutaRequest request) {
-        miembroJuntaCofradiaService.exigirJunta();
+        // Del recurso concreto, no "cualquier Junta" (bug 25, ver AutorizacionRecorridoService).
+        autorizacionRecorridoService.exigirPuedeEditarPuntoRuta(id);
         PuntoRuta puntoRuta = obtener(id);
         Ubicacion ubicacion = ubicacionService.obtener(request.ubicacionId());
         puntoRuta.setUbicacion(ubicacion);
@@ -44,7 +48,8 @@ public class PuntoRutaService {
     }
 
     public void eliminar(Long id) {
-        miembroJuntaCofradiaService.exigirJunta();
+        // Del recurso concreto, no "cualquier Junta" (bug 25, ver AutorizacionRecorridoService).
+        autorizacionRecorridoService.exigirPuedeEditarPuntoRuta(id);
         PuntoRuta puntoRuta = obtener(id);
         puntoRutaRepository.delete(puntoRuta);
     }

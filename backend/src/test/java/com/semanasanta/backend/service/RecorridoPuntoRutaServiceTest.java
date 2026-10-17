@@ -3,6 +3,7 @@ package com.semanasanta.backend.service;
 import com.semanasanta.backend.dto.MarcarPuntoDeInteresRequest;
 import com.semanasanta.backend.dto.PuntoDeInteresRequest;
 import com.semanasanta.backend.dto.PuntoEnRecorridoRequest;
+import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.RecursoDuplicadoException;
 import com.semanasanta.backend.exception.RecursoNoEncontradoException;
 import com.semanasanta.backend.model.PuntoDeInteres;
@@ -11,6 +12,7 @@ import com.semanasanta.backend.model.Recorrido;
 import com.semanasanta.backend.model.RecorridoPuntoRuta;
 import com.semanasanta.backend.model.TipoPuntoInteres;
 import com.semanasanta.backend.model.Ubicacion;
+import com.semanasanta.backend.repository.PuntoRutaRepository;
 import com.semanasanta.backend.repository.RecorridoPuntoRutaRepository;
 import com.semanasanta.backend.util.GeometriaRuta.PuntoGeo;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,7 @@ import static com.semanasanta.backend.support.DatosPrueba.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,7 +46,9 @@ class RecorridoPuntoRutaServiceTest {
     @Mock
     private PuntoDeInteresService puntoDeInteresService;
     @Mock
-    private MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    private AutorizacionRecorridoService autorizacionRecorridoService;
+    @Mock
+    private PuntoRutaRepository puntoRutaRepository;
 
     @InjectMocks
     private RecorridoPuntoRutaService servicio;
@@ -74,7 +79,7 @@ class RecorridoPuntoRutaServiceTest {
 
         RecorridoPuntoRuta relacion = servicio.agregar(20L, new PuntoEnRecorridoRequest(1L, 3, null));
 
-        verify(miembroJuntaCofradiaService).exigirJunta();
+        verify(autorizacionRecorridoService).exigirPuedeEditarRecorrido(20L);
         assertThat(relacion.getOrden()).isEqualTo(3);
     }
 
@@ -125,5 +130,30 @@ class RecorridoPuntoRutaServiceTest {
         verify(puntoDeInteresService).crear(peticion.capture());
         assertThat(peticion.getValue().ubicacionId()).isEqualTo(7L);
         assertThat(relacion.getPuntoRuta()).isSameAs(iglesia);
+    }
+
+    @Test
+    void elPuntoSustituidoPorElPuntoDeInteresSeBorraSiNadieLoUsa() {
+        PuntoRuta original = punto(7L, 41.64, -4.72);
+        RecorridoPuntoRuta relacion = new RecorridoPuntoRuta(recorrido(20L), original, 0, null);
+        when(repositorio.findById(5L)).thenReturn(Optional.of(relacion));
+        when(puntoDeInteresService.crear(any()))
+                .thenReturn(new PuntoDeInteres(TipoPuntoInteres.IGLESIA, "San Benito", null, null, null));
+        when(repositorio.save(relacion)).thenReturn(relacion);
+        when(repositorio.existsByPuntoRutaId(7L)).thenReturn(false);
+
+        servicio.marcarComoPuntoDeInteres(20L, 5L,
+                new MarcarPuntoDeInteresRequest(TipoPuntoInteres.IGLESIA, "San Benito", null, null));
+
+        verify(puntoRutaRepository).delete(original);
+    }
+
+    @Test
+    void laJuntaDeOtraCiudadNoPuedeTocarLosPuntosDeUnRecorridoAjeno() {
+        doThrow(new AccesoDenegadoException("otra ciudad"))
+                .when(autorizacionRecorridoService).exigirPuedeEditarRecorrido(20L);
+
+        assertThatThrownBy(() -> servicio.quitar(20L, 5L)).isInstanceOf(AccesoDenegadoException.class);
+        verify(repositorio, never()).delete(any());
     }
 }

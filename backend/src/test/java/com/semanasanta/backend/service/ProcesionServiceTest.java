@@ -133,6 +133,20 @@ class ProcesionServiceTest {
     }
 
     @Test
+    void alSustituirElRecorridoSeLimpiaElAnterior() {
+        Cofradia cofradia = cofradia(3L, ciudad(1L));
+        Procesion procesion = procesion(10L, cofradia, recorrido(20L));
+        when(procesionRepository.findById(10L)).thenReturn(Optional.of(procesion));
+        when(cofradiaService.resolverYExigirJuntaDeCofradiasEnLaMismaCiudad(List.of(3L))).thenReturn(conjunto(cofradia));
+        when(recorridoService.obtener(21L)).thenReturn(recorrido(21L));
+        when(procesionRepository.save(procesion)).thenReturn(procesion);
+
+        procesionService.actualizar(10L, request(List.of(3L), 21L, null, null));
+
+        verify(recorridoService).eliminarSiHuerfano(20L);
+    }
+
+    @Test
     void unaProcesionNoPuedeMoverseAOtraCiudad() {
         Procesion procesion = procesion(10L, cofradia(3L, ciudad(1L)), null);
         Cofradia deOtraCiudad = cofradia(4L, ciudad(2L));
@@ -213,6 +227,7 @@ class ProcesionServiceTest {
         verify(miembroJuntaCofradiaService).exigirJuntaDeLaCiudad(1L);
         verify(posicionActualRepository).deleteByProcesionId(10L); // sus pings GPS, que si no bloquean el borrado
         verify(procesionRepository).delete(procesion);
+        verify(recorridoService).eliminarSiHuerfano(null); // sin recorrido: no hay nada que limpiar
     }
 
     @Test

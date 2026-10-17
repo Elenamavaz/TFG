@@ -62,7 +62,10 @@ export function EventosScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+  // Sin conexión o error al cargar (bug 27): aviso con "Reintentar".
+  const [errorCarga, setErrorCarga] = useState(null);
   const cargar = useCallback(() => {
+    setErrorCarga(null);
     Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasGestion(ciudadId), services.getEventosPorCiudad(ciudadId)]).then(
       ([ciudadCargada, listaCofradias, listaEventos]) => {
         setCiudad(ciudadCargada);
@@ -70,7 +73,10 @@ export function EventosScreen({ route, navigation }) {
         setEventos(orden.ordenarPorNombre(listaEventos));
         setCargando(false);
       }
-    );
+    ).catch((err) => {
+      setErrorCarga(err.message);
+      setCargando(false);
+    });
   }, [ciudadId]);
 
   useFocusEffect(cargar);
@@ -86,6 +92,7 @@ export function EventosScreen({ route, navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Eventos</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
         <Text style={styles.subtitle}>{ciudad ? `Eventos de ${ciudad.nombre}` : ''}</Text>
 
         <TouchableOpacity
@@ -122,7 +129,7 @@ export function EventosScreen({ route, navigation }) {
             </View>
           </View>
         ))}
-        {eventosFiltrados.length === 0 ? <Text style={styles.empty}>No hay eventos todavía.</Text> : null}
+        {eventosFiltrados.length === 0 && !errorCarga ? <Text style={styles.empty}>No hay eventos todavía.</Text> : null}
       </ScrollView>
 
       <Modal transparent visible={modalFiltroVisible} animationType="fade" onRequestClose={() => setModalFiltroVisible(false)}>

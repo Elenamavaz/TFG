@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from '@expo/vector-icons';
@@ -60,6 +60,10 @@ export function FormularioProcesionScreen({ route, navigation }) {
   const [estado, setEstado] = useState(models.EstadoEvento.PROGRAMADO);
   const [estadoOriginal, setEstadoOriginal] = useState(models.EstadoEvento.PROGRAMADO);
   const [recorridoId, setRecorridoId] = useState(null);
+  // GPX importado en ESTE formulario y aún sin guardar en la procesión. El
+  // backend crea el recorrido al importarlo, así que si se importa otro o se
+  // sale sin guardar, se quedaba huérfano en la base de datos (bug 26).
+  const recorridoSinGuardarRef = useRef(null);
   const [recorridoInfo, setRecorridoInfo] = useState(null);
   const [importandoGpx, setImportandoGpx] = useState(false);
   const [errorGpx, setErrorGpx] = useState(null);
@@ -89,7 +93,10 @@ export function FormularioProcesionScreen({ route, navigation }) {
 
   useEffect(() => {
     Promise.all([
-      services.getCofradiasPorCiudad(ciudadId),
+      // Incluidas las desactivadas, igual que FormularioEventoScreen (bug 24):
+      // si no, al editar una procesión de una cofradía desactivada el campo
+      // quedaba vacío y no dejaba guardar.
+      services.getCofradiasGestion(ciudadId),
       services.getDiasSemanaSanta(),
       editando ? services.getProcesionPorId(procesionId) : Promise.resolve(null),
     ]).then(([cofradias, dias, procesion]) => {
@@ -138,6 +145,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
     setErrorGpx(null);
     try {
       const recorrido = await services.importarGpxRecorrido(archivo);
+      descartarRecorridoSinGuardar(); // el GPX importado antes en este mismo formulario
+      recorridoSinGuardarRef.current = recorrido.id;
       setRecorridoId(recorrido.id);
       setRecorridoInfo(
         `${archivo.name} importado -${recorrido.distanciaTotal != null ? `${recorrido.distanciaTotal} km` : 'ruta sin distancia calculada'}`
@@ -148,6 +157,18 @@ export function FormularioProcesionScreen({ route, navigation }) {
       setImportandoGpx(false);
     }
   }
+
+  function descartarRecorridoSinGuardar() {
+    if (recorridoSinGuardarRef.current) {
+      services.eliminarRecorrido(recorridoSinGuardarRef.current).catch(() => {});
+      recorridoSinGuardarRef.current = null;
+    }
+  }
+
+  // Al salir del formulario por cualquier vía (Cancelar, atrás, gesto) sin
+  // haber guardado: el GPX importado no lo va a usar nadie. Al guardar se
+  // limpia la referencia antes de navegar, así que no se borra.
+  useEffect(() => navigation.addListener('beforeRemove', descartarRecorridoSinGuardar), [navigation]);
 
   function datosFormulario() {
     const fechaInicio = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaSalida.trim());
@@ -189,6 +210,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
     try {
       if (editando) {
         await services.actualizarProcesion(procesionId, datosFormulario());
+        recorridoSinGuardarRef.current = null; // ya es de la procesión
         navigation.replace('ProcesionActualizada', {
           nombreProcesion: nombre.trim(),
           ciudadId,
@@ -197,6 +219,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
         });
       } else {
         const procesionCreada = await services.crearProcesion(datosFormulario());
+        recorridoSinGuardarRef.current = null; // ya es de la procesión
         navigation.replace('ProcesionCreada', { nombreProcesion: procesionCreada.nombre, ciudadId, procesionId: procesionCreada.id });
       }
     } catch (err) {

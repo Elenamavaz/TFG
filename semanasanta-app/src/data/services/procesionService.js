@@ -3,7 +3,7 @@ import * as models from '../models';
 
 // GET /procesiones (con ciudadId o cofradiaId) y GET /procesiones/{id} son
 // públicos (RI-01). La posición en tiempo real (RNF-08) se lee aparte, de
-// GET /procesiones/{id}/ubicacion (pendiente de conectar).
+// GET /procesiones/{id}/ubicacion (ver posicionActualService) y su estela.
 
 export async function getProcesionesPorCiudad(ciudadId) {
   const procesiones = await api.apiFetch(`/procesiones?ciudadId=${ciudadId}`);
@@ -20,12 +20,14 @@ export async function getProcesionPorId(procesionId) {
   return new models.Procesion(procesion);
 }
 
-// Sin endpoint propio en el backend para "la que está en curso": se deriva
-// filtrando el listado de la ciudad, igual de válido para una lista que en
-// la práctica es corta (procesiones de una ciudad en un año concreto).
-export async function getProcesionEnCurso(ciudadId) {
+// Sin endpoint propio en el backend para "las que están en curso": se
+// deriva filtrando el listado de la ciudad, igual de válido para una lista
+// que en la práctica es corta (procesiones de una ciudad en un año
+// concreto). TODAS, no solo la primera (bug 18): Viernes Santo suele haber
+// varias a la vez.
+export async function getProcesionesEnCurso(ciudadId) {
   const procesiones = await getProcesionesPorCiudad(ciudadId);
-  return procesiones.find((p) => p.estado === 'EN_CURSO') ?? null;
+  return procesiones.filter((p) => p.estado === 'EN_CURSO');
 }
 
 // Gestión (panel de Junta, mockup del 2026-08-20): las escrituras exigen JWT

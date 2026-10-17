@@ -18,6 +18,9 @@ export function DetalleEventoScreen({ route, navigation }) {
   const { eventoId } = route.params;
   const { esFavorito, alternarFavorito } = context.useFavoritos();
   const [evento, setEvento] = useState(null);
+  // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
+  const [errorCarga, setErrorCarga] = useState(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
   const [pasos, setPasos] = useState([]);
   const { data: ubicacion } = useQuery({
@@ -36,30 +39,46 @@ export function DetalleEventoScreen({ route, navigation }) {
           <Text style={styles.headerBadgeText}>Detalles</Text>
         </View>
       ),
-      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
+      headerRight: () => <common.FavoritoCabecera id={eventoId} tipo="evento" />,
     });
   }, []);
 
   useEffect(() => {
-    services.getEventoPorId(eventoId).then((data) => {
-      setEvento(data);
-      if (!data) return;
-      // Un evento puede tener varias cofradías participantes (N:M real en el
-      // backend, no una sola organizadora): se muestran todas, separadas por
-      // coma (decisión del 2026-08-15).
-      Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
-        setCofradiaNombre(
-          cofradias
-            .map((c) => c?.nombre)
-            .filter(Boolean)
-            .join(', ')
-        )
-      );
-      services.getPasosPorIds(data.pasoIds).then(setPasos);
-    });
-  }, [eventoId]);
+    setErrorCarga(null);
+    services.getEventoPorId(eventoId)
+      .then((data) => {
+        setEvento(data);
+        if (!data) return;
+        // Un evento puede tener varias cofradías participantes (N:M real en el
+        // backend, no una sola organizadora): se muestran todas, separadas por
+        // coma (decisión del 2026-08-15).
+        Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+          setCofradiaNombre(
+            cofradias
+              .map((c) => c?.nombre)
+              .filter(Boolean)
+              .join(', ')
+          )
+        );
+        services.getPasosPorIds(data.pasoIds).then(setPasos);
+      })
+      .catch((err) => setErrorCarga(err.message));
+  }, [eventoId, intentoCarga]);
 
-  if (!evento) return null;
+  if (errorCarga) {
+    return (
+      <common.ScreenContainer>
+        <common.AvisoError pantallaCompleta mensaje={errorCarga} onReintentar={() => setIntentoCarga((n) => n + 1)} />
+      </common.ScreenContainer>
+    );
+  }
+  if (!evento) {
+    return (
+      <common.ScreenContainer>
+        <common.PantallaCargando />
+      </common.ScreenContainer>
+    );
+  }
 
   return (
     <common.ScreenContainer>
@@ -94,6 +113,14 @@ export function DetalleEventoScreen({ route, navigation }) {
         {evento.tradicion ? (
           <common.InfoSection title="Tradición">
             <Text style={styles.body}>{evento.tradicion}</Text>
+          </common.InfoSection>
+        ) : null}
+
+        {/* Mismo bloque que DetailCofradiaScreen; evento.web existe en el
+            modelo desde el 2026-10-16 (bug 23). */}
+        {evento.web ? (
+          <common.InfoSection title="Web oficial">
+            <common.LinkBox url={evento.web} />
           </common.InfoSection>
         ) : null}
 

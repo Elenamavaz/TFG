@@ -68,7 +68,10 @@ export function MiembrosScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+  // Sin conexión o error al cargar (bug 27): aviso con "Reintentar".
+  const [errorCarga, setErrorCarga] = useState(null);
   const cargar = useCallback(() => {
+    setErrorCarga(null);
     services.getJuntasCofradias().then((listaJuntas) => {
       const juntasOrdenadas = orden.ordenarPorNombre(listaJuntas);
       setJuntas(juntasOrdenadas);
@@ -84,10 +87,13 @@ export function MiembrosScreen({ route, navigation }) {
         setCargando(false);
         return;
       }
-      services.getMiembrosDeJunta(juntaActivaId).then((lista) => {
+      return services.getMiembrosDeJunta(juntaActivaId).then((lista) => {
         setMiembros(orden.ordenarPorNombre(lista));
         setCargando(false);
       });
+    }).catch((err) => {
+      setErrorCarga(err.message);
+      setCargando(false);
     });
   }, [filtroJuntaId]);
 
@@ -129,6 +135,7 @@ export function MiembrosScreen({ route, navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Miembros</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
         <Text style={styles.subtitle}>
           {juntaFiltro ? `Junta de Cofradías de ${juntaFiltro.nombre}` : 'Todavía no hay ninguna Junta de Cofradías'}
         </Text>
@@ -194,7 +201,7 @@ export function MiembrosScreen({ route, navigation }) {
             </View>
           );
         })}
-        {miembros.length === 0 ? (
+        {miembros.length === 0 && !errorCarga ? (
           <Text style={styles.empty}>
             {juntaFiltro ? 'Esta Junta todavía no tiene miembros.' : 'Todavía no hay ninguna Junta de Cofradías.'}
           </Text>

@@ -22,8 +22,12 @@ import { api } from '../../infrastructure';
 // Android 8+ para que el sistema la muestre.
 export async function configurarManejoNotificaciones() {
   Notifications.setNotificationHandler({
+    // shouldShowAlert está obsoleto en expo-notifications (bug 34): ahora se
+    // separa el aviso emergente (banner) de que quede en el centro de
+    // notificaciones (list). Los dos, como hacía shouldShowAlert.
     handleNotification: async () => ({
-      shouldShowAlert: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
       shouldPlaySound: true,
       shouldSetBadge: false,
     }),

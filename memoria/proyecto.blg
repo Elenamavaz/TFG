@@ -5,37 +5,39 @@ Reallocating 'name_of_file' (item size: 1) to 7 items.
 The style file: ieeetr.bst
 Reallocating 'name_of_file' (item size: 1) to 26 items.
 Database file #1: bibliografia/bibliografia.bib
+Warning--I didn't find a database entry for "railwaypricing"
+Warning--I didn't find a database entry for "railway"
 Warning--I didn't find a database entry for "flyway"
-You've used 49 entries,
+You've used 47 entries,
             1876 wiz_defined-function locations,
-            710 strings with 10263 characters,
-and the built_in function-call counts, 6829 in all, are:
-= -- 702
-> -- 206
+            705 strings with 10115 characters,
+and the built_in function-call counts, 6557 in all, are:
+= -- 674
+> -- 198
 < -- 1
-+ -- 101
-- -- 52
-* -- 269
-:= -- 1026
-add.period$ -- 101
-call.type$ -- 49
-change.case$ -- 48
++ -- 97
+- -- 50
+* -- 259
+:= -- 986
+add.period$ -- 97
+call.type$ -- 47
+change.case$ -- 46
 chr.to.int$ -- 0
-cite$ -- 49
-duplicate$ -- 226
-empty$ -- 880
-format.name$ -- 52
-if$ -- 1740
+cite$ -- 47
+duplicate$ -- 218
+empty$ -- 844
+format.name$ -- 50
+if$ -- 1670
 int.to.chr$ -- 0
-int.to.str$ -- 49
+int.to.str$ -- 47
 missing$ -- 10
-newline$ -- 202
-num.names$ -- 49
-pop$ -- 279
+newline$ -- 194
+num.names$ -- 47
+pop$ -- 267
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 132
+skip$ -- 126
 stack$ -- 0
 substring$ -- 0
 swap$ -- 6
@@ -44,7 +46,7 @@ text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 49
-width$ -- 51
-write$ -- 498
-(There was 1 warning)
+while$ -- 47
+width$ -- 49
+write$ -- 478
+(There were 3 warnings)

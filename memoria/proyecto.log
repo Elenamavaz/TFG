@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  12 OCT 2026 12:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  17 OCT 2026 12:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -629,7 +629,7 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )) (00_portada/portada.tex
 \centeroffset=\skip94
-<imagenes/UVa_logo.png, id=415, 690.58pt x 218.8175pt>
+<imagenes/UVa_logo.png, id=419, 690.58pt x 218.8175pt>
 File: imagenes/UVa_logo.png Graphic file (type png)
 <use imagenes/UVa_logo.png>
 Package pdftex.def Info: imagenes/UVa_logo.png  used on input line 11.
@@ -667,132 +667,137 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported on input line 115.
  [2]
 Overfull \hbox (1.29202pt too wide) detected at line 117
- []\T1/bch/m/n/10.95 145
+ []\T1/bch/m/n/10.95 147
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 118
- []\T1/bch/m/n/10.95 145
+ []\T1/bch/m/n/10.95 147
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 119
- []\T1/bch/m/n/10.95 146
+ []\T1/bch/m/n/10.95 148
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 120
- []\T1/bch/m/n/10.95 146
+ []\T1/bch/m/n/10.95 148
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 121
- []\T1/bch/m/n/10.95 147
+ []\T1/bch/m/n/10.95 149
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 122
- []\T1/bch/m/n/10.95 147
+ []\T1/bch/m/n/10.95 149
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 123
- []\T1/bch/m/n/10.95 147
+ []\T1/bch/m/n/10.95 149
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 124
- []\T1/bch/m/n/10.95 148
+ []\T1/bch/m/n/10.95 150
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 125
- []\T1/bch/m/n/10.95 148
+ []\T1/bch/m/n/10.95 150
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 126
- []\T1/bch/m/n/10.95 148
+ []\T1/bch/m/n/10.95 150
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 127
- []\T1/bch/m/n/10.95 149
+ []\T1/bch/m/n/10.95 151
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 128
- []\T1/bch/m/n/10.95 149
+ []\T1/bch/m/n/10.95 151
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 129
- []\T1/bch/m/n/10.95 150
+ []\T1/bch/m/n/10.95 152
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 130
- []\T1/bch/m/n/10.95 150
+ []\T1/bch/m/n/10.95 152
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 131
- []\T1/bch/m/n/10.95 151
+ []\T1/bch/m/n/10.95 153
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 132
- []\T1/bch/m/n/10.95 151
+ []\T1/bch/m/n/10.95 153
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 133
- []\T1/bch/m/n/10.95 152
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 134
- []\T1/bch/m/n/10.95 152
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 135
- []\T1/bch/m/n/10.95 153
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 136
- []\T1/bch/m/n/10.95 153
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 137
  []\T1/bch/m/n/10.95 154
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 139
+Overfull \hbox (1.29202pt too wide) detected at line 134
+ []\T1/bch/m/n/10.95 154
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 135
  []\T1/bch/m/n/10.95 155
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 136
+ []\T1/bch/m/n/10.95 155
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 137
+ []\T1/bch/m/n/10.95 156
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 139
+ []\T1/bch/m/n/10.95 157
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 140
- []\T1/bch/m/n/10.95 155
+ []\T1/bch/m/n/10.95 157
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 141
- []\T1/bch/m/n/10.95 156
+ []\T1/bch/m/n/10.95 159
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 142
- []\T1/bch/m/n/10.95 156
+ []\T1/bch/m/n/10.95 159
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 143
- []\T1/bch/m/n/10.95 157
+ []\T1/bch/m/n/10.95 159
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 144
+ []\T1/bch/m/n/10.95 160
  []
 
 )
@@ -817,356 +822,356 @@ LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
 
 Overfull \hbox (1.29202pt too wide) detected at line 33
- []\T1/bch/m/n/10.95 103
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 34
- []\T1/bch/m/n/10.95 104
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 35
- []\T1/bch/m/n/10.95 104
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 36
  []\T1/bch/m/n/10.95 105
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 37
+Overfull \hbox (1.29202pt too wide) detected at line 34
  []\T1/bch/m/n/10.95 106
  []
 
 
+Overfull \hbox (1.29202pt too wide) detected at line 35
+ []\T1/bch/m/n/10.95 106
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 36
+ []\T1/bch/m/n/10.95 107
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 37
+ []\T1/bch/m/n/10.95 108
+ []
+
+
 Overfull \hbox (1.29202pt too wide) detected at line 38
- []\T1/bch/m/n/10.95 107
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 39
- []\T1/bch/m/n/10.95 107
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 40
- []\T1/bch/m/n/10.95 108
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 41
- []\T1/bch/m/n/10.95 108
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 42
  []\T1/bch/m/n/10.95 109
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 43
+Overfull \hbox (1.29202pt too wide) detected at line 39
+ []\T1/bch/m/n/10.95 109
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 40
  []\T1/bch/m/n/10.95 110
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 41
+ []\T1/bch/m/n/10.95 110
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 42
+ []\T1/bch/m/n/10.95 111
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 43
+ []\T1/bch/m/n/10.95 112
  []
 
 [7
 
 ]
 Overfull \hbox (1.29202pt too wide) detected at line 44
- []\T1/bch/m/n/10.95 111
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 45
- []\T1/bch/m/n/10.95 112
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 46
  []\T1/bch/m/n/10.95 113
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 47
+Overfull \hbox (1.29202pt too wide) detected at line 45
  []\T1/bch/m/n/10.95 114
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 48
+Overfull \hbox (1.29202pt too wide) detected at line 46
  []\T1/bch/m/n/10.95 115
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 49
+Overfull \hbox (1.29202pt too wide) detected at line 47
  []\T1/bch/m/n/10.95 116
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 50
+Overfull \hbox (1.29202pt too wide) detected at line 48
  []\T1/bch/m/n/10.95 117
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 51
+Overfull \hbox (1.29202pt too wide) detected at line 49
  []\T1/bch/m/n/10.95 118
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 52
+Overfull \hbox (1.29202pt too wide) detected at line 50
  []\T1/bch/m/n/10.95 119
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 53
- []\T1/bch/m/n/10.95 119
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 54
+Overfull \hbox (1.29202pt too wide) detected at line 51
  []\T1/bch/m/n/10.95 120
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 55
+Overfull \hbox (1.29202pt too wide) detected at line 52
  []\T1/bch/m/n/10.95 121
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 56
+Overfull \hbox (1.29202pt too wide) detected at line 53
+ []\T1/bch/m/n/10.95 121
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 54
  []\T1/bch/m/n/10.95 122
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 57
+Overfull \hbox (1.29202pt too wide) detected at line 55
  []\T1/bch/m/n/10.95 123
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 58
+Overfull \hbox (1.29202pt too wide) detected at line 56
  []\T1/bch/m/n/10.95 124
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 59
+Overfull \hbox (1.29202pt too wide) detected at line 57
  []\T1/bch/m/n/10.95 125
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 60
+Overfull \hbox (1.29202pt too wide) detected at line 58
  []\T1/bch/m/n/10.95 126
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 61
+Overfull \hbox (1.29202pt too wide) detected at line 59
  []\T1/bch/m/n/10.95 127
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 62
+Overfull \hbox (1.29202pt too wide) detected at line 60
  []\T1/bch/m/n/10.95 128
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 63
+Overfull \hbox (1.29202pt too wide) detected at line 61
  []\T1/bch/m/n/10.95 129
  []
 
 
+Overfull \hbox (1.29202pt too wide) detected at line 62
+ []\T1/bch/m/n/10.95 130
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 63
+ []\T1/bch/m/n/10.95 131
+ []
+
+
 Overfull \hbox (1.29202pt too wide) detected at line 64
- []\T1/bch/m/n/10.95 130
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 65
- []\T1/bch/m/n/10.95 130
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 66
- []\T1/bch/m/n/10.95 131
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 67
- []\T1/bch/m/n/10.95 131
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 68
  []\T1/bch/m/n/10.95 132
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 69
+Overfull \hbox (1.29202pt too wide) detected at line 65
+ []\T1/bch/m/n/10.95 132
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 66
  []\T1/bch/m/n/10.95 133
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 70
+Overfull \hbox (1.29202pt too wide) detected at line 67
+ []\T1/bch/m/n/10.95 133
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 68
  []\T1/bch/m/n/10.95 134
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 71
+Overfull \hbox (1.29202pt too wide) detected at line 69
  []\T1/bch/m/n/10.95 135
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 72
- []\T1/bch/m/n/10.95 135
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 73
+Overfull \hbox (1.29202pt too wide) detected at line 70
  []\T1/bch/m/n/10.95 136
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 74
+Overfull \hbox (1.29202pt too wide) detected at line 71
  []\T1/bch/m/n/10.95 137
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 75
+Overfull \hbox (1.29202pt too wide) detected at line 72
  []\T1/bch/m/n/10.95 137
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 76
+Overfull \hbox (1.29202pt too wide) detected at line 73
  []\T1/bch/m/n/10.95 138
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 77
+Overfull \hbox (1.29202pt too wide) detected at line 74
  []\T1/bch/m/n/10.95 139
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 78
+Overfull \hbox (1.29202pt too wide) detected at line 75
+ []\T1/bch/m/n/10.95 139
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 76
  []\T1/bch/m/n/10.95 140
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 79
+Overfull \hbox (1.29202pt too wide) detected at line 77
  []\T1/bch/m/n/10.95 141
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 80
+Overfull \hbox (1.29202pt too wide) detected at line 78
  []\T1/bch/m/n/10.95 142
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 81
+Overfull \hbox (1.29202pt too wide) detected at line 79
  []\T1/bch/m/n/10.95 143
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 83
+Overfull \hbox (1.29202pt too wide) detected at line 80
+ []\T1/bch/m/n/10.95 144
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 81
  []\T1/bch/m/n/10.95 145
  []
 
 
+Overfull \hbox (1.29202pt too wide) detected at line 83
+ []\T1/bch/m/n/10.95 147
+ []
+
+
 Overfull \hbox (1.29202pt too wide) detected at line 84
- []\T1/bch/m/n/10.95 146
+ []\T1/bch/m/n/10.95 148
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 85
- []\T1/bch/m/n/10.95 146
+ []\T1/bch/m/n/10.95 148
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 86
- []\T1/bch/m/n/10.95 147
+ []\T1/bch/m/n/10.95 149
  []
 
 LaTeX Info: Redefining \. on input line 87.
 LaTeX Info: Redefining \% on input line 87.
 [8]
 Overfull \hbox (1.29202pt too wide) detected at line 87
- []\T1/bch/m/n/10.95 147
+ []\T1/bch/m/n/10.95 149
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 88
- []\T1/bch/m/n/10.95 147
+ []\T1/bch/m/n/10.95 149
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 89
- []\T1/bch/m/n/10.95 148
+ []\T1/bch/m/n/10.95 150
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 90
- []\T1/bch/m/n/10.95 148
+ []\T1/bch/m/n/10.95 150
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 91
- []\T1/bch/m/n/10.95 148
+ []\T1/bch/m/n/10.95 150
  []
 
 
 Overfull \hbox (1.29202pt too wide) detected at line 92
- []\T1/bch/m/n/10.95 149
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 93
- []\T1/bch/m/n/10.95 149
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 94
- []\T1/bch/m/n/10.95 150
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 95
- []\T1/bch/m/n/10.95 150
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 96
- []\T1/bch/m/n/10.95 150
- []
-
-
-Overfull \hbox (1.29202pt too wide) detected at line 97
  []\T1/bch/m/n/10.95 151
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 98
+Overfull \hbox (1.29202pt too wide) detected at line 93
+ []\T1/bch/m/n/10.95 151
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 94
  []\T1/bch/m/n/10.95 152
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 99
+Overfull \hbox (1.29202pt too wide) detected at line 95
  []\T1/bch/m/n/10.95 152
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 100
+Overfull \hbox (1.29202pt too wide) detected at line 96
  []\T1/bch/m/n/10.95 152
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 101
+Overfull \hbox (1.29202pt too wide) detected at line 97
  []\T1/bch/m/n/10.95 153
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 102
+Overfull \hbox (1.29202pt too wide) detected at line 98
  []\T1/bch/m/n/10.95 154
  []
 
 
-Overfull \hbox (1.29202pt too wide) detected at line 103
+Overfull \hbox (1.29202pt too wide) detected at line 99
  []\T1/bch/m/n/10.95 154
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 100
+ []\T1/bch/m/n/10.95 154
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 101
+ []\T1/bch/m/n/10.95 155
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 102
+ []\T1/bch/m/n/10.95 156
+ []
+
+
+Overfull \hbox (1.29202pt too wide) detected at line 103
+ []\T1/bch/m/n/10.95 156
  []
 
 )
@@ -1200,12 +1205,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has b
                    \relax 
 l.4 
      [2]
-<imagenes/el_penitente.png, id=926, 468.24937pt x 152.67038pt>
+<imagenes/el_penitente.png, id=931, 468.24937pt x 152.67038pt>
 File: imagenes/el_penitente.png Graphic file (type png)
 <use imagenes/el_penitente.png>
 Package pdftex.def Info: imagenes/el_penitente.png  used on input line 13.
 (pdftex.def)             Requested size: 448.12788pt x 146.11694pt.
-<imagenes/valladolid_cofrade.jpg, id=932, 722.7pt x 1445.4pt>
+<imagenes/valladolid_cofrade.jpg, id=937, 722.7pt x 1445.4pt>
 File: imagenes/valladolid_cofrade.jpg Graphic file (type jpg)
 <use imagenes/valladolid_cofrade.jpg>
 Package pdftex.def Info: imagenes/valladolid_cofrade.jpg  used on input line 24.
@@ -1231,12 +1236,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has b
                    \relax 
 l.35 A
       demÃ¡s de las aplicaciones, los usuarios tambiÃ©n hacen uso de las pub... [4 <./imagenes/valladolid_cofrade.jpg>]
-<imagenes/googlemaps.jpeg, id=951, 451.6875pt x 495.8525pt>
+<imagenes/googlemaps.jpeg, id=956, 451.6875pt x 495.8525pt>
 File: imagenes/googlemaps.jpeg Graphic file (type jpg)
 <use imagenes/googlemaps.jpeg>
 Package pdftex.def Info: imagenes/googlemaps.jpeg  used on input line 43.
 (pdftex.def)             Requested size: 298.75697pt x 327.99pt.
-<imagenes/uber.png, id=954, 2007.5pt x 1129.21875pt>
+<imagenes/uber.png, id=959, 2007.5pt x 1129.21875pt>
 File: imagenes/uber.png Graphic file (type png)
 <use imagenes/uber.png>
 Package pdftex.def Info: imagenes/uber.png  used on input line 52.
@@ -1283,12 +1288,12 @@ l.250 \chapter
               {PlanificaciÃ³n}\label{cap:planificacion} [8]
 Cap\'{\i }tulo 2.
 (30_planificacion/1_metodologia.tex) (30_planificacion/2_planificacion_extensa.tex
-<imagenes/DiagramaGantBig1.png, id=975, 912.40875pt x 439.6425pt>
+<imagenes/DiagramaGantBig1.png, id=980, 912.40875pt x 439.6425pt>
 File: imagenes/DiagramaGantBig1.png Graphic file (type png)
 <use imagenes/DiagramaGantBig1.png>
 Package pdftex.def Info: imagenes/DiagramaGantBig1.png  used on input line 8.
 (pdftex.def)             Requested size: 497.92325pt x 239.91905pt.
-<imagenes/DiagramaGantBig2.png, id=976, 1062.97125pt x 470.42416pt>
+<imagenes/DiagramaGantBig2.png, id=981, 1062.97125pt x 470.42416pt>
 File: imagenes/DiagramaGantBig2.png Graphic file (type png)
 <use imagenes/DiagramaGantBig2.png>
 Package pdftex.def Info: imagenes/DiagramaGantBig2.png  used on input line 9.
@@ -1312,17 +1317,13 @@ l.21
 LaTeX Info: Redefining \. on input line 39.
 LaTeX Info: Redefining \% on input line 39.
  [11]) (30_planificacion/3_riesgos.tex
-Overfull \hbox (69.75871pt too wide) in paragraph at lines 15--42
- [][] 
- []
-
-LaTeX Info: Redefining \. on input line 49.
-LaTeX Info: Redefining \% on input line 49.
-[12]) (30_planificacion/4_costes.tex
-LaTeX Info: Redefining \. on input line 8.
-LaTeX Info: Redefining \% on input line 8.
+LaTeX Info: Redefining \. on input line 48.
+LaTeX Info: Redefining \% on input line 48.
+ [12]) (30_planificacion/4_costes.tex
+LaTeX Info: Redefining \. on input line 4.
+LaTeX Info: Redefining \% on input line 4.
  [13]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 4036) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 8.
 LaTeX Info: Redefining \% on input line 8.
@@ -1330,13 +1331,22 @@ LaTeX Info: Redefining \% on input line 8.
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
  [15]
-Overfull \hbox (42.91045pt too wide) in paragraph at lines 60--71
- [][] 
+Underfull \hbox (badness 2512) in paragraph at lines 70--70
+[]|\T1/bch/b/n/10.95 Amort. en el pro-yec-to
  []
 
 LaTeX Info: Redefining \. on input line 78.
 LaTeX Info: Redefining \% on input line 78.
-[16]) (30_planificacion/5_seguimiento_proyecto.tex)
+[16]
+
+LaTeX Warning: Citation `hetznerPricing' on page 17 undefined on input line 79.
+
+
+LaTeX Warning: Citation `hetznerPricing' on page 17 undefined on input line 97.
+
+LaTeX Info: Redefining \. on input line 125.
+LaTeX Info: Redefining \% on input line 125.
+[17]) (30_planificacion/5_seguimiento_proyecto.tex)
 Overfull \hbox (14.22636pt too wide) in paragraph at lines 3--256
 [][][][][][][]
  []
@@ -1348,10 +1358,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--256
 
 LaTeX Info: Redefining \. on input line 257.
 LaTeX Info: Redefining \% on input line 257.
-[17]
-LaTeX Info: Redefining \. on input line 257.
-LaTeX Info: Redefining \% on input line 257.
- [18]
+[18]
 Cap\'{\i }tulo 3.
 (40_analisis/1_usuarios.tex [19
 
@@ -1386,12 +1393,12 @@ LaTeX Info: Redefining \% on input line 225.
 LaTeX Info: Redefining \. on input line 262.
 LaTeX Info: Redefining \% on input line 262.
  [27]) (40_analisis/3_casos_de_uso.tex
-<imagenes/DiagramaDeCasoDeUsoCiudadanoi.drawio.png, id=1157, 782.925pt x 523.9575pt>
+<imagenes/DiagramaDeCasoDeUsoCiudadanoi.drawio.png, id=1161, 782.925pt x 523.9575pt>
 File: imagenes/DiagramaDeCasoDeUsoCiudadanoi.drawio.png Graphic file (type png)
 <use imagenes/DiagramaDeCasoDeUsoCiudadanoi.drawio.png>
 Package pdftex.def Info: imagenes/DiagramaDeCasoDeUsoCiudadanoi.drawio.png  used on input line 7.
 (pdftex.def)             Requested size: 298.75697pt x 199.9374pt.
-<imagenes/DiagramaDeCasoDeUsoCofrade.drawio.png, id=1158, 466.74374pt x 373.395pt>
+<imagenes/DiagramaDeCasoDeUsoCofrade.drawio.png, id=1162, 466.74374pt x 373.395pt>
 File: imagenes/DiagramaDeCasoDeUsoCofrade.drawio.png Graphic file (type png)
 <use imagenes/DiagramaDeCasoDeUsoCofrade.drawio.png>
 Package pdftex.def Info: imagenes/DiagramaDeCasoDeUsoCofrade.drawio.png  used on input line 14.
@@ -1402,12 +1409,12 @@ Underfull \vbox (badness 2556) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 18.
 LaTeX Info: Redefining \% on input line 18.
  [28 <./imagenes/DiagramaDeCasoDeUsoCiudadanoi.drawio.png>]
-<imagenes/DiagramaDeCasoDeUsoMiembroJunta.drawio.png, id=1166, 1010.77625pt x 714.67pt>
+<imagenes/DiagramaDeCasoDeUsoMiembroJunta.drawio.png, id=1170, 1010.77625pt x 714.67pt>
 File: imagenes/DiagramaDeCasoDeUsoMiembroJunta.drawio.png Graphic file (type png)
 <use imagenes/DiagramaDeCasoDeUsoMiembroJunta.drawio.png>
 Package pdftex.def Info: imagenes/DiagramaDeCasoDeUsoMiembroJunta.drawio.png  used on input line 21.
 (pdftex.def)             Requested size: 298.75697pt x 211.2402pt.
-<imagenes/DiagramaDeCasoDeUsoAdmin.drawio.png, id=1167, 657.45625pt x 634.37pt>
+<imagenes/DiagramaDeCasoDeUsoAdmin.drawio.png, id=1171, 657.45625pt x 634.37pt>
 File: imagenes/DiagramaDeCasoDeUsoAdmin.drawio.png Graphic file (type png)
 <use imagenes/DiagramaDeCasoDeUsoAdmin.drawio.png>
 Package pdftex.def Info: imagenes/DiagramaDeCasoDeUsoAdmin.drawio.png  used on input line 29.
@@ -1473,7 +1480,7 @@ LaTeX Info: Redefining \% on input line 5.
 LaTeX Info: Redefining \. on input line 5.
 LaTeX Info: Redefining \% on input line 5.
  [35]
-<imagenes/DiagramaDeDominio.png, id=1202, 451.6875pt x 365.86688pt>
+<imagenes/DiagramaDeDominio.png, id=1206, 451.6875pt x 365.86688pt>
 File: imagenes/DiagramaDeDominio.png Graphic file (type png)
 <use imagenes/DiagramaDeDominio.png>
 Package pdftex.def Info: imagenes/DiagramaDeDominio.png  used on input line 8.
@@ -1488,7 +1495,7 @@ LaTeX Info: Redefining \% on input line 16.
 [36
 
  <./imagenes/DiagramaDeDominio.png>]
-<imagenes/DSCasoUsoVerProcesion.png, id=1211, 360.44662pt x 212.29312pt>
+<imagenes/DSCasoUsoVerProcesion.png, id=1215, 360.44662pt x 212.29312pt>
 File: imagenes/DSCasoUsoVerProcesion.png Graphic file (type png)
 <use imagenes/DSCasoUsoVerProcesion.png>
 Package pdftex.def Info: imagenes/DSCasoUsoVerProcesion.png  used on input line 31.
@@ -1499,7 +1506,7 @@ Underfull \vbox (badness 1694) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 35.
 LaTeX Info: Redefining \% on input line 35.
  [37]
-<imagenes/DSCasoUsoCompartirUbi.png, id=1217, 270.10913pt x 218.91788pt>
+<imagenes/DSCasoUsoCompartirUbi.png, id=1221, 270.10913pt x 218.91788pt>
 File: imagenes/DSCasoUsoCompartirUbi.png Graphic file (type png)
 <use imagenes/DSCasoUsoCompartirUbi.png>
 Package pdftex.def Info: imagenes/DSCasoUsoCompartirUbi.png  used on input line 40.
@@ -1510,7 +1517,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 44.
 LaTeX Info: Redefining \% on input line 44.
  [38 <./imagenes/DSCasoUsoVerProcesion.png>]
-<imagenes/DSCasoUsoAccesoCofrade.png, id=1225, 373.395pt x 243.91125pt>
+<imagenes/DSCasoUsoAccesoCofrade.png, id=1229, 373.395pt x 243.91125pt>
 File: imagenes/DSCasoUsoAccesoCofrade.png Graphic file (type png)
 <use imagenes/DSCasoUsoAccesoCofrade.png>
 Package pdftex.def Info: imagenes/DSCasoUsoAccesoCofrade.png  used on input line 49.
@@ -1525,7 +1532,7 @@ Overfull \hbox (14.22636pt too wide) in paragraph at lines 54--55
 [][][][][][][] 
  []
 
-<imagenes/DSCasoUsoCrearCiudad.png, id=1233, 285.16537pt x 210.7875pt>
+<imagenes/DSCasoUsoCrearCiudad.png, id=1237, 285.16537pt x 210.7875pt>
 File: imagenes/DSCasoUsoCrearCiudad.png Graphic file (type png)
 <use imagenes/DSCasoUsoCrearCiudad.png>
 Package pdftex.def Info: imagenes/DSCasoUsoCrearCiudad.png  used on input line 60.
@@ -1603,8 +1610,8 @@ Overfull \hbox (14.22636pt too wide) in paragraph at lines 72--73
 [][][][][][][] 
  []
 
-LaTeX Info: Redefining \. on input line 79.
-LaTeX Info: Redefining \% on input line 79.
+LaTeX Info: Redefining \. on input line 78.
+LaTeX Info: Redefining \% on input line 78.
 [48]
 
 LaTeX Warning: File `imagenes/Diagrama de despliegue.png' not found on input line 82.
@@ -1666,7 +1673,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 117.
 LaTeX Info: Redefining \% on input line 117.
  [52]
-<imagenes/eleguirCiudad.png, id=1378, 81.906pt x 180.675pt>
+<imagenes/eleguirCiudad.png, id=1380, 81.906pt x 180.675pt>
 File: imagenes/eleguirCiudad.png Graphic file (type png)
 <use imagenes/eleguirCiudad.png>
 Package pdftex.def Info: imagenes/eleguirCiudad.png  used on input line 128.
@@ -1677,7 +1684,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 132.
 LaTeX Info: Redefining \% on input line 132.
  [53]
-<imagenes/inicioYfav.png, id=1388, 573.64313pt x 288.3272pt>
+<imagenes/inicioYfav.png, id=1390, 573.64313pt x 288.3272pt>
 File: imagenes/inicioYfav.png Graphic file (type png)
 <use imagenes/inicioYfav.png>
 Package pdftex.def Info: imagenes/inicioYfav.png  used on input line 139.
@@ -1688,7 +1695,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 143.
 LaTeX Info: Redefining \% on input line 143.
  [54 <./imagenes/eleguirCiudad.png>]
-<imagenes/calendario.png, id=1395, 583.80609pt x 597.35672pt>
+<imagenes/calendario.png, id=1397, 583.80609pt x 597.35672pt>
 File: imagenes/calendario.png Graphic file (type png)
 <use imagenes/calendario.png>
 Package pdftex.def Info: imagenes/calendario.png  used on input line 150.
@@ -1699,7 +1706,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 154.
 LaTeX Info: Redefining \% on input line 154.
  [55 <./imagenes/inicioYfav.png>]
-<imagenes/listaElementos.png, id=1402, 877.02657pt x 348.55219pt>
+<imagenes/listaElementos.png, id=1404, 877.02657pt x 348.55219pt>
 File: imagenes/listaElementos.png Graphic file (type png)
 <use imagenes/listaElementos.png>
 Package pdftex.def Info: imagenes/listaElementos.png  used on input line 161.
@@ -1710,7 +1717,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 165.
 LaTeX Info: Redefining \% on input line 165.
  [56 <./imagenes/calendario.png>]
-<imagenes/infoPasoYCofradia.png, id=1409, 338.38922pt x 348.17578pt>
+<imagenes/infoPasoYCofradia.png, id=1411, 338.38922pt x 348.17578pt>
 File: imagenes/infoPasoYCofradia.png Graphic file (type png)
 <use imagenes/infoPasoYCofradia.png>
 Package pdftex.def Info: imagenes/infoPasoYCofradia.png  used on input line 172.
@@ -1721,7 +1728,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 176.
 LaTeX Info: Redefining \% on input line 176.
  [57 <./imagenes/listaElementos.png>]
-<imagenes/infoEvento.png, id=1417, 161.10187pt x 348.17578pt>
+<imagenes/infoEvento.png, id=1419, 161.10187pt x 348.17578pt>
 File: imagenes/infoEvento.png Graphic file (type png)
 <use imagenes/infoEvento.png>
 Package pdftex.def Info: imagenes/infoEvento.png  used on input line 183.
@@ -1732,7 +1739,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 187.
 LaTeX Info: Redefining \% on input line 187.
  [58 <./imagenes/infoPasoYCofradia.png>]
-<imagenes/infoProcesion.png, id=1424, 515.67656pt x 349.305pt>
+<imagenes/infoProcesion.png, id=1426, 515.67656pt x 349.305pt>
 File: imagenes/infoProcesion.png Graphic file (type png)
 <use imagenes/infoProcesion.png>
 Package pdftex.def Info: imagenes/infoProcesion.png  used on input line 194.
@@ -1743,7 +1750,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 198.
 LaTeX Info: Redefining \% on input line 198.
  [59 <./imagenes/infoEvento.png>]
-<imagenes/buscar.png, id=1431, 883.80188pt x 600.36797pt>
+<imagenes/buscar.png, id=1433, 883.80188pt x 600.36797pt>
 File: imagenes/buscar.png Graphic file (type png)
 <use imagenes/buscar.png>
 Package pdftex.def Info: imagenes/buscar.png  used on input line 205.
@@ -1777,7 +1784,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 10.
 LaTeX Info: Redefining \% on input line 10.
  [63]
-<imagenes/mapa.png, id=1470, 275.15297pt x 599.61516pt>
+<imagenes/mapa.png, id=1472, 275.15297pt x 599.61516pt>
 File: imagenes/mapa.png Graphic file (type png)
 <use imagenes/mapa.png>
 Package pdftex.def Info: imagenes/mapa.png  used on input line 17.
@@ -1791,7 +1798,7 @@ LaTeX Info: Redefining \% on input line 21.
 LaTeX Info: Redefining \. on input line 28.
 LaTeX Info: Redefining \% on input line 28.
  [65 <./imagenes/mapa.png>]) (50_iteraciones/3_iteracion.tex
-<imagenes/perfilCiudadano.png, id=1488, 880.79062pt x 440.77171pt>
+<imagenes/perfilCiudadano.png, id=1490, 880.79062pt x 440.77171pt>
 File: imagenes/perfilCiudadano.png Graphic file (type png)
 <use imagenes/perfilCiudadano.png>
 Package pdftex.def Info: imagenes/perfilCiudadano.png  used on input line 17.
@@ -1809,7 +1816,7 @@ Overfull \hbox (57.34969pt too wide) in paragraph at lines 36--1
 \T1/bch/m/n/10.95 springdoc-openapi (\T1/cmtt/m/n/10.95 /swagger-ui.html\T1/bch/m/n/10.95 ), in-clu-yen-do la ob-ten-ción de un to-ken vá-li-do con \T1/cmtt/m/n/10.95 POST /auth/codigo-acceso
  []
 
-<imagenes/inicioSesion.png, id=1509, 740.7675pt x 515.30016pt>
+<imagenes/inicioSesion.png, id=1511, 740.7675pt x 515.30016pt>
 File: imagenes/inicioSesion.png Graphic file (type png)
 <use imagenes/inicioSesion.png>
 Package pdftex.def Info: imagenes/inicioSesion.png  used on input line 17.
@@ -1817,7 +1824,7 @@ Package pdftex.def Info: imagenes/inicioSesion.png  used on input line 17.
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
 [68]
-<imagenes/perfilMiembro.png, id=1516, 447.92343pt x 455.82797pt>
+<imagenes/perfilMiembro.png, id=1518, 447.92343pt x 455.82797pt>
 File: imagenes/perfilMiembro.png Graphic file (type png)
 <use imagenes/perfilMiembro.png>
 Package pdftex.def Info: imagenes/perfilMiembro.png  used on input line 28.
@@ -1828,7 +1835,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 32.
 LaTeX Info: Redefining \% on input line 32.
  [69 <./imagenes/inicioSesion.png>]
-<imagenes/NuevaCofradia.png, id=1524, 670.00313pt x 455.45157pt>
+<imagenes/NuevaCofradia.png, id=1526, 670.00313pt x 455.45157pt>
 File: imagenes/NuevaCofradia.png Graphic file (type png)
 <use imagenes/NuevaCofradia.png>
 Package pdftex.def Info: imagenes/NuevaCofradia.png  used on input line 39.
@@ -1839,7 +1846,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 43.
 LaTeX Info: Redefining \% on input line 43.
  [70 <./imagenes/perfilMiembro.png>]
-<imagenes/actualizarCofradia.png, id=1531, 441.14813pt x 456.58078pt>
+<imagenes/actualizarCofradia.png, id=1533, 441.14813pt x 456.58078pt>
 File: imagenes/actualizarCofradia.png Graphic file (type png)
 <use imagenes/actualizarCofradia.png>
 Package pdftex.def Info: imagenes/actualizarCofradia.png  used on input line 46.
@@ -1850,7 +1857,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 50.
 LaTeX Info: Redefining \% on input line 50.
  [71 <./imagenes/NuevaCofradia.png>]
-<imagenes/listarElementosCofradia.png, id=1537, 678.66046pt x 454.32234pt>
+<imagenes/listarElementosCofradia.png, id=1539, 678.66046pt x 454.32234pt>
 File: imagenes/listarElementosCofradia.png Graphic file (type png)
 <use imagenes/listarElementosCofradia.png>
 Package pdftex.def Info: imagenes/listarElementosCofradia.png  used on input line 53.
@@ -1861,7 +1868,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 57.
 LaTeX Info: Redefining \% on input line 57.
  [72 <./imagenes/actualizarCofradia.png>]
-<imagenes/CrearProcesion.png, id=1543, 444.53578pt x 456.58078pt>
+<imagenes/CrearProcesion.png, id=1545, 444.53578pt x 456.58078pt>
 File: imagenes/CrearProcesion.png Graphic file (type png)
 <use imagenes/CrearProcesion.png>
 Package pdftex.def Info: imagenes/CrearProcesion.png  used on input line 64.
@@ -1872,7 +1879,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 68.
 LaTeX Info: Redefining \% on input line 68.
  [73 <./imagenes/listarElementosCofradia.png>]
-<imagenes/actualizarProcesion.png, id=1550, 444.15938pt x 457.71pt>
+<imagenes/actualizarProcesion.png, id=1552, 444.15938pt x 457.71pt>
 File: imagenes/actualizarProcesion.png Graphic file (type png)
 <use imagenes/actualizarProcesion.png>
 Package pdftex.def Info: imagenes/actualizarProcesion.png  used on input line 71.
@@ -1883,7 +1890,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 75.
 LaTeX Info: Redefining \% on input line 75.
  [74 <./imagenes/CrearProcesion.png>]
-<imagenes/listaProcesionesYNotificacion.png, id=1556, 443.40656pt x 456.58078pt>
+<imagenes/listaProcesionesYNotificacion.png, id=1558, 443.40656pt x 456.58078pt>
 File: imagenes/listaProcesionesYNotificacion.png Graphic file (type png)
 <use imagenes/listaProcesionesYNotificacion.png>
 Package pdftex.def Info: imagenes/listaProcesionesYNotificacion.png  used on input line 78.
@@ -1894,7 +1901,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 82.
 LaTeX Info: Redefining \% on input line 82.
  [75 <./imagenes/actualizarProcesion.png>]
-<imagenes/listaEventosyCreacion.png, id=1563, 621.82312pt x 416.30531pt>
+<imagenes/listaEventosyCreacion.png, id=1565, 621.82312pt x 416.30531pt>
 File: imagenes/listaEventosyCreacion.png Graphic file (type png)
 <use imagenes/listaEventosyCreacion.png>
 Package pdftex.def Info: imagenes/listaEventosyCreacion.png  used on input line 89.
@@ -1905,12 +1912,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 93.
 LaTeX Info: Redefining \% on input line 93.
  [76 <./imagenes/listaProcesionesYNotificacion.png>]
-<imagenes/editarEvento.png, id=1570, 407.27156pt x 416.30531pt>
+<imagenes/editarEvento.png, id=1572, 407.27156pt x 416.30531pt>
 File: imagenes/editarEvento.png Graphic file (type png)
 <use imagenes/editarEvento.png>
 Package pdftex.def Info: imagenes/editarEvento.png  used on input line 96.
 (pdftex.def)             Requested size: 224.06393pt x 229.03215pt.
-<imagenes/listaPasosyCreacion.png, id=1572, 614.295pt x 417.81094pt>
+<imagenes/listaPasosyCreacion.png, id=1574, 614.295pt x 417.81094pt>
 File: imagenes/listaPasosyCreacion.png Graphic file (type png)
 <use imagenes/listaPasosyCreacion.png>
 Package pdftex.def Info: imagenes/listaPasosyCreacion.png  used on input line 107.
@@ -1921,7 +1928,7 @@ Underfull \vbox (badness 1448) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 111.
 LaTeX Info: Redefining \% on input line 111.
  [77 <./imagenes/listaEventosyCreacion.png> <./imagenes/editarEvento.png>]
-<imagenes/editarPasos.png, id=1580, 408.77719pt x 416.68172pt>
+<imagenes/editarPasos.png, id=1582, 408.77719pt x 416.68172pt>
 File: imagenes/editarPasos.png Graphic file (type png)
 <use imagenes/editarPasos.png>
 Package pdftex.def Info: imagenes/editarPasos.png  used on input line 114.
@@ -1935,12 +1942,12 @@ LaTeX Info: Redefining \% on input line 122.
 LaTeX Info: Redefining \. on input line 14.
 LaTeX Info: Redefining \% on input line 14.
  [79]
-<imagenes/perfilAdmin.png, id=1597, 814.54312pt x 846.16125pt>
+<imagenes/perfilAdmin.png, id=1599, 814.54312pt x 846.16125pt>
 File: imagenes/perfilAdmin.png Graphic file (type png)
 <use imagenes/perfilAdmin.png>
 Package pdftex.def Info: imagenes/perfilAdmin.png  used on input line 17.
 (pdftex.def)             Requested size: 448.12788pt x 465.51924pt.
-<imagenes/ciudadesCreacion.png, id=1598, 1252.68pt x 845.40843pt>
+<imagenes/ciudadesCreacion.png, id=1600, 1252.68pt x 845.40843pt>
 File: imagenes/ciudadesCreacion.png Graphic file (type png)
 <use imagenes/ciudadesCreacion.png>
 Package pdftex.def Info: imagenes/ciudadesCreacion.png  used on input line 28.
@@ -1951,7 +1958,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 32.
 LaTeX Info: Redefining \% on input line 32.
  [80 <./imagenes/perfilAdmin.png>]
-<imagenes/editarCiudad.png, id=1606, 820.56563pt x 843.90282pt>
+<imagenes/editarCiudad.png, id=1608, 820.56563pt x 843.90282pt>
 File: imagenes/editarCiudad.png Graphic file (type png)
 <use imagenes/editarCiudad.png>
 Package pdftex.def Info: imagenes/editarCiudad.png  used on input line 35.
@@ -1962,7 +1969,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 39.
 LaTeX Info: Redefining \% on input line 39.
  [81 <./imagenes/ciudadesCreacion.png>]
-<imagenes/juntaCreacion.png, id=1613, 1253.43282pt x 844.65562pt>
+<imagenes/juntaCreacion.png, id=1615, 1253.43282pt x 844.65562pt>
 File: imagenes/juntaCreacion.png Graphic file (type png)
 <use imagenes/juntaCreacion.png>
 Package pdftex.def Info: imagenes/juntaCreacion.png  used on input line 46.
@@ -1973,7 +1980,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 50.
 LaTeX Info: Redefining \% on input line 50.
  [82 <./imagenes/editarCiudad.png>]
-<imagenes/juntaEditar.png, id=1620, 819.8128pt x 843.15pt>
+<imagenes/juntaEditar.png, id=1622, 819.8128pt x 843.15pt>
 File: imagenes/juntaEditar.png Graphic file (type png)
 <use imagenes/juntaEditar.png>
 Package pdftex.def Info: imagenes/juntaEditar.png  used on input line 53.
@@ -1984,7 +1991,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 57.
 LaTeX Info: Redefining \% on input line 57.
  [83 <./imagenes/juntaCreacion.png>]
-<imagenes/nuevoMiembro.png, id=1626, 818.30719pt x 844.65562pt>
+<imagenes/nuevoMiembro.png, id=1628, 818.30719pt x 844.65562pt>
 File: imagenes/nuevoMiembro.png Graphic file (type png)
 <use imagenes/nuevoMiembro.png>
 Package pdftex.def Info: imagenes/nuevoMiembro.png  used on input line 64.
@@ -1995,7 +2002,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 68.
 LaTeX Info: Redefining \% on input line 68.
  [84 <./imagenes/juntaEditar.png>]
-<imagenes/editarMiembro.png, id=1633, 822.82407pt x 843.15pt>
+<imagenes/editarMiembro.png, id=1635, 822.82407pt x 843.15pt>
 File: imagenes/editarMiembro.png Graphic file (type png)
 <use imagenes/editarMiembro.png>
 Package pdftex.def Info: imagenes/editarMiembro.png  used on input line 71.
@@ -2006,7 +2013,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 75.
 LaTeX Info: Redefining \% on input line 75.
  [85 <./imagenes/nuevoMiembro.png>]
-<imagenes/listaMiembrosJuntas.png, id=1639, 817.55438pt x 844.65562pt>
+<imagenes/listaMiembrosJuntas.png, id=1641, 817.55438pt x 844.65562pt>
 File: imagenes/listaMiembrosJuntas.png Graphic file (type png)
 <use imagenes/listaMiembrosJuntas.png>
 Package pdftex.def Info: imagenes/listaMiembrosJuntas.png  used on input line 78.
@@ -2017,7 +2024,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 82.
 LaTeX Info: Redefining \% on input line 82.
  [86 <./imagenes/editarMiembro.png>]
-<imagenes/pruebaDeEnvioDeCorreo.png, id=1645, 973.38657pt x 344.03531pt>
+<imagenes/pruebaDeEnvioDeCorreo.png, id=1647, 973.38657pt x 344.03531pt>
 File: imagenes/pruebaDeEnvioDeCorreo.png Graphic file (type png)
 <use imagenes/pruebaDeEnvioDeCorreo.png>
 Package pdftex.def Info: imagenes/pruebaDeEnvioDeCorreo.png  used on input line 85.
@@ -2053,9 +2060,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [93])
 LaTeX Info: Redefining \. on input line 278.
 LaTeX Info: Redefining \% on input line 278.
- [94] [95
+ [94]
+LaTeX Info: Redefining \. on input line 278.
+LaTeX Info: Redefining \% on input line 278.
+ [95] [96
 
-] [96] (proyecto.bbl
+] [97] [98] (proyecto.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 26--31
 \T1/cmtt/m/n/10.95 2026 / 3660 -[] lanzamos -[] la -[] nueva -[] app -[] de -[] valladolid -[] cofrade -[] toda -[] la -[] semana -[] santa -[] 2026 -[]
  []
@@ -2070,7 +2080,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 60--64
 \T1/cmtt/m/n/10.95 / / dn790001 . ca . archive . org / 0 / items / bme -[] vik -[] konyvek / Software % 20Engineering % 20 -[]
  []
 
-[97
+[99
 
 ]
 Underfull \hbox (badness 1168) in paragraph at lines 71--75
@@ -2099,29 +2109,29 @@ Underfull \hbox (badness 3364) in paragraph at lines 133--137
 
 LaTeX Info: Redefining \. on input line 162.
 LaTeX Info: Redefining \% on input line 162.
-[98]
-Underfull \hbox (badness 1648) in paragraph at lines 191--194
+[100]
+Underfull \hbox (badness 1648) in paragraph at lines 186--189
 []\T1/bch/m/n/10.95 Meta Plat-forms, ``React na-ti-ve --- do-cu-men-ta-ción ofi-cial.'' []$\T1/cmtt/m/n/10.95 https : / / reactnative . dev / docs /
  []
 
 
-Underfull \hbox (badness 1205) in paragraph at lines 206--209
+Underfull \hbox (badness 1205) in paragraph at lines 201--204
 []\T1/bch/m/n/10.95 Google Fi-re-ba-se, ``Fi-re-ba-se cloud mes-sa-ging --- do-cu-men-ta-ción ofi-cial.'' []$\T1/cmtt/m/n/10.95 https : / / firebase .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 221--224
+Underfull \hbox (badness 10000) in paragraph at lines 216--219
 []\T1/bch/m/n/10.95 Red Hat, ``Hi-ber-na-te ORM --- do-cu-men-ta-ción ofi-cial.'' []$\T1/cmtt/m/n/10.95 https : / / hibernate . org / orm /
  []
 
-LaTeX Info: Redefining \. on input line 245.
-LaTeX Info: Redefining \% on input line 245.
-[99])
+LaTeX Info: Redefining \. on input line 248.
+LaTeX Info: Redefining \% on input line 248.
+[101])
 LaTeX Info: Redefining \. on input line 295.
 LaTeX Info: Redefining \% on input line 295.
- [100] [101
+ [102] [103
 
-] [102] (apendices/casosDeUsoAdiccionales.tex
+] [104] (apendices/casosDeUsoAdiccionales.tex
 Ap\'{e}ndice A.
 
 Underfull \hbox (badness 2213) in paragraph at lines 35--35
@@ -2512,12 +2522,9 @@ Underfull \hbox (badness 2213) in paragraph at lines 1910--1910
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (apendices/esquema_base_datos.tex [103
+) (apendices/esquema_base_datos.tex [105
 
-] [104]
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
- [105] [106]
+] [106]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [107] [108]
@@ -2574,7 +2581,10 @@ LaTeX Info: Redefining \% on input line 1.
  [141] [142]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [143] [144
+ [143] [144]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [145] [146
 
 ]
 Ap\'{e}ndice B.
@@ -2587,25 +2597,25 @@ Overfull \hbox (6.0315pt too wide) in paragraph at lines 3--4
 LaTeX Font Warning: Font shape `T1/cmtt/b/n' undefined
 (Font)              using `T1/cmtt/m/n' instead on input line 5.
 
-[145]
+[147]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 112.
 LaTeX Info: Redefining \% on input line 112.
- [146]
+ [148]
 LaTeX Info: Redefining \. on input line 169.
 LaTeX Info: Redefining \% on input line 169.
- [147]
+ [149]
 Underfull \hbox (badness 10000) in paragraph at lines 191--192
 []|\T1/cmtt/b/n/10.95 PROGRAMADO\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 EN_CURSO\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 FINALIZADO\T1/bch/m/n/10.95 ,
  []
 
 LaTeX Info: Redefining \. on input line 218.
 LaTeX Info: Redefining \% on input line 218.
-[148]
+[150]
 LaTeX Info: Redefining \. on input line 280.
 LaTeX Info: Redefining \% on input line 280.
- [149]
+ [151]
 Underfull \hbox (badness 10000) in paragraph at lines 309--310
 []|\T1/cmtt/b/n/10.95 MONUMENTO\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 IGLESIA\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 ENCUENTRO\T1/bch/m/n/10.95 ,
  []
@@ -2620,17 +2630,17 @@ Underfull \vbox (badness 4391) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 323.
 LaTeX Info: Redefining \% on input line 323.
- [150]
+ [152]
 Overfull \hbox (19.46605pt too wide) in paragraph at lines 351--352
 []\T1/bch/m/n/10.95 Por tan-to, \T1/cmtt/b/n/10.95 usuarios \T1/bch/m/n/10.95 so-lo con-tie-ne los per-fi-les con cre-den-cia-les pro-pias --junta de co-fra-días y administrador--
  []
 
 LaTeX Info: Redefining \. on input line 369.
 LaTeX Info: Redefining \% on input line 369.
-[151]
+[153]
 LaTeX Info: Redefining \. on input line 420.
 LaTeX Info: Redefining \% on input line 420.
- [152]
+ [154]
 Underfull \hbox (badness 7631) in paragraph at lines 438--439
 \T1/bch/m/n/10.95 te-ma al cam-biar el es-ta-do de un
  []
@@ -2645,7 +2655,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 474.
 LaTeX Info: Redefining \% on input line 474.
- [153]
+ [155]
 Overfull \hbox (10.4907pt too wide) in paragraph at lines 479--520
  [][] 
  []
@@ -2653,47 +2663,48 @@ Overfull \hbox (10.4907pt too wide) in paragraph at lines 479--520
 ) (apendices/manual_despliegue.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [154]
+ [156]
 Ap\'{e}ndice C.
-
-Overfull \hbox (10.07356pt too wide) in paragraph at lines 21--22
-[]\T1/cmtt/b/n/10.95 SPRING_DATASOURCE_URL\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 SPRING_DATASOURCE_USERNAME \T1/bch/m/n/10.95 y \T1/cmtt/b/n/10.95 SPRING_DATASOURCE_PASSWORD\T1/bch/m/n/10.95 : Rail-
- []
-
-[155
+[157
 
 ]
-Overfull \hbox (48.52556pt too wide) in paragraph at lines 25--26
+Overfull \hbox (2.0801pt too wide) in paragraph at lines 32--33
+[]\T1/cmtt/b/n/10.95 SPRING_DATASOURCE_URL\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 SPRING_DATASOURCE_USERNAME \T1/bch/m/n/10.95 y \T1/cmtt/b/n/10.95 SPRING_DATASOURCE_PASSWORD\T1/bch/m/n/10.95 : co-
+ []
+
+
+Overfull \hbox (48.52556pt too wide) in paragraph at lines 38--39
 \T1/bch/m/n/10.95 fi-ca-ción con una pe-ti-ción HTTP co-rrien-te al ser-vi-cio de Ex-po Push (\T1/cmtt/b/n/10.95 https://exp.host/--/api/v2/push/send\T1/bch/m/n/10.95 ),
  []
 
-
-Overfull \hbox (46.34178pt too wide) in paragraph at lines 27--28
-[]\T1/bch/m/n/10.95 Railway asig-na un do-mi-nio pú-bli-co HTTPS al bac-kend (por ejem-plo, \T1/cmtt/b/n/10.95 https://{proyecto}.up.railway.app\T1/bch/m/n/10.95 ),
+LaTeX Info: Redefining \. on input line 48.
+LaTeX Info: Redefining \% on input line 48.
+[158]
+Overfull \hbox (86.69363pt too wide) in paragraph at lines 66--67
+\T1/bch/m/n/10.95 ne-ra-dos con EAS la de-fi-ne \T1/cmtt/b/n/10.95 eas.json \T1/bch/m/n/10.95 en los per-fi-les \T1/cmtt/b/n/10.95 preview \T1/bch/m/n/10.95 y \T1/cmtt/b/n/10.95 production \T1/bch/m/n/10.95 (\T1/cmtt/b/n/10.95 http://virtual.lab.inf.uva.es:20102\T1/bch/m/n/10.95 );
  []
 
 
-Overfull \hbox (35.16382pt too wide) in paragraph at lines 39--40
+Overfull \hbox (35.16382pt too wide) in paragraph at lines 68--69
 []\T1/bch/m/n/10.95 Comprobar que \T1/cmtt/b/n/10.95 app.json \T1/bch/m/n/10.95 tie-ne con-fi-gu-ra-do el \T1/cmtt/b/n/10.95 projectId \T1/bch/m/n/10.95 del pro-yec-to EAS (cam-po \T1/cmtt/b/n/10.95 extra.eas.projectId\T1/bch/m/n/10.95 )
  []
 
-)
-LaTeX Info: Redefining \. on input line 307.
-LaTeX Info: Redefining \% on input line 307.
- [156] (apendices/manual_usuario.tex
+LaTeX Info: Redefining \. on input line 75.
+LaTeX Info: Redefining \% on input line 75.
+[159]) (apendices/manual_usuario.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [157] [158
-
-]
+ [160]
 Ap\'{e}ndice D.
-) (apendices/contenido_CD.tex [159] [160
+) (apendices/contenido_CD.tex [161
+
+] [162
 
 ]
 Ap\'{e}ndice E.
-) [161] [162
+) [163] [164
 
-] [163] (proyecto.aux
+] [165] (proyecto.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -2708,21 +2719,27 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `proyecto.out' has not changed.
-(rerunfilecheck)             Checksum: 001E069A7ADDA6B8A74139D63956F2A4;17422.
+(rerunfilecheck)             Checksum: 38FC212E1C68855D2FF898EB088844CA;17699.
  ) 
 Here is how much of TeX's memory you used:
- 19890 strings out of 467871
- 336908 string characters out of 5418376
- 1025437 words of memory out of 5000000
- 47801 multiletter control sequences out of 15000+600000
- 694777 words of font info for 105 fonts, out of 8000000 for 9000
+ 19892 strings out of 467871
+ 337004 string characters out of 5418376
+ 1025382 words of memory out of 5000000
+ 47802 multiletter control sequences out of 15000+600000
+ 688683 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,19n,91p,2370b,919s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,16n,91p,2370b,919s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exist, replaced by a fixed one
+
  <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1440.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1095.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchb8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchr8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchri8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on proyecto.pdf (185 pages, 8265345 bytes).
+Output written on proyecto.pdf (187 pages, 8270585 bytes).
 PDF statistics:
- 2403 PDF objects out of 2487 (max. 8388607)
- 546 named destinations out of 1000 (max. 500000)
- 1060 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2415 PDF objects out of 2487 (max. 8388607)
+ 549 named destinations out of 1000 (max. 500000)
+ 1068 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,45 +1,78 @@
 \chapter{Manual de despliegue}\label{cap:manual_despliegue}
 
-Este apéndice describe los pasos necesarios para desplegar el backend propio (API Spring Boot y base de datos PostgreSQL) en Railway~\cite{railway}, así como la configuración necesaria en el cliente React Native para que la aplicación completa funcione en un entorno nuevo. El proyecto no depende de ningún servicio de Firebase (Sección~\ref{sec:decisionesTecnologicas}): las notificaciones \emph{push} se envían a través de Expo Push Notifications, sin necesidad de credenciales propias.
+Este apéndice describe los pasos necesarios para desplegar el backend propio (API Spring Boot y base de datos PostgreSQL) en el servidor virtual proporcionado por la Escuela de Ingeniería Informática de la Universidad de Valladolid, así como la configuración necesaria en el cliente React Native para que la aplicación completa funcione en un entorno nuevo. El proyecto no depende de ningún servicio de Firebase (Sección~\ref{sec:decisionesTecnologicas}): las notificaciones \emph{push} se envían a través de Expo Push Notifications, sin necesidad de credenciales propias.
 
 \section{Requisitos previos}
 
 \begin{itemize}
-    \item Cuenta en Railway~\cite{railway} vinculada al repositorio de GitHub~\cite{github} del backend.
-    \item Cuenta de Expo~\cite{expo} con un proyecto EAS creado, para poder generar el ejecutable de la aplicación móvil y que \texttt{expo-notifications} pueda emitir tokens de Expo Push válidos.
+    \item Acceso por SSH al servidor virtual (\texttt{virtual.lab.inf.uva.es}), con un usuario con permisos de \texttt{sudo}. El servidor es una máquina virtual Linux cuyos puertos de entrada asignados están en el rango 20101--20109: el 20101 se usa para SSH y el 20102 para la API.
+    \item Java 17 o superior, Git y PostgreSQL instalados en el servidor.
+    \item Repositorio del proyecto en GitHub~\cite{github}, desde el que se descarga el código en el servidor.
+    \item Cuenta de Expo~\cite{expo} con un proyecto EAS creado, para generar el ejecutable de la aplicación móvil y para que \texttt{expo-notifications} pueda emitir tokens de Expo Push válidos.
+    \item Clave de API de Google Maps Platform~\cite{googlemapsapi} para el SDK de Maps en Android, restringida al paquete de la aplicación y a la huella SHA-1 del certificado con el que EAS firma el ejecutable. En iOS los mapas usan Apple Maps y no necesitan clave.
     \item Java 17 o superior y Node.js instalados en el entorno de desarrollo local.
-    \item Clave de API de Google Maps Platform~\cite{googlemapsapi}, únicamente cuando se integre la visualización de mapas prevista para la Iteración 2 (Sección~\ref{cap:trabajo_futuro}): a día de hoy la aplicación no la usa.
 \end{itemize}
 
-\section{Despliegue del backend en Railway}
+\section{Despliegue del backend en el servidor}
 
 \begin{enumerate}
-    \item Crear un nuevo proyecto en Railway y añadir dos servicios: uno de tipo \textbf{PostgreSQL} (Railway lo aprovisiona automáticamente) y otro de tipo \textbf{despliegue desde GitHub}, apuntando al repositorio del backend.
-    \item Railway detecta automáticamente que se trata de un proyecto Spring Boot (Maven/Gradle) y genera la imagen de despliegue sin necesidad de un \texttt{Dockerfile} propio, aunque puede añadirse uno para tener un control más explícito del proceso de construcción.
-    \item Configurar las siguientes variables de entorno en el servicio del backend:
+    \item Conectarse al servidor por SSH:
+    \begin{verbatim}
+ssh -p 20101 usuario@virtual.lab.inf.uva.es
+    \end{verbatim}
+    \item Crear en PostgreSQL la base de datos y el usuario que utilizará la API. No es necesario crear ninguna tabla: al arrancar, Spring Boot ejecuta automáticamente las migraciones versionadas del esquema (Apéndice~\ref{cap:esquemaBD}) antes de empezar a atender peticiones.
+    \item Clonar el repositorio y compilar el backend, lo que genera el ejecutable \texttt{.jar} de la API:
+    \begin{verbatim}
+git clone <URL del repositorio> ~/TFG
+cd ~/TFG/backend && ./mvnw package -DskipTests
+    \end{verbatim}
+    \item Crear el fichero de configuración \texttt{/etc/semanasanta/backend.env}, legible solo por el administrador del servidor, con las variables de entorno de la API:
     \begin{itemize}
-        \item \texttt{SPRING\_DATASOURCE\_URL}, \texttt{SPRING\_DATASOURCE\_USERNAME} y \texttt{SPRING\_DATASOURCE\_PASSWORD}: Railway las expone automáticamente al enlazar el servicio de PostgreSQL con el del backend.
+        \item \texttt{PORT}: puerto en el que escucha la API (\texttt{20102}).
+        \item \texttt{SPRING\_DATASOURCE\_URL}, \texttt{SPRING\_DATASOURCE\_USERNAME} y \texttt{SPRING\_DATASOURCE\_PASSWORD}: conexión con la base de datos PostgreSQL creada en el paso anterior.
         \item \texttt{JWT\_SECRET}: clave secreta utilizada para firmar los tokens JWT (Sección~\ref{cap:1_iteracion}). Debe ser una cadena aleatoria de suficiente longitud y no debe compartirse ni subirse al repositorio.
         \item \texttt{JWT\_EXPIRATION}: tiempo de validez del token, en milisegundos.
+        \item \texttt{ADMIN\_BOOTSTRAP\_SECRET}: secreto que permite crear el primer Administrador del sistema (\texttt{POST /administradores/bootstrap}) cuando todavía no existe ninguno.
+        \item \texttt{MAIL\_USERNAME} y \texttt{MAIL\_PASSWORD}: cuenta SMTP de Gmail (con una contraseña de aplicación) desde la que se envía el correo de bienvenida a los miembros de las Juntas de Cofradía.
     \end{itemize}
     No hace falta configurar ninguna credencial para las notificaciones \emph{push}: el backend envía cada notificación con una petición HTTP corriente al servicio de Expo Push (\texttt{https://exp.host/--/api/v2/push/send}), sin autenticación propia.
-    \item Al desplegar, Spring Boot ejecuta automáticamente las migraciones del esquema de base de datos (Apéndice~\ref{cap:esquemaBD}) sobre la instancia de PostgreSQL antes de arrancar la API.
-    \item Railway asigna un dominio público HTTPS al backend (por ejemplo, \texttt{https://\{proyecto\}.up.railway.app}), que será la URL base que consumirá la aplicación cliente.
-    \item Cada nuevo \emph{commit} en la rama principal del repositorio dispara automáticamente un nuevo despliegue (integración continua), sin intervención manual.
+    \item Registrar la API como servicio del sistema (\texttt{semanasanta}) mediante systemd, con \texttt{backend.env} como fichero de entorno, para que arranque sola al iniciar el servidor y se reinicie automáticamente si se detiene por un error.
+    \item Arrancar el servicio y comprobar su estado:
+    \begin{verbatim}
+sudo systemctl start semanasanta
+systemctl status semanasanta
+sudo journalctl -u semanasanta -f
+    \end{verbatim}
+    Una vez arrancada, la API queda accesible en \texttt{http://virtual.lab.inf.uva.es:20102}, que es la URL base que consume la aplicación cliente. El servidor no dispone de un certificado TLS, por lo que la comunicación se realiza mediante HTTP; por este motivo el cliente permite expresamente el tráfico HTTP hacia ese dominio (véase la sección de configuración del cliente).
+    \item Crear el primer Administrador llamando, desde el propio servidor, al \emph{endpoint} de \emph{bootstrap} con el secreto configurado en \texttt{ADMIN\_BOOTSTRAP\_SECRET}. A partir de ahí, el resto de cuentas se crean desde la propia aplicación.
 \end{enumerate}
+
+\subsection{Actualización a una nueva versión}
+
+El despliegue de una nueva versión se realiza manualmente desde el servidor: se descarga el código más reciente del repositorio, se vuelve a compilar el backend y se reinicia el servicio. Si la nueva versión incluye migraciones del esquema, se aplican automáticamente al arrancar.
+\begin{verbatim}
+cd ~/TFG && git pull
+cd backend && ./mvnw package -DskipTests
+sudo systemctl restart semanasanta
+\end{verbatim}
 
 \section{Documentación de la API}
 
-Una vez desplegado el backend, la documentación interactiva de la API, generada automáticamente por springdoc-openapi~\cite{springdoc} a partir del propio código, queda disponible en \texttt{/swagger-ui.html} sobre el dominio del backend, y permite consultar y probar cada \emph{endpoint} sin necesidad de herramientas adicionales.
+Una vez desplegado el backend, la documentación interactiva de la API, generada automáticamente por springdoc-openapi~\cite{springdoc} a partir del propio código, queda disponible en \texttt{/swagger-ui.html} sobre la URL del backend, y permite consultar y probar cada \emph{endpoint} sin necesidad de herramientas adicionales.
 
 \section{Configuración del cliente React Native}
 
 \begin{enumerate}
-    \item En el fichero de configuración de entorno del cliente (por ejemplo, \texttt{.env}), establecer la URL base de la API desplegada en Railway (\texttt{API\_BASE\_URL}).
+    \item La URL base de la API se fija con la variable de entorno \texttt{EXPO\_PUBLIC\_API\_URL}. En los ejecutables generados con EAS la define \texttt{eas.json} en los perfiles \texttt{preview} y \texttt{production} (\texttt{http://virtual.lab.inf.uva.es:20102}); durante el desarrollo puede fijarse en un fichero \texttt{.env.local} para trabajar contra el servidor, o dejarse sin definir para trabajar contra un backend local.
+    \item Al usar HTTP, el cliente debe permitir expresamente ese tráfico: en Android mediante la opción \texttt{usesCleartextTraffic} del plugin \texttt{expo-build-properties}, y en iOS mediante una excepción de App Transport Security para \texttt{virtual.lab.inf.uva.es} en \texttt{ios.infoPlist}, ambas en \texttt{app.json}.
     \item Comprobar que \texttt{app.json} tiene configurado el \texttt{projectId} del proyecto EAS (campo \texttt{extra.eas.projectId}) y el plugin \texttt{expo-notifications}: son los que permiten que el dispositivo obtenga un token de Expo Push válido y lo registre en la API propia (\texttt{POST /dispositivos-push}).
-    \item Cuando se integre la visualización de mapas (Iteración 2), añadir la clave de API de Google Maps Platform en la configuración nativa del proyecto (\texttt{AndroidManifest.xml} en Android, \texttt{Info.plist} en iOS), según la documentación oficial de \texttt{react-native-maps}.
+    \item Registrar la clave de Google Maps como variable de entorno de EAS (\texttt{GOOGLE\_MAPS\_API\_KEY}) para los entornos \texttt{preview} y \texttt{production}. El fichero \texttt{app.config.js} la lee y la pasa al plugin de \texttt{react-native-maps}, de modo que la clave nunca se guarda en el repositorio.
 \end{enumerate}
 
 \section{Generación del ejecutable de la aplicación móvil}
 
-La generación del paquete de instalación (\texttt{.apk}/\texttt{.aab} para Android) se realiza mediante las herramientas estándar de Expo/React Native (\texttt{eas build}), siguiendo la documentación oficial de React Native~\cite{reactnative}, sin diferencias respecto a un proyecto que no consumiera un backend propio.
+El paquete de instalación se genera en los servidores de Expo mediante EAS Build, sin necesidad de compilar en local. El perfil \texttt{preview} produce un \texttt{.apk} de Android que puede instalarse directamente en el dispositivo a partir del enlace que devuelve la compilación:
+\begin{verbatim}
+eas build --profile preview --platform android
+\end{verbatim}
+El perfil \texttt{production} genera el paquete destinado a su publicación en las tiendas de aplicaciones. En el caso de iOS, instalar el ejecutable en un dispositivo físico requiere además una cuenta del Apple Developer Program.

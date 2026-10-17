@@ -6,6 +6,7 @@ import { common } from '../../../components';
 import { context } from '../../../../application';
 import { services } from '../../../../data';
 import { tiempo } from '../../../utils';
+import { calendario } from '../../../utils';
 import { colors } from '../../../../theme';
 import { spacing } from '../../../../theme';
 import { styles } from './HomeScreen.styles';
@@ -37,10 +38,6 @@ function formatearFechaCorta(fechaIso) {
   return `${dia} de ${tiempo.MESES[mes - 1]}`;
 }
 
-function formatearNumero(numero) {
-  if (numero >= 1000) return `${Math.round(numero / 1000)}k`;
-  return `${numero}`;
-}
 
 export function InicioScreen({ navigation }) {
   const { ciudadSeleccionada } = context.useCiudad();
@@ -49,17 +46,22 @@ export function InicioScreen({ navigation }) {
   const [diaMenuVisible, setDiaMenuVisible] = useState(false);
   const [numCofradias, setNumCofradias] = useState(0);
   const [numProcesionesTotal, setNumProcesionesTotal] = useState(0);
-  const [procesionEnCurso, setProcesionEnCurso] = useState(null);
+  const [numEventosTotal, setNumEventosTotal] = useState(0);
+  // Todas las que están pasando ahora (bug 18), no solo la primera.
+  const [procesionesEnCurso, setProcesionesEnCurso] = useState([]);
   const [notificaciones, setNotificaciones] = useState([]);
   const [indiceNotificacion, setIndiceNotificacion] = useState(0);
   const [dias, setDias] = useState([]);
   const [agenda, setAgenda] = useState([]);
+  // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
+  const [errorCarga, setErrorCarga] = useState(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
   const { esFavorito, alternarFavorito } = context.useFavoritos();
 
   useEffect(() => {
     services.getDiasSemanaSanta().then((lista) => {
       setDias(lista);
-      const hoy = new Date().toISOString().slice(0, 10);
+      const hoy = calendario.formatearFechaISO(new Date()); // fecha local, no UTC (bug 19)
       setDiaSeleccionado((actual) => actual ?? lista.find((d) => d.fecha === hoy) ?? lista[0]);
     });
   }, [setDiaSeleccionado]);
@@ -69,23 +71,27 @@ export function InicioScreen({ navigation }) {
       if (!ciudadSeleccionada) return;
       const ciudadId = ciudadSeleccionada.id;
 
+      setErrorCarga(null);
+      const fallo = (err) => setErrorCarga(err.message);
       Promise.all([
         services.getCofradiasPorCiudad(ciudadId),
-        services.getProcesionEnCurso(ciudadId),
         services.getProcesionesPorCiudad(ciudadId),
-      ]).then(([cofradias, enCurso, procesiones]) => {
+        services.getEventosPorCiudad(ciudadId),
+      ]).then(([cofradias, procesiones, eventos]) => {
         setNumCofradias(cofradias.length);
         setNumProcesionesTotal(procesiones.length);
-        if (enCurso) {
-          const nombres = enCurso.cofradiaIds
+        setNumEventosTotal(eventos.length);
+        const nombresDeCofradias = (cofradiaIds) =>
+          cofradiaIds
             .map((id) => cofradias.find((c) => c.id === id)?.nombre)
             .filter(Boolean)
             .join(', ');
-          setProcesionEnCurso({ ...enCurso, cofradiaNombre: nombres });
-        } else {
-          setProcesionEnCurso(null);
-        }
-      });
+        setProcesionesEnCurso(
+          procesiones
+            .filter((p) => p.estado === 'EN_CURSO')
+            .map((p) => ({ ...p, cofradiaNombre: nombresDeCofradias(p.cofradiaIds) }))
+        );
+      }).catch(fallo);
 
       // Las notificaciones ya no dependen del día seleccionado (el backend no
       // liga ninguna a un día de Semana Santa, ver alertaService): solo de la
@@ -96,8 +102,8 @@ export function InicioScreen({ navigation }) {
           setNotificaciones(activas.filter((n) => !descartadasIds.includes(n.id)));
           setIndiceNotificacion(0);
         },
-      );
-    }, [ciudadSeleccionada]),
+      ).catch(fallo);
+    }, [ciudadSeleccionada, intentoCarga]),
   );
 
   useFocusEffect(
@@ -131,9 +137,12 @@ export function InicioScreen({ navigation }) {
               cofradiaNombre: nombresDeCofradias(e.cofradiaIds),
             })),
         ];
+        // Por hora, mezclando procesiones y eventos (bug 22): antes salían
+        // primero todas las procesiones y después todos los eventos.
+        items.sort((a, b) => (a.horaSalida ?? '').localeCompare(b.horaSalida ?? ''));
         setAgenda(items);
-      });
-    }, [ciudadSeleccionada, diaSeleccionado]),
+      }).catch((err) => setErrorCarga(err.message));
+    }, [ciudadSeleccionada, diaSeleccionado, intentoCarga]),
   );
 
   function abrirListado(tipo) {
@@ -202,6 +211,8 @@ export function InicioScreen({ navigation }) {
           </View>
         </View>
 
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={() => setIntentoCarga((n) => n + 1)} /> : null}
+
         {notificaciones.length > 0 ? (
           <View style={styles.avisoCarrusel}>
             <FlatList
@@ -264,20 +275,33 @@ export function InicioScreen({ navigation }) {
           </View>
         ) : null}
 
-        {procesionEnCurso ? (
+        {procesionesEnCurso.length > 0 ? (
           <>
             <Text style={styles.sectionTitle}>En curso ahora</Text>
-            <View style={styles.enCursoCard}>
-              <View style={styles.enCursoLeft}>
-                <common.StatusBadge estado="EN_CURSO" />
-                <Text style={styles.enCursoTitle}>{procesionEnCurso.nombre}</Text>
-                <Text style={styles.enCursoMeta}>{procesionEnCurso.cofradiaNombre}</Text>
-              </View>
-              <View style={styles.enCursoRight}>
-                <Text style={styles.enCursoHora}>{procesionEnCurso.horaSalida}</Text>
-                <Text style={styles.enCursoDuracion}>{tiempo.formatearDuracion(procesionEnCurso.duracionMin)}</Text>
-              </View>
-            </View>
+            {/* Una tarjeta por procesión en curso; al tocarla, al Mapa en
+                Vivo centrado en ella (MapaScreen lee route.params.procesionId). */}
+            {procesionesEnCurso.map((procesion) => (
+              <TouchableOpacity
+                key={procesion.id}
+                style={styles.enCursoCard}
+                onPress={() => navigation.getParent()?.navigate('Mapa', { procesionId: procesion.id })}
+                activeOpacity={0.85}
+              >
+                <View style={styles.enCursoLeft}>
+                  <common.StatusBadge estado="EN_CURSO" />
+                  <Text style={styles.enCursoTitle}>{procesion.nombre}</Text>
+                  <Text style={styles.enCursoMeta}>{procesion.cofradiaNombre}</Text>
+                </View>
+                <View style={styles.enCursoRight}>
+                  <Text style={styles.enCursoHora}>{procesion.horaSalida}</Text>
+                  <Text style={styles.enCursoDuracion}>{tiempo.formatearDuracion(procesion.duracionMin)}</Text>
+                  <View style={styles.enCursoMapa}>
+                    <Ionicons name="map-outline" size={12} color={colors.gold} />
+                    <Text style={styles.enCursoMapaTexto}>Ver en el mapa</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
           </>
         ) : null}
 
@@ -293,13 +317,20 @@ export function InicioScreen({ navigation }) {
             <Text style={styles.statLabel}>Procesiones</Text>
           </View>
           <View style={styles.statBox}>
+            {/* Antes "Cofrades" con un número que no existe en el backend
+                (siempre 0, bug 14): el número de eventos sí es un dato real. */}
             <MaterialCommunityIcons name="candle" size={24} color={colors.subtitle} />
-            <Text style={styles.statValue}>{formatearNumero(ciudadSeleccionada.numCofrades ?? 0)}</Text>
-            <Text style={styles.statLabel}>Cofrades</Text>
+            <Text style={styles.statValue}>{numEventosTotal}</Text>
+            <Text style={styles.statLabel}>Eventos</Text>
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>Procesiones y eventos de hoy</Text>
+        {/* "de hoy" solo si el día elegido es hoy de verdad (bug 22). */}
+        <Text style={styles.sectionTitle}>
+          {diaSeleccionado.fecha === calendario.formatearFechaISO(new Date())
+            ? 'Procesiones y eventos de hoy'
+            : `Procesiones y eventos del ${diaSeleccionado.nombre}`}
+        </Text>
         {agenda.map((item) => (
           <common.ListItemCard
             key={`${item.categoria}-${item.id}`}
@@ -314,7 +345,7 @@ export function InicioScreen({ navigation }) {
             onPress={() => abrirAgendaItem(item)}
           />
         ))}
-        {agenda.length === 0 ? (
+        {agenda.length === 0 && !errorCarga ? (
           <Text style={styles.empty}>No hay procesiones ni eventos registrados este día.</Text>
         ) : null}
       </ScrollView>

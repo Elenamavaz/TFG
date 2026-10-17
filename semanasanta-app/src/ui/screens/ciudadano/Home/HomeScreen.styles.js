@@ -160,6 +160,17 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 2,
   },
+  enCursoMapa: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: spacing.sm,
+  },
+  enCursoMapaTexto: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 11,
+  },
   statsRow: {
     flexDirection: 'row',
     marginTop: spacing.lg,

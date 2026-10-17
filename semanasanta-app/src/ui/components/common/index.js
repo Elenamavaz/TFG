@@ -9,3 +9,7 @@ export { PasoListItem } from './PasoListItem';
 export { ProcesionCard } from './ProcesionCard';
 export { ProcesionCardMap } from './ProcesionCardMap';
 export { AgendaItemCard } from './AgendaItemCard';
+export { FavoritoCabecera } from './FavoritoCabecera';
+export { ImagenRemota } from './ImagenRemota';
+export { VistaPreviaImagen, ESTADO_IMAGEN } from './VistaPreviaImagen';
+export { AvisoError, PantallaCargando } from './AvisoError';

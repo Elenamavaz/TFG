@@ -15,11 +15,14 @@ const NOTIFICACIONES_INICIALES = [
 export function PerfilScreen({ navigation }) {
   const { ciudadSeleccionada } = context.useCiudad();
   const [numCofradias, setNumCofradias] = useState(0);
+  // Contado del backend: Ciudad no trae numProcesiones (bug 14, siempre salía 0).
+  const [numProcesiones, setNumProcesiones] = useState(0);
   const [notificaciones, setNotificaciones] = useState(NOTIFICACIONES_INICIALES);
 
   useEffect(() => {
     if (!ciudadSeleccionada) return;
     services.getCofradiasPorCiudad(ciudadSeleccionada.id).then((lista) => setNumCofradias(lista.length));
+    services.getProcesionesPorCiudad(ciudadSeleccionada.id).then((lista) => setNumProcesiones(lista.length));
   }, [ciudadSeleccionada]);
 
   function alternarNotificacion(id) {
@@ -50,7 +53,7 @@ export function PerfilScreen({ navigation }) {
             <View>
               <Text style={styles.ciudadNombre}>{ciudadSeleccionada?.nombre}</Text>
               <Text style={styles.ciudadMeta}>
-                {ciudadSeleccionada?.numProcesiones ?? 0} procesiones · {numCofradias} cofradías
+                {numProcesiones} procesiones · {numCofradias} cofradías
               </Text>
             </View>
           </View>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { common } from '../../../components';
 import { services } from '../../../../data';
 import { colors } from '../../../../theme';
@@ -9,6 +8,9 @@ import { styles } from './DetailProcesionInfoScreen.styles';
 export function DetalleProcesionInfoScreen({ route, navigation }) {
   const { procesionId } = route.params;
   const [procesion, setProcesion] = useState(null);
+  // Error al cargar (sin conexión, bug 27) y reintentos desde AvisoError.
+  const [errorCarga, setErrorCarga] = useState(null);
+  const [intentoCarga, setIntentoCarga] = useState(0);
   const [cofradiaNombre, setCofradiaNombre] = useState(null);
 
   useEffect(() => {
@@ -21,29 +23,45 @@ export function DetalleProcesionInfoScreen({ route, navigation }) {
           <Text style={styles.headerBadgeText}>Información</Text>
         </View>
       ),
-      headerRight: () => <Ionicons name="heart-outline" size={22} color={colors.subtitle} />,
+      headerRight: () => <common.FavoritoCabecera id={procesionId} tipo="procesion" />,
     });
   }, []);
 
   useEffect(() => {
-    services.getProcesionPorId(procesionId).then((data) => {
-      setProcesion(data);
-      if (!data) return;
-      // Una procesión puede tener varias cofradías participantes (N:M real
-      // en el backend): se muestran todas, separadas por coma (decisión del
-      // 2026-08-15).
-      Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
-        setCofradiaNombre(
-          cofradias
-            .map((c) => c?.nombre)
-            .filter(Boolean)
-            .join(', ')
-        )
-      );
-    });
-  }, [procesionId]);
+    setErrorCarga(null);
+    services.getProcesionPorId(procesionId)
+      .then((data) => {
+        setProcesion(data);
+        if (!data) return;
+        // Una procesión puede tener varias cofradías participantes (N:M real
+        // en el backend): se muestran todas, separadas por coma (decisión del
+        // 2026-08-15).
+        Promise.all(data.cofradiaIds.map((id) => services.getCofradiaPorId(id).catch(() => null))).then((cofradias) =>
+          setCofradiaNombre(
+            cofradias
+              .map((c) => c?.nombre)
+              .filter(Boolean)
+              .join(', ')
+          )
+        );
+      })
+      .catch((err) => setErrorCarga(err.message));
+  }, [procesionId, intentoCarga]);
 
-  if (!procesion) return null;
+  if (errorCarga) {
+    return (
+      <common.ScreenContainer>
+        <common.AvisoError pantallaCompleta mensaje={errorCarga} onReintentar={() => setIntentoCarga((n) => n + 1)} />
+      </common.ScreenContainer>
+    );
+  }
+  if (!procesion) {
+    return (
+      <common.ScreenContainer>
+        <common.PantallaCargando />
+      </common.ScreenContainer>
+    );
+  }
 
   return (
     <common.ScreenContainer>

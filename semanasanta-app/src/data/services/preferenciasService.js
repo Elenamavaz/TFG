@@ -16,6 +16,8 @@ const CLAVE_MODO_ACCESO = '@semanasanta/modoAcceso';
 // backend -el ciudadano no tiene sesión ni permisos para eso-, solo se dejan
 // de mostrar en ESTE dispositivo. Puede haber varias a la vez desde que
 // Inicio muestra un carrusel deslizable, no una sola.
+const CLAVE_FAVORITOS = '@semanasanta/favoritos';
+
 const CLAVE_NOTIFICACIONES_DESCARTADAS_IDS = '@semanasanta/notificacionesDescartadasIds';
 
 // AsyncStorage solo guarda strings; ciudad.id es un Long numérico desde que
@@ -95,5 +97,25 @@ export async function descartarNotificacion(notificacionId) {
   } catch {
     // Si falla el guardado, en el próximo arranque volvería a mostrarse la
     // misma notificación -molesto, pero no rompe nada.
+  }
+}
+
+// Favoritos del ciudadano ([{ id, tipo }], ver FavoritosContext): en el
+// propio dispositivo, como la ciudad elegida -el ciudadano no tiene cuenta
+// en el backend donde guardarlos.
+export async function getFavoritosGuardados() {
+  try {
+    const valor = await AsyncStorage.getItem(CLAVE_FAVORITOS);
+    return valor ? JSON.parse(valor) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function guardarFavoritos(favoritos) {
+  try {
+    await AsyncStorage.setItem(CLAVE_FAVORITOS, JSON.stringify(favoritos));
+  } catch {
+    // sin almacenamiento disponible: siguen funcionando en memoria esta sesión
   }
 }

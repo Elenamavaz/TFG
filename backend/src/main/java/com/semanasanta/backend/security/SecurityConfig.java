@@ -69,7 +69,7 @@ public class SecurityConfig {
     // notó hasta conectar Expo Web (2026-08-15).
     //
     // allowedOriginPattern("*") en vez de una lista concreta: no hay un
-    // dominio de producción fijo todavía (Railway pendiente) y, sobre todo,
+    // origen web fijo (la app es nativa; Expo Web solo en desarrollo) y, sobre todo,
     // esta API no usa cookies de sesión (JWT en el header Authorization, que
     // el navegador nunca adjunta solo por cross-origin) -el origen abierto
     // no habilita el robo de sesión ajena que sí sería un problema con auth

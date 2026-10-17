@@ -60,7 +60,10 @@ export function ProcesionesScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+  // Sin conexión o error al cargar (bug 27): aviso con "Reintentar".
+  const [errorCarga, setErrorCarga] = useState(null);
   const cargar = useCallback(() => {
+    setErrorCarga(null);
     Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasPorCiudad(ciudadId), services.getProcesionesPorCiudad(ciudadId)]).then(
       ([ciudadCargada, listaCofradias, listaProcesiones]) => {
         setCiudad(ciudadCargada);
@@ -68,7 +71,10 @@ export function ProcesionesScreen({ route, navigation }) {
         setProcesiones(orden.ordenarPorNombre(listaProcesiones));
         setCargando(false);
       }
-    );
+    ).catch((err) => {
+      setErrorCarga(err.message);
+      setCargando(false);
+    });
   }, [ciudadId]);
 
   useFocusEffect(cargar);
@@ -88,6 +94,7 @@ export function ProcesionesScreen({ route, navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Procesiones</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
         <Text style={styles.subtitle}>{ciudad ? `Procesiones de ${ciudad.nombre}` : ''}</Text>
 
         <TouchableOpacity
@@ -124,7 +131,7 @@ export function ProcesionesScreen({ route, navigation }) {
             </View>
           </View>
         ))}
-        {procesionesFiltradas.length === 0 ? <Text style={styles.empty}>No hay procesiones todavía.</Text> : null}
+        {procesionesFiltradas.length === 0 && !errorCarga ? <Text style={styles.empty}>No hay procesiones todavía.</Text> : null}
       </ScrollView>
 
       <Modal transparent visible={modalFiltroVisible} animationType="fade" onRequestClose={() => setModalFiltroVisible(false)}>

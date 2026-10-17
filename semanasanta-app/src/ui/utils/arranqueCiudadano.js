@@ -15,8 +15,23 @@ import { ciudadMasCercana } from './geo';
 // fetchQuery (no getCiudades directo): usa la misma caché de TanStack Query
 // que luego lee SeleccionCiudadScreen con useQuery -así, si el usuario
 // termina en esa pantalla, no repite la petición de red que ya se hizo aquí.
+// Sin conexión al arrancar (bug 27): fetchQuery vuelve a pedir las ciudades
+// si las guardadas tienen más de unos minutos, y si falla lanza el error en
+// vez de devolver lo guardado. Se recurre entonces a la caché persistida: con
+// ella se puede seguir entrando en la ciudad de siempre. Si no hay nada
+// guardado, el error llega a RootNavigator, que ofrece "Reintentar".
+async function obtenerCiudades() {
+  try {
+    return await cache.queryClient.fetchQuery({ queryKey: ['ciudades'], queryFn: services.getCiudades });
+  } catch (err) {
+    const guardadas = cache.queryClient.getQueryData(['ciudades']);
+    if (guardadas?.length) return guardadas;
+    throw err;
+  }
+}
+
 export async function resolverPantallaCiudadano(seleccionarCiudad) {
-  const ciudades = await cache.queryClient.fetchQuery({ queryKey: ['ciudades'], queryFn: services.getCiudades });
+  const ciudades = await obtenerCiudades();
 
   const ciudadIdGuardada = await services.getCiudadIdGuardada();
   const ciudadGuardada = ciudades.find((ciudad) => ciudad.id === ciudadIdGuardada);

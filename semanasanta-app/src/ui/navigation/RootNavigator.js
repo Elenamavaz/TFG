@@ -54,17 +54,27 @@ export function RootNavigator() {
   const { seleccionarCiudad } = context.useCiudad();
   const { sesion, cargandoSesion, avisoSesion } = context.useAuth();
   const [pantallaInicial, setPantallaInicial] = useState(null);
+  // Arranque fallido (sin conexión y sin ciudades guardadas, bug 27): antes
+  // la promesa rechazaba sin que nadie la capturase y la app se quedaba en
+  // el spinner para siempre. intento se incrementa con "Reintentar".
+  const [errorArranque, setErrorArranque] = useState(null);
+  const [intento, setIntento] = useState(0);
 
   useEffect(() => {
     if (cargandoSesion) return; // espera a que AuthContext termine de leer AsyncStorage
     let cancelado = false;
-    resolverArranque(seleccionarCiudad, sesion, avisoSesion).then((pantalla) => {
-      if (!cancelado) setPantallaInicial(pantalla);
-    });
+    setErrorArranque(null);
+    resolverArranque(seleccionarCiudad, sesion, avisoSesion)
+      .then((pantalla) => {
+        if (!cancelado) setPantallaInicial(pantalla);
+      })
+      .catch((err) => {
+        if (!cancelado) setErrorArranque(err.message);
+      });
     return () => {
       cancelado = true;
     };
-  }, [cargandoSesion]);
+  }, [cargandoSesion, intento]);
 
   // Sesión caducada mientras se usaba la app (la primera petición rechazada
   // la cierra, ver AuthContext): fuera del panel y al inicio de sesión.
@@ -73,6 +83,14 @@ export function RootNavigator() {
     if (navigationRef.getCurrentRoute()?.name === 'Login') return;
     navigationRef.reset({ index: 0, routes: [{ name: 'Login' }] });
   }, [avisoSesion, pantallaInicial]);
+
+  if (!pantallaInicial && errorArranque) {
+    return (
+      <common.ScreenContainer>
+        <common.AvisoError pantallaCompleta mensaje={errorArranque} onReintentar={() => setIntento((n) => n + 1)} />
+      </common.ScreenContainer>
+    );
+  }
 
   if (!pantallaInicial) {
     return (

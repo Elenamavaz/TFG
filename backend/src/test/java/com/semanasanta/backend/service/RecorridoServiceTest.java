@@ -2,8 +2,12 @@ package com.semanasanta.backend.service;
 
 import com.semanasanta.backend.exception.AccesoDenegadoException;
 import com.semanasanta.backend.exception.ArchivoInvalidoException;
+import com.semanasanta.backend.model.PuntoRuta;
 import com.semanasanta.backend.model.Recorrido;
 import com.semanasanta.backend.model.RecorridoPuntoRuta;
+import com.semanasanta.backend.model.Ubicacion;
+import com.semanasanta.backend.repository.EventoRepository;
+import com.semanasanta.backend.repository.ProcesionRepository;
 import com.semanasanta.backend.repository.PuntoRutaRepository;
 import com.semanasanta.backend.repository.RecorridoPuntoRutaRepository;
 import com.semanasanta.backend.repository.RecorridoRepository;
@@ -18,7 +22,10 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
+import static com.semanasanta.backend.support.DatosPrueba.conId;
+import static com.semanasanta.backend.support.DatosPrueba.recorrido;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.within;
@@ -42,6 +49,12 @@ class RecorridoServiceTest {
     private RecorridoPuntoRutaRepository recorridoPuntoRutaRepository;
     @Mock
     private MiembroJuntaCofradiaService miembroJuntaCofradiaService;
+    @Mock
+    private AutorizacionRecorridoService autorizacionRecorridoService;
+    @Mock
+    private ProcesionRepository procesionRepository;
+    @Mock
+    private EventoRepository eventoRepository;
 
     @InjectMocks
     private RecorridoService recorridoService;
@@ -101,5 +114,78 @@ class RecorridoServiceTest {
         assertThatThrownBy(() -> recorridoService.importarGpx(archivo(GPX)))
                 .isInstanceOf(AccesoDenegadoException.class);
         verify(recorridoRepository, never()).save(any());
+    }
+
+    // --- eliminar y recorridos huérfanos (bug 26) ---
+
+    private static PuntoRuta punto(Long id, Long ubicacionId) {
+        return conId(new PuntoRuta(conId(new Ubicacion(41.65, -4.72, null), ubicacionId)), id);
+    }
+
+    @Test
+    void unRecorridoAsignadoAUnaProcesionNoSeEliminaSuelto() {
+        when(recorridoRepository.findById(20L)).thenReturn(Optional.of(recorrido(20L)));
+        when(procesionRepository.existsByRecorridoId(20L)).thenReturn(true);
+
+        assertThatThrownBy(() -> recorridoService.eliminar(20L))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("asignado a una procesión");
+        verify(recorridoRepository, never()).delete(any());
+    }
+
+    @Test
+    void eliminarUnRecorridoBorraSusPuntosYLasUbicacionesQueSoloUsabaEl() {
+        Recorrido recorrido = recorrido(20L);
+        PuntoRuta propio = punto(1L, 11L);
+        PuntoRuta compartido = punto(2L, 12L);
+        List<RecorridoPuntoRuta> relaciones = List.of(
+                new RecorridoPuntoRuta(recorrido, propio, 0, null),
+                new RecorridoPuntoRuta(recorrido, compartido, 1, null));
+        when(recorridoRepository.findById(20L)).thenReturn(Optional.of(recorrido));
+        when(recorridoPuntoRutaRepository.findByRecorridoIdOrderByOrdenAsc(20L)).thenReturn(relaciones);
+        when(recorridoPuntoRutaRepository.existsByPuntoRutaId(1L)).thenReturn(false); // solo en este
+        when(recorridoPuntoRutaRepository.existsByPuntoRutaId(2L)).thenReturn(true); // también en otro recorrido
+
+        recorridoService.eliminar(20L);
+
+        verify(autorizacionRecorridoService).exigirPuedeEditarRecorrido(20L);
+        verify(recorridoPuntoRutaRepository).deleteAll(relaciones);
+        verify(puntoRutaRepository).delete(propio);
+        verify(puntoRutaRepository, never()).delete(compartido);
+        verify(ubicacionRepository).delete(propio.getUbicacion());
+        verify(recorridoRepository).delete(recorrido);
+    }
+
+    @Test
+    void unaUbicacionQueUsaUnEventoNoSeBorraConElRecorrido() {
+        Recorrido recorrido = recorrido(20L);
+        PuntoRuta propio = punto(1L, 11L);
+        when(recorridoRepository.findById(20L)).thenReturn(Optional.of(recorrido));
+        when(recorridoPuntoRutaRepository.findByRecorridoIdOrderByOrdenAsc(20L))
+                .thenReturn(List.of(new RecorridoPuntoRuta(recorrido, propio, 0, null)));
+        when(eventoRepository.existsByUbicacionId(11L)).thenReturn(true);
+
+        recorridoService.eliminar(20L);
+
+        verify(puntoRutaRepository).delete(propio);
+        verify(ubicacionRepository, never()).delete(any());
+    }
+
+    @Test
+    void eliminarSiHuerfanoNoTocaUnRecorridoQueSigueAsignado() {
+        when(procesionRepository.existsByRecorridoId(20L)).thenReturn(true);
+
+        recorridoService.eliminarSiHuerfano(20L);
+
+        verify(recorridoRepository, never()).delete(any());
+    }
+
+    @Test
+    void soloLaJuntaDeSuProcesionPuedeEliminarUnRecorrido() {
+        doThrow(new AccesoDenegadoException("otra ciudad"))
+                .when(autorizacionRecorridoService).exigirPuedeEditarRecorrido(20L);
+
+        assertThatThrownBy(() -> recorridoService.eliminar(20L)).isInstanceOf(AccesoDenegadoException.class);
+        verify(recorridoRepository, never()).delete(any());
     }
 }

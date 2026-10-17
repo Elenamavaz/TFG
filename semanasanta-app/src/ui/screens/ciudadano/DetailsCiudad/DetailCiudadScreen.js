@@ -14,7 +14,7 @@ import { styles } from './DetailCiudadScreen.styles';
 // diferencia de Cofradia.web), se añaden el día que haga falta de verdad.
 export function DetalleCiudadScreen({ navigation }) {
   const { ciudadSeleccionada } = context.useCiudad();
-  const { data: ciudad } = useQuery({
+  const { data: ciudad, isError, error, refetch } = useQuery({
     queryKey: ['ciudad', ciudadSeleccionada?.id],
     queryFn: () => services.getCiudadPorId(ciudadSeleccionada.id),
     enabled: !!ciudadSeleccionada,
@@ -33,7 +33,21 @@ export function DetalleCiudadScreen({ navigation }) {
     });
   }, [navigation]);
 
-  if (!ciudad) return null;
+  // Sin conexión y sin copia guardada (bug 27): el motivo y "Reintentar".
+  if (!ciudad && isError) {
+    return (
+      <common.ScreenContainer>
+        <common.AvisoError pantallaCompleta mensaje={error?.message} onReintentar={refetch} />
+      </common.ScreenContainer>
+    );
+  }
+  if (!ciudad) {
+    return (
+      <common.ScreenContainer>
+        <common.PantallaCargando />
+      </common.ScreenContainer>
+    );
+  }
 
   return (
     <common.ScreenContainer>

@@ -40,15 +40,21 @@ export function PasosScreen({ route, navigation }) {
     });
   }, [navigation]);
 
+  // Sin conexión o error al cargar (bug 27): aviso con "Reintentar".
+  const [errorCarga, setErrorCarga] = useState(null);
   const cargar = useCallback(() => {
+    setErrorCarga(null);
     Promise.all([services.getCiudadPorId(ciudadId), services.getCofradiasGestion(ciudadId)]).then(([ciudadCargada, listaCofradias]) => {
       const cofradiasOrdenadas = orden.ordenarPorNombre(listaCofradias);
       setCiudad(ciudadCargada);
       setCofradias(cofradiasOrdenadas);
-      Promise.all(cofradiasOrdenadas.map((cofradia) => services.getPasosPorCofradia(cofradia.id))).then((porCofradia) => {
+      return Promise.all(cofradiasOrdenadas.map((cofradia) => services.getPasosPorCofradia(cofradia.id))).then((porCofradia) => {
         setPasos(orden.ordenarPorNombre(porCofradia.flat()));
         setCargando(false);
       });
+    }).catch((err) => {
+      setErrorCarga(err.message);
+      setCargando(false);
     });
   }, [ciudadId]);
 
@@ -85,6 +91,7 @@ export function PasosScreen({ route, navigation }) {
     <common.ScreenContainer>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Pasos</Text>
+        {errorCarga ? <common.AvisoError mensaje={errorCarga} onReintentar={cargar} /> : null}
         <Text style={styles.subtitle}>{ciudad ? `Pasos de ${ciudad.nombre}` : ''}</Text>
 
         <TouchableOpacity
@@ -120,7 +127,7 @@ export function PasosScreen({ route, navigation }) {
             </View>
           </View>
         ))}
-        {pasosFiltrados.length === 0 ? <Text style={styles.empty}>No hay pasos todavía.</Text> : null}
+        {pasosFiltrados.length === 0 && !errorCarga ? <Text style={styles.empty}>No hay pasos todavía.</Text> : null}
       </ScrollView>
 
       <Modal transparent visible={modalFiltroVisible} animationType="fade" onRequestClose={() => setModalFiltroVisible(false)}>

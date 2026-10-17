@@ -112,6 +112,10 @@ public class ProcesionService {
         // estado a la vez, se valida contra la hora nueva.
         boolean cambiaEstado = HorarioEventos.aplicarEstadoManual(procesion, request.estado());
         Procesion guardada = procesionRepository.save(procesion);
+        // Recorrido sustituido por otro GPX: el anterior ya no lo usa nadie (bug 26).
+        if (recorridoActualId != null && !recorridoActualId.equals(request.recorridoId())) {
+            recorridoService.eliminarSiHuerfano(recorridoActualId);
+        }
         // Estado editable desde el formulario (2026-09-30), como corrección
         // manual de lo que hace solo CambioEstadoAutomaticoService al llegar
         // la hora (empezar antes, finalizar antes, reprogramar una
@@ -144,7 +148,10 @@ public class ProcesionService {
         Long ciudadActualId = procesion.getCofradias().iterator().next().getCiudad().getId();
         miembroJuntaCofradiaService.exigirJuntaDeLaCiudad(ciudadActualId);
         posicionActualRepository.deleteByProcesionId(id);
+        Long recorridoId = procesion.getRecorrido() != null ? procesion.getRecorrido().getId() : null;
         procesionRepository.delete(procesion);
+        procesionRepository.flush(); // antes de comprobar si el recorrido ha quedado sin procesión
+        recorridoService.eliminarSiHuerfano(recorridoId); // su recorrido (1:1) se va con ella (bug 26)
     }
 
     // "Cancelar" del mockup del panel de Junta (2026-08-20): a diferencia de
