@@ -36,3 +36,7 @@ Actualizar a la última versión de GitHub	cd ~/TFG && git pull && cd backend &&
 
 actualizar git 
 cd ~/TFG && git pull && cd backend && ./mvnw package -DskipTests && sudo systemctl restart semanasanta
+
+
+cd C:\Users\elena\dev\TFG\semanasanta-app
+eas build -p android --profile preview

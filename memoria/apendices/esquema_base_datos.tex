@@ -3,7 +3,7 @@
 Este apéndice recoge, a nivel de detalle de campo, el esquema completo de las tablas de PostgreSQL~\cite{postgresql} introducidas en el apartado \nameref{sec:disenoBD} (Sección~\ref{cap:1_iteracion}), incluyendo los tipos de dato de cada campo y las claves primarias y foráneas. Los tipos de dato mostrados corresponden a tipos nativos de PostgreSQL (\texttt{BIGINT}, \texttt{VARCHAR}, \texttt{TEXT}, \texttt{BOOLEAN}, \texttt{TIMESTAMP}, \texttt{DOUBLE PRECISION}) o a tipos enumerados propios (\texttt{ENUM}) definidos para este esquema.
 
 \section{Ciudad (\texttt{ciudades})}
-\textbf{Requisito:} RI-10, RI-09
+\textbf{Requisito:} RI-01
 
 Agrupa las procesiones y actos de cada localidad.
 
@@ -32,7 +32,7 @@ Agrupa las procesiones y actos de cada localidad.
 \end{table}
 
 \section{Junta de Cofradías (\texttt{juntas\_cofradias})}
-\textbf{Requisito:} RI-10
+\textbf{Requisito:} RI-02
 
 Junta que gestiona una ciudad. Relación 1:1 con \texttt{ciudades}.
 
@@ -57,7 +57,7 @@ Junta que gestiona una ciudad. Relación 1:1 con \texttt{ciudades}.
 \end{table}
 
 \section{Cofradía / Hermandad (\texttt{cofradias})}
-\textbf{Requisito:} RI-02
+\textbf{Requisito:} RI-04
 
 Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad --nunca a la Junta de Cofradías que la gestiona--: \texttt{Ciudad} es quien agrupa estructuralmente a sus cofradías (relación 1:N), mientras que \texttt{JuntaCofradias} es solo la cuenta de gestión de esa ciudad, sustituible sin afectar a los datos de las cofradías que agrupa.
 
@@ -86,6 +86,7 @@ Asociación religiosa que organiza eventos y procesiones. Pertenece a la ciudad 
 \end{table}
 
 \section{Paso (\texttt{pasos})}
+\textbf{Requisito:} RI-10
 Pasos que posee la cofradía. A diferencia del planteamiento inicial, en el que la relación N:M era solo con \texttt{procesiones}, ``los eventos también pueden tener pasos'': la relación se generalizó a \texttt{eventos} (Sección~\ref{sec:eventosBD}), del que \texttt{procesiones} hereda, resuelta mediante la tabla intermedia \texttt{pasos\_eventos}.
 
 \begin{table}[H]
@@ -126,6 +127,7 @@ Pasos que posee la cofradía. A diferencia del planteamiento inicial, en el que 
 \end{table}
 
 \section{Código de Acceso (\texttt{codigos\_acceso})}
+\textbf{Requisito:} RI-13
 Códigos que emite la Junta de Cofradías en nombre de una cofradía de su ciudad (\texttt{Cofradia} no es un actor con cuenta propia, no puede emitir nada por sí misma). Quien lo valida obtiene un token identificado con esa cofradía y el rol de cofrade, sin que ello genere ningún registro de usuario --ver la explicación completa en la Sección~\ref{sec:usuariosBD}--. El código no se invalida al usarse por primera vez: sigue sirviendo para volver a autenticarse mientras no esté revocado.
 
 \begin{table}[H]
@@ -168,7 +170,7 @@ Punto geográfico reutilizable (latitud, longitud y dirección textual), referen
 \end{table}
 
 \section{Evento (\texttt{eventos})}\label{sec:eventosBD}
-\textbf{Requisito:} RI-03
+\textbf{Requisito:} RI-05
 
 Acto que puede tener más de una cofradía participando (por ejemplo, un Vía Crucis conjunto o una procesión con pasos de varias hermandades): la relación con \texttt{cofradias} es N:M, no 1:N, resuelta mediante la tabla intermedia \texttt{eventos\_cofradias}. \texttt{Evento} es además la tabla raíz de la que \texttt{procesiones} hereda sus columnas comunes (Sección~\ref{sec:procesionesBD}).
 
@@ -212,7 +214,7 @@ Acto que puede tener más de una cofradía participando (por ejemplo, un Vía Cr
 \end{table}
 
 \section{Procesión (\texttt{procesiones})}\label{sec:procesionesBD}
-\textbf{Requisito:} RI-04
+\textbf{Requisito:} RI-09, RI-06
 
 A diferencia del planteamiento inicial, en el que \texttt{procesiones} referenciaba a \texttt{eventos} mediante una clave foránea 1:N, la traducción final a PostgreSQL usa \textbf{herencia real de tablas} (estrategia \texttt{JOINED} de JPA): \texttt{Procesion} \emph{es} un \texttt{Evento} --hereda \texttt{nombre}, \texttt{historia}, \texttt{tradicion}, \texttt{fecha}, \texttt{estado}, \texttt{ubicacion\_id} y sus cofradías participantes (\texttt{eventos\_cofradias})-- y añade únicamente sus columnas propias en esta tabla. El \texttt{id} de \texttt{procesiones} es a la vez su clave primaria y una clave foránea a \texttt{eventos(id)}: al guardar una procesión, el motor inserta primero la fila común en \texttt{eventos} y reutiliza el identificador generado para la fila de \texttt{procesiones}, en lugar de generar uno nuevo. Esta decisión evita mantener columnas duplicadas (\texttt{cofradia\_id}, \texttt{estado}...) sincronizadas manualmente entre las dos tablas.
 
@@ -235,7 +237,7 @@ A diferencia del planteamiento inicial, en el que \texttt{procesiones} referenci
 \end{table}
 
 \subsection{Posiciones actuales (\texttt{posiciones\_actuales}) --- histórico de pings anónimos}
-A diferencia del planteamiento inicial, esta tabla no guarda una única fila por procesión que se sobrescribe con cada actualización (\texttt{UPSERT}), sino un \textbf{histórico de lecturas GPS sueltas} (\emph{pings}): cada vez que un cofrade comparte su ubicación se inserta una fila nueva, sin sobrescribir ninguna anterior. Cada fila es además \textbf{anónima}: no lleva ninguna referencia a la persona que la envió, solo a la procesión (Sección~\ref{sec:usuariosBD} explica por qué). La ``posición actual'' de una procesión ya no es un dato guardado como tal, sino un valor \textbf{calculado} en el momento de la consulta: el promedio de latitud y longitud de los \emph{pings} recibidos en los últimos 60 segundos, siendo el número de \emph{pings} recientes una aproximación al número de cofrades compartiendo ubicación en ese instante. La aplicación cliente consulta este valor calculado mediante la API propia (\texttt{GET~/procesiones/\{id\}/ubicacion}) con la cadencia que exige el requisito RNF-08, tal y como se explica en el apartado \nameref{sec:decisionesTecnologicas}.
+A diferencia del planteamiento inicial, esta tabla no guarda una única fila por procesión que se sobrescribe con cada actualización (\texttt{UPSERT}), sino un \textbf{histórico de lecturas GPS sueltas} (\emph{pings}): cada vez que un cofrade comparte su ubicación se inserta una fila nueva, sin sobrescribir ninguna anterior. Cada fila es además \textbf{anónima}: no lleva ninguna referencia a la persona que la envió, solo a la procesión (Sección~\ref{sec:usuariosBD} explica por qué). La ``posición actual'' de una procesión ya no es un dato guardado como tal, sino un valor \textbf{calculado} en el momento de la consulta: el promedio de latitud y longitud de los \emph{pings} recibidos en los últimos 60 segundos, siendo el número de \emph{pings} recientes una aproximación al número de cofrades compartiendo ubicación en ese instante. La aplicación cliente consulta este valor calculado mediante la API propia (\texttt{GET~/procesiones/\{id\}/ubicacion}) con la cadencia que exige el requisito RNF-05, tal y como se explica en el apartado \nameref{sec:decisionesTecnologicas}.
 
 \begin{table}[H]
 \centering
@@ -258,7 +260,7 @@ A diferencia del planteamiento inicial, esta tabla no guarda una única fila por
 \end{table}
 
 \section{Recorrido (\texttt{recorridos})}
-\textbf{Requisito:} RI-05, RI-06
+\textbf{Requisito:} RI-07, RI-11
 
 Itinerario compuesto por puntos de ruta ordenados. Sin campo \texttt{nombre}: un recorrido se identifica por la procesión a la que pertenece, no por un nombre propio.
 
@@ -296,7 +298,7 @@ A diferencia del planteamiento inicial, un mismo punto de ruta puede formar part
 \end{table}
 
 \subsection{Punto de Interés (\texttt{puntos\_de\_interes})}\label{sec:puntosDeInteresBD}
-Subtipo de \texttt{PuntoRuta} con detalle: nombre, descripción, imagen y una categoría (RI-06). El tipo enumerado se llama \texttt{TipoPuntoInteres} --es una categoría de punto de interés, no de cualquier punto de ruta-- e incluye tanto categorías de interés turístico o religioso como puntos operativos del propio recorrido de una procesión (inicio y fin de la salida procesional, o el lugar donde se celebra el evento asociado).
+Subtipo de \texttt{PuntoRuta} con detalle: nombre, descripción, imagen y una categoría (RI-11). El tipo enumerado se llama \texttt{TipoPuntoInteres} --es una categoría de punto de interés, no de cualquier punto de ruta-- e incluye tanto categorías de interés turístico o religioso como puntos operativos del propio recorrido de una procesión (inicio y fin de la salida procesional, o el lugar donde se celebra el evento asociado).
 
 \begin{table}[H]
 \centering
@@ -342,7 +344,7 @@ El orden de un punto dentro de un recorrido y la hora prevista de paso ya no son
 \end{table}
 
 \section{Usuario (\texttt{usuarios})}\label{sec:usuariosBD}
-\textbf{Requisito:} RI-01
+\textbf{Requisito:} RI-03
 
 A diferencia del planteamiento inicial, en el que \texttt{usuarios} era una única tabla con una columna \texttt{rol} que distinguía entre cofrade, junta de cofradías y administrador, la traducción final a PostgreSQL usa de nuevo \textbf{herencia real de tablas}: \texttt{usuarios} es la tabla raíz, con las columnas que de verdad comparten sus subtipos, y cada subtipo añade sus propias columnas en su propia tabla. Sin columna \texttt{rol}: con herencia real el tipo de usuario lo determina en qué tabla de subtipo tiene fila, no un valor guardado.
 
@@ -369,7 +371,7 @@ Por tanto, \texttt{usuarios} solo contiene los perfiles con credenciales propias
 \end{table}
 
 \subsection{Miembro de Junta de Cofradías (\texttt{miembros\_junta\_cofradia})}
-Persona con credenciales que pertenece a la Junta de Cofradías de una ciudad --una Junta puede tener varios miembros, cada uno con su propio inicio de sesión--. La referencia es a la \texttt{JuntaCofradias}, no directamente a la \texttt{Ciudad}: así se reutiliza la relación 1:1 ya existente entre \texttt{JuntaCofradias} y \texttt{Ciudad} en lugar de duplicarla, y de ahí --\texttt{miembro.juntaCofradias.ciudad}-- es de donde la capa de servicio de la API obtiene qué ciudad gestiona cada miembro a la hora de comprobar la autorización por rol (RNF-05). \texttt{activo} lo alterna el Administrador: desactivado no significa sin acceso --el \emph{login} le sigue funcionando--, sino que el backend le rechaza cualquier escritura. \texttt{password\_provisional} vale \texttt{TRUE} hasta que el miembro cambia la contraseña que se le generó y envió por correo al darlo de alta, como señal de que la invitación sigue pendiente. \texttt{solicitud\_reactivacion\_pendiente} la activa un miembro desactivado que pide volver a estar activo, y la resuelve el Administrador aceptándola o rechazándola.
+Persona con credenciales que pertenece a la Junta de Cofradías de una ciudad --una Junta puede tener varios miembros, cada uno con su propio inicio de sesión--. La referencia es a la \texttt{JuntaCofradias}, no directamente a la \texttt{Ciudad}: así se reutiliza la relación 1:1 ya existente entre \texttt{JuntaCofradias} y \texttt{Ciudad} en lugar de duplicarla, y de ahí --\texttt{miembro.juntaCofradias.ciudad}-- es de donde la capa de servicio de la API obtiene qué ciudad gestiona cada miembro a la hora de comprobar la autorización por rol (RNF-03). \texttt{activo} lo alterna el Administrador: desactivado no significa sin acceso --el \emph{login} le sigue funcionando--, sino que el backend le rechaza cualquier escritura. \texttt{password\_provisional} vale \texttt{TRUE} hasta que el miembro cambia la contraseña que se le generó y envió por correo al darlo de alta, como señal de que la invitación sigue pendiente. \texttt{solicitud\_reactivacion\_pendiente} la activa un miembro desactivado que pide volver a estar activo, y la resuelve el Administrador aceptándola o rechazándola.
 
 \begin{table}[H]
 \centering
@@ -448,7 +450,7 @@ A diferencia del planteamiento inicial, no hay una jerarquía Aviso/Alerta: una 
 Sin tabla de notificación entregada: no se registra si un ciudadano concreto ha leído cada notificación o no --no tiene cuenta con la que asociar esa lectura (Sección~\ref{sec:usuariosBD})--, simplemente se consulta la lista de notificaciones vigentes de su ciudad.
 
 \section{Dispositivo Push (\texttt{dispositivos\_push})}
-\textbf{Requisito:} RI-11
+\textbf{Requisito:} RI-12
 
 Dispositivo del ciudadano registrado para recibir notificaciones \emph{push} de una ciudad. Sin usuario al que pertenecer --el ciudadano nunca se autentica (Sección~\ref{sec:usuariosBD})--: la única pertenencia real es a qué ciudad le interesa a ese token, que puede cambiar si el ciudadano cambia de ciudad seleccionada (el mismo token se reregistra, actualizando \texttt{ciudad\_id} en vez de crear una fila nueva). El \texttt{token} es de Expo Push (\texttt{ExponentPushToken[...]}), no un token FCM/APNs en crudo: el backend solo habla con la API de Expo Push (\texttt{exp.host}), nunca directamente con Firebase Cloud Messaging ni con APNs.
 

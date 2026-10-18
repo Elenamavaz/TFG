@@ -18,7 +18,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-// La tarea programada que cada minuto pasa eventos/procesiones a EN_CURSO o
+// La tarea programada que cada 30 segundos pasa eventos/procesiones a EN_CURSO o
 // FINALIZADO según su hora. Se prueba llamando directamente al método, sin
 // esperar al @Scheduled.
 @ExtendWith(MockitoExtension.class)

@@ -17,7 +17,7 @@ export const queryClient = new QueryClient({
   },
 });
 
-// Persistencia en AsyncStorage (RNF-03, offline): la última respuesta de
+// Persistencia en AsyncStorage (RNF-06, offline): la última respuesta de
 // cada query sobrevive a cerrar la app, y se sirve de entrada mientras se
 // revalida en segundo plano al recuperar conexión -mismo mecanismo que
 // sustituye a la caché automática que daba antes Firestore (ver memoria

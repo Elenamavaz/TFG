@@ -53,7 +53,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-20} \prioridad{Baja} El sistema debe poder generar rutas entre dos puntos evitando las procesiones activas.
 
-    \item \textbf{RF-21} \prioridad{Alta} El sistema debe enviar a cada usuario las notificaciones de la ciudad que tiene seleccionada en la aplicación (RI-11), siempre que no haya desactivado su recepción (RF-22).
+    \item \textbf{RF-21} \prioridad{Alta} El sistema debe enviar a cada usuario las notificaciones de la ciudad que tiene seleccionada en la aplicación (RI-12), siempre que no haya desactivado su recepción (RF-22).
 
     \item \textbf{RF-22} \prioridad{Media} El sistema debe permitir al usuario desactivar la recepción de notificaciones a través del propio permiso de notificaciones del dispositivo, mostrando en su perfil si las tiene activadas y dando acceso directo a los ajustes del dispositivo para cambiarlo.
 
@@ -80,7 +80,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-29} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías editar información de cofradías, eventos, procesiones y de la Semana Santa de su ciudad.
 
-    \item \textbf{RF-30} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías gestionar (dar de alta, editar y dar de baja) los pasos que pertenecen a cada una de las cofradías de su ciudad --un paso pertenece siempre a una única cofradía (RI-07), aunque después pueda participar en varios eventos y procesiones de esa misma cofradía--.
+    \item \textbf{RF-30} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías gestionar (dar de alta, editar y dar de baja) los pasos que pertenecen a cada una de las cofradías de su ciudad --un paso pertenece siempre a una única cofradía (RI-10), aunque después pueda participar en varios eventos y procesiones de esa misma cofradía--.
 
     \item \textbf{RF-31} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías emitir, cuando lo necesite, un código de acceso para una cofradía, para que sus cofrades puedan acceder al modo cofrade; el valor del código lo genera automáticamente el propio sistema, sin que tenga que escribirlo a mano. También debe permitirle revocar un código emitido, de modo que deje de dar acceso al modo cofrade.
 
@@ -138,7 +138,8 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Nombre.
         \item Email.
         \item Teléfono.
-        \item Ciudad que gestiona (relación 1:1; no agrupa directamente a las cofradías de esa ciudad, ver RI-02).
+        \item Si está activa o desactivada (una Junta desactivada no puede hacer cambios).
+        \item Ciudad que gestiona (relación 1:1; no agrupa directamente a las cofradías de esa ciudad, ver RI-04).
         \item Miembros que la componen.
     \end{itemize}
 
@@ -158,6 +159,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Nombre.
         \item Historia.
         \item Web oficial.
+        \item Imagen.
         \item Fecha de creación.
         \item Si está activa (visible para el ciudadano) o todavía en preparación.
         \item Ciudad a la que pertenece --nunca a la Junta de Cofradías que la gestiona, ver Apéndice~\ref{cap:esquemaBD}--.
@@ -170,7 +172,8 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Nombre.
         \item Historia.
         \item Tradición.
-        \item Fecha.
+        \item Fecha y hora de inicio.
+        \item Fecha y hora de fin (opcional; sin ella, el evento no se finaliza automáticamente).
         \item Estado (programado, en curso, finalizado o cancelado).
         \item Web oficial.
         \item Ubicación en la que se celebra.
@@ -186,15 +189,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Procesión a la que pertenece.
     \end{itemize}
 
-    \item \textbf{RI-07} \prioridad{Media} Al ser una procesión un tipo concreto de evento, el sistema debe almacenar sobre ella, además de toda la información de RI-03 (incluidos los pasos que participan en ella):
-    \begin{itemize}
-        \item Fecha de inicio y fecha de fin.
-        \item Recorrido asociado.
-        \item Histórico de posiciones anónimas de sus cofrades (RI-01), a partir del cual se calcula al vuelo su posición actual mientras está en curso.
-        \item Progreso alcanzado, a lo largo del recorrido, por el cofrade más adelantado y por el más atrasado que están compartiendo ubicación, para pintar la estela en vivo de la procesión.
-    \end{itemize}
-
-    \item \textbf{RI-08} \prioridad{Alta} El sistema debe almacenar la información sobre los recorridos:
+    \item \textbf{RI-07} \prioridad{Alta} El sistema debe almacenar la información sobre los recorridos:
     \begin{itemize}
         \item Identificador.
         \item Distancia total.
@@ -202,16 +197,23 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Puntos de ruta que lo componen, cada uno con su orden dentro del recorrido y la hora prevista de paso.
     \end{itemize}
 
-    \item \textbf{RI-09} \prioridad{Alta} El sistema debe almacenar la información sobre las notificaciones:
+    \item \textbf{RI-08} \prioridad{Alta} El sistema debe almacenar la información sobre las notificaciones:
     \begin{itemize}
         \item Identificador.
         \item Título.
         \item Mensaje.
         \item Fecha de creación.
         \item Fecha de expiración (opcional).
-        \item Tipo (inicio, fin, incidencia, cambio de horario o cancelación).
+        \item Tipo (inicio, fin, incidencia, cambio de horario, cancelación o actualización).
         \item Prioridad (baja, media o alta; obligatoria salvo en las de tipo inicio y fin, que genera el propio sistema).
         \item Ciudad a la que pertenece.
+    \end{itemize}
+
+    \item \textbf{RI-09} \prioridad{Media} Al ser una procesión un tipo concreto de evento, el sistema debe almacenar sobre ella, además de toda la información de RI-05 (incluidos los pasos que participan en ella):
+    \begin{itemize}
+        \item Recorrido asociado (opcional hasta que se importe).
+        \item Histórico de posiciones anónimas de sus cofrades (RI-06), a partir del cual se calcula al vuelo su posición actual mientras está en curso.
+        \item Progreso alcanzado, a lo largo del recorrido, por el cofrade más adelantado y por el más atrasado que están compartiendo ubicación, para pintar la estela en vivo de la procesión.
     \end{itemize}
 
     \item \textbf{RI-10} \prioridad{Media} El sistema debe almacenar la información sobre los pasos:
@@ -230,7 +232,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Latitud.
         \item Longitud.
         \item Dirección (opcional).
-        \item Si el punto se destaca como punto de interés (un encuentro, la entrada a una iglesia, una parada para una lectura u oración, un monumento...), además: tipo, nombre, descripción e imagen.
+        \item Si el punto se destaca como punto de interés (un encuentro, la entrada a una iglesia, una parada para una lectura u oración, un monumento...), además: tipo (monumento, iglesia, encuentro, oración, entrada de procesión o salida de procesión), nombre, descripción e imagen.
     \end{itemize}
 
     \item \textbf{RI-12} \prioridad{Media} El sistema debe almacenar la información sobre los dispositivos registrados para recibir notificaciones \emph{push}:
@@ -241,6 +243,14 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Fecha de registro y de última actualización.
     \end{itemize}
 
+    \item \textbf{RI-13} \prioridad{Media} El sistema debe almacenar la información sobre los códigos de acceso de las cofradías:
+    \begin{itemize}
+        \item Identificador.
+        \item Código, generado automáticamente por el sistema y único.
+        \item Estado (emitido, validado --ya se ha usado al menos una vez para entrar-- o revocado).
+        \item Cofradía a la que da acceso.
+    \end{itemize}
+
 \end{itemize}
 
 \subsection{Requisitos no funcionales}
@@ -248,7 +258,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
 Los requisitos no funcionales describen las características de calidad del sistema, así como restricciones sobre su funcionamiento. También se indica la prioridad de cada uno de ellos, ordenados de mayor a menor prioridad. Al igual que los requisitos de información, no se agrupan por perfil de usuario, ya que son de aplicación transversal a todo el sistema.
 
 \begin{itemize}
-    \item \textbf{RNF-01} \prioridad{Alta} El sistema debe garantizar la seguridad de los datos de los usuarios, especialmente en lo relativo a la información de ubicación.
+    \item \textbf{RNF-01} \prioridad{Alta} El sistema debe proteger los datos de los usuarios, especialmente la información de ubicación: las posiciones que comparten los cofrades deben guardarse de forma anónima, sin ningún dato que identifique a quien las envía (RI-06), y las contraseñas no deben almacenarse en texto plano (RI-03).
 
     \item \textbf{RNF-02} \prioridad{Alta} La aplicación debe ser accesible y fácil de usar para usuarios sin experiencia previa.
 
@@ -258,7 +268,7 @@ Los requisitos no funcionales describen las características de calidad del sist
 
     \item \textbf{RNF-05} \prioridad{Alta} El sistema debe actualizar la posición de las procesiones con una frecuencia mínima de 30 segundos\footnote{Este intervalo se ha elegido como equilibrio entre ofrecer una posición suficientemente precisa para el usuario y evitar un consumo excesivo de batería y datos móviles en los dispositivos de los cofrades que comparten su ubicación.}.
 
-    \item \textbf{RNF-06} \prioridad{Media} El sistema debe funcionar correctamente en dispositivos móviles con conexión a internet. Sin conexión, únicamente estará disponible la información estática de la aplicación (previamente almacenada en local), quedando inoperativas la geolocalización en tiempo real, las notificaciones.
+    \item \textbf{RNF-06} \prioridad{Media} El sistema debe funcionar correctamente en dispositivos móviles con conexión a internet. Sin conexión, la aplicación debe seguir mostrando, durante un máximo de 24 horas desde que se consultaron, la lista de ciudades, la información de la ciudad y de las cofradías ya visitadas, y la ubicación de los eventos y el recorrido de las procesiones ya consultados. El resto de funcionalidades, como la geolocalización en tiempo real, las notificaciones o la consulta de procesiones y eventos, requieren conexión.
 
     \item \textbf{RNF-07} \prioridad{Media} El sistema debe gestionar de forma eficiente la carga del mapa, garantizando tiempos de respuesta menores a 10 segundos\footnote{Valor tomado como referencia habitual de usabilidad para evitar que el usuario perciba la aplicación como lenta al cargar el mapa.}.
 

@@ -33,11 +33,14 @@ public class CambioEstadoAutomaticoService {
         this.notificacionService = notificacionService;
     }
 
-    // Cada minuto: la hora de salida se da al minuto, no hace falta más fino.
+    // Cada 30 s (2026-10-18; antes cada minuto): la hora de salida se da al
+    // minuto, pero con 60 s el aviso de "ha comenzado" podía tardar casi un
+    // minuto en detectarse y, sumado a la entrega de Expo Push, pasarse del
+    // límite de RNF-08 (menos de 60 s de latencia).
     // @Transactional porque las cofradías (para saber la ciudad de la
     // notificación) se cargan en diferido, y aquí no hay petición HTTP que
     // mantenga abierta la sesión de Hibernate.
-    @Scheduled(fixedRate = 60_000)
+    @Scheduled(fixedRate = 30_000)
     @Transactional
     public void actualizarEstados() {
         LocalDateTime ahora = LocalDateTime.now();
