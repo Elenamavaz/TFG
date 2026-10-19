@@ -1,24 +1,24 @@
 \section{Casos de uso}\label{cap:casos_de_uso}
 
-Los casos de uso son los escenarios detallados que describen cómo interactúan los diferentes usuarios con la aplicación, desde la consulta de información hasta la gestión administrativa de la Semana Santa. Debido a que los usuarios pueden comportarse con diferentes roles (ciudadano, cofrade, Junta de Cofradías o administrador), es importante diferenciar los casos de uso entre cada uno de ellos. Para ello se han dividido los mismos en cuatro diagramas (ver figuras ~\ref{fig:casoUso1}, ~\ref{fig:casoUso2}, ~\ref{fig:casoUso3}, ~\ref{fig:casoUso4}), uno para cada rol.
+Los casos de uso son los escenarios detallados que describen cómo interactúan los diferentes usuarios con la aplicación, desde la consulta de información hasta la gestión administrativa de la Semana Santa. Debido a que los usuarios pueden comportarse con diferentes roles (ciudadano, cofrade, miembro de la Junta de Cofradías o administrador), es importante diferenciar los casos de uso entre cada uno de ellos. Para ello se han dividido los mismos en cuatro diagramas (ver figuras~\ref{fig:casoUso1}, \ref{fig:casoUso2}, \ref{fig:casoUso3} y~\ref{fig:casoUso4}), uno para cada rol.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaDeCasoDeUsoCiudadanoi.drawio.png}
+    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaCasosDeUsoCiudadano.png}
     \caption{Diagrama de caso de uso Ciudadano}
     \label{fig:casoUso1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaDeCasoDeUsoCofrade.drawio.png}
+    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaCasosDeUsoCofrade.png}
     \caption{Diagrama de caso de uso Cofrade}
     \label{fig:casoUso2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaDeCasoDeUsoMiembroJunta.drawio.png}
+    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaCasosDeUsoMiembroDeLaJuntaDeCofradias.png}
     \caption{Diagrama de caso de uso Miembro de la Junta de Cofradías}
     \label{fig:casoUso3}
 \end{figure}
@@ -26,13 +26,12 @@ Los casos de uso son los escenarios detallados que describen cómo interactúan 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaDeCasoDeUsoAdmin.drawio.png}
+    \includegraphics[width=0.6\textwidth]{imagenes/DiagramaCasosDeUsoAdministrador.png}
     \caption{Diagrama de caso de uso Administrador}
     \label{fig:casoUso4}
 \end{figure}
 
-En las siguientes tablas se exponen los cinco casos de uso más representativos del sistema, uno por cada rol implicado (ciudadano, cofrade, Junta de Cofradías y administrador), donde se detallan: el caso de uso, los actores que lo realizan, las precondiciones necesarias para iniciar el caso de uso, las postcondiciones que deben cumplirse al completarse, una secuencia base de pasos, secuencias alternativas que pueden darse durante la ejecución y los requisitos relacionados con el caso de uso. El resto de los casos de uso identificados, de carácter más secundario, se recogen en el Apéndice~\ref{cap:casos_de_uso_adicionales}.
-
+En las siguientes tablas se exponen los cinco casos de uso más representativos del sistema, que cubren a los cuatro roles implicados (ciudadano, cofrade, miembro de la Junta de Cofradías y administrador). En cada uno se detallan: el caso de uso, los actores que lo realizan, las precondiciones necesarias para iniciarlo, las postcondiciones que deben cumplirse al completarse, una secuencia base de pasos, las secuencias alternativas que pueden darse durante su ejecución y los requisitos relacionados. El resto de los casos de uso identificados, de carácter más secundario, se recogen en el Apéndice~\ref{cap:casos_de_uso_adicionales}.
 
 \begin{table}[h!]
     \centering
@@ -40,90 +39,87 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Visualizar procesión en tiempo real}}                                                             \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Visualizar procesión en tiempo real}} \\
         \hline
-        \textbf{Resumen}                                                                                                                           & El usuario visualiza la posición actual de una procesión en el mapa. \\
+        \textbf{Resumen} & El usuario consulta en el mapa la posición en tiempo real de las procesiones que están en curso en la ciudad seleccionada. \\
         \hline
-        \textbf{Actor}                                                                                                                             & Ciudadano                                                            \\
+        \textbf{Actor} & Ciudadano \\
         \hline
-        \textbf{Precondición}                                                                                                                      & La procesión está en curso y el usuario tiene conexión a internet.   \\
+        \textbf{Precondición} & El usuario ha seleccionado una ciudad y dispone de conexión a internet. \\
         \hline
-        \textbf{Postcondición}                                                                                                                     & Se muestra la posición actual de la procesión sobre el mapa.         \\
+        \textbf{Postcondición} & Se muestran sobre el mapa el recorrido de las procesiones en curso y el tramo que ocupa cada una en ese momento. \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                               \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona una procesión activa. }                                                               \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario solicita consultar las procesiones en tiempo real. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el mapa con el recorrido de la procesión. }                                              \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el mapa de la ciudad seleccionada con las procesiones que están en curso en ese momento, sin que el usuario tenga que elegir ninguna. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El sistema actualiza la posición en tiempo real. }                                                          \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema dibuja el recorrido de cada procesión en curso y, sobre él, el tramo que ocupa en ese momento, desde el cofrade más atrasado hasta el más adelantado que comparten su ubicación. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El usuario puede interactuar con el mapa (zoom, desplazamiento). }                                          \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema actualiza periódicamente la posición de cada procesión, al menos cada 30 segundos. } \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                                        \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario interactúa con el mapa (zoom y desplazamiento) o elige una de las procesiones en curso para centrar el mapa en ella. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1.a.1] La procesión no está activa: El sistema muestra el recorrido planificado sin posición en tiempo real. } \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Pérdida de conexión: El sistema muestra la última posición conocida. }                                  \\
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] No hay ninguna procesión en curso: el sistema muestra el mapa de la ciudad e informa de que no hay procesiones en movimiento. } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                                           & RF-15, RF-16, RF-17 y RF-18.                                                \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Ningún cofrade comparte su ubicación todavía: el sistema muestra el recorrido de la procesión sin el tramo ocupado. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Pérdida de conexión: el sistema mantiene la última posición conocida hasta que la conexión se recupera. } \\
+        \hline
+        \textbf{Requisitos Relacionados} & RF-15, RF-16 y RF-18. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Visualizar procesión en tiempo real}
 \end{table}
 
-
 \begin{table}[h!]
     \centering
     \renewcommand{\arraystretch}{1.5}
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Crear notificación}}                                                         \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Crear notificación}} \\
         \hline
-        \textbf{Resumen}                                                                                                & La Junta de Cofradías crea una notificación para informar a los ciudadanos de su ciudad sobre incidencias o cambios en una procesión o evento. \\
+        \textbf{Resumen} & El miembro de la Junta de Cofradías informa a los ciudadanos de su ciudad de una incidencia o un cambio en una procesión o un evento. \\
         \hline
-        \textbf{Actor}                                                                                                  & Miembro de la Junta de Cofradías                                                                                            \\
+        \textbf{Actor} & Miembro de la Junta de Cofradías \\
         \hline
-        \textbf{Precondición}                                                                                           & El usuario tiene rol de Junta de Cofradías.                                                                   \\
+        \textbf{Precondición} & El usuario ha iniciado sesión como miembro activo de la Junta de Cofradías y ya ha sustituido su contraseña provisional. Acaba de guardar cambios en una procesión o un evento de su ciudad (casos de uso «Gestionar procesión» y «Gestionar eventos»). \\
         \hline
-        \textbf{Postcondición}                                                                                          & La notificación queda creada y visible en la aplicación, y se envía como notificación \emph{push} a los dispositivos registrados en la ciudad.                                   \\
+        \textbf{Postcondición} & La notificación queda registrada en el sistema y se envía como notificación \emph{push} a los dispositivos registrados en la ciudad. \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                    \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de gestión de procesiones o eventos de su ciudad. }                              \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario indica que quiere notificar el cambio realizado. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El usuario selecciona notificar sobre una procesión o evento concreto. }                                      \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema solicita el tipo de notificación (actualización de información, cambio de horario, incidencia o cancelación), su prioridad (baja, media o alta) y, opcionalmente, un mensaje. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El sistema muestra el formulario de creación. }                                  \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario introduce los datos de la notificación. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El usuario selecciona el tipo de notificación (cancelación, cambio de horario o incidencia). }                                       \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El usuario confirma el envío. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El usuario introduce el mensaje de la notificación. }                            \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema registra la notificación con el nombre de la procesión o del evento como título. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [6] El usuario selecciona la prioridad de la notificación. }                               \\
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema envía la notificación \emph{push} a todos los dispositivos registrados en la ciudad. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [7] El usuario define fecha de expiración (opcional). }                              \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [8] El usuario confirma la creación. }                                               \\
+        \multicolumn{2}{|p{15cm}|}{ [1.a.1] El cambio guardado ha sido una cancelación: el sistema inicia directamente este caso de uso con el tipo cancelación ya elegido, para que el usuario indique el motivo. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [9] El sistema crea la notificación --si el tipo es cancelación, además cambia el estado de la procesión o evento a cancelado-- y la envía como notificación \emph{push} a los dispositivos registrados en la ciudad. }                             \\
+        \multicolumn{2}{|p{15cm}|}{ [1.a.2] El usuario no quiere notificar el cambio: el caso de uso termina sin crear ninguna notificación. } \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                             \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: el usuario desiste y el sistema no guarda ningún cambio. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Datos incompletos: falta el tipo o la prioridad; el sistema indica qué datos son obligatorios y no la envía. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Tipo cancelación: además de registrar la notificación, el sistema cambia el estado de la procesión o del evento a cancelado. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Error al enviar la notificación \emph{push}: la notificación queda registrada y consultable en la aplicación igualmente. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [7.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
-        \hline
-        \multicolumn{2}{|p{15cm}|}{ [8.a.1] Datos incompletos: El sistema muestra los campos requeridos. }               \\
-        \hline
-        \multicolumn{2}{|p{15cm}|}{ [9.a.1] Error al enviar el \emph{push}: El sistema registra el error; la notificación queda creada y consultable en la aplicación igualmente. } \\
-        \hline
-        \textbf{Requisitos Relacionados}                                                                                & RF-36.                                                                                                        \\
+        \textbf{Requisitos Relacionados} & RF-35 y RF-36. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Crear notificación}
@@ -135,81 +131,95 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Acceder al modo cofrade}}                                                                   \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Iniciar sesión con código de acceso}} \\
         \hline
-        \textbf{Resumen}                                                                                                                 & Un usuario accede al modo cofrade introduciendo el código de acceso de su cofradía. \\
+        \textbf{Resumen} & Un cofrade accede al modo cofrade introduciendo el código de acceso de su cofradía, sin necesidad de registrarse. \\
         \hline
-        \textbf{Actor}                                                                                                                   & Cofrade                                                               \\
+        \textbf{Actor} & Cofrade \\
         \hline
-        \textbf{Precondición}                                                                                                            & La Junta de Cofradías ha emitido un código de acceso válido para la cofradía del usuario, y esa cofradía tiene al menos una procesión en curso en este momento.                                        \\
+        \textbf{Precondición} & La Junta de Cofradías ha emitido un código de acceso para la cofradía del cofrade y no lo ha revocado. \\
         \hline
-        \textbf{Postcondición}                                                                                                           & El usuario accede al modo cofrade y puede compartir su ubicación durante las procesiones en curso de su cofradía.   \\
+        \textbf{Postcondición} & El cofrade queda identificado como cofrade de esa cofradía y puede compartir su ubicación durante sus procesiones en curso. \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                     \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario selecciona la opción de acceder como cofrade. }                                                    \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario solicita acceder como cofrade. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra el formulario para introducir el código de acceso de la cofradía. } \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema solicita el código de acceso de la cofradía. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El usuario introduce el código de acceso. }                                        \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario introduce el código de acceso. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El sistema valida el código. }                                                                    \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema comprueba que el código existe, que no ha sido revocado y que la cofradía está activa. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El sistema activa el modo cofrade y realiza el caso de uso «Compartir ubicación durante procesión» sobre la procesión en curso de la cofradía. }                                      \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema identifica al usuario como cofrade de esa cofradía, sin crear ningún usuario ni guardar ningún dato que lo identifique, y le da acceso al modo cofrade. } \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                              \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }                           \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: el usuario desiste y el sistema no guarda ningún cambio. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Código inválido: El sistema muestra un mensaje de error y no concede el acceso. }                              \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Código inexistente: el sistema informa de que el código no es válido y no concede el acceso. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.2] Sin procesión en curso: El código es válido pero la cofradía no tiene ninguna procesión en curso en este momento; el sistema lo informa y no concede el acceso. }                              \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.2] Código revocado: el sistema informa de que el código ha sido revocado y no concede el acceso. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Varias procesiones en curso: El sistema le pide elegir sobre cuál de ellas quiere compartir su ubicación. }                              \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.3] Cofradía desactivada: el sistema informa de que la cofradía está desactivada y no concede el acceso. } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                                 & RF-23.                                                                \\
+        \textbf{Requisitos Relacionados} & RF-23. \\
         \hline
     \end{tabular}
-    \caption{Caso de uso: Acceder al modo cofrade}
+    \caption{Caso de uso: Iniciar sesión con código de acceso}
 \end{table}
 
 \begin{table}[h!]
     \centering
-    \renewcommand{\arraystretch}{1.5}
+    \renewcommand{\arraystretch}{1.3}
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Compartir ubicación durante procesión}}                                                   \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Compartir ubicación durante procesión}} \\
         \hline
-        \textbf{Resumen}                                                                                                                   & Un cofrade comparte su ubicación en tiempo real durante una procesión.                                         \\
+        \textbf{Resumen} & Un cofrade comparte su ubicación en tiempo real mientras participa en una procesión en curso de su cofradía, para alimentar la posición en vivo que consultan los ciudadanos. \\
         \hline
-        \textbf{Actor}                                                                                                                     & Cofrade                                                                                                        \\
+        \textbf{Actor} & Cofrade \\
         \hline
-        \textbf{Precondición}                                                                                                              & El cofrade ha accedido al modo cofrade (ver caso de uso «Acceder al modo cofrade») y hay una procesión de su cofradía en curso \\
+        \textbf{Precondición} & El cofrade ha accedido al modo cofrade (caso de uso «Iniciar sesión con código de acceso»). \\
         \hline
-        \textbf{Postcondición}                                                                                                             & La ubicación del cofrade se transmite al sistema en tiempo real, hasta que decide dejar de compartirla.                                                              \\
+        \textbf{Postcondición} & El sistema recibe periódicamente la ubicación del cofrade, de forma anónima, hasta que deja de compartirla o la procesión finaliza. \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                                       \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El sistema solicita permiso de acceso a la ubicación, si todavía no lo tiene concedido. }                                        \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El cofrade solicita compartir su ubicación. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El cofrade concede el permiso. }                                                                  \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema comprueba que la cofradía tiene una procesión en curso en ese momento. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El sistema comienza a transmitir la ubicación del cofrade de forma periódica. }                                                    \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El sistema solicita permiso para acceder a la ubicación del dispositivo, si todavía no lo tiene concedido. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El sistema muestra un indicador de ubicación compartida. }                                             \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El cofrade concede el permiso. } \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                                \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema envía la ubicación del cofrade de forma periódica, al menos cada 30 segundos, y sigue haciéndolo aunque la pantalla del dispositivo esté bloqueada. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1.a.1] Permiso ya concedido anteriormente: El sistema pasa directamente a transmitir la ubicación. } \\
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema descarta las posiciones que se encuentran a más de 50 metros del recorrido de la procesión, y guarda el resto como lecturas anónimas. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2.a.1] El cofrade deniega el permiso: El sistema informa de que no puede compartir la ubicación sin permiso, y el caso de uso termina sin compartirla. }                             \\
+        \multicolumn{2}{|p{15cm}|}{ [7] El sistema informa al cofrade de que está compartiendo su ubicación y en qué procesión. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Pérdida de conexión: El sistema reintenta el envío de la última posición conocida en cuanto la conexión se recupera. }                          \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Dejar de compartir ubicación: En cualquier momento, el cofrade selecciona la opción de dejar de compartir su ubicación; el sistema detiene el envío de posiciones. }                          \\
+        \multicolumn{2}{|p{15cm}|}{ [2.a.1] La cofradía no tiene ninguna procesión en curso: el sistema informa de ello y no comparte la ubicación. } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                                   & RF-24.                                                                                                 \\
+        \multicolumn{2}{|p{15cm}|}{ [2.a.2] La cofradía tiene varias procesiones en curso a la vez: se realiza el caso de uso «Elegir procesión en curso». } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Permiso ya concedido anteriormente: el sistema pasa directamente al paso 5. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.1] El cofrade deniega el permiso: el sistema informa de que no puede compartir la ubicación sin él, y el caso de uso termina. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] El cofrade solo concede el permiso mientras la aplicación está abierta: el sistema le avisa de que únicamente compartirá la ubicación con la aplicación abierta. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.2] Pérdida de conexión: el sistema vuelve a intentar el envío en el siguiente ciclo. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.3] La procesión finaliza, la Junta revoca el código de acceso o caduca la sesión: el sistema deja de compartir la ubicación automáticamente e informa al cofrade del motivo. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [7.a.1] El cofrade decide dejar de compartir su ubicación: se realiza el caso de uso «Dejar de compartir ubicación». } \\
+        \hline
+        \textbf{Requisitos Relacionados} & RF-24 y RF-25. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Compartir ubicación durante procesión}
@@ -221,38 +231,42 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
 
     \begin{tabular}{|p{4cm}|p{11cm}|}
         \hline
-        \multicolumn{2}{|l|}{\textbf{Caso de uso: Gestionar ciudades disponibles}}                                          \\
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Gestionar una ciudad}} \\
         \hline
-        \textbf{Resumen}                                                                                                    & El administrador da de alta, edita o retira ciudades disponibles en la aplicación.                                    \\
+        \textbf{Resumen} & El administrador da de alta, edita o da de baja las ciudades disponibles en la aplicación. \\
         \hline
-        \textbf{Actor}                                                                                                      & Administrador                                                                                                         \\
+        \textbf{Actor} & Administrador \\
         \hline
-        \textbf{Precondición}                                                                                               & El usuario tiene rol de Administrador.                                                                               \\
+        \textbf{Precondición} & El usuario ha iniciado sesión como administrador. \\
         \hline
-        \textbf{Postcondición}                                                                                              & La lista de ciudades disponibles queda actualizada en el sistema.                                                    \\
+        \textbf{Postcondición} & Las ciudades disponibles quedan actualizadas en el sistema. \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Base}}                                                                       \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario accede al panel de administración. }                                     \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario solicita gestionar las ciudades. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra la lista de ciudades existentes. }                               \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra las ciudades registradas, activas o no. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El usuario selecciona añadir, editar o eliminar una ciudad. }                       \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario indica si quiere dar de alta una ciudad nueva, editar una existente o darla de baja. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El usuario introduce o modifica los datos de la ciudad. }                           \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema solicita los datos de la ciudad: nombre, comunidad autónoma, provincia, historia, patrimonio, si está activa (visible para los ciudadanos) y, opcionalmente, su latitud y longitud. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El sistema valida y guarda los cambios. }                                           \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario introduce o modifica los datos y confirma la operación. } \\
         \hline
-        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}}                                                                \\
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema valida los datos y guarda la ciudad. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.1] Cancelación de la operación: El usuario desea cancelar la operación. }          \\
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Datos incompletos: El sistema muestra los campos requeridos. }                  \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Dar de baja: el sistema pide confirmación y, si el usuario confirma, elimina la ciudad junto con sus notificaciones y sus dispositivos registrados. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Ciudad con datos asociados: El sistema advierte antes de eliminar una ciudad que tenga cofradías, eventos o procesiones registrados. } \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.2] La ciudad tiene una Junta de Cofradías o cofradías asociadas: el sistema no permite darla de baja e informa de que antes hay que eliminarlas, o bien desactivar la ciudad. } \\
         \hline
-        \textbf{Requisitos Relacionados}                                                                                    & RF-37.                                                                                                                \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: el usuario desiste y el sistema no guarda ningún cambio. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] Datos incompletos o no válidos: el sistema indica qué datos debe corregir el usuario y no guarda la ciudad. } \\
+        \hline
+        \textbf{Requisitos Relacionados} & RF-37. \\
         \hline
     \end{tabular}
-    \caption{Caso de uso: Gestionar ciudades disponibles}
+    \caption{Caso de uso: Gestionar una ciudad}
 \end{table}

@@ -1,0 +1,88 @@
+\babel@toc {spanish}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Riesgos identificados en el proyecto}}{13}{table.caption.17}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Riesgo 1: Estimaciones de tiempo erróneas}}{13}{table.caption.18}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Riesgo 2: Problemas con la integración de Google Maps}}{13}{table.caption.19}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Riesgo 3: Errores durante el desarrollo}}{14}{table.caption.20}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Riesgo 4: Retrasos o errores por falta de experiencia con tecnologías móviles}}{14}{table.caption.21}%
+\contentsline {table}{\numberline {2.6}{\ignorespaces Riesgo 5: Problemas con la geolocalización en tiempo real}}{14}{table.caption.22}%
+\contentsline {table}{\numberline {2.7}{\ignorespaces Riesgo 6: Cambios en los requisitos}}{14}{table.caption.23}%
+\contentsline {table}{\numberline {2.8}{\ignorespaces Riesgo 7: Especificaciones genéricas}}{14}{table.caption.24}%
+\contentsline {table}{\numberline {2.9}{\ignorespaces Riesgo 8: Problemas con el entorno de desarrollo}}{15}{table.caption.25}%
+\contentsline {table}{\numberline {2.10}{\ignorespaces Riesgo 9: Indisposición del desarrollador}}{15}{table.caption.26}%
+\contentsline {table}{\numberline {2.11}{\ignorespaces Riesgo 10: Falta de experiencia con las tecnologías del backend propio}}{15}{table.caption.27}%
+\contentsline {table}{\numberline {2.12}{\ignorespaces Reparto de horas y coste de personal por perfil}}{16}{table.caption.28}%
+\contentsline {table}{\numberline {2.13}{\ignorespaces Amortización de los recursos de equipo, prorrateada al uso real del proyecto}}{17}{table.caption.29}%
+\contentsline {table}{\numberline {2.14}{\ignorespaces Coste de licencias de software}}{17}{table.caption.30}%
+\contentsline {table}{\numberline {2.15}{\ignorespaces Costes totales del proyecto}}{18}{table.caption.31}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Resumen de los actores del sistema}}{21}{table.caption.32}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Caso de uso: Visualizar procesión en tiempo real}}{32}{table.caption.41}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Caso de uso: Crear notificación}}{33}{table.caption.42}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Caso de uso: Iniciar sesión con código de acceso}}{34}{table.caption.43}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Caso de uso: Compartir ubicación durante procesión}}{35}{table.caption.44}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Caso de uso: Gestionar una ciudad}}{36}{table.caption.45}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Historia de usuario HU01}}{89}{table.caption.118}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Caso de uso: Seleccionar ciudad}}{106}{table.caption.122}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Caso de uso: Consultar información de una cofradía, procesión, evento o paso}}{107}{table.caption.123}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces Caso de uso: Acceder a listados de procesiones, pasos, eventos o cofradías}}{108}{table.caption.124}%
+\contentsline {table}{\numberline {A.4}{\ignorespaces Caso de uso: Buscar cofradías, eventos, procesiones o pasos}}{109}{table.caption.125}%
+\contentsline {table}{\numberline {A.5}{\ignorespaces Caso de uso: Filtrar elementos}}{110}{table.caption.126}%
+\contentsline {table}{\numberline {A.6}{\ignorespaces Caso de uso: Consultar calendario de Semana Santa}}{111}{table.caption.127}%
+\contentsline {table}{\numberline {A.7}{\ignorespaces Caso de uso: Consultar procesiones y eventos de un día}}{112}{table.caption.128}%
+\contentsline {table}{\numberline {A.8}{\ignorespaces Caso de uso: Añadir favoritos}}{113}{table.caption.129}%
+\contentsline {table}{\numberline {A.9}{\ignorespaces Caso de uso: Eliminar favorito}}{113}{table.caption.130}%
+\contentsline {table}{\numberline {A.10}{\ignorespaces Caso de uso: Consultar favoritos}}{114}{table.caption.131}%
+\contentsline {table}{\numberline {A.11}{\ignorespaces Caso de uso: Consultar estado de las notificaciones}}{115}{table.caption.132}%
+\contentsline {table}{\numberline {A.12}{\ignorespaces Caso de uso: Generar ruta hacia procesión}}{116}{table.caption.133}%
+\contentsline {table}{\numberline {A.13}{\ignorespaces Caso de uso: Elegir procesión en curso}}{117}{table.caption.134}%
+\contentsline {table}{\numberline {A.14}{\ignorespaces Caso de uso: Dejar de compartir ubicación}}{117}{table.caption.135}%
+\contentsline {table}{\numberline {A.15}{\ignorespaces Caso de uso: Iniciar sesión}}{118}{table.caption.136}%
+\contentsline {table}{\numberline {A.16}{\ignorespaces Caso de uso: Cambiar contraseña provisional}}{119}{table.caption.137}%
+\contentsline {table}{\numberline {A.17}{\ignorespaces Caso de uso: Solicitar reactivación de cuenta}}{120}{table.caption.138}%
+\contentsline {table}{\numberline {A.18}{\ignorespaces Caso de uso: Gestionar su propio perfil}}{121}{table.caption.139}%
+\contentsline {table}{\numberline {A.19}{\ignorespaces Caso de uso: Editar información de la ciudad}}{122}{table.caption.140}%
+\contentsline {table}{\numberline {A.20}{\ignorespaces Caso de uso: Gestionar cofradía}}{123}{table.caption.141}%
+\contentsline {table}{\numberline {A.21}{\ignorespaces Caso de uso: Gestionar pasos}}{124}{table.caption.142}%
+\contentsline {table}{\numberline {A.22}{\ignorespaces Caso de uso: Gestionar eventos}}{125}{table.caption.143}%
+\contentsline {table}{\numberline {A.23}{\ignorespaces Caso de uso: Gestionar procesión}}{126}{table.caption.144}%
+\contentsline {table}{\numberline {A.24}{\ignorespaces Caso de uso: Asignar pasos}}{127}{table.caption.145}%
+\contentsline {table}{\numberline {A.25}{\ignorespaces Caso de uso: Importar recorrido (GPX)}}{128}{table.caption.146}%
+\contentsline {table}{\numberline {A.26}{\ignorespaces Caso de uso: Marcar puntos de interés}}{129}{table.caption.147}%
+\contentsline {table}{\numberline {A.27}{\ignorespaces Caso de uso: Gestionar códigos de acceso}}{130}{table.caption.148}%
+\contentsline {table}{\numberline {A.28}{\ignorespaces Caso de uso: Gestionar una Junta de Cofradías}}{131}{table.caption.149}%
+\contentsline {table}{\numberline {A.29}{\ignorespaces Caso de uso: Gestionar a los miembros de las Juntas de Cofradías}}{132}{table.caption.150}%
+\contentsline {table}{\numberline {A.30}{\ignorespaces Caso de uso: Reenviar invitación}}{133}{table.caption.151}%
+\contentsline {table}{\numberline {A.31}{\ignorespaces Caso de uso: Gestionar solicitudes de reactivación}}{134}{table.caption.152}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {B.1}{\ignorespaces Campos de \texttt {ciudades}}}{135}{table.caption.153}%
+\contentsline {table}{\numberline {B.2}{\ignorespaces Campos de \texttt {juntas\_cofradias}}}{136}{table.caption.154}%
+\contentsline {table}{\numberline {B.3}{\ignorespaces Campos de \texttt {cofradias}}}{136}{table.caption.155}%
+\contentsline {table}{\numberline {B.4}{\ignorespaces Campos de \texttt {pasos}}}{137}{table.caption.156}%
+\contentsline {table}{\numberline {B.5}{\ignorespaces Campos de \texttt {pasos\_eventos}}}{137}{table.caption.157}%
+\contentsline {table}{\numberline {B.6}{\ignorespaces Campos de \texttt {codigos\_acceso}}}{137}{table.caption.158}%
+\contentsline {table}{\numberline {B.7}{\ignorespaces Campos de \texttt {ubicaciones}}}{138}{table.caption.159}%
+\contentsline {table}{\numberline {B.8}{\ignorespaces Campos de \texttt {eventos}}}{138}{table.caption.160}%
+\contentsline {table}{\numberline {B.9}{\ignorespaces Campos de \texttt {eventos\_cofradias}}}{138}{table.caption.161}%
+\contentsline {table}{\numberline {B.10}{\ignorespaces Campos de \texttt {procesiones}}}{139}{table.caption.162}%
+\contentsline {table}{\numberline {B.11}{\ignorespaces Campos de \texttt {posiciones\_actuales}}}{139}{table.caption.163}%
+\contentsline {table}{\numberline {B.12}{\ignorespaces Campos de \texttt {recorridos}}}{140}{table.caption.164}%
+\contentsline {table}{\numberline {B.13}{\ignorespaces Campos de \texttt {puntos\_ruta}}}{140}{table.caption.165}%
+\contentsline {table}{\numberline {B.14}{\ignorespaces Campos de \texttt {puntos\_de\_interes}}}{140}{table.caption.166}%
+\contentsline {table}{\numberline {B.15}{\ignorespaces Campos de \texttt {recorrido\_puntos\_ruta}}}{141}{table.caption.167}%
+\contentsline {table}{\numberline {B.16}{\ignorespaces Campos de \texttt {usuarios}}}{142}{table.caption.168}%
+\contentsline {table}{\numberline {B.17}{\ignorespaces Campos de \texttt {miembros\_junta\_cofradia}}}{142}{table.caption.169}%
+\contentsline {table}{\numberline {B.18}{\ignorespaces Campos de \texttt {administradores}}}{142}{table.caption.170}%
+\contentsline {table}{\numberline {B.19}{\ignorespaces Campos de \texttt {notificaciones}}}{143}{table.caption.171}%
+\contentsline {table}{\numberline {B.20}{\ignorespaces Campos de \texttt {dispositivos\_push}}}{144}{table.caption.172}%
+\contentsline {table}{\numberline {B.21}{\ignorespaces Relaciones entre tablas de PostgreSQL}}{144}{table.caption.173}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

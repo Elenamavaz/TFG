@@ -33,7 +33,7 @@ Para el caso de uso \textit{Visualizar procesión en tiempo real} (Figura~\ref{f
 \label{fig:secVisualizarProcesion}
 \end{figure}
 
-En el caso de uso \textit{Compartir ubicación durante procesión} (Figura~\ref{fig:secCompartirUbicacion}), el cofrade accede a la procesión activa de su cofradía y activa la opción de compartir su ubicación. El sistema solicita los permisos de localización si no los tiene concedidos: si el cofrade los deniega, se le informa de que no es posible compartir la ubicación sin permiso; si los concede, el sistema comienza a actualizar de forma periódica la posición del cofrade mientras la procesión sigue en curso.
+En el caso de uso \textit{Compartir ubicación durante procesión} (Figura~\ref{fig:secCompartirUbicacion}), el cofrade solicita compartir su ubicación en la procesión en curso de su cofradía. El sistema solicita los permisos de localización si no los tiene concedidos: si el cofrade los deniega, se le informa de que no es posible compartir la ubicación sin permiso; si los concede, el sistema comienza a actualizar de forma periódica la posición del cofrade mientras la procesión sigue en curso.
 
 \begin{figure}[H]
 \centering
@@ -42,23 +42,23 @@ En el caso de uso \textit{Compartir ubicación durante procesión} (Figura~\ref{
 \label{fig:secCompartirUbicacion}
 \end{figure}
 
-En el caso de uso \textit{Acceder al modo cofrade} (Figura~\ref{fig:secAccesoCofrade}), el usuario selecciona la opción de acceder como cofrade y el sistema le muestra el formulario para introducir el código de acceso. Al introducirlo, el sistema obtiene el \texttt{CodigoAcceso} correspondiente y lo valida, informando al usuario del acceso correcto o de un error de validación según el resultado --sin que ello registre ningún \texttt{Usuario} nuevo (Sección~\ref{sec:usuariosBD})--.
+En el caso de uso \textit{Iniciar sesión con código de acceso} (Figura~\ref{fig:secAccesoCofrade}), el usuario solicita acceder como cofrade y el sistema le pide el código de acceso de su cofradía. Al introducirlo, el sistema obtiene el \texttt{CodigoAcceso} correspondiente y lo valida, informando al usuario del acceso correcto o de un error de validación según el resultado --sin que ello registre ningún \texttt{Usuario} nuevo (Sección~\ref{sec:usuariosBD})--.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth,keepaspectratio]{imagenes/DSCasoUsoAccesoCofrade.png}
-\caption{Diagrama de secuencia del CU ``Acceder al modo cofrade''}
+\caption{Diagrama de secuencia del CU ``Iniciar sesión con código de acceso''}
 \label{fig:secAccesoCofrade}
 \end{figure}
 
 \colorbox{yellow}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textit{Nota: este diagrama todavía dibuja el flujo antiguo de registro del cofrade, ya descartado (el cofrade nunca se registra como \texttt{Usuario}). Estoy pidiendo permisos para la licencia de Astah para poder actualizarlo.}}}
 
-En el caso de uso \textit{Dar de alta ciudad} (Figura~\ref{fig:secAltaCiudad}), el administrador accede al panel de administración, donde el sistema le muestra la lista de ciudades existentes, y selecciona la opción de añadir una nueva ciudad. Tras introducir los datos, el sistema construye la instancia de \texttt{Ciudad} correspondiente y valida los datos introducidos, repitiendo la solicitud hasta que estos son válidos, momento en el que la ciudad queda dada de alta.
+En el caso de uso \textit{Gestionar una ciudad}, en su variante de alta (Figura~\ref{fig:secAltaCiudad}), el administrador solicita gestionar las ciudades, el sistema le muestra las ciudades existentes y el administrador indica que quiere dar de alta una nueva. Tras introducir los datos, el sistema construye la instancia de \texttt{Ciudad} correspondiente y valida los datos introducidos, repitiendo la solicitud hasta que estos son válidos, momento en el que la ciudad queda dada de alta.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth,keepaspectratio]{imagenes/DSCasoUsoCrearCiudad.png}
-\caption{Diagrama de secuencia del CU ``Dar de alta ciudad''}
+\caption{Diagrama de secuencia del CU ``Gestionar una ciudad'' (alta)}
 \label{fig:secAltaCiudad}
 \end{figure}
 
