@@ -305,24 +305,41 @@ export function InicioScreen({ navigation }) {
           </>
         ) : null}
 
+        {/* Cada cifra abre su listado, igual que el menú de los tres puntos. */}
         <View style={styles.statsRow}>
-          <View style={styles.statBox}>
+          <TouchableOpacity
+            style={styles.statBox}
+            onPress={() => abrirListado('cofradias')}
+            activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={`Ver las ${numCofradias} cofradías`}
+          >
             <MaterialCommunityIcons name="church" size={24} color={colors.subtitle} />
             <Text style={styles.statValue}>{numCofradias}</Text>
             <Text style={styles.statLabel}>Cofradías</Text>
-          </View>
-          <View style={styles.statBox}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.statBox}
+            onPress={() => abrirListado('procesiones')}
+            activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={`Ver las ${numProcesionesTotal} procesiones`}
+          >
             <MaterialCommunityIcons name="cross" size={24} color={colors.subtitle} />
             <Text style={styles.statValue}>{numProcesionesTotal}</Text>
             <Text style={styles.statLabel}>Procesiones</Text>
-          </View>
-          <View style={styles.statBox}>
-            {/* Antes "Cofrades" con un número que no existe en el backend
-                (siempre 0, bug 14): el número de eventos sí es un dato real. */}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.statBox}
+            onPress={() => abrirListado('eventos')}
+            activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel={`Ver los ${numEventosTotal} eventos`}
+          >
             <MaterialCommunityIcons name="candle" size={24} color={colors.subtitle} />
             <Text style={styles.statValue}>{numEventosTotal}</Text>
             <Text style={styles.statLabel}>Eventos</Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* "de hoy" solo si el día elegido es hoy de verdad (bug 22). */}

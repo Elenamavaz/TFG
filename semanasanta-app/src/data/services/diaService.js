@@ -1,7 +1,8 @@
-import { diasSemanaSantaMock } from '../mock/diasSemanaSanta';
+import { anioSemanaSantaVigente, diasSemanaSantaDe } from '../utils';
 
-// TODO(iteración 2+): sustituir por lecturas a Firestore (calendario de la Semana Santa, RF-35).
-
+// Días de la Semana Santa en vigor (la próxima, o la actual mientras dura),
+// calculados a partir de la fecha de hoy -ver fechaSemanaSanta.diasSemanaSantaDe.
+// Antes devolvía una tabla fija de 2027 (bug 13 de bugs.md).
 export function getDiasSemanaSanta() {
-  return Promise.resolve(diasSemanaSantaMock);
+  return Promise.resolve(diasSemanaSantaDe(anioSemanaSantaVigente()));
 }

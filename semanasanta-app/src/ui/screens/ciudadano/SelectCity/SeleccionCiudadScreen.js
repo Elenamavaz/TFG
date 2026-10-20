@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { common } from '../../../components';
 import { context } from '../../../../application';
 import { services } from '../../../../data';
+import { fechaSemanaSanta } from '../../../../data';
 import { orden } from '../../../utils';
 import { colors } from '../../../../theme';
 import { styles } from './SeleccionCiudadScreen.styles';
@@ -50,7 +51,7 @@ export function SeleccionCiudadScreen({ navigation }) {
         <Ionicons name="chevron-back" size={22} color={colors.subtitle} />
       </TouchableOpacity>
 
-      <Text style={styles.eyebrow}>España · 2027</Text>
+      <Text style={styles.eyebrow}>España · {fechaSemanaSanta.anioSemanaSantaVigente()}</Text>
       <Text style={styles.title}>Semana Santa</Text>
       <Text style={styles.subtitle}>Elige tu ciudad para comenzar</Text>
 

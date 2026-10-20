@@ -63,6 +63,34 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.bodyRegular,
     fontSize: 22,
   },
+  // Hoy: borde dorado (el relleno dorado ya es el día elegido en Inicio).
+  diaCeldaHoy: {
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    borderRadius: radii.lg,
+  },
+  leyendaHoy: {
+    width: 12,
+    height: 12,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    borderRadius: 4,
+  },
+  irSemanaSanta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    backgroundColor: colors.gold,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.sm,
+    marginTop: spacing.lg,
+  },
+  irSemanaSantaTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 15,
+  },
   diaNumeroActivo: {
     color: colors.background,
     fontFamily: fontFamilies.bodyRegular,

@@ -8,7 +8,7 @@ Análisis del código de la app (`semanasanta-app`) y del backend (`backend`) re
 |---|---|---|---|
 | 🔴 Crítica | 5 | 5 | 0 |
 | 🟠 Alta | 7 | 6 | 1 |
-| 🟡 Media | 15 | 13 | 2 (13 y 17) |
+| 🟡 Media | 15 | 14 | 1 (17) |
 | 🟢 Baja | 7 | 1 | 6 |
 | 🧪 Encontrados en pruebas | 2 | 1 | 1 |
 
@@ -122,8 +122,14 @@ Análisis del código de la app (`semanasanta-app`) y del backend (`backend`) re
 
 ## 🟡 Medios
 
-### 13. ⏳ Semana Santa fija en 2027
-Los días salen de un mock (`data/mock/diasSemanaSanta.js`, 21–28 de marzo de 2027). No se puede crear nada en otras fechas y, para las pruebas, los cambios automáticos de estado no se dispararán hasta 2027: hay que cambiar el estado a mano.
+### 13. ✅ Semana Santa fija en 2027
+- **Qué pasaba:** los días salían de una tabla fija (`data/mock/diasSemanaSanta.js`, del 21 al 28 de marzo de 2027). La app solo servía para ese año y el calendario no reflejaba la fecha real.
+- **Solución:**
+  - Los días se **calculan**: Domingo de Resurrección por el algoritmo de Pascua (`fechaSemanaSanta.domingoDeResurreccion`). Se toma la Semana Santa en vigor: la de este año hasta su Domingo de Resurrección y, después, la del año siguiente (hoy, 19/10/2026 → 2027).
+  - Se añaden el **Viernes de Dolores** y el **Sábado de Pasión**, con los que empieza la Semana Santa de Valladolid.
+  - El **Calendario** se abre en el mes actual, con **hoy marcado** y un botón «Ir a la Semana Santa <año>». La selección de ciudad muestra el año en vigor.
+  - Se elimina el mock fijo.
+- **Datos:** `herramientas/datos-valladolid` carga el programa completo de 2026 colocado en los días de la Semana Santa en vigor (ver su README).
 
 ### 14. ✅ Estadísticas a 0
 - **Qué pasaba:** `numCofrades` y `numProcesiones` no existen en el backend ni en el modelo `Ciudad`. Inicio mostraba "0 Cofrades" y el perfil del ciudadano "0 procesiones".

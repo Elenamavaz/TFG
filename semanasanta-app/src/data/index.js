@@ -2,4 +2,4 @@
 // from '.../data' y services.getProcesionesPorCiudad(...).
 export * as services from './services';
 export * as models from './models';
-export * as fechaSemanaSanta from './utils/fechaSemanaSanta';
+export * as fechaSemanaSanta from './utils';

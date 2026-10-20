@@ -54,11 +54,10 @@ export function CalendarioScreen({ navigation }) {
   useEffect(() => {
     services.getDiasSemanaSanta().then((lista) => {
       setDiasSemanaSanta(lista);
-      setMesActual((actual) => {
-        if (actual) return actual;
-        if (diaHome) return mesDeFecha(diaHome.fecha);
-        return lista.length > 0 ? mesDeFecha(lista[0].fecha) : actual;
-      });
+      // Se abre en el mes de HOY (2026-10-19): el calendario es el real,
+      // no una vista fija de la Semana Santa. Para llegar a ella está el
+      // botón "Ir a la Semana Santa" (ver irASemanaSanta).
+      setMesActual((actual) => actual ?? mesDeFecha(calendario.formatearFechaISO(new Date())));
     });
   }, [diaHome]);
 
@@ -130,6 +129,15 @@ export function CalendarioScreen({ navigation }) {
       })),
     ].sort((a, b) => (a.horaSalida ?? '').localeCompare(b.horaSalida ?? ''));
   }, [diaAgenda, diaSemanaSantaDeAgenda, procesiones, eventos, cofradiasPorId]);
+
+  const hoyISO = calendario.formatearFechaISO(new Date());
+  const mesSemanaSanta = diasSemanaSanta.length > 0 ? mesDeFecha(diasSemanaSanta[0].fecha) : null;
+  const viendoSemanaSanta =
+    mesSemanaSanta && mesActual && mesSemanaSanta.anio === mesActual.anio && mesSemanaSanta.mesIndex === mesActual.mesIndex;
+
+  function irASemanaSanta() {
+    if (mesSemanaSanta) setMesActual(mesSemanaSanta);
+  }
 
   function cambiarMes(delta) {
     setMesActual((actual) => {
@@ -259,6 +267,7 @@ export function CalendarioScreen({ navigation }) {
                   if (!celda) return <View key={indiceCelda} style={styles.diaCelda} />;
                   const tieneAgenda = diasConAgenda.has(celda.fecha);
                   const esDiaDeHome = celda.fecha === diaHome?.fecha;
+                  const esHoy = celda.fecha === hoyISO;
                   // Todos los días se pueden tocar (2026-10-10): antes solo
                   // los que tenían agenda, y tocar cualquier otro -incluido el
                   // día resaltado de Inicio- no hacía nada, parecía roto. Un
@@ -266,7 +275,7 @@ export function CalendarioScreen({ navigation }) {
                   return (
                     <TouchableOpacity
                       key={celda.fecha}
-                      style={[styles.diaCelda, esDiaDeHome && styles.diaCeldaActiva]}
+                      style={[styles.diaCelda, esHoy && !esDiaDeHome && styles.diaCeldaHoy, esDiaDeHome && styles.diaCeldaActiva]}
                       onPress={() => alternarDia(celda.fecha)}
                     >
                       <Text style={[styles.diaNumero, esDiaDeHome && styles.diaNumeroActivo]}>{celda.numero}</Text>
@@ -283,6 +292,19 @@ export function CalendarioScreen({ navigation }) {
               <View style={styles.puntoAgenda} />
               <Text style={styles.leyendaTexto}>Día con procesiones · toca para ver la agenda</Text>
             </View>
+            <View style={styles.leyendaRow}>
+              <View style={styles.leyendaHoy} />
+              <Text style={styles.leyendaTexto}>Hoy</Text>
+            </View>
+
+            {!viendoSemanaSanta && mesSemanaSanta ? (
+              <TouchableOpacity style={styles.irSemanaSanta} onPress={irASemanaSanta} activeOpacity={0.85}>
+                <Ionicons name="calendar" size={16} color={colors.background} />
+                <Text style={styles.irSemanaSantaTexto}>
+                  Ir a la Semana Santa {mesSemanaSanta.anio}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
           </>
         )}
       </ScrollView>
