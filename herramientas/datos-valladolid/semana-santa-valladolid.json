@@ -1,0 +1,1395 @@
+{
+  "descripcion": "Semana Santa de Valladolid: cofradías, pasos, procesiones y eventos. Programa de referencia: 2026 (Junta de Cofradías de Semana Santa de Valladolid). El script de carga coloca cada acto en el mismo día de la Semana Santa del año que se cargue (por defecto, la próxima). Textos redactados a partir de los datos de las fuentes, no copiados. Sin imágenes ni recorridos.",
+  "programaReferencia": 2026,
+  "fuentes": [
+    "https://jcssva.org/procesiones/",
+    "https://jcssva.org/cofradias/",
+    "https://www.valladolidcofrade.com/semana-santa-valladolid-2026/programa-de-procesiones-y-recorridos/viernes-de-dolores",
+    "https://es.wikipedia.org/wiki/Semana_Santa_en_Valladolid"
+  ],
+  "ciudad": "Valladolid",
+  "informacionCiudad": {
+    "historia": "Las primeras procesiones por las calles de Valladolid datan del siglo XV; hasta entonces los actos se celebraban dentro de los conventos, donde nacieron las cinco cofradías históricas: la Vera Cruz, la Sagrada Pasión, las Angustias, la Piedad y Jesús Nazareno. En 1498 el Ayuntamiento ya ayudaba a costear el humilladero de la Vera Cruz.\n\nLos siglos XVI y XVII fueron su edad de oro. Valladolid era sede de la Corte —capital del Imperio entre 1601 y 1606— y allí trabajaron Juan de Juni y, sobre todo, Gregorio Fernández, que dieron forma a los grandes pasos procesionales de la escuela castellana.\n\nEl siglo XVIII trajo la decadencia y en el XIX la procesión general del Santo Entierro solo salía de forma irregular. En 1920 el arzobispo Remigio Gandásegui, con Juan Agapito y Revilla y Francisco de Cossío, recuperó la Semana Santa sacando a la calle los pasos conservados en el museo; en los años siguientes se fundaron una docena de cofradías nuevas y la Procesión General del Viernes Santo tomó la forma que conserva hoy.\n\nEn 1946 se creó la Junta para el Fomento de la Semana Santa, origen de la actual Junta de Cofradías de Semana Santa de Valladolid (con este nombre desde 1992), que reúne a las veinte cofradías y hermandades de la ciudad. La Semana Santa de Valladolid es Fiesta de Interés Turístico Internacional desde 1980, y desde 2014 se impulsa su candidatura a Patrimonio Cultural Inmaterial de la Humanidad.",
+    "patrimonio": "Su mayor tesoro es la imaginería: una de las colecciones de escultura procesional más importantes de España, con unos sesenta pasos en los que trabajaron Gregorio Fernández (el Cristo de la Luz, la Quinta Angustia, el Descendimiento, el Ecce Homo, el Atado a la Columna), Juan de Juni (la Virgen de las Angustias), Francisco del Rincón, Andrés Solanes, Bernardo del Rincón, Francisco Díez de Tudanca o Pedro de Ávila, y más tarde Genaro Lázaro Gumiel, Juan Guraya, José Antonio Hernández Navarro, Miguel Ángel González Jurado o Miguel Ángel Tapia.\n\nUn caso singular es el del Museo Nacional de Escultura, que cede cada año decenas de las imágenes de su colección para que salgan en procesión: piezas de museo que durante la Semana Santa vuelven a la calle para la que fueron talladas.\n\nSe conservan además iglesias penitenciales propias de las cofradías históricas, como la de la Vera Cruz, en la calle Platería, la de las Angustias, frente al Teatro Calderón, y la de Jesús Nazareno, junto a la Plaza Mayor. Junto a las Angustias se levanta desde 2003 el Monumento al Imaginero, y la Semana Santa cuenta con himno oficial desde 2014.\n\nSus actos más multitudinarios son la Procesión General de la Sagrada Pasión del Redentor, con sus treinta y tres pasos, y el Sermón de las Siete Palabras en la Plaza Mayor."
+  },
+  "lugares": {
+    "san-pedro": {
+      "direccion": "Iglesia de San Pedro Apóstol",
+      "latitud": 41.657596,
+      "longitud": -4.717815
+    },
+    "carmen-delicias": {
+      "direccion": "Iglesia parroquial de Nuestra Señora del Carmen (Delicias)",
+      "latitud": 41.637362,
+      "longitud": -4.721077
+    },
+    "vera-cruz": {
+      "direccion": "Iglesia Penitencial de la Santa Vera Cruz, calle Platería",
+      "latitud": 41.653644,
+      "longitud": -4.726586
+    },
+    "san-quirce": {
+      "direccion": "Iglesia de San Quirce y Santa Julita, calle San Quirce (posición aproximada)",
+      "latitud": 41.657233,
+      "longitud": -4.727397
+    },
+    "catedral": {
+      "direccion": "Santa Iglesia Metropolitana Catedral",
+      "latitud": 41.652594,
+      "longitud": -4.723392
+    },
+    "san-nicolas": {
+      "direccion": "Iglesia de San Nicolás de Bari",
+      "latitud": 41.65782,
+      "longitud": -4.730139
+    },
+    "san-martin": {
+      "direccion": "Iglesia de San Martín y San Benito el Viejo",
+      "latitud": 41.655818,
+      "longitud": -4.722556
+    },
+    "san-agustin": {
+      "direccion": "Iglesia de San Agustín (PP. Agustinos), Paseo de Filipinos",
+      "latitud": 41.644012,
+      "longitud": -4.729855
+    },
+    "la-antigua": {
+      "direccion": "Iglesia de Santa María la Antigua",
+      "latitud": 41.653991,
+      "longitud": -4.722885
+    },
+    "san-andres": {
+      "direccion": "Iglesia de San Andrés Apóstol",
+      "latitud": 41.647848,
+      "longitud": -4.721984
+    },
+    "angustias": {
+      "direccion": "Iglesia Penitencial de Nuestra Señora de las Angustias",
+      "latitud": 41.653921,
+      "longitud": -4.723854
+    },
+    "esclavas": {
+      "direccion": "Iglesia de las Esclavas del Sagrado Corazón de Jesús, Plaza del Salvador (posición aproximada)",
+      "latitud": 41.651152,
+      "longitud": -4.724614
+    },
+    "jesus-nazareno": {
+      "direccion": "Iglesia Penitencial de Nuestro Padre Jesús Nazareno, calle Jesús",
+      "latitud": 41.652689,
+      "longitud": -4.729216
+    },
+    "santiago": {
+      "direccion": "Iglesia de Santiago Apóstol",
+      "latitud": 41.650697,
+      "longitud": -4.728964
+    },
+    "porta-coeli": {
+      "direccion": "Iglesia Conventual de Nuestra Señora de Porta Coeli (MM. Calderonas)",
+      "latitud": 41.650153,
+      "longitud": -4.725912
+    },
+    "san-benito": {
+      "direccion": "Iglesia de San Benito el Real",
+      "latitud": 41.654536,
+      "longitud": -4.729326
+    },
+    "santa-cruz": {
+      "direccion": "Palacio de Santa Cruz",
+      "latitud": 41.651601,
+      "longitud": -4.72016
+    },
+    "san-miguel": {
+      "direccion": "Iglesia de San Miguel y San Julián",
+      "latitud": 41.655501,
+      "longitud": -4.728444
+    },
+    "santa-isabel": {
+      "direccion": "Convento de Santa Isabel de Hungría",
+      "latitud": 41.655433,
+      "longitud": -4.730292
+    },
+    "santa-ana": {
+      "direccion": "Real Monasterio de San Joaquín y Santa Ana",
+      "latitud": 41.651094,
+      "longitud": -4.731415
+    },
+    "palacio-arzobispal": {
+      "direccion": "Palacio Arzobispal",
+      "latitud": 41.654293,
+      "longitud": -4.724995
+    },
+    "plaza-mayor": {
+      "direccion": "Plaza Mayor",
+      "latitud": 41.652061,
+      "longitud": -4.728548
+    }
+  },
+  "cofradias": [
+    {
+      "clave": "vera-cruz",
+      "nombre": "Cofradía Penitencial de la Santa Vera Cruz",
+      "web": "https://www.santaveracruz.es",
+      "historia": "Es la cofradía penitencial más antigua de Valladolid: su existencia consta ya en 1498, cuando el Ayuntamiento ayudó a costear su humilladero, y nació muy unida al convento de San Francisco. Entre 1581 y 1595 levantó su iglesia y hospital al final de la calle Platería, cuya fachada se rehízo en el siglo XVII. A comienzos de ese siglo renovó sus pasos con Gregorio Fernández y su taller. Su gran devoción es Nuestra Señora de los Dolores, coronada canónicamente en 2023 y conocida como la «Reina de la Platería». Hábito: túnica y capirote negros, capa y cíngulo verde oscuro.",
+      "pasos": [
+        {
+          "clave": "entrada-triunfal",
+          "nombre": "La Entrada Triunfal de Jesús en Jerusalén",
+          "historia": "Conocido popularmente como «la Borriquilla», representa la llegada de Jesús a Jerusalén a lomos de un asno. Abre la Semana Santa en la Procesión de las Palmas del Domingo de Ramos.",
+          "analisisArtistico": "Atribuido a Francisco Giralte, hacia 1542-1550. Es el único paso que se conserva de los antiguos pasos de papelón de la cofradía."
+        },
+        {
+          "clave": "dolores",
+          "nombre": "Nuestra Señora de los Dolores",
+          "historia": "Imagen titular de la cofradía, también llamada Virgen de la Vera Cruz. Formaba parte del grupo del Descendimiento y acabó convirtiéndose en la principal devoción de la cofradía. Fue coronada canónicamente en 2023.",
+          "analisisArtistico": "Gregorio Fernández, 1623-1624. Dolorosa de vestir de gran expresividad, una de las obras marianas más veneradas de la ciudad."
+        }
+      ]
+    },
+    {
+      "clave": "sagrada-pasion",
+      "nombre": "Cofradía Penitencial de la Sagrada Pasión de Cristo",
+      "web": "https://www.sagradapasion.com",
+      "historia": "Fundada en octubre de 1531 por tres feligreses de Santiago Apóstol, con el apoyo de su párroco. Entre sus fines estaban obras de misericordia como acompañar a los condenados a muerte en su última noche y dar sepultura a los cadáveres hallados en los caminos. Abrió su iglesia penitencial en 1581 y en 1576 tomó a San Juan Bautista como patrón. Tras el cierre de su templo en 1926 pasó por varias sedes hasta la actual iglesia de San Quirce y Santa Julita. Desde 1976 organiza la procesión de Oración y Sacrificio. Hábito: túnica y capa grises, capirote negro.",
+      "pasos": [
+        {
+          "clave": "cristo-perdon",
+          "nombre": "Santísimo Cristo del Perdón",
+          "historia": "Cristo arrodillado sobre el globo terráqueo que pide perdón por la humanidad; es el titular de devoción de la cofradía.",
+          "analisisArtistico": "Bernardo del Rincón, 1656-1657."
+        },
+        {
+          "clave": "cinco-llagas",
+          "nombre": "Santo Cristo de las Cinco Llagas",
+          "historia": "Crucificado que presidía el humilladero que la cofradía tuvo junto al Puente Mayor hasta 1815. Protagoniza el Ejercicio Público de las Cinco Llagas del Sábado de Pasión.",
+          "analisisArtistico": "Atribuido a Manuel Álvarez, hacia 1548-1563."
+        },
+        {
+          "clave": "jesus-flagelado",
+          "nombre": "Nuestro Padre Jesús Flagelado",
+          "historia": "Representa a Cristo durante la flagelación. Procesiona el Jueves Santo en Oración y Sacrificio.",
+          "analisisArtistico": "Francisco Díez de Tudanca y Antonio de Ribera (atribución), hacia 1650."
+        },
+        {
+          "clave": "cruz-a-cuestas",
+          "nombre": "Nuestro Padre Jesús con la Cruz a Cuestas",
+          "historia": "Jesús camino del Calvario cargando con la cruz. Procesiona el Jueves Santo en Oración y Sacrificio.",
+          "analisisArtistico": "Gregorio Fernández, 1614-1615."
+        },
+        {
+          "clave": "cristo-calvario",
+          "nombre": "Santo Cristo del Calvario",
+          "historia": "Crucificado que procesiona el Jueves Santo en Oración y Sacrificio.",
+          "analisisArtistico": "Atribuido a Francisco Díez de Tudanca, hacia 1650-1661."
+        }
+      ]
+    },
+    {
+      "clave": "angustias",
+      "nombre": "Ilustre Cofradía Penitencial de Nuestra Señora de las Angustias",
+      "web": "https://www.cofradiadelasangustias.org",
+      "historia": "Su existencia consta en 1536 y sus primeras reglas se aprobaron en 1569. Su iglesia penitencial, frente al actual Teatro Calderón, se construyó entre 1597 y 1606 gracias al mercader Martín Sánchez de Aranzamendi y su esposa, y en 1710 terminó la capilla de la Virgen. A comienzos del siglo XVII el obispado la unió con la cofradía de la Piedad por conflictos de horario, unión que duró hasta 1630. En 1923 organizó la procesión de la Soledad y en 2009 la Virgen de las Angustias fue coronada canónicamente. De su iglesia sale la Procesión General del Viernes Santo. Hábito: túnica y capirote azul turquí, cíngulo rojo.",
+      "pasos": [
+        {
+          "clave": "angustias",
+          "nombre": "Nuestra Señora de las Angustias",
+          "historia": "La Virgen de las Angustias, «la Señora de Valladolid», titular de la cofradía. Cierra la Procesión General y protagoniza la Soledad y el Encuentro del Martes Santo.",
+          "analisisArtistico": "Juan de Juni, hacia 1561-1570. Talla de gran tamaño, cumbre de la escultura renacentista castellana."
+        },
+        {
+          "clave": "carboneros",
+          "nombre": "Cristo en la Cruz (de los Carboneros)",
+          "historia": "Monumental crucificado, el primer paso que encargó la cofradía.",
+          "analisisArtistico": "Atribuido a Francisco del Rincón, hacia 1606."
+        },
+        {
+          "clave": "san-juan-magdalena",
+          "nombre": "San Juan y la Magdalena",
+          "historia": "Reconstrucción parcial del antiguo paso del Descendimiento de la cofradía: San Juan y la Magdalena al pie de la cruz.",
+          "analisisArtistico": "Gregorio Fernández, 1616-1617 (las fuentes también lo fechan hacia 1621)."
+        },
+        {
+          "clave": "cristo-yacente",
+          "nombre": "Cristo Yacente",
+          "historia": "Cristo muerto, que procesiona en la procesión de Regla de la madrugada del Viernes Santo.",
+          "analisisArtistico": "Anónimo, taller vallisoletano, hacia 1640."
+        }
+      ]
+    },
+    {
+      "clave": "piedad",
+      "nombre": "Muy Ilustre Cofradía Penitencial de Nuestra Señora de la Piedad",
+      "web": "https://www.cofradiapiedadva.com",
+      "historia": "Nació en 1504 como cofradía de los Xinobeses, banqueros y asentistas próximos a la corte de Carlos I, y en 1578 se reorganizó con vecinos de la ciudad. Ha cambiado muchas veces de sede, entre ellas el convento de la Merced y su propia iglesia de 1662, hasta llegar a San Martín en 1935. Entre 1617 y 1630 estuvo unida a la de las Angustias. Desde 1966 celebra la procesión de la Piedad en la noche del Miércoles Santo y recibió el título de «Muy Ilustre» tras la Jornada Mundial de la Juventud de 2011. Hábito: negro con cíngulo y puñetas rojos.",
+      "pasos": [
+        {
+          "clave": "quinta-angustia",
+          "nombre": "La Quinta Angustia (Nuestra Señora de la Piedad)",
+          "historia": "La Virgen con Cristo muerto en su regazo, titular de la cofradía. Procesiona en la Piedad, en Penitencia y Caridad y en la Procesión General.",
+          "analisisArtistico": "Gregorio Fernández, hacia 1625-1627."
+        },
+        {
+          "clave": "cruz-a-maria",
+          "nombre": "Cristo de la Cruz a María",
+          "historia": "El traslado del cuerpo de Cristo desde la cruz hasta su madre; históricamente fue el paso del Traslado al Sepulcro.",
+          "analisisArtistico": "Antonio de Ribera y Francisco Fermín, 1641-1642 (escuela de Gregorio Fernández)."
+        },
+        {
+          "clave": "cristo-humildad",
+          "nombre": "Santo Cristo de la Humildad",
+          "historia": "Imagen de Cristo que abre la procesión de Penitencia y Caridad del Jueves Santo.",
+          "analisisArtistico": "José de Rozas, 1691."
+        }
+      ]
+    },
+    {
+      "clave": "nazareno",
+      "nombre": "Insigne Cofradía Penitencial de Nuestro Padre Jesús Nazareno",
+      "web": "https://www.nazarenovalladolid.com",
+      "historia": "Fundada en 1596 en el convento de San Agustín. Tras años de conflicto con los agustinos, en 1676 la cofradía no regresó al convento después de la procesión del Viernes Santo y se fue a su propio templo, aún en obras; los tribunales obligaron a devolver casi todos los pasos. Un incendio en 1799 destruyó su Cristo del Despojo. Desde 1920 celebra el Vía Crucis Procesional del Miércoles Santo y desde 1951 la Peregrinación del Silencio. Hábito: túnica y capirote morados, cíngulo dorado.",
+      "pasos": [
+        {
+          "clave": "jesus-nazareno",
+          "nombre": "Nuestro Padre Jesús Nazareno",
+          "historia": "Imagen titular de la cofradía: Jesús con la cruz a cuestas. El Viernes Santo procesiona sobre la carroza que labró Pedro Verdugo en 1943.",
+          "analisisArtistico": "Atribuido a Juan de Ávila, hacia 1676-1678 (escuela castellana)."
+        },
+        {
+          "clave": "cristo-agonia",
+          "nombre": "Santísimo Cristo de la Agonía",
+          "historia": "Crucificado en agonía, pieza central del grupo de «Sed tengo». Protagoniza la Peregrinación del Silencio del Jueves Santo.",
+          "analisisArtistico": "Juan Antonio de la Peña, 1684."
+        }
+      ]
+    },
+    {
+      "clave": "cruz-desnuda",
+      "nombre": "Cofradía de la Orden Franciscana Seglar (VOT) La Santa Cruz Desnuda",
+      "web": "https://ofscruzdesnuda.com",
+      "historia": "Sus orígenes se remontan a finales del siglo XV en el convento de San Francisco; en el siglo XIX se fusionó con la Orden Tercera fundada en el convento de San Diego en 1795. Tuvo su sede en la Capilla Real de San Francisco hasta 1927 y desde 1959 está en la iglesia de la Inmaculada Concepción (PP. Franciscanos). Desde 1960 celebra un Vía Crucis en la mañana del Viernes Santo con la Cruz Desnuda, y en 1978 pasó a llamarse Orden Franciscana Seglar. Hábito: túnica, capirote y sandalias marrones, cíngulo blanco.",
+      "pasos": [
+        {
+          "clave": "cruz-desnuda",
+          "nombre": "La Santa Cruz Desnuda",
+          "historia": "Cruz de la Pasión, sin imagen, que la cofradía porta en el Vía Crucis del Viernes Santo y en la Procesión General.",
+          "analisisArtistico": "Francisco Fernández León, 1993."
+        },
+        {
+          "clave": "santa-cruz",
+          "nombre": "La Santa Cruz",
+          "historia": "Cruz que la cofradía porta en la procesión de Humildad y Penitencia.",
+          "analisisArtistico": "Anónimo, siglo XIX."
+        },
+        {
+          "clave": "soledad",
+          "nombre": "Nuestra Señora de la Soledad",
+          "historia": "La Virgen en su soledad tras la muerte de Cristo; la cofradía la porta desde 2013.",
+          "analisisArtistico": "Anónimo vallisoletano, hacia 1700 (escuela castellana)."
+        },
+        {
+          "clave": "cristo-yacente",
+          "nombre": "Santísimo Cristo Yacente",
+          "historia": "Cristo muerto, incorporado a las procesiones de la cofradía en 2015.",
+          "analisisArtistico": "Atribuido a Isidro Villoldo, hacia 1538-1553 (escuela de Berruguete)."
+        },
+        {
+          "clave": "cristo-esperanza",
+          "nombre": "Santo Cristo de la Esperanza",
+          "historia": "Imagen de Cristo incorporada a la procesión de Humildad y Penitencia en 2025.",
+          "analisisArtistico": "Anónimo castellano, hacia 1510-1520."
+        }
+      ]
+    },
+    {
+      "clave": "preciosisima-sangre",
+      "nombre": "Real y Venerable Cofradía de la Preciosísima Sangre de Nuestro Señor Jesucristo",
+      "web": "https://www.preciosisimasangre.com",
+      "historia": "La fundaron en 1929 un grupo de devotos encabezados por Alberto Guiloche para honrar la sangre derramada por Cristo en la procesión del Santo Entierro. Durante sus primeros años no tuvo imagen propia y alumbró en préstamo el Cristo de los Carboneros y el Cristo de las Catalinas, hasta encargar su titular en 1953. En 1952 se instaló en Santa María la Antigua. Desde 1977 celebra la procesión de la Buena Muerte del Lunes Santo y en 2022 estrenó su propia procesión de Jueves Santo. Recibió el título de «Real» en 2013. Hábito: túnica y capa rojas, capirote negro.",
+      "pasos": [
+        {
+          "clave": "cristo-sangre",
+          "nombre": "Santísimo Cristo de la Preciosísima Sangre",
+          "historia": "Crucificado titular de la cofradía, que procesiona el Jueves Santo y en la Procesión General.",
+          "analisisArtistico": "Genaro Lázaro Gumiel, 1953."
+        },
+        {
+          "clave": "cristo-olvido",
+          "nombre": "Santísimo Cristo del Olvido",
+          "historia": "Crucificado de la procesión de la Buena Muerte del Lunes Santo, cedido por el Oratorio de San Felipe Neri. En el recorrido se encuentra con la Virgen Vulnerata en el Colegio de los Ingleses.",
+          "analisisArtistico": "Pedro de Ávila, hacia 1720-1721."
+        },
+        {
+          "clave": "caridad",
+          "nombre": "María Santísima de la Caridad",
+          "historia": "Virgen cotitular de la cofradía, que procesiona el Jueves Santo.",
+          "analisisArtistico": "Rafael Martín Hernández, 2017."
+        }
+      ]
+    },
+    {
+      "clave": "siete-palabras",
+      "nombre": "Cofradía de las Siete Palabras",
+      "web": "https://cofradiadelassietepalabras.com",
+      "historia": "Aprobada en diciembre de 1929 por el arzobispo Gandásegui, tiene su sede en Santiago Apóstol desde 1941 y como titular al Cristo de las Mercedes. En 1932 empezó a celebrar el Sermón de las Siete Palabras en la Catedral; la afluencia obligó a trasladarlo a la Plaza Mayor en 1943, y desde 1944 lo anuncia el Pregón a caballo por la ciudad. Ha ido reuniendo un grupo escultórico para cada una de las siete palabras de Cristo en la cruz. Hábito: túnica y capa blanco hueso, capirote y cíngulo rojos.",
+      "pasos": [
+        {
+          "clave": "cristo-mercedes",
+          "nombre": "Santísimo Cristo de las Mercedes",
+          "historia": "Crucificado titular de la cofradía. Procesiona el Miércoles Santo y preside el Sermón de las Siete Palabras.",
+          "analisisArtistico": "Atribuido a Pompeyo Leoni, segunda mitad del siglo XVI."
+        },
+        {
+          "clave": "cristo-trabajos",
+          "nombre": "Santísimo Cristo de los Trabajos",
+          "historia": "Crucificado procedente de Laguna de Duero que procesiona la noche del Domingo de Ramos; la procesión termina con un besapié en Santiago.",
+          "analisisArtistico": "Gregorio Fernández, hacia 1610."
+        },
+        {
+          "clave": "perdonales",
+          "nombre": "Padre, perdónales porque no saben lo que hacen",
+          "historia": "Primera palabra: Cristo pide perdón por quienes lo crucifican. Procesiona en la Procesión General.",
+          "analisisArtistico": "Cristo de Gregorio Fernández (hacia 1610); sayones del taller de Gregorio Fernández (siglo XVII)."
+        },
+        {
+          "clave": "paraiso",
+          "nombre": "Hoy estarás conmigo en el Paraíso",
+          "historia": "Segunda palabra: la promesa de Cristo al buen ladrón.",
+          "analisisArtistico": "Francisco del Rincón, hacia 1606-1608."
+        },
+        {
+          "clave": "madre",
+          "nombre": "Madre, ahí tienes a tu hijo",
+          "historia": "Tercera palabra: Cristo confía su madre a San Juan.",
+          "analisisArtistico": "Gregorio Fernández (Cristo, 1621); la Virgen y San Juan, 1607."
+        },
+        {
+          "clave": "abandonado",
+          "nombre": "Dios mío, Dios mío, ¿por qué me has abandonado?",
+          "historia": "Cuarta palabra: el grito de abandono de Cristo en la cruz.",
+          "analisisArtistico": "Anónimo vallisoletano, finales del siglo XVI."
+        },
+        {
+          "clave": "sed-tengo",
+          "nombre": "Sed tengo",
+          "historia": "Quinta palabra. Algunos de sus sayones proceden de los antiguos pasos de la cofradía de Jesús Nazareno.",
+          "analisisArtistico": "Gregorio Fernández, 1612-1616."
+        },
+        {
+          "clave": "todo-consumado",
+          "nombre": "Todo está consumado (La Crucifixión del Señor)",
+          "historia": "Sexta palabra. Con el nombre de «La Crucifixión del Señor» procesiona en el Rosario del Dolor del Lunes Santo desde 1951.",
+          "analisisArtistico": "Atribuido a Francisco Díez de Tudanca (hacia 1650-1661); Alonso de Rozas (1660)."
+        },
+        {
+          "clave": "en-tus-manos",
+          "nombre": "Padre, en tus manos encomiendo mi espíritu",
+          "historia": "Séptima palabra: Cristo entrega su espíritu al Padre.",
+          "analisisArtistico": "Atribuido a Pompeyo Leoni (hacia 1600); Hermanos Cruz Solís (1965-1966)."
+        }
+      ]
+    },
+    {
+      "clave": "atado-columna",
+      "nombre": "Hermandad Penitencial de Nuestro Padre Jesús Atado a la Columna",
+      "web": "https://www.atadovalladolid.com",
+      "historia": "Nació de las Congregaciones Marianas de San Estanislao de Kostka y San Luis Gonzaga, que desde 1923 acompañaban pasos del Santo Entierro; en 1941 cincuenta y tres congregantes fundaron la sección penitencial con su nombre actual. Es una de las cofradías fundadoras del Rosario del Dolor (1951) y su procesión titular, la Peregrinación de la Promesa, sale desde 1965. Desde noviembre de 2023 tiene su sede en la iglesia de las Esclavas del Sagrado Corazón. Hábito: capa y túnica blancas, capirote y cíngulo azul celeste.",
+      "pasos": [
+        {
+          "clave": "atado-columna",
+          "nombre": "El Señor Atado a la Columna",
+          "historia": "Cristo atado a la columna de la flagelación, titular de la hermandad, que lo alumbra en la Peregrinación de la Promesa, el Rosario del Dolor y la Procesión General. Es propiedad de la Cofradía de la Santa Vera Cruz, en cuya procesión de Regla también sale.",
+          "analisisArtistico": "Gregorio Fernández, hacia 1619. Una de sus tallas más célebres, por el realismo del cuerpo de Cristo."
+        },
+        {
+          "clave": "preparativos-flagelacion",
+          "nombre": "Santísimo Cristo de la Humildad (Preparativos para la Flagelación)",
+          "historia": "Los momentos previos a la flagelación de Cristo. Fue la primera imagen propia de la hermandad.",
+          "analisisArtistico": "José Antonio Hernández Navarro, 2003-2004."
+        },
+        {
+          "clave": "azotamiento",
+          "nombre": "El Azotamiento del Señor",
+          "historia": "Escena de la flagelación de Cristo, que la hermandad saca en la Procesión General.",
+          "analisisArtistico": "Francisco Díez de Tudanca y Antonio de Ribera, hacia 1650 (escuela castellana)."
+        }
+      ]
+    },
+    {
+      "clave": "santo-entierro",
+      "nombre": "Cofradía del Santo Entierro",
+      "web": "http://santoentierrovalladolid.blogspot.com",
+      "historia": "La fundó en 1930 un grupo de amigos para ayudar a la recuperación de la Semana Santa impulsada por el arzobispo Gandásegui. Tomó el nombre del grupo del Santo Entierro de Juan de Juni, que solo pudo procesionar una vez, en 1931, por la oposición del museo a prestarlo; desde entonces su titular es el Cristo Yacente del Real Monasterio de San Joaquín y Santa Ana. Desde 1991 traslada al Yacente la tarde del Sábado Santo y desde 2015 lo porta a hombros en el Verum Corpus del Jueves Santo. Hábito: túnica de terciopelo negro con cola.",
+      "pasos": [
+        {
+          "clave": "cristo-yacente",
+          "nombre": "Santísimo Cristo Yacente",
+          "historia": "Cristo muerto, titular de la cofradía. Procesiona a hombros en el Verum Corpus y en el Santo Entierro, y en carroza en la Procesión General.",
+          "analisisArtistico": "Taller de Gregorio Fernández, hacia 1631-1636."
+        },
+        {
+          "clave": "soledad",
+          "nombre": "Nuestra Señora de la Soledad del Cristo Yacente",
+          "historia": "La Virgen que acompaña al Yacente en el Santo Entierro del Sábado Santo.",
+          "analisisArtistico": "Anónimo vallisoletano, siglo XVIII."
+        }
+      ]
+    },
+    {
+      "clave": "oracion-huerto",
+      "nombre": "Cofradía Penitencial de la Oración del Huerto y San Pascual Bailón",
+      "web": "https://www.oraciondelhuerto.es",
+      "historia": "La fundaron en 1939 hortelanos y jardineros que desde 1923 acompañaban el paso de la Oración del Huerto de la Vera Cruz, de ahí su patrón, San Pascual Bailón. Admitió mujeres en 1945, nombró cofrade de honor a Juan Pablo II en su cincuenta aniversario y encargó a Miguel Ángel Tapia el paso del Prendimiento (1994) y una Oración del Huerto propia (2002). Desde 2021 tiene su sede en San Nicolás de Bari, y en 2026 estrenó la procesión de Cristo camino del Prendimiento el Domingo de Ramos. Hábito: túnica negra, capirote y capa verdes.",
+      "pasos": [
+        {
+          "clave": "oracion-huerto",
+          "nombre": "La Oración del Huerto",
+          "historia": "Jesús orando en el huerto de Getsemaní, confortado por un ángel. Lo alumbra esta cofradía en el Rosario del Dolor y en la Procesión General; es propiedad de la Cofradía de la Santa Vera Cruz, en cuya procesión de Regla también sale.",
+          "analisisArtistico": "Andrés Solanes, hacia 1627-1629."
+        },
+        {
+          "clave": "prendimiento",
+          "nombre": "El Prendimiento",
+          "historia": "El arresto de Jesús en el Huerto de los Olivos, con los sayones del farol y de la lanza, San Pedro y Malco. Desde 2026 se porta a hombros en la procesión del Domingo de Ramos.",
+          "analisisArtistico": "Miguel Ángel Tapia, 1995-2011: Cristo (1996), sayón del farol (2004), sayón de la lanza (2005), San Pedro (2007) y Malco (2011)."
+        }
+      ]
+    },
+    {
+      "clave": "descendimiento",
+      "nombre": "Cofradía El Descendimiento y Santo Cristo de la Buena Muerte",
+      "web": "https://descendimientovalladolid.es",
+      "historia": "Se fundó el 26 de marzo de 1939 en la sacristía de San Miguel y San Julián, impulsada por el párroco Agustín Rodríguez Mostaza, para acompañar el paso del Descendimiento. Su primer hábito, verde con capa roja, no prosperó y en 1944 adoptó el morado actual. En 1960 se fusionó con la Congregación de la Buena Muerte, de donde le viene el segundo nombre. Desde 1995 celebra la procesión de Cristo al Humilladero y desde 2022 su propia procesión de la Amargura el Jueves Santo. Hábito: túnica y capirote morados, capa blanca.",
+      "pasos": [
+        {
+          "clave": "descendimiento",
+          "nombre": "El Descendimiento",
+          "historia": "El descendimiento de Cristo de la cruz, paso titular que la cofradía alumbra en la Procesión General. Es propiedad de la Cofradía de la Santa Vera Cruz, en cuya procesión de Regla también sale.",
+          "analisisArtistico": "Gregorio Fernández, 1623-1624; completado por Pedro Sedano en 1757."
+        },
+        {
+          "clave": "monte-calvario",
+          "nombre": "El Monte Calvario",
+          "historia": "El Calvario con el Cristo de la Buena Muerte, la Virgen, San Juan y la Magdalena. Procesiona el Jueves Santo en la Amargura.",
+          "analisisArtistico": "Cristo atribuido a Juan de Juni (siglo XVI); la Virgen, San Juan y la Magdalena, a Juan Alonso Villabrille y Ron (hacia 1727)."
+        },
+        {
+          "clave": "virgen-amargura",
+          "nombre": "Virgen de la Amargura",
+          "historia": "Dolorosa que procesiona el Jueves Santo en la Amargura en el Monte Calvario.",
+          "analisisArtistico": "Atribuida a Juan Alonso Villabrille y Ron, hacia 1727."
+        },
+        {
+          "clave": "cristo-yacente",
+          "nombre": "Cristo Yacente",
+          "historia": "Cristo muerto que la cofradía porta a hombros en la procesión de Cristo al Humilladero; es el de la propia parroquia de San Miguel desde 2008.",
+          "analisisArtistico": "Gregorio Fernández, hacia 1627-1630."
+        }
+      ]
+    },
+    {
+      "clave": "sagrada-cena",
+      "nombre": "Cofradía Penitencial y Sacramental de la Sagrada Cena",
+      "web": "https://www.sagradacena.com",
+      "historia": "La fundó el 21 de noviembre de 1940 un grupo de devotos de la Eucaristía encabezados por el sacerdote Andrés Gamboa Murcia. Su paso titular, adjudicado a Juan Guraya en un concurso nacional en 1942, no se terminó hasta 1958. Tiene banda de cornetas y tambores propia desde 1961, sede en San Pedro Apóstol desde 1965 y el título de Sacramental desde 1996. Sale el Viernes de Dolores, el Jueves Santo y el Viernes Santo. Hábito: capa y túnica color crema, cíngulo amarillo.",
+      "pasos": [
+        {
+          "clave": "sagrada-cena",
+          "nombre": "La Sagrada Cena",
+          "historia": "La institución de la Eucaristía en la Última Cena, con Jesús y los doce apóstoles.",
+          "analisisArtistico": "Juan Guraya Urrutia, 1942-1958."
+        },
+        {
+          "clave": "jesus-esperanza",
+          "nombre": "Jesús de la Esperanza",
+          "historia": "Imagen de Cristo que Guraya hizo para el paso de la Cena y que la cofradía venera con esta advocación desde 1979. Protagoniza la procesión de Perdón y Esperanza del Viernes de Dolores.",
+          "analisisArtistico": "Juan Guraya Urrutia, 1946."
+        },
+        {
+          "clave": "sagrario",
+          "nombre": "Nuestra Señora del Sagrario",
+          "historia": "Advocación mariana de la cofradía aprobada en 2019; la imagen se presentó en 2023.",
+          "analisisArtistico": "José Antonio Navarro Arteaga, 2021-2023."
+        }
+      ]
+    },
+    {
+      "clave": "cristo-luz",
+      "nombre": "Hermandad Universitaria del Santísimo Cristo de la Luz",
+      "web": "https://cristodelaluzvalladolid.es",
+      "historia": "A finales de 1940 el rector de la Universidad pidió que el Cristo de la Luz de Gregorio Fernández presidiera la capilla del Colegio de Santa Cruz, y en marzo de 1941 se fundó una hermandad de profesores que procesionó el Viernes Santo hasta 1965. En 1992 estudiantes de Derecho, Magisterio y Empresariales la recuperaron como Hermandad Universitaria; volvió a la calle el Jueves Santo de 1994 y a la Procesión General en 1996. Desde 2009 realiza el solemne traslado del Cristo a la capilla universitaria tras la General. Hábito: túnica negra, capirote y fajín magenta.",
+      "pasos": [
+        {
+          "clave": "cristo-luz",
+          "nombre": "Santísimo Cristo de la Luz",
+          "historia": "Crucificado titular de la hermandad, que procesiona a hombros la mañana del Jueves Santo y en carroza en la Procesión General.",
+          "analisisArtistico": "Gregorio Fernández, hacia 1630-1633. Considerado uno de sus crucificados más logrados."
+        }
+      ]
+    },
+    {
+      "clave": "despojado",
+      "nombre": "Real Cofradía Penitencial del Santísimo Cristo Despojado, Cristo Camino del Calvario y Nuestra Señora de la Amargura",
+      "web": "https://www.cristodespojadovalladolid.com",
+      "historia": "Se fundó el 23 de diciembre de 1943 en la Juventud Obrera Católica para dar culto al Cristo del Despojo de la iglesia de Jesús. En 1945 formó su banda de cornetas y tambores, la primera de una cofradía en desfilar en Valladolid, y en 1958 empezó a alumbrar el Camino del Calvario. Tiene su sede en San Andrés desde 1961, se separó de la JOC en 1967 y en 2010 adoptó su nombre actual; el rey le concedió después el título de «Real». Hábito: túnica roja, capa crema, cíngulo amarillo.",
+      "pasos": [
+        {
+          "clave": "cristo-despojado",
+          "nombre": "Santísimo Cristo Despojado",
+          "historia": "Cristo despojado de sus vestiduras, titular de la cofradía. Procesiona el Jueves Santo y en la Procesión General.",
+          "analisisArtistico": "José Antonio Hernández Navarro, 1993."
+        },
+        {
+          "clave": "amargura",
+          "nombre": "Nuestra Señora de la Amargura",
+          "historia": "Dolorosa titular, que procesiona la noche del Jueves Santo.",
+          "analisisArtistico": "José Antonio Hernández Navarro, 2000."
+        },
+        {
+          "clave": "cristo-camino-calvario",
+          "nombre": "Cristo Camino del Calvario",
+          "historia": "Cristo con la cruz que se encuentra con la Virgen de las Angustias en el Encuentro del Martes Santo.",
+          "analisisArtistico": "Miguel Ángel González Jurado, 2009."
+        },
+        {
+          "clave": "camino-calvario",
+          "nombre": "Camino del Calvario",
+          "historia": "Paso histórico de Jesús camino del Calvario con la Verónica y los sayones, que la cofradía alumbra en el Rosario del Dolor y en la Procesión General.",
+          "analisisArtistico": "Gregorio Fernández, 1614-1615."
+        },
+        {
+          "clave": "preparativos-crucifixion",
+          "nombre": "Preparativos para la Crucifixión",
+          "historia": "Los sayones preparan la cruz mientras Cristo espera; antiguamente llamado «El Despojo» o «El Redopelo». Lo alumbra la cofradía en la Procesión General.",
+          "analisisArtistico": "Juan de Ávila, 1678-1679."
+        }
+      ]
+    },
+    {
+      "clave": "exaltacion",
+      "nombre": "Cofradía de la Exaltación de la Santa Cruz y Nuestra Señora de los Dolores",
+      "web": "https://www.cofradiaexaltaciondelacruzvalladolid.es",
+      "historia": "Se fundó el 18 de marzo de 1944 en el seno de la Hermandad Ferroviaria de la Sagrada Familia, en el barrio de Las Delicias, y durante años la formaron sobre todo ferroviarios: los talleres de RENFE fabricaron sus hachones, carroza y cruces, y en 1952 estrenó hachones de petróleo que imitaban el humo de las locomotoras. Desde 1947 celebra un Vía Crucis por Las Delicias, hoy el Viernes de Dolores. En 1994 se fusionó con la cofradía de Nuestra Señora de los Dolores. Hábito: túnica azul, capa azul celeste, capirote y cíngulo rojos.",
+      "pasos": [
+        {
+          "clave": "cristo-exaltacion",
+          "nombre": "Santísimo Cristo de la Exaltación",
+          "historia": "Imagen titular de la cofradía desde el año 2000, que procesiona el Jueves Santo.",
+          "analisisArtistico": "Francisco Fernández Enríquez y Rubén Fernández Parra, 1999."
+        },
+        {
+          "clave": "dolores",
+          "nombre": "Nuestra Señora de los Dolores",
+          "historia": "Dolorosa de la cofradía, que procesiona el Viernes de Dolores y el Jueves Santo.",
+          "analisisArtistico": "Atribuida a Pedro de Ávila, hacia 1714-1739 (el programa de 2026 la atribuye a un taller vallisoletano de hacia 1600)."
+        },
+        {
+          "clave": "cristo-buena-muerte",
+          "nombre": "Santísimo Cristo de la Buena Muerte",
+          "historia": "Cristo muerto en la cruz, venerado en la parroquia del Carmen y portado en el Vía Crucis del Viernes de Dolores.",
+          "analisisArtistico": "Anónimo vallisoletano, finales del siglo XVI."
+        },
+        {
+          "clave": "elevacion-cruz",
+          "nombre": "La Elevación de la Cruz",
+          "historia": "Los sayones elevan la cruz con Cristo clavado en ella. La cofradía lo alumbra en la Procesión General.",
+          "analisisArtistico": "Francisco del Rincón, hacia 1604. Primer paso procesional de Valladolid con todas sus figuras talladas en madera."
+        }
+      ]
+    },
+    {
+      "clave": "artilleros",
+      "nombre": "Hermandad del Santo Cristo de los Artilleros",
+      "web": "http://cristodelosartilleros.com",
+      "historia": "Desde finales del siglo XIX el Arma de Artillería acompañaba al Ecce Homo en el Santo Entierro, y el 25 de marzo de 1944 se constituyó la hermandad con militares de Artillería y personal de la Fábrica Nacional de armamento. Acompaña el Rosario del Dolor desde su primera edición en 1951. En 1971 cambió el uniforme militar por el hábito penitencial y desde 1987 no es necesario pertenecer al ejército para ser hermano. Su sede es la iglesia de la Vera Cruz. Hábito: túnica morada, capirote y cíngulo rojos.",
+      "pasos": [
+        {
+          "clave": "ecce-homo",
+          "nombre": "Ecce Homo",
+          "historia": "Cristo coronado de espinas presentado al pueblo, también llamado Cristo de la Humildad o del Gallo. La hermandad lo alumbra en el Rosario del Dolor y en la Procesión General; es propiedad de la Cofradía de la Santa Vera Cruz.",
+          "analisisArtistico": "Gregorio Fernández, hacia 1620."
+        },
+        {
+          "clave": "cristo-mision",
+          "nombre": "Cristo de la Misión",
+          "historia": "Crucificado con el que la hermandad sale el Sábado de Pasión desde 2019.",
+          "analisisArtistico": "Atribuido a Juan Sánchez Barba, hacia 1660-1673; intervención de Miguel Ángel Tapia (2019)."
+        }
+      ]
+    },
+    {
+      "clave": "santo-sepulcro",
+      "nombre": "Cofradía del Santo Sepulcro y Santísimo Cristo del Consuelo",
+      "web": "https://www.santosepulcrovalladolid.org",
+      "historia": "La fundaron el 20 de diciembre de 1945, en la Asociación Josefina, el carmelita José Antonio Carrasco y su primer presidente, Felipe de la Fuente. Desde 1946 alumbra el Santo Sepulcro, que estrenó carroza en 1957, y desde 1961 acompaña a la Virgen de la Alegría en el Encuentro del Domingo de Resurrección. Desde 1980 celebra la Peregrinación del Consuelo y en 1994 añadió a su nombre el Cristo del Consuelo. Su sede es San Benito el Real. Hábito: túnica blanca, capirote y capa morados, fajín amarillo.",
+      "pasos": [
+        {
+          "clave": "santo-sepulcro",
+          "nombre": "El Santo Sepulcro",
+          "historia": "El sepulcro con Cristo yacente, los soldados dormidos y los ángeles. Procesiona en la Procesión General.",
+          "analisisArtistico": "Alonso Fernández de Rozas (soldados durmientes, 1674-1681) y José de Rozas (Yacente y ángeles, 1696-1697)."
+        },
+        {
+          "clave": "cristo-consuelo",
+          "nombre": "Santísimo Cristo del Consuelo",
+          "historia": "Crucificado titular, que protagoniza la Peregrinación del Consuelo en la medianoche del Miércoles Santo.",
+          "analisisArtistico": "Atribuido a Gregorio Fernández, hacia 1610."
+        },
+        {
+          "clave": "virgen-alegria",
+          "nombre": "Virgen de la Alegría",
+          "historia": "Imagen propia de la cofradía para el Encuentro del Domingo de Resurrección.",
+          "analisisArtistico": "Miguel Ángel Tapia Palomo, 1996-1997."
+        },
+        {
+          "clave": "sepulcro-vacio",
+          "nombre": "El Sepulcro Vacío",
+          "historia": "El sepulcro ya sin Cristo, que la cofradía alumbra en el Encuentro del Domingo de Resurrección.",
+          "analisisArtistico": "Taller de los Rozas, siglo XVII."
+        }
+      ]
+    },
+    {
+      "clave": "resucitado",
+      "nombre": "Cofradía de Nuestro Padre Jesús Resucitado, María Santísima de la Alegría y las Lágrimas de San Pedro",
+      "web": "https://www.jesusresucitado.es",
+      "historia": "Se refundó en 1959 en Santiago Apóstol, recuperando el culto de una antigua cofradía del Resucitado y la Virgen de la Alegría documentada entre 1564 y 1760, y salió por primera vez en el Encuentro del Domingo de Resurrección de 1960. Desde 1965 alumbra también las Lágrimas de San Pedro, lo que la llevó a adoptar capirote negro en los días de Pasión. Está en el convento de Porta Coeli desde 1986 y en 2010 añadió a San Pedro a su nombre. Hábito: sotana blanca y muceta roja en los días de gloria; capirote negro en los de Pasión.",
+      "pasos": [
+        {
+          "clave": "jesus-resucitado",
+          "nombre": "Nuestro Padre Jesús Resucitado",
+          "historia": "Cristo resucitado que se encuentra con la Virgen de la Alegría en la Plaza Mayor el Domingo de Resurrección.",
+          "analisisArtistico": "Ricardo Flecha, 1994."
+        },
+        {
+          "clave": "lagrimas-san-pedro",
+          "nombre": "Las Lágrimas de San Pedro",
+          "historia": "San Pedro llorando arrepentido tras negar a Jesús. Sale en el Arrepentimiento del Miércoles Santo, en la Estación Eucarística del Jueves Santo y en la Procesión General.",
+          "analisisArtistico": "Atribuido a Pedro de Ávila, hacia 1710-1720."
+        },
+        {
+          "clave": "virgen-alegria",
+          "nombre": "María Santísima de la Alegría",
+          "historia": "Virgen encargada para el cincuenta aniversario de la refundación; procesiona el domingo de Pentecostés.",
+          "analisisArtistico": "Ricardo Flecha, 2009."
+        }
+      ]
+    },
+    {
+      "clave": "medinaceli",
+      "nombre": "Hermandad del Santísimo Cristo Jesús de Medinaceli, Nuestra Señora de la Divina Misericordia y Discípulo Amado",
+      "web": "https://medinacelivalladolid.es",
+      "historia": "Es la cofradía más joven de la Semana Santa de Valladolid. Retoma la actividad de la antigua Cofradía del Discípulo Amado, que participó en la Procesión General entre 1950 y 1957 sin aprobación canónica; se recuperó en 2010, fue aprobada en 2011 y la Junta de Cofradías la admitió en 2013. Tras pasar por San Nicolás y los Agustinos Filipinos, desde 2017 comparte sede con la Piedad en San Martín. Hábito: túnica y capa blancas, capirote negro.",
+      "pasos": [
+        {
+          "clave": "jesus-medinaceli",
+          "nombre": "Jesús de Medinaceli (La Sentencia)",
+          "historia": "Imagen titular, figura central del paso de la Sentencia, al que se han ido sumando un centurión romano (2022), Pilatos (2023) y Claudia Prócula (2024). Procesiona el Domingo de Ramos.",
+          "analisisArtistico": "Juan Antonio Blanco (Cristo, 2012); figuras secundarias de Ana Rey (2022-2024)."
+        },
+        {
+          "clave": "san-juan",
+          "nombre": "San Juan Evangelista",
+          "historia": "El discípulo amado, patrón de la hermandad. Es propiedad de la Catedral y procesiona en la Procesión General desde 2015.",
+          "analisisArtistico": "Atribuido a Pedro de Ávila, hacia 1715."
+        }
+      ]
+    }
+  ],
+  "eventos": [
+    {
+      "nombre": "Pregón de la Semana Santa de Valladolid",
+      "desdePascua": -16,
+      "hora": "20:30",
+      "duracionMin": 90,
+      "lugar": "catedral",
+      "cofradias": "todas",
+      "historia": "Acto con el que la Junta de Cofradías anuncia la Semana Santa. Se celebra en la Catedral el viernes de la cuarta semana de Cuaresma, una semana antes del Viernes de Dolores, y cada año lo pronuncia un pregonero distinto.",
+      "web": "https://jcssva.org/procesiones/"
+    },
+    {
+      "nombre": "Sermón de las Siete Palabras",
+      "dia": "viernes-santo",
+      "hora": "12:00",
+      "duracionMin": 90,
+      "lugar": "plaza-mayor",
+      "cofradias": [
+        "siete-palabras"
+      ],
+      "pasos": [
+        "siete-palabras/cristo-mercedes"
+      ],
+      "historia": "Sermón sobre las siete palabras de Cristo en la cruz, en la Plaza Mayor y ante el Cristo de las Mercedes. La cofradía lo celebraba en la Catedral desde 1932 y lo trasladó a la Plaza Mayor en 1943 por la afluencia de público. Lo anuncia por la mañana el Pregón a caballo.",
+      "tradicion": "La cofradía sale hacia la Plaza Mayor desde el atrio de Santiago a las 11:00.",
+      "web": "https://jcssva.org/procesiones/sermon-siete-palabras-n39/"
+    }
+  ],
+  "procesiones": [
+    {
+      "nombre": "Procesión de Perdón y Esperanza",
+      "dia": "viernes-dolores",
+      "hora": "20:30",
+      "duracionMin": 150,
+      "salida": "san-pedro",
+      "cofradias": [
+        "sagrada-cena"
+      ],
+      "pasos": [
+        "sagrada-cena/jesus-esperanza"
+      ],
+      "historia": "Procesión penitencial que abre la Semana Santa. Incluye un acto penitencial en la Catedral y un recuerdo a los cofrades fallecidos junto al Monumento al Cofrade.",
+      "web": "https://jcssva.org/procesiones/procesion-perdon-y-esperanza-n2/"
+    },
+    {
+      "nombre": "Vía Crucis de la Exaltación de la Santa Cruz y Nuestra Señora de los Dolores",
+      "dia": "viernes-dolores",
+      "hora": "22:00",
+      "duracionMin": 120,
+      "salida": "carmen-delicias",
+      "cofradias": [
+        "exaltacion"
+      ],
+      "pasos": [
+        "exaltacion/cristo-buena-muerte",
+        "exaltacion/dolores"
+      ],
+      "historia": "Rezo de las estaciones del Vía Crucis por las calles del barrio de Las Delicias, en ambiente de recogimiento.",
+      "web": "https://jcssva.org/procesiones/viacrucis-exaltacion-santa-cruz-n3/"
+    },
+    {
+      "nombre": "Procesión de la Hermandad del Santo Cristo de los Artilleros",
+      "dia": "sabado-pasion",
+      "hora": "18:00",
+      "duracionMin": 150,
+      "salida": "vera-cruz",
+      "cofradias": [
+        "artilleros"
+      ],
+      "pasos": [
+        "artilleros/cristo-mision"
+      ],
+      "historia": "El Cristo de la Misión se incorpora a la procesión en el Palacio Real y hace una parada penitencial en el convento de Santa Isabel de Hungría.",
+      "web": "https://jcssva.org/procesiones/procesion-cristo-de-los-artilleros-n4/"
+    },
+    {
+      "nombre": "Procesión del Ejercicio Público de las Cinco Llagas",
+      "dia": "sabado-pasion",
+      "hora": "19:00",
+      "duracionMin": 150,
+      "salida": "san-quirce",
+      "cofradias": [
+        "sagrada-pasion"
+      ],
+      "pasos": [
+        "sagrada-pasion/cinco-llagas"
+      ],
+      "historia": "Se reza el ejercicio de las Cinco Llagas en varios conventos e iglesias del recorrido: San Quirce, Santa Teresa, la Concepción, Santa Isabel y San Nicolás.",
+      "web": "https://jcssva.org/procesiones/procesion-cinco-llagas-n1/"
+    },
+    {
+      "nombre": "Procesión de las Palmas",
+      "dia": "domingo-ramos",
+      "hora": "11:30",
+      "duracionMin": 120,
+      "salida": "catedral",
+      "cofradias": [
+        "vera-cruz"
+      ],
+      "pasos": [
+        "vera-cruz/entrada-triunfal"
+      ],
+      "historia": "Recuerda la entrada de Jesús en Jerusalén. Participan las secciones infantiles de otras cofradías y termina en la Vera Cruz con la bendición del arzobispo desde el balcón.",
+      "tradicion": "Antes, a las 10:30, el arzobispo bendice las palmas en la Catedral.",
+      "web": "https://jcssva.org/procesiones/procesion-de-las-palmas-n6/"
+    },
+    {
+      "nombre": "Procesión de Cristo camino del Prendimiento",
+      "dia": "domingo-ramos",
+      "hora": "18:00",
+      "duracionMin": 150,
+      "salida": "san-nicolas",
+      "cofradias": [
+        "oracion-huerto"
+      ],
+      "pasos": [
+        "oracion-huerto/prendimiento"
+      ],
+      "historia": "Procesión estrenada en 2026: el paso del Prendimiento sale a hombros de 28 portadores. Incluye lecturas del Evangelio y un acto conjunto con la OFS La Santa Cruz Desnuda.",
+      "web": "https://jcssva.org/procesiones/procesion-cristo-camino-del-prendimiento-n47/"
+    },
+    {
+      "nombre": "Procesión de Amor y Misericordia del Santísimo Cristo de Medinaceli",
+      "dia": "domingo-ramos",
+      "hora": "18:30",
+      "duracionMin": 150,
+      "salida": "san-martin",
+      "cofradias": [
+        "medinaceli"
+      ],
+      "pasos": [
+        "medinaceli/jesus-medinaceli"
+      ],
+      "historia": "Incluye un acto de renovación de las promesas del Bautismo en el interior de la Catedral.",
+      "web": "https://jcssva.org/procesiones/procesion-cristo-de-medinaceli-n7/"
+    },
+    {
+      "nombre": "Procesión del Santísimo Cristo de los Trabajos",
+      "dia": "domingo-ramos",
+      "hora": "21:00",
+      "duracionMin": 120,
+      "salida": "san-agustin",
+      "cofradias": [
+        "siete-palabras"
+      ],
+      "pasos": [
+        "siete-palabras/cristo-trabajos"
+      ],
+      "historia": "Procesión nocturna que termina en la iglesia de Santiago Apóstol con un besapié a la imagen.",
+      "web": "https://jcssva.org/procesiones/procesion-cristo-de-los-trabajos-n8/"
+    },
+    {
+      "nombre": "Procesión del Santísimo Rosario del Dolor",
+      "dia": "lunes-santo",
+      "hora": "19:45",
+      "duracionMin": 150,
+      "salida": "vera-cruz",
+      "cofradias": [
+        "vera-cruz",
+        "oracion-huerto",
+        "atado-columna",
+        "artilleros",
+        "despojado",
+        "siete-palabras"
+      ],
+      "pasos": [
+        "oracion-huerto/oracion-huerto",
+        "atado-columna/atado-columna",
+        "artilleros/ecce-homo",
+        "despojado/camino-calvario",
+        "siete-palabras/todo-consumado",
+        "vera-cruz/dolores"
+      ],
+      "historia": "Seis cofradías salen a las 19:45 desde sus sedes y se reúnen a las 20:00 en la Plaza Mayor, donde se reza el Santo Rosario; después regresan por las calles Santiago, Constitución y Regalado. Se celebra desde 1951.",
+      "tradicion": "Cada cofradía sale de su propia sede: el punto de salida indicado es el de la Vera Cruz.",
+      "web": "https://jcssva.org/procesiones/procesion-rosario-del-dolor-n9/"
+    },
+    {
+      "nombre": "Procesión de la Buena Muerte",
+      "dia": "lunes-santo",
+      "hora": "22:00",
+      "duracionMin": 150,
+      "salida": "la-antigua",
+      "cofradias": [
+        "preciosisima-sangre"
+      ],
+      "pasos": [
+        "preciosisima-sangre/cristo-olvido"
+      ],
+      "historia": "Procesión nocturna por el centro histórico, desde Santa María la Antigua hasta la plaza del Salvador. Su momento más esperado es el encuentro del Cristo del Olvido con la Virgen Vulnerata en el Colegio de los Ingleses.",
+      "web": "https://jcssva.org/procesiones/procesion-de-la-buena-muerte-n10/"
+    },
+    {
+      "nombre": "Procesión del Encuentro de la Santísima Virgen con su Hijo en la calle de la Amargura",
+      "dia": "martes-santo",
+      "hora": "20:15",
+      "duracionMin": 180,
+      "salida": "san-andres",
+      "cofradias": [
+        "despojado",
+        "angustias"
+      ],
+      "pasos": [
+        "despojado/cristo-camino-calvario",
+        "angustias/angustias"
+      ],
+      "historia": "El Cristo camino del Calvario y la Virgen de las Angustias recorren caminos separados y se encuentran hacia las 22:00 ante el Palacio de Santa Cruz, donde se celebra un acto de oración; después vuelven a sus templos.",
+      "tradicion": "El Cristo sale de San Andrés a las 20:15 y la Virgen de las Angustias a las 20:45.",
+      "web": "https://jcssva.org/procesiones/procesion-del-encuentro-n11/"
+    },
+    {
+      "nombre": "Procesión de la Peregrinación de la Promesa",
+      "alias": [
+        "La Peregrinación de la Promesa"
+      ],
+      "dia": "martes-santo",
+      "hora": "22:30",
+      "duracionMin": 180,
+      "salida": "esclavas",
+      "cofradias": [
+        "atado-columna"
+      ],
+      "pasos": [
+        "atado-columna/atado-columna"
+      ],
+      "historia": "Largo recorrido por la ciudad con una parada en la Basílica Nacional de la Gran Promesa, donde los hermanos renuevan su promesa de silencio. Es la procesión titular de la hermandad desde 1965.",
+      "web": "https://jcssva.org/procesiones/procesion-peregrinacion-promesa-n12/"
+    },
+    {
+      "nombre": "Vía Crucis Procesional",
+      "dia": "miercoles-santo",
+      "hora": "20:30",
+      "duracionMin": 150,
+      "salida": "jesus-nazareno",
+      "cofradias": [
+        "nazareno"
+      ],
+      "pasos": [
+        "nazareno/jesus-nazareno",
+        "nazareno/cristo-agonia"
+      ],
+      "historia": "Vía Crucis penitencial por el centro histórico, celebrado desde 1920. Uno de sus momentos destacados es el rezo de la IV estación ante la Virgen de la Vera Cruz.",
+      "web": "https://jcssva.org/procesiones/procesion-viacrucis-procesional-n14/"
+    },
+    {
+      "nombre": "Procesión del Santísimo Cristo de las Mercedes",
+      "dia": "miercoles-santo",
+      "hora": "22:00",
+      "duracionMin": 150,
+      "salida": "santiago",
+      "cofradias": [
+        "siete-palabras"
+      ],
+      "pasos": [
+        "siete-palabras/cristo-mercedes"
+      ],
+      "historia": "Recorrido por el casco histórico con un solemne acto penitencial en el interior de la Catedral.",
+      "web": "https://jcssva.org/procesiones/procesion-cristo-de-las-mercedes-n15/"
+    },
+    {
+      "nombre": "Procesión del Arrepentimiento",
+      "dia": "miercoles-santo",
+      "hora": "22:30",
+      "duracionMin": 120,
+      "salida": "porta-coeli",
+      "cofradias": [
+        "resucitado"
+      ],
+      "pasos": [
+        "resucitado/lagrimas-san-pedro"
+      ],
+      "historia": "Procesión de penitencia con actos de reflexión en las iglesias de San Quirce, Santa Isabel y San Miguel.",
+      "web": "https://jcssva.org/procesiones/procesion-del-arrepentimiento-n16/"
+    },
+    {
+      "nombre": "Procesión de la Piedad",
+      "dia": "jueves-santo",
+      "hora": "00:00",
+      "duracionMin": 120,
+      "salida": "san-martin",
+      "cofradias": [
+        "piedad"
+      ],
+      "pasos": [
+        "piedad/quinta-angustia"
+      ],
+      "historia": "La Quinta Angustia sale a hombros y sube hasta la Catedral antes de regresar a San Martín. Se celebra desde 1966.",
+      "tradicion": "Sale a medianoche, en la madrugada del Miércoles al Jueves Santo; el programa la incluye en el Miércoles Santo.",
+      "web": "https://jcssva.org/procesiones/procesion-de-la-piedad-n17/"
+    },
+    {
+      "nombre": "Procesión de la Peregrinación del Consuelo",
+      "dia": "jueves-santo",
+      "hora": "00:00",
+      "duracionMin": 120,
+      "salida": "san-benito",
+      "cofradias": [
+        "santo-sepulcro"
+      ],
+      "pasos": [
+        "santo-sepulcro/cristo-consuelo"
+      ],
+      "historia": "Recorrido de recogimiento y oración con las catorce estaciones del Vía Crucis señalizadas en el itinerario. Se celebra desde 1980.",
+      "tradicion": "Sale a medianoche, en la madrugada del Miércoles al Jueves Santo; el programa la incluye en el Miércoles Santo.",
+      "web": "https://jcssva.org/procesiones/procesion-peregrinacion-del-consuelo-n18/"
+    },
+    {
+      "nombre": "Procesión del Santísimo Cristo de la Luz",
+      "dia": "jueves-santo",
+      "hora": "11:00",
+      "duracionMin": 150,
+      "salida": "santa-cruz",
+      "cofradias": [
+        "cristo-luz"
+      ],
+      "pasos": [
+        "cristo-luz/cristo-luz"
+      ],
+      "historia": "Procesión universitaria: los estudiantes rinden homenaje al Cristo ante la fachada de la Universidad y se reza el Vía Crucis en la Catedral.",
+      "web": "https://jcssva.org/procesiones/procesion-cristo-de-la-luz-n20/"
+    },
+    {
+      "nombre": "Procesión del Santísimo Cristo de la Preciosísima Sangre y María Santísima de la Caridad",
+      "dia": "jueves-santo",
+      "hora": "18:00",
+      "duracionMin": 180,
+      "salida": "la-antigua",
+      "cofradias": [
+        "preciosisima-sangre"
+      ],
+      "pasos": [
+        "preciosisima-sangre/cristo-sangre",
+        "preciosisima-sangre/caridad"
+      ],
+      "historia": "Procesión de penitencia y caridad, con un acto penitencial en la Catedral y un acto de caridad ante el Palacio Arzobispal.",
+      "web": "https://jcssva.org/procesiones/procesion-de-la-sangre-n22/"
+    },
+    {
+      "nombre": "Procesión de Penitencia y Caridad",
+      "dia": "jueves-santo",
+      "hora": "18:30",
+      "duracionMin": 180,
+      "salida": "san-martin",
+      "cofradias": [
+        "piedad"
+      ],
+      "pasos": [
+        "piedad/cristo-humildad",
+        "piedad/cruz-a-maria",
+        "piedad/quinta-angustia"
+      ],
+      "historia": "Incluye actos en la Audiencia Provincial, en la residencia de ancianos Nuestra Señora del Carmen y en el Hospital Clínico.",
+      "tradicion": "La acompaña un escuadrón a caballo de la Policía Nacional.",
+      "web": "https://jcssva.org/procesiones/procesion-penitencia-y-caridad-n23/"
+    },
+    {
+      "nombre": "Procesión de la Amargura en el Monte Calvario",
+      "dia": "jueves-santo",
+      "hora": "18:35",
+      "duracionMin": 180,
+      "salida": "san-miguel",
+      "cofradias": [
+        "descendimiento"
+      ],
+      "pasos": [
+        "descendimiento/monte-calvario",
+        "descendimiento/virgen-amargura"
+      ],
+      "historia": "Recorrido con actos de oración en las iglesias de Jesús y de Santiago y estación de penitencia en la Catedral. La cofradía la celebra como procesión propia desde 2022.",
+      "web": "https://jcssva.org/procesiones/procesion-de-la-amargura-n25/"
+    },
+    {
+      "nombre": "Procesión de la Exaltación de la Luz de Cristo",
+      "dia": "jueves-santo",
+      "hora": "18:45",
+      "duracionMin": 210,
+      "salida": "carmen-delicias",
+      "cofradias": [
+        "exaltacion"
+      ],
+      "pasos": [
+        "exaltacion/cristo-exaltacion",
+        "exaltacion/dolores"
+      ],
+      "historia": "Estación de penitencia en la Catedral y despedida de la Virgen en el Colegio de los Ingleses. Termina con el depósito del farol en la parroquia del Carmen.",
+      "web": "https://jcssva.org/procesiones/procesion-exaltacion-luz-de-cristo-n24/"
+    },
+    {
+      "nombre": "Estación Eucarística en la Catedral de la Cofradía de Nuestro Padre Jesús Resucitado",
+      "dia": "jueves-santo",
+      "hora": "19:00",
+      "duracionMin": 150,
+      "salida": "porta-coeli",
+      "cofradias": [
+        "resucitado"
+      ],
+      "pasos": [
+        "resucitado/lagrimas-san-pedro"
+      ],
+      "historia": "Estación de penitencia en el interior de la Catedral y acto penitencial en la iglesia de San Lorenzo.",
+      "web": "https://jcssva.org/procesiones/estacion-catedral-resucitado-n26/"
+    },
+    {
+      "nombre": "Procesión de Humildad y Penitencia",
+      "dia": "jueves-santo",
+      "hora": "19:00",
+      "duracionMin": 180,
+      "salida": "santa-isabel",
+      "cofradias": [
+        "cruz-desnuda"
+      ],
+      "pasos": [
+        "cruz-desnuda/cristo-esperanza",
+        "cruz-desnuda/cristo-yacente",
+        "cruz-desnuda/soledad",
+        "cruz-desnuda/santa-cruz"
+      ],
+      "historia": "Oración en la iglesia de Jesús Nazareno, estación de penitencia en la Catedral y estación final en el convento, junto a las Clarisas.",
+      "web": "https://jcssva.org/procesiones/procesion-humildad-y-penitencia-n27/"
+    },
+    {
+      "nombre": "Procesión de la Sagrada Cena",
+      "dia": "jueves-santo",
+      "hora": "19:00",
+      "duracionMin": 210,
+      "salida": "san-pedro",
+      "cofradias": [
+        "sagrada-cena"
+      ],
+      "pasos": [
+        "sagrada-cena/jesus-esperanza",
+        "sagrada-cena/sagrada-cena",
+        "sagrada-cena/sagrario"
+      ],
+      "historia": "Recorrido con actos de reflexión sobre el sacerdocio ante el Palacio Arzobispal y sobre la Eucaristía en la plaza de la Universidad.",
+      "web": "https://jcssva.org/procesiones/procesion-sagrada-cena-n28/"
+    },
+    {
+      "nombre": "Procesión de Oración y Sacrificio",
+      "dia": "jueves-santo",
+      "hora": "20:00",
+      "duracionMin": 180,
+      "salida": "san-quirce",
+      "cofradias": [
+        "sagrada-pasion"
+      ],
+      "pasos": [
+        "sagrada-pasion/jesus-flagelado",
+        "sagrada-pasion/cruz-a-cuestas",
+        "sagrada-pasion/cristo-perdon",
+        "sagrada-pasion/cristo-calvario"
+      ],
+      "historia": "Estación de penitencia en el interior de la Catedral con cuatro tallas históricas de la cofradía. Se celebra desde 1976.",
+      "web": "https://jcssva.org/procesiones/procesion-oracion-y-sacrificio-n30/"
+    },
+    {
+      "nombre": "Procesión del Santísimo Cristo Despojado, Cristo camino del Calvario y Nuestra Señora de la Amargura",
+      "dia": "jueves-santo",
+      "hora": "21:15",
+      "duracionMin": 180,
+      "salida": "san-andres",
+      "cofradias": [
+        "despojado"
+      ],
+      "pasos": [
+        "despojado/cristo-despojado",
+        "despojado/amargura"
+      ],
+      "historia": "Solemne estación de penitencia en el interior de la Catedral.",
+      "web": "https://jcssva.org/procesiones/procesion-despojado-y-amargura-n31/"
+    },
+    {
+      "nombre": "Procesión de la Peregrinación del Silencio",
+      "dia": "jueves-santo",
+      "hora": "23:00",
+      "duracionMin": 150,
+      "salida": "jesus-nazareno",
+      "cofradias": [
+        "nazareno"
+      ],
+      "pasos": [
+        "nazareno/cristo-agonia"
+      ],
+      "historia": "Procesión en silencio con estación de penitencia en la Catedral, acompañada solo por un trío de capilla. Se celebra desde 1951.",
+      "web": "https://jcssva.org/procesiones/procesion-del-silencio-n32/"
+    },
+    {
+      "nombre": "Procesión de Regla de la Cofradía Penitencial de la Santa Vera Cruz",
+      "dia": "jueves-santo",
+      "hora": "23:30",
+      "duracionMin": 180,
+      "salida": "vera-cruz",
+      "cofradias": [
+        "vera-cruz"
+      ],
+      "pasos": [
+        "oracion-huerto/oracion-huerto",
+        "atado-columna/atado-columna",
+        "artilleros/ecce-homo",
+        "descendimiento/descendimiento",
+        "vera-cruz/dolores"
+      ],
+      "historia": "La cofradía más antigua de la ciudad saca sus pasos de Gregorio Fernández y Andrés Solanes. Incluye un acto de oración por los difuntos en la acera de San Francisco y estación de penitencia en la Catedral.",
+      "web": "https://jcssva.org/procesiones/procesion-de-regla-vera-cruz-n33/"
+    },
+    {
+      "nombre": "Procesión del Verum Corpus",
+      "dia": "jueves-santo",
+      "hora": "23:45",
+      "duracionMin": 120,
+      "salida": "santa-ana",
+      "cofradias": [
+        "santo-entierro"
+      ],
+      "pasos": [
+        "santo-entierro/cristo-yacente"
+      ],
+      "historia": "El Cristo Yacente sale a hombros y hace estación de penitencia en el interior de la Catedral; termina con un acto de meditación en el monasterio de Santa Ana. Se celebra desde 2015.",
+      "web": "https://jcssva.org/procesiones/procesion-verum-corpus-n34/"
+    },
+    {
+      "nombre": "Procesión de Cristo al Humilladero",
+      "dia": "jueves-santo",
+      "hora": "23:55",
+      "duracionMin": 120,
+      "salida": "san-miguel",
+      "cofradias": [
+        "descendimiento"
+      ],
+      "pasos": [
+        "descendimiento/cristo-yacente"
+      ],
+      "historia": "Procesión titular de la cofradía del Descendimiento, con un acto de humillación en San Quirce y oración ante la Cruz del Humilladero en la plaza de San Pablo.",
+      "web": "https://jcssva.org/procesiones/procesion-cristo-al-humilladero-n35/"
+    },
+    {
+      "nombre": "Procesión de Regla de la Ilustre Cofradía Penitencial de Nuestra Señora de las Angustias (Sacrificio y Penitencia)",
+      "dia": "viernes-santo",
+      "hora": "01:00",
+      "duracionMin": 180,
+      "salida": "angustias",
+      "cofradias": [
+        "angustias"
+      ],
+      "pasos": [
+        "angustias/carboneros",
+        "angustias/san-juan-magdalena",
+        "angustias/cristo-yacente",
+        "angustias/angustias"
+      ],
+      "historia": "Procesión de regla de la cofradía, con estación ante el Santísimo Sacramento en el interior de la Catedral.",
+      "tradicion": "Sale en la madrugada del Jueves al Viernes Santo.",
+      "web": "https://jcssva.org/procesiones/procesion-de-regla-angustias-n36/"
+    },
+    {
+      "nombre": "Procesión del Vía Crucis de la Santa Cruz Desnuda",
+      "dia": "viernes-santo",
+      "hora": "08:00",
+      "duracionMin": 150,
+      "salida": null,
+      "cofradias": [
+        "cruz-desnuda"
+      ],
+      "pasos": [
+        "cruz-desnuda/cruz-desnuda"
+      ],
+      "historia": "Vía Crucis de la mañana del Viernes Santo por un itinerario señalizado con las quince estaciones. La cofradía lo celebra desde 1960.",
+      "tradicion": "Sale de la iglesia de la Inmaculada Concepción (PP. Franciscanos). Acompaña la banda de dulzainas y tambores de la cofradía.",
+      "web": "https://jcssva.org/procesiones/procesion-del-viacrucis-n37/"
+    },
+    {
+      "nombre": "Pregón de las Siete Palabras",
+      "dia": "viernes-santo",
+      "hora": "08:30",
+      "duracionMin": 150,
+      "salida": "palacio-arzobispal",
+      "cofradias": [
+        "siete-palabras"
+      ],
+      "pasos": [],
+      "historia": "Cortejo de jinetes que recorre la ciudad leyendo el pregón que anuncia el Sermón de las Siete Palabras. Se celebra desde 1944.",
+      "web": "https://jcssva.org/procesiones/pregon-siete-palabras-n38/"
+    },
+    {
+      "nombre": "Procesión General de la Sagrada Pasión del Redentor",
+      "alias": [
+        "Procesión General del Viernes Santo"
+      ],
+      "dia": "viernes-santo",
+      "hora": "19:30",
+      "duracionMin": 270,
+      "salida": "angustias",
+      "cofradias": "todas",
+      "pasos": [
+        "sagrada-cena/jesus-esperanza",
+        "sagrada-cena/sagrada-cena",
+        "oracion-huerto/oracion-huerto",
+        "oracion-huerto/prendimiento",
+        "resucitado/lagrimas-san-pedro",
+        "atado-columna/preparativos-flagelacion",
+        "atado-columna/azotamiento",
+        "atado-columna/atado-columna",
+        "artilleros/ecce-homo",
+        "nazareno/jesus-nazareno",
+        "despojado/camino-calvario",
+        "despojado/preparativos-crucifixion",
+        "despojado/cristo-despojado",
+        "sagrada-pasion/cristo-perdon",
+        "exaltacion/elevacion-cruz",
+        "siete-palabras/perdonales",
+        "siete-palabras/paraiso",
+        "siete-palabras/madre",
+        "siete-palabras/abandonado",
+        "siete-palabras/sed-tengo",
+        "siete-palabras/todo-consumado",
+        "siete-palabras/en-tus-manos",
+        "cristo-luz/cristo-luz",
+        "preciosisima-sangre/cristo-sangre",
+        "medinaceli/san-juan",
+        "descendimiento/descendimiento",
+        "vera-cruz/dolores",
+        "piedad/cruz-a-maria",
+        "piedad/quinta-angustia",
+        "cruz-desnuda/cruz-desnuda",
+        "santo-entierro/cristo-yacente",
+        "santo-sepulcro/santo-sepulcro",
+        "angustias/angustias"
+      ],
+      "historia": "La gran procesión de la Semana Santa de Valladolid: las veinte cofradías y treinta y tres pasos narran la Pasión en orden, desde la Última Cena hasta la Virgen de las Angustias. Recorre la plaza de la Libertad, la Plaza Mayor, Santiago, Miguel Íscar y Cánovas del Castillo.",
+      "tradicion": "A la llegada de la Virgen de las Angustias se canta la Salve Popular.",
+      "web": "https://jcssva.org/procesiones/procesion-general-n41/"
+    },
+    {
+      "nombre": "Procesión de la Soledad",
+      "dia": "sabado-santo",
+      "hora": "00:15",
+      "duracionMin": 60,
+      "salida": "angustias",
+      "cofradias": [
+        "angustias"
+      ],
+      "pasos": [
+        "angustias/angustias"
+      ],
+      "historia": "Procesión breve y de gran recogimiento tras la Salve Popular, acompañando a la Virgen de las Angustias; la siguen muchas mujeres con mantilla de otras cofradías. Se celebra desde 1923.",
+      "tradicion": "Sale en la madrugada del Viernes al Sábado Santo, al terminar la Procesión General.",
+      "web": "https://jcssva.org/procesiones/procesion-de-la-soledad-n42/"
+    },
+    {
+      "nombre": "Ofrecimiento de los Dolores de Valladolid a la Santísima Virgen",
+      "dia": "sabado-santo",
+      "hora": "17:00",
+      "duracionMin": 150,
+      "salida": "vera-cruz",
+      "cofradias": [
+        "vera-cruz"
+      ],
+      "pasos": [
+        "vera-cruz/dolores"
+      ],
+      "historia": "La Virgen de los Dolores va en procesión hasta la Catedral, donde a las 18:00 se le ofrecen los dolores de la ciudad y se la proclama Reina y Madre del Dolor de Valladolid.",
+      "web": "https://jcssva.org/procesiones/procesion-ofrecimiento-de-los-dolores-n43/"
+    },
+    {
+      "nombre": "Santo Entierro de Cristo",
+      "dia": "sabado-santo",
+      "hora": "18:45",
+      "duracionMin": 150,
+      "salida": "santa-ana",
+      "cofradias": [
+        "santo-entierro"
+      ],
+      "pasos": [
+        "santo-entierro/cristo-yacente",
+        "santo-entierro/soledad"
+      ],
+      "historia": "Traslado del Cristo Yacente, que termina en la plaza de Santa Ana con un acto de reflexión y oración.",
+      "web": "https://jcssva.org/procesiones/procesion-santo-entierro-n44/"
+    },
+    {
+      "nombre": "Procesión del Encuentro de Jesús Resucitado con la Virgen de la Alegría",
+      "dia": "domingo-resurreccion",
+      "hora": "10:30",
+      "duracionMin": 240,
+      "salida": "porta-coeli",
+      "cofradias": [
+        "resucitado",
+        "santo-sepulcro"
+      ],
+      "pasos": [
+        "resucitado/jesus-resucitado",
+        "santo-sepulcro/virgen-alegria",
+        "santo-sepulcro/sepulcro-vacio"
+      ],
+      "historia": "Las dos cofradías salen por separado (el Resucitado de Porta Coeli y la Virgen de la Alegría de San Benito) y se encuentran a las 13:30 en la Plaza Mayor, donde el arzobispo imparte la bendición apostólica. Cierra la Semana Santa.",
+      "web": "https://jcssva.org/procesiones/procesion-del-resucitado-n45/"
+    }
+  ]
+}
