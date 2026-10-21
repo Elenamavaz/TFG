@@ -175,6 +175,20 @@ async function cargar() {
   const anio = op.anio ? Number(op.anio) : anioSemanaSantaVigente();
   if (!Number.isInteger(anio) || anio < 2000 || anio > 2100) salir(`--anio no es válido: "${op.anio}"`);
 
+  // 0. Regla de la app (RF-30): un paso pertenece a una sola cofradía y solo
+  // puede salir en procesiones/eventos en los que participa esa cofradía -la
+  // pantalla "Pasos de la procesión" solo ofrece los de sus cofradías, así
+  // que un paso de otra no se podría ni ver ni quitar. Se comprueba antes de
+  // escribir nada.
+  const incoherentes = [...datos.procesiones, ...datos.eventos].flatMap((acto) =>
+    acto.cofradias === 'todas'
+      ? []
+      : (acto.pasos ?? [])
+          .filter((clave) => !acto.cofradias.includes(clave.split('/')[0]))
+          .map((clave) => `"${acto.nombre}": el paso ${clave} es de una cofradía que no participa`),
+  );
+  if (incoherentes.length > 0) salir(`Datos incoherentes:\n  ${incoherentes.join('\n  ')}`);
+
   // 1. Sesión de Junta y su ciudad.
   const sesion = await api('/auth/login', { metodo: 'POST', cuerpo: { email, password } });
   if (sesion.rol !== 'JUNTA') salir(`La cuenta ${email} es de rol ${sesion.rol}, no de Junta.`);

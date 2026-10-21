@@ -7,6 +7,7 @@ import { models } from '../../../../data';
 import { fechaSemanaSanta } from '../../../../data';
 import { common } from '../../../components';
 import { colors } from '../../../../theme';
+import { SelectorCofradias, contarPasosDeCofradias, pasosQueSiguenValiendo } from '../SelectorCofradias';
 import { styles } from './FormularioProcesionScreen.styles';
 
 // Formulario compartido entre "Nueva procesión" y "Editar procesión" (mockup
@@ -16,10 +17,14 @@ import { styles } from './FormularioProcesionScreen.styles';
 // a petición de Elena, dice "Guardar" al editar, como FormularioEventoScreen
 // y el resto del panel.
 //
-// Cofradía y ubicación no estaban en el mockup original pero el backend los
-// necesita (ubicacionId ya no, ver V32 -una procesión no tiene un único
-// punto, tiene un recorrido); Cofradía si hace falta añadirla, confirmado
-// por Elena: selector de una sola cofradía (cofradiaIds solo lleva una).
+// Cofradías: una procesión puede tener VARIAS (la Procesión General, el
+// Rosario del Dolor, los Encuentros...), así que el selector es múltiple
+// desde el 2026-10-21 (bug 37 de bugs.md): antes solo admitía una y al
+// guardar se perdían las demás. Los pasos que se pueden asignar son los de
+// todas las cofradías participantes (un paso pertenece a una sola, RF-30).
+// Ubicación (templo de salida): el formulario no la edita, pero conserva la
+// que ya tenga la procesión (bug 38: antes se mandaba siempre null y se
+// borraba al guardar).
 //
 // Día/Salida/Duración son sueltos en el mockup pero el backend solo guarda
 // fecha/fechaInicio/fechaFin -se combinan aquí (ver fechaSemanaSanta.js) y
@@ -45,9 +50,13 @@ export function FormularioProcesionScreen({ route, navigation }) {
   const [cargandoDatos, setCargandoDatos] = useState(true);
   const [nombre, setNombre] = useState('');
   const [cofradiasDisponibles, setCofradiasDisponibles] = useState([]);
-  const [cofradiaSeleccionada, setCofradiaSeleccionada] = useState(null);
-  const [modalCofradiaVisible, setModalCofradiaVisible] = useState(false);
-  const [numPasos, setNumPasos] = useState(0); // candidatos: pasos de la cofradía elegida (solo mientras se crea, ver JSX)
+  const [cofradiasSeleccionadas, setCofradiasSeleccionadas] = useState([]); // ids, ver SelectorCofradias
+  const [numPasos, setNumPasos] = useState(0); // candidatos: pasos de las cofradías elegidas (solo mientras se crea, ver JSX)
+  // Lo que tenía la procesión al abrir el formulario (editando): para no
+  // perder su templo de salida y para depurar sus pasos si cambian las cofradías.
+  const [ubicacionIdOriginal, setUbicacionIdOriginal] = useState(null);
+  const [cofradiasOriginales, setCofradiasOriginales] = useState([]);
+  const [pasoIdsOriginales, setPasoIdsOriginales] = useState([]);
   const [numPasosAsignados, setNumPasosAsignados] = useState(0); // los que YA participan en esta procesión (editando)
   const [diasSemanaSanta, setDiasSemanaSanta] = useState([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
@@ -104,12 +113,12 @@ export function FormularioProcesionScreen({ route, navigation }) {
       setDiasSemanaSanta(dias);
 
       if (procesion) {
-        const cofradia = cofradias.find((c) => procesion.cofradiaIds.includes(c.id)) ?? null;
         setNombre(procesion.nombre);
-        setCofradiaSeleccionada(cofradia);
-        if (cofradia) {
-          services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
-        }
+        setCofradiasSeleccionadas(procesion.cofradiaIds);
+        setCofradiasOriginales(procesion.cofradiaIds);
+        setPasoIdsOriginales(procesion.pasoIds);
+        setUbicacionIdOriginal(procesion.ubicacionId);
+        contarPasosDeCofradias(procesion.cofradiaIds).then(setNumPasos).catch(() => {});
         setDiaSeleccionado(dias.find((d) => d.nombre === procesion.dia) ?? null);
         setHoraSalida(procesion.horaSalida ?? '');
         setDuracionTexto(fechaSemanaSanta.formatearDuracionCorta(procesion.duracionMin ?? 0));
@@ -128,11 +137,18 @@ export function FormularioProcesionScreen({ route, navigation }) {
     });
   }, [ciudadId, procesionId, editando]);
 
-  function seleccionarCofradia(cofradia) {
-    setCofradiaSeleccionada(cofradia);
+  function cambiarCofradias(ids) {
+    setCofradiasSeleccionadas(ids);
     limpiarError('cofradia');
-    setModalCofradiaVisible(false);
-    services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+    contarPasosDeCofradias(ids).then(setNumPasos).catch(() => {});
+  }
+
+  // Editando: si se ha quitado alguna cofradía, sus pasos salen también de
+  // la procesión (null = el backend no toca los pasos).
+  async function pasosParaGuardar() {
+    if (!editando) return null;
+    const quitadas = cofradiasOriginales.some((id) => !cofradiasSeleccionadas.includes(id));
+    return quitadas ? pasosQueSiguenValiendo(pasoIdsOriginales, cofradiasSeleccionadas) : null;
   }
 
   async function importarGpx() {
@@ -170,7 +186,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
   // limpia la referencia antes de navegar, así que no se borra.
   useEffect(() => navigation.addListener('beforeRemove', descartarRecorridoSinGuardar), [navigation]);
 
-  function datosFormulario() {
+  function datosFormulario(pasosIds) {
     const fechaInicio = fechaSemanaSanta.combinarFechaHora(diaSeleccionado?.fecha, horaSalida.trim());
     const duracionMin = fechaSemanaSanta.parsearDuracionCorta(duracionTexto);
     return {
@@ -178,13 +194,13 @@ export function FormularioProcesionScreen({ route, navigation }) {
       historia: historia.trim() || null,
       tradicion: tradicion.trim() || null,
       fecha: fechaInicio,
-      cofradiaIds: cofradiaSeleccionada ? [cofradiaSeleccionada.id] : [],
-      ubicacionId: null,
+      cofradiaIds: cofradiasSeleccionadas,
+      ubicacionId: ubicacionIdOriginal,
       web: webOficial.trim() || null,
       fechaInicio,
       fechaFin: fechaSemanaSanta.sumarMinutos(fechaInicio, duracionMin),
       recorridoId,
-      pasosIds: null,
+      pasosIds,
       estado: editando ? estado : null, // al crear, el backend la deja PROGRAMADO
     };
   }
@@ -194,7 +210,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
   function validar() {
     const errores = {};
     if (!nombre.trim()) errores.nombre = 'El nombre de la procesión es obligatorio';
-    if (!cofradiaSeleccionada) errores.cofradia = 'Selecciona la cofradía';
+    if (cofradiasSeleccionadas.length === 0) errores.cofradia = 'Selecciona al menos una cofradía';
     if (!diaSeleccionado) errores.dia = 'Selecciona el día';
     if (!fechaSemanaSanta.esHoraValida(horaSalida)) errores.horaSalida = 'Indica la hora de salida (00:00)';
     return errores;
@@ -209,7 +225,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
     setGuardando(true);
     try {
       if (editando) {
-        await services.actualizarProcesion(procesionId, datosFormulario());
+        await services.actualizarProcesion(procesionId, datosFormulario(await pasosParaGuardar()));
         recorridoSinGuardarRef.current = null; // ya es de la procesión
         navigation.replace('ProcesionActualizada', {
           nombreProcesion: nombre.trim(),
@@ -218,7 +234,7 @@ export function FormularioProcesionScreen({ route, navigation }) {
           estadoNuevo: estado !== estadoOriginal ? estado : null,
         });
       } else {
-        const procesionCreada = await services.crearProcesion(datosFormulario());
+        const procesionCreada = await services.crearProcesion(datosFormulario(null));
         recorridoSinGuardarRef.current = null; // ya es de la procesión
         navigation.replace('ProcesionCreada', { nombreProcesion: procesionCreada.nombre, ciudadId, procesionId: procesionCreada.id });
       }
@@ -279,13 +295,8 @@ export function FormularioProcesionScreen({ route, navigation }) {
         </View>
 
         <View style={styles.campo}>
-          <Text style={styles.etiqueta}>Cofradia</Text>
-          <TouchableOpacity style={styles.selector} onPress={() => setModalCofradiaVisible(true)} activeOpacity={0.8}>
-            <Text style={cofradiaSeleccionada ? styles.selectorTexto : styles.selectorPlaceholder}>
-              {cofradiaSeleccionada ? cofradiaSeleccionada.nombre : 'Seleccionar una existente'}
-            </Text>
-            <Ionicons name="chevron-down" size={16} color={colors.subtitle} />
-          </TouchableOpacity>
+          <Text style={styles.etiqueta}>Cofradías</Text>
+          <SelectorCofradias cofradias={cofradiasDisponibles} seleccionadas={cofradiasSeleccionadas} onCambiar={cambiarCofradias} />
           {erroresCampos.cofradia ? <Text style={styles.errorCampo}>{erroresCampos.cofradia}</Text> : null}
         </View>
 
@@ -430,14 +441,10 @@ export function FormularioProcesionScreen({ route, navigation }) {
         </View>
 
         {/* Editando: "Lista de pasos" muestra los que YA participan en ESTA
-            procesión (pasoIds, ver SeleccionarPasosScreen) -no los de una
-            sola cofradía. Una procesión puede tener varias cofradías
-            (cofradiaIds), y SeleccionarPasosScreen ya reúne los pasos de
-            TODAS ellas, no solo de la que se ve seleccionada aquí (el
-            selector de este formulario solo deja elegir una, pero el
-            backend admite más -ver comentario de arriba). Creando: todavía
-            no hay procesión a la que asignar pasos, así que se muestran los
-            de la cofradía elegida como candidatos a título informativo. */}
+            procesión (pasoIds, ver SeleccionarPasosScreen), que se eligen
+            entre los de TODAS sus cofradías participantes. Creando: todavía
+            no hay procesión a la que asignar pasos, así que se indica cuántos
+            hay entre las cofradías elegidas, a título informativo. */}
         {editando ? (
           <View style={styles.campo}>
             <Text style={styles.etiqueta}>Elementos de la Procesion</Text>
@@ -456,12 +463,12 @@ export function FormularioProcesionScreen({ route, navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-        ) : cofradiaSeleccionada ? (
+        ) : cofradiasSeleccionadas.length > 0 ? (
           <View style={styles.campo}>
-            <Text style={styles.etiqueta}>Pasos de la cofradia</Text>
+            <Text style={styles.etiqueta}>{cofradiasSeleccionadas.length > 1 ? 'Pasos de las cofradías' : 'Pasos de la cofradía'}</Text>
             <TouchableOpacity
               style={styles.pasosRow}
-              onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiaSeleccionada.id })}
+              onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiasSeleccionadas[0] })}
               activeOpacity={0.8}
             >
               <View>
@@ -507,22 +514,6 @@ export function FormularioProcesionScreen({ route, navigation }) {
           </TouchableOpacity>
         ) : null}
       </ScrollView>
-
-      <Modal transparent visible={modalCofradiaVisible} animationType="fade" onRequestClose={() => setModalCofradiaVisible(false)}>
-        <Pressable style={styles.overlay} onPress={() => setModalCofradiaVisible(false)}>
-          <View style={styles.modalLista}>
-            {cofradiasDisponibles.length === 0 ? (
-              <Text style={styles.modalVacio}>No hay cofradías todavía en esta ciudad.</Text>
-            ) : (
-              cofradiasDisponibles.map((cofradia) => (
-                <TouchableOpacity key={cofradia.id} style={styles.modalItem} onPress={() => seleccionarCofradia(cofradia)}>
-                  <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
-                </TouchableOpacity>
-              ))
-            )}
-          </View>
-        </Pressable>
-      </Modal>
 
       <Modal transparent visible={modalDiaVisible} animationType="fade" onRequestClose={() => setModalDiaVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalDiaVisible(false)}>

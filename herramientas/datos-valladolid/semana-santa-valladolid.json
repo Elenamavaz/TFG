@@ -1187,7 +1187,11 @@
       "duracionMin": 180,
       "salida": "vera-cruz",
       "cofradias": [
-        "vera-cruz"
+        "vera-cruz",
+        "oracion-huerto",
+        "atado-columna",
+        "artilleros",
+        "descendimiento"
       ],
       "pasos": [
         "oracion-huerto/oracion-huerto",
@@ -1197,7 +1201,8 @@
         "vera-cruz/dolores"
       ],
       "historia": "La cofradía más antigua de la ciudad saca sus pasos de Gregorio Fernández y Andrés Solanes. Incluye un acto de oración por los difuntos en la acera de San Francisco y estación de penitencia en la Catedral.",
-      "web": "https://jcssva.org/procesiones/procesion-de-regla-vera-cruz-n33/"
+      "web": "https://jcssva.org/procesiones/procesion-de-regla-vera-cruz-n33/",
+      "tradicion": "Junto a la Vera Cruz participan las cofradías que alumbran sus pasos durante la Semana Santa: la Oración del Huerto, el Atado a la Columna, los Artilleros (Ecce Homo) y el Descendimiento."
     },
     {
       "nombre": "Procesión del Verum Corpus",

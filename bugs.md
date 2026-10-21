@@ -9,8 +9,9 @@ Análisis del código de la app (`semanasanta-app`) y del backend (`backend`) re
 | 🔴 Crítica | 5 | 5 | 0 |
 | 🟠 Alta | 7 | 6 | 1 |
 | 🟡 Media | 15 | 14 | 1 (17) |
-| 🟢 Baja | 7 | 1 | 6 |
+| 🟢 Baja | 7 | 2 | 5 |
 | 🧪 Encontrados en pruebas | 2 | 1 | 1 |
+| 🔎 Segundo análisis (21/10) | 9 | 4 | 5 |
 
 ---
 
@@ -213,7 +214,7 @@ Los "Ha comenzado" / "Ha finalizado" se crean sin `fechaExpiracion` y se acumula
 
 ## 🟢 Bajos y mejoras
 
-28. ⏳ **Interruptores sin efecto:** los de notificaciones del perfil del ciudadano no se guardan ni cambian los avisos que llegan.
+28. ✅ **Interruptores sin efecto:** resuelto con el RF-22: el perfil muestra el permiso real de notificaciones del móvil y lleva a sus ajustes.
 29. ⏳ **Fuerza bruta en el código de acceso:** no hay límite de intentos en `/auth/codigo-acceso` (8 caracteres hexadecimales).
 30. ⏳ **JWT sin cifrar:** se guarda en `AsyncStorage` en vez de `expo-secure-store`.
 31. ⏳ **Secretos por defecto:** `jwt.secret` y `admin.bootstrap-secret` tienen valores por defecto en `application.properties`. Si falta la variable de entorno en producción, se arranca con un secreto conocido.
@@ -242,3 +243,44 @@ Los "Ha comenzado" / "Ha finalizado" se crean sin `fechaExpiracion` y se acumula
 - **Qué pasa:** no hay importación real: solo se puede pegar una URL. Una Junta que tiene la foto del paso en el móvil no puede usarla sin subirla antes a otra web.
 - **Propuesta:** `expo-image-picker` en la app + un endpoint `POST /imagenes` (multipart) en el backend. El backend guardaría el archivo en disco o en la base de datos y lo serviría en `GET /imagenes/{id}`, y el campo `imagen` seguiría siendo una URL, así que no cambia nada más.
 - **A tener en cuenta:** tamaño máximo y redimensionado (las fotos de móvil ocupan varios MB), tipos permitidos (JPG/PNG), dónde se guardan en el servidor de la UVa y que se conserven entre despliegues.
+
+---
+
+## Segundo análisis completo (2026-10-21)
+
+### 37. ✅ 🔴 Editar una procesión o un evento con varias cofradías las reducía a una
+- **Dónde:** `FormularioProcesionScreen.js`, `FormularioEventoScreen.js`
+- **Qué pasaba:** el selector solo admitía una cofradía y al guardar se enviaba `cofradiaIds: [esa]`. Editar la Procesión General (20), el Pregón (20), el Rosario del Dolor (6) o los Encuentros (2) borraba el resto. Tampoco se podían crear actos con varias cofradías, aunque RI-05 lo permite.
+- **Solución:** nuevo selector múltiple, `junta/SelectorCofradias.js`:
+  - Casillas, «Seleccionar todas», resumen («X y 4 más», «Todas las cofradías (20)») y lista de las elegidas.
+  - El número de pasos que se ofrece al crear suma los de todas las cofradías elegidas.
+  - Al quitar una cofradía de un acto ya creado, sus pasos salen también de él (`pasosQueSiguenValiendo`).
+
+### 38. ✅ 🟠 Editar una procesión borraba su templo de salida
+- **Solución:** el formulario de procesión, que no edita la ubicación, conserva la que ya tenía (antes enviaba siempre `ubicacionId: null`).
+
+### 39. ✅ 🟡 Editar un evento borraba su tradición
+- **Solución:** el formulario de evento, del que se quitó el campo a propósito, conserva la tradición que ya tenía (antes enviaba siempre `tradicion: null`).
+
+### 40. ✅ 🟡 Pasos de cofradías que no participaban en la procesión
+- **Regla (RF-30):** un paso pertenece a una sola cofradía y, al elegir los pasos de una procesión, se ofrecen los de todas sus cofradías participantes.
+- **Qué pasaba:** la Procesión de Regla de la Vera Cruz incluía cuatro pasos de otras cofradías (Oración del Huerto, Atado a la Columna, Ecce Homo de los Artilleros y Descendimiento) que no figuraban como participantes, así que no se podían ver ni quitar.
+- **Solución:** esas cuatro cofradías se añaden como participantes de la procesión en `semana-santa-valladolid.json`, y `cargar-datos.mjs` comprueba la regla antes de escribir nada y rechaza un fichero que no la cumpla.
+- **Pendiente:** en el servidor de la UVa hay que volver a lanzar la carga con `--actualizar`.
+
+### 41. ⏳ 🟡 RNF-06 a medias (sin conexión)
+Sin conexión se ven las ciudades, la información de la ciudad y las cofradías ya visitadas, pero el detalle de un evento o de una procesión falla, porque no se guarda en caché el registro en sí, solo su ubicación o recorrido. Así no se llega a la ubicación ni al recorrido guardados que pide el requisito. Se arreglaría pasando `getEventoPorId` y `getProcesionPorId` del detalle a `useQuery`.
+
+### 42. ⏳ 🟢 RF-17 a medias: puntos de interés en el mapa
+El Mapa en Vivo solo marca el inicio, el fin y la cabeza; los puntos de interés que marca la Junta (RF-33) no se dibujan.
+
+### 43. ⏳ 🟢 Detalle de la Procesión General: unas 53 peticiones
+Pide una a una sus 20 cofradías y sus 33 pasos. Se nota con datos móviles.
+
+### 44. ⏳ 🟢 Reenviar una invitación con la sesión abierta
+Si el administrador reenvía la invitación a un miembro que tiene sesión abierta, la app no lo lleva a cambiar la contraseña: cada acción falla con «Debes cambiar tu contraseña provisional» hasta que cierra sesión y vuelve a entrar.
+
+### 45. ⏳ 🟢 Promesas sin `.catch` en el perfil del ciudadano
+Los contadores de cofradías y procesiones dan un error sin capturar si no hay conexión.
+
+**Requisitos no implementados (prioridad baja):** RF-19 (sugerir rutas hasta la procesión) y RF-20 (rutas evitando procesiones activas).

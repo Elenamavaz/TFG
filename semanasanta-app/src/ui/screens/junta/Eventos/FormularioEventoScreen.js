@@ -6,6 +6,7 @@ import { models } from '../../../../data';
 import { fechaSemanaSanta } from '../../../../data';
 import { common } from '../../../components';
 import { colors } from '../../../../theme';
+import { SelectorCofradias, contarPasosDeCofradias, pasosQueSiguenValiendo } from '../SelectorCofradias';
 import { styles } from './FormularioEventoScreen.styles';
 
 // Formulario compartido entre "Nuevo evento" y "Editar evento" (mockup del
@@ -44,9 +45,16 @@ export function FormularioEventoScreen({ route, navigation }) {
   const [cargandoDatos, setCargandoDatos] = useState(true);
   const [nombre, setNombre] = useState('');
   const [cofradiasDisponibles, setCofradiasDisponibles] = useState([]);
-  const [cofradiaSeleccionada, setCofradiaSeleccionada] = useState(null);
-  const [modalCofradiaVisible, setModalCofradiaVisible] = useState(false);
-  const [numPasos, setNumPasos] = useState(0); // candidatos: pasos de la cofradía elegida (solo mientras se crea, ver JSX)
+  // Varias cofradías por evento (bug 37 de bugs.md): el Pregón, por
+  // ejemplo, es de las veinte. Ver SelectorCofradias.
+  const [cofradiasSeleccionadas, setCofradiasSeleccionadas] = useState([]);
+  const [numPasos, setNumPasos] = useState(0); // candidatos: pasos de las cofradías elegidas (solo mientras se crea, ver JSX)
+  // Lo que tenía el evento al abrir el formulario (editando). La tradición
+  // ya no se edita aquí, pero se conserva (bug 39: antes se mandaba null y
+  // se borraba al guardar, p.ej. la del Sermón de las Siete Palabras).
+  const [tradicionOriginal, setTradicionOriginal] = useState(null);
+  const [cofradiasOriginales, setCofradiasOriginales] = useState([]);
+  const [pasoIdsOriginales, setPasoIdsOriginales] = useState([]);
   const [numPasosAsignados, setNumPasosAsignados] = useState(0); // los que YA participan en este evento (editando)
   const [diasSemanaSanta, setDiasSemanaSanta] = useState([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
@@ -95,9 +103,11 @@ export function FormularioEventoScreen({ route, navigation }) {
       setDiasSemanaSanta(dias);
 
       if (evento) {
-        const cofradia = cofradias.find((c) => evento.cofradiaIds.includes(c.id)) ?? null;
         setNombre(evento.nombre);
-        setCofradiaSeleccionada(cofradia);
+        setCofradiasSeleccionadas(evento.cofradiaIds);
+        setCofradiasOriginales(evento.cofradiaIds);
+        setPasoIdsOriginales(evento.pasoIds);
+        setTradicionOriginal(evento.tradicion);
         setDiaSeleccionado(dias.find((d) => d.nombre === evento.dia) ?? null);
         setHoraInicio(evento.hora ?? '');
         setDuracionTexto(fechaSemanaSanta.formatearDuracionCorta(evento.duracionMin ?? 0));
@@ -105,9 +115,7 @@ export function FormularioEventoScreen({ route, navigation }) {
         setEstadoOriginal(evento.estado);
         setWebOficial(evento.web ?? '');
         setHistoria(evento.historia ?? '');
-        if (cofradia) {
-          services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
-        }
+        contarPasosDeCofradias(evento.cofradiaIds).then(setNumPasos).catch(() => {});
         setNumPasosAsignados(evento.pasoIds.length);
         if (evento.ubicacionId) {
           const ubicacion = await services.getUbicacionPorId(evento.ubicacionId);
@@ -121,11 +129,18 @@ export function FormularioEventoScreen({ route, navigation }) {
     });
   }, [ciudadId, eventoId, editando]);
 
-  function seleccionarCofradia(cofradia) {
-    setCofradiaSeleccionada(cofradia);
+  function cambiarCofradias(ids) {
+    setCofradiasSeleccionadas(ids);
     limpiarError('cofradia');
-    setModalCofradiaVisible(false);
-    services.getPasosPorCofradia(cofradia.id).then((pasos) => setNumPasos(pasos.length));
+    contarPasosDeCofradias(ids).then(setNumPasos).catch(() => {});
+  }
+
+  // Editando: si se ha quitado alguna cofradía, sus pasos salen también del
+  // evento (null = el backend no toca los pasos).
+  async function pasosParaGuardar() {
+    if (!editando) return null;
+    const quitadas = cofradiasOriginales.some((id) => !cofradiasSeleccionadas.includes(id));
+    return quitadas ? pasosQueSiguenValiendo(pasoIdsOriginales, cofradiasSeleccionadas) : null;
   }
 
   const latitudNumero = Number(latitud.replace(',', '.'));
@@ -147,7 +162,7 @@ export function FormularioEventoScreen({ route, navigation }) {
   function validar() {
     const errores = {};
     if (!nombre.trim()) errores.nombre = 'El nombre del evento es obligatorio';
-    if (!cofradiaSeleccionada) errores.cofradia = 'Selecciona la cofradía';
+    if (cofradiasSeleccionadas.length === 0) errores.cofradia = 'Selecciona al menos una cofradía';
     if (!diaSeleccionado) errores.dia = 'Selecciona el día';
     if (!fechaSemanaSanta.esHoraValida(horaInicio)) errores.horaInicio = 'Indica la hora de inicio (00:00)';
     if (!ubicacionValida) errores.ubicacion = 'Indica la latitud y la longitud';
@@ -168,18 +183,18 @@ export function FormularioEventoScreen({ route, navigation }) {
       const datos = {
         nombre: nombre.trim(),
         historia: historia.trim() || null,
-        tradicion: null,
+        tradicion: tradicionOriginal,
         fecha,
         // Duración 0 -> null (ver sumarMinutos): sin hora de fin, el evento
         // no se finaliza solo, solo a mano.
         fechaFin: fechaSemanaSanta.sumarMinutos(fecha, duracionMin),
-        cofradiaIds: cofradiaSeleccionada ? [cofradiaSeleccionada.id] : [],
+        cofradiaIds: cofradiasSeleccionadas,
         ubicacionId: idUbicacion,
         web: webOficial.trim() || null,
         // Los pasos se asignan aparte, en SeleccionarPasosEventoScreen
-        // (2026-08-23) -mismo patrón que FormularioProcesionScreen, que
-        // tampoco los toca aquí.
-        pasosIds: null,
+        // (2026-08-23) -mismo patrón que FormularioProcesionScreen-; aquí
+        // solo se quitan los de una cofradía que deja de participar.
+        pasosIds: await pasosParaGuardar(),
         estado: editando ? estado : null, // al crear, el backend lo deja PROGRAMADO
       };
       if (editando) {
@@ -245,13 +260,8 @@ export function FormularioEventoScreen({ route, navigation }) {
         </View>
 
         <View style={styles.campo}>
-          <Text style={styles.etiqueta}>Cofradia</Text>
-          <TouchableOpacity style={styles.selector} onPress={() => setModalCofradiaVisible(true)} activeOpacity={0.8}>
-            <Text style={cofradiaSeleccionada ? styles.selectorTexto : styles.selectorPlaceholder}>
-              {cofradiaSeleccionada ? cofradiaSeleccionada.nombre : 'Seleccionar una existente'}
-            </Text>
-            <Ionicons name="chevron-down" size={16} color={colors.subtitle} />
-          </TouchableOpacity>
+          <Text style={styles.etiqueta}>Cofradías</Text>
+          <SelectorCofradias cofradias={cofradiasDisponibles} seleccionadas={cofradiasSeleccionadas} onCambiar={cambiarCofradias} />
           {erroresCampos.cofradia ? <Text style={styles.errorCampo}>{erroresCampos.cofradia}</Text> : null}
         </View>
 
@@ -389,13 +399,10 @@ export function FormularioEventoScreen({ route, navigation }) {
         </View>
 
         {/* Editando: "Lista de pasos" muestra los que YA participan en ESTE
-            evento (pasoIds, ver SeleccionarPasosEventoScreen) -no los de una
-            sola cofradía. Un evento puede tener varias cofradías
-            (cofradiaIds), y esa pantalla ya reúne los pasos de TODAS ellas,
-            no solo de la que se ve seleccionada aquí (el selector de este
-            formulario solo deja elegir una, mismo caso que Procesion).
-            Creando: todavía no hay evento al que asignar pasos, así que se
-            muestran los de la cofradía elegida como candidatos. */}
+            evento (pasoIds, ver SeleccionarPasosEventoScreen), que se eligen
+            entre los de TODAS sus cofradías participantes. Creando: todavía
+            no hay evento al que asignar pasos, así que se indica cuántos hay
+            entre las cofradías elegidas, a título informativo. */}
         {editando ? (
           <View style={styles.campo}>
             <Text style={styles.etiqueta}>Elementos del Evento</Text>
@@ -414,12 +421,12 @@ export function FormularioEventoScreen({ route, navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-        ) : cofradiaSeleccionada ? (
+        ) : cofradiasSeleccionadas.length > 0 ? (
           <View style={styles.campo}>
-            <Text style={styles.etiqueta}>Pasos de la cofradia</Text>
+            <Text style={styles.etiqueta}>{cofradiasSeleccionadas.length > 1 ? 'Pasos de las cofradías' : 'Pasos de la cofradía'}</Text>
             <TouchableOpacity
               style={styles.pasosRow}
-              onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiaSeleccionada.id })}
+              onPress={() => navigation.navigate('Pasos', { ciudadId, cofradiaIdInicial: cofradiasSeleccionadas[0] })}
               activeOpacity={0.8}
             >
               <View>
@@ -469,22 +476,6 @@ export function FormularioEventoScreen({ route, navigation }) {
           </TouchableOpacity>
         )}
       </ScrollView>
-
-      <Modal transparent visible={modalCofradiaVisible} animationType="fade" onRequestClose={() => setModalCofradiaVisible(false)}>
-        <Pressable style={styles.overlay} onPress={() => setModalCofradiaVisible(false)}>
-          <View style={styles.modalLista}>
-            {cofradiasDisponibles.length === 0 ? (
-              <Text style={styles.modalVacio}>No hay cofradías todavía en esta ciudad.</Text>
-            ) : (
-              cofradiasDisponibles.map((cofradia) => (
-                <TouchableOpacity key={cofradia.id} style={styles.modalItem} onPress={() => seleccionarCofradia(cofradia)}>
-                  <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
-                </TouchableOpacity>
-              ))
-            )}
-          </View>
-        </Pressable>
-      </Modal>
 
       <Modal transparent visible={modalDiaVisible} animationType="fade" onRequestClose={() => setModalDiaVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalDiaVisible(false)}>
