@@ -69,13 +69,6 @@ export const styles = StyleSheet.create({
     borderColor: colors.gold,
     borderRadius: radii.lg,
   },
-  leyendaHoy: {
-    width: 12,
-    height: 12,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    borderRadius: 4,
-  },
   irSemanaSanta: {
     flexDirection: 'row',
     alignItems: 'center',

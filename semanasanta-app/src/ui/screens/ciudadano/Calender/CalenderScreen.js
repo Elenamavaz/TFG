@@ -292,10 +292,6 @@ export function CalendarioScreen({ navigation }) {
               <View style={styles.puntoAgenda} />
               <Text style={styles.leyendaTexto}>Día con procesiones · toca para ver la agenda</Text>
             </View>
-            <View style={styles.leyendaRow}>
-              <View style={styles.leyendaHoy} />
-              <Text style={styles.leyendaTexto}>Hoy</Text>
-            </View>
 
             {!viendoSemanaSanta && mesSemanaSanta ? (
               <TouchableOpacity style={styles.irSemanaSanta} onPress={irASemanaSanta} activeOpacity={0.85}>
