@@ -1,8 +1,17 @@
 \section{5ª Iteración}\label{cap:5_iteracion}
 
-\subsection{Analisís}
+\subsection{Análisis}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta quinta iteración se centra en el panel de administrador y en el sistema de notificaciones. En el caso del administrador se reutiliza el mismo acceso con correo y contraseña de la Junta de Cofradías (Iteración 4), por lo que el problema nuevo que había que resolver era cómo enviar las notificaciones \emph{push}.
+
+\paragraph{Notificaciones \emph{push}}
+Se valoró utilizar Firebase Cloud Messaging \cite{firebasefcm}, que era la opción prevista inicialmente, o Expo Push Notifications. Finalmente se eligió Expo Push, ya que la aplicación está desarrollada con Expo y de esta forma no es necesario añadir otro proveedor con su propio proyecto y sus credenciales.
 
 \subsection{Diseño}
+
+\subsubsection{Notificaciones}
+
+Cuando el ciudadano selecciona una ciudad, la aplicación obtiene un token de Expo Push mediante \texttt{expo-notifications} y lo registra en la API junto con esa ciudad (\texttt{POST /dispositivos-push}). Después, cada vez que se crea una notificación, ya sea de forma automática al empezar o terminar un evento o porque la escribe la Junta de Cofradías, es la API la que la envía al servicio de Expo Push (\texttt{exp.host}) para todos los dispositivos registrados en esa ciudad. De esta forma, el cliente nunca se comunica directamente con el servicio de notificaciones.
 
 \subsubsection{Interfaces de usuario}
 
@@ -87,7 +96,7 @@ Al dar de alta un miembro se le envía por correo una contraseña provisional ge
     \label{fig:mockupCorreoInvitacion}
 \end{figure}
 
-\subsection{Implementacion}
+\subsection{Implementación}
 
 Esta quinta y última iteración implementa el panel de administrador global del sistema. El sistema de notificaciones previsto para esta misma iteración queda pendiente de implementar.
 

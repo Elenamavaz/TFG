@@ -18,7 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.semanasanta.backend.support.DatosPrueba.*;
@@ -162,6 +164,25 @@ class AuthServiceTest {
         assertThatThrownBy(() -> authService.loginConCodigoAcceso("ABCD1234"))
                 .isInstanceOf(CredencialesInvalidasException.class)
                 .hasMessageContaining("revocado");
+    }
+
+    @Test
+    void codigoCaducadoNoPermiteEntrar() {
+        CodigoAcceso codigo = new CodigoAcceso("ABCD1234", cofradia(5L, ciudad(1L)));
+        ReflectionTestUtils.setField(codigo, "fechaExpiracion", LocalDateTime.now().minusMinutes(1));
+        when(codigoAccesoRepository.findByCodigo("ABCD1234")).thenReturn(Optional.of(codigo));
+
+        assertThatThrownBy(() -> authService.loginConCodigoAcceso("ABCD1234"))
+                .isInstanceOf(CredencialesInvalidasException.class)
+                .hasMessageContaining("caducado");
+    }
+
+    @Test
+    void unCodigoRecienEmitidoCaducaVeinticuatroHorasDespues() {
+        CodigoAcceso codigo = new CodigoAcceso("ABCD1234", cofradia(5L, ciudad(1L)));
+
+        assertThat(codigo.isCaducado()).isFalse();
+        assertThat(codigo.getFechaExpiracion()).isEqualTo(codigo.getFechaEmision().plusHours(24));
     }
 
     @Test

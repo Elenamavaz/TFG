@@ -1,8 +1,27 @@
 \section{3ª Iteración}\label{cap:3_iteracion}
 
-\subsection{Analisís}
+\subsection{Análisis}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta tercera iteración se centra en la geolocalización en tiempo real y en el perfil de cofrade. Para ello había que resolver dos problemas: cómo identificar al cofrade para que solo él pueda compartir la ubicación de su procesión, y cómo enviar y mostrar la posición de las procesiones.
+
+\paragraph{Identificación del cofrade}
+Para controlar lo que puede hacer cada rol (RNF-03) se valoró guardar la sesión de cada usuario en el servidor o utilizar tokens JWT \cite{jwt}. Se optó por los tokens JWT, ya que el servidor no necesita recordar ninguna sesión, sino que cada petición incluye un token firmado con el rol del usuario y el servidor solo tiene que comprobarlo. En el caso del cofrade también se plantearon dos opciones: que se registrara con una cuenta propia o que accediera con un código de su cofradía. Se eligió el código de acceso sin registro, ya que los cofrades solo utilizan la aplicación durante la Semana Santa y no tenía sentido obligarles a crearse una cuenta ni guardar sus datos personales.
+
+\paragraph{Posición de las procesiones en tiempo real}
+Para que el ciudadano pueda ver cómo avanzan las procesiones (RF-18) había que elegir entre un mecanismo en el que el servidor avisa al momento de cada cambio, como WebSockets o \emph{Server-Sent Events}, o que la aplicación pregunte al servidor cada cierto tiempo (\emph{polling}). Como el requisito RNF-05 pide una actualización cada 30 segundos como mínimo, se optó por la consulta periódica, que es mucho más sencilla de desarrollar y suficiente para cumplir el requisito. También había que decidir cómo guardar las posiciones: una única posición por procesión que se va sobrescribiendo, o un histórico con todas las lecturas. Se eligió el histórico, ya que hay varios cofrades compartiendo su ubicación a la vez en distintos puntos de la procesión, y con todas sus lecturas se puede calcular mejor dónde se encuentra y qué tramo ocupa. Además, cada lectura se guarda de forma anónima, cumpliendo así el requisito RNF-01.
+
 Aqui hablar de lo del algoritmo de froma extendido las opciones que se analizaron para coger las ubicaciones y pintar etc...
 \subsection{Diseño}
+
+\subsubsection{Autenticación del cofrade}
+
+La autenticación y la autorización de la API se realizan con Spring Security \cite{springsecurity} y tokens JWT (\emph{JSON Web Token}) \cite{jwt}. El cofrade accede introduciendo el código de acceso de su cofradía (\texttt{POST /auth/codigo-acceso}), y si el código existe, no está revocado y su cofradía está activa, el servidor le devuelve un token firmado que indica su rol y la cofradía a la que pertenece, sin identificar en ningún momento a la persona. La aplicación envía este token en cada petición a una operación protegida, y el servidor lo comprueba antes de permitirla. Si el token caduca o el código se revoca, el servidor indica que la sesión ya no es válida y la aplicación deja de compartir la ubicación y vuelve a la pantalla de inicio de sesión. Como el servidor no guarda ninguna sesión, el sistema resulta más sencillo de desplegar.
+
+\subsubsection{Posición en tiempo real}
+
+Siguiendo la consulta periódica elegida en el análisis, mientras el cofrade comparte su ubicación, la aplicación envía su posición cada 30 segundos mediante \texttt{POST /procesiones/\{id\}/posiciones}, y el servidor la descarta si se encuentra a más de 50 metros del recorrido (RF-25). Por otro lado, la aplicación del ciudadano consulta cada 30 segundos la posición de la procesión (\texttt{GET /procesiones/\{id\}/ubicacion}) y el tramo que ocupa sobre el recorrido (\texttt{GET /procesiones/\{id\}/estela}), cumpliendo así el requisito RNF-05.
+
+La posición de la procesión no se guarda como tal, sino que se calcula en cada consulta como el promedio de las lecturas recibidas en el último minuto. Si en el futuro se quisiera una actualización instantánea o dar servicio a muchos más usuarios a la vez, se podría cambiar a WebSockets, tal y como se recoge en el trabajo futuro (Sección~\ref{cap:trabajo_futuro}).
 
 \subsubsection{Interfaces de usuario}
 
@@ -19,13 +38,13 @@ Reúne la ciudad seleccionada y las cofradías, eventos, procesiones o pasos fav
     \label{fig:mockupPerfil}
 \end{figure}
 
-\subsection{Implementacion}
+\subsection{Implementación}
 
 Esta tercera iteración implementa la geolocalización en tiempo real y el perfil de cofrade, lo que exige dos piezas que hasta ahora no hacían falta: la entidad \texttt{Procesion} propiamente dicha y, por primera vez en el proyecto, un mecanismo de autenticación --hasta este punto todos los \emph{endpoints} eran de lectura o gestión pública, ya que el ciudadano nunca se registra (RI-03)--.
 
 \texttt{Procesion} se implementa como una extensión real de \texttt{Evento} (herencia con estrategia \texttt{JOINED} de JPA, Apéndice~\ref{cap:esquemaBD}) en lugar de una simple referencia: hereda nombre, historia, fecha, estado, ubicación y cofradías participantes de \texttt{Evento}, y añade únicamente su fecha de inicio y fin y su \texttt{Recorrido} asociado (relación 1:1, opcional --una procesión puede programarse antes de tener ruta definida--).
 
-Para el acceso al modo cofrade (caso de uso ``Iniciar sesión con código de acceso'', Sección~\ref{cap:modeloInteraccion}) se implementa \texttt{CodigoAcceso} junto con la infraestructura de autenticación: tokens \textbf{JWT} generados y validados con la biblioteca \texttt{jjwt}, un filtro de Spring Security que intercepta cada petición para comprobar el token, y el \emph{endpoint} \texttt{POST /auth/codigo-acceso}, que valida el código y devuelve directamente un token identificado con la cofradía correspondiente, sin registrar ninguna fila de usuario (Apéndice~\ref{cap:esquemaBD}, Sección~\ref{sec:usuariosBD}). La clase \texttt{Cofrade} del modelo de dominio (Figura~\ref{fig:DiagramDomain}) se implementa así como una representación construida en memoria a partir de ese token en cada petición, no como una entidad persistida.
+Para el acceso al modo cofrade (caso de uso ``Iniciar sesión con código de acceso'', Sección~\ref{cap:modeloInteraccion}) se implementa \texttt{CodigoAcceso} junto con la infraestructura de autenticación: tokens \textbf{JWT} generados y validados con la biblioteca \texttt{jjwt}, un filtro de Spring Security que intercepta cada petición para comprobar el token, y el \emph{endpoint} \texttt{POST /auth/codigo-acceso}, que valida el código y devuelve directamente un token identificado con la cofradía correspondiente, sin registrar ninguna fila de usuario (Apéndice~\ref{cap:esquemaBD}, Sección~\ref{sec:usuariosBD}). La clase \texttt{Cofrade} del modelo de dominio (Figura~\ref{fig:DiagramDomain}) se implementa así como una representación construida en memoria a partir de ese token en cada petición, no como una entidad persistida. Cada código caduca 24 horas después de emitirse, y la caducidad se comprueba tanto al iniciar sesión como en cada envío de ubicación, igual que la revocación. Para facilitar la entrada, la aplicación muestra a la Junta cada código también como código QR, junto al texto del código, y el cofrade puede escanearlo con la cámara (mediante la biblioteca \texttt{expo-camera}) o escribirlo a mano; las dos vías envían el mismo código al mismo \emph{endpoint}.
 
 Por último, se implementa la funcionalidad de compartir ubicación (RF-24) mediante el \emph{endpoint} \texttt{POST /procesiones/\{id\}/posiciones}, que registra cada actualización de posición del cofrade como una lectura --o \emph{ping}-- anónima en \texttt{PosicionActual} (RI-06), sin ninguna referencia a quién la envía: solo se comprueba, en el momento de recibirla, que quien la manda es un cofrade de alguna de las cofradías que participan en esa procesión. Un \emph{ping} que cae a más de 50 metros del recorrido marcado --calculado proyectando el punto GPS sobre el tramo más cercano de la polilínea del recorrido-- se descarta y no llega a guardarse, como margen frente a la deriva propia del GPS en calle y frente a lecturas de quien no va realmente en la procesión.
 

@@ -1,8 +1,17 @@
 \section{4ª Iteración}\label{cap:4_iteracion}
 
-\subsection{Analisís}
+\subsection{Análisis}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta cuarta iteración se centra en el panel de gestión de la Junta de Cofradías. Al ser el primer rol que puede modificar la información de la aplicación, el principal problema era cómo debían acceder sus miembros.
+
+\paragraph{Acceso de la Junta de Cofradías}
+Se valoró que la Junta accediera con un código compartido, igual que el cofrade, o que cada miembro tuviera su propia cuenta con correo electrónico y contraseña. Se optó por las cuentas individuales, ya que la Junta puede crear, modificar y eliminar información, por lo que es necesario saber quién accede y poder desactivar a un miembro concreto sin afectar al resto. Para identificarlos se reutilizan los mismos tokens JWT ya utilizados con el cofrade en la Iteración 3, añadiendo un nuevo rol.
 
 \subsection{Diseño}
+
+\subsubsection{Autenticación de la Junta de Cofradías}
+
+Los miembros de la Junta de Cofradías inician sesión con su correo electrónico y su contraseña (\texttt{POST /auth/login}). La contraseña se guarda como \emph{hash} mediante BCrypt, de forma que nunca se almacena en texto plano (RNF-01). Si los datos son correctos, el servidor devuelve un token JWT con el rol de la Junta, igual que en el caso del cofrade. Además, en cada operación de gestión el servidor comprueba que el miembro solo modifica información de la ciudad que gestiona su Junta, cubriendo así el requisito RNF-03.
 
 \subsubsection{Interfaces de usuario}
 
@@ -116,7 +125,7 @@ Cada paso pertenece a una única cofradía, y su ficha incluye su historia, un a
     \label{fig:mockupEditarPaso}
 \end{figure}
 
-\subsection{Implementacion}
+\subsection{Implementación}
 
 Esta cuarta iteración implementa el panel de la Junta de Cofradías: el acceso mediante credenciales propias y el mecanismo de control de acceso que restringe, entidad por entidad, qué puede gestionar cada Junta.
 

@@ -197,34 +197,9 @@ B.~W. Boehm, {\em Software Risk Management}.
   \url{https://spring.io/projects/spring-boot}, 2024.
 \newblock Consultado el 7 de agosto de 2026.
 
-\bibitem{firebasestorage}
-{Google Firebase}, ``Cloud storage for firebase --- documentación oficial.''
-  \url{https://firebase.google.com/docs/storage}, 2024.
-\newblock Consultado el 7 de agosto de 2026.
-
-\bibitem{firebasefcm}
-{Google Firebase}, ``Firebase cloud messaging --- documentación oficial.''
-  \url{https://firebase.google.com/docs/cloud-messaging}, 2024.
-\newblock Consultado el 1 de enero de 2025.
-
 \bibitem{postgresql}
 {PostgreSQL Global Development Group}, ``{PostgreSQL} --- documentación
   oficial.'' \url{https://www.postgresql.org/docs/}, 2024.
-\newblock Consultado el 7 de agosto de 2026.
-
-\bibitem{springdatajpa}
-{VMware}, ``Spring data {JPA} --- documentación oficial.''
-  \url{https://spring.io/projects/spring-data-jpa}, 2024.
-\newblock Consultado el 7 de agosto de 2026.
-
-\bibitem{hibernate}
-{Red Hat}, ``Hibernate {ORM} --- documentación oficial.''
-  \url{https://hibernate.org/orm/documentation/}, 2024.
-\newblock Consultado el 7 de agosto de 2026.
-
-\bibitem{springsecurity}
-{VMware}, ``Spring security --- documentación oficial.''
-  \url{https://spring.io/projects/spring-security}, 2024.
 \newblock Consultado el 7 de agosto de 2026.
 
 \bibitem{jwt}
@@ -232,9 +207,34 @@ B.~W. Boehm, {\em Software Risk Management}.
   \url{https://datatracker.ietf.org/doc/html/rfc7519}, 2015.
 \newblock Consultado el 7 de agosto de 2026.
 
+\bibitem{firebasefcm}
+{Google Firebase}, ``Firebase cloud messaging --- documentación oficial.''
+  \url{https://firebase.google.com/docs/cloud-messaging}, 2024.
+\newblock Consultado el 1 de enero de 2025.
+
 \bibitem{reactquery}
 {TanStack}, ``{TanStack} query --- documentación oficial.''
   \url{https://tanstack.com/query/latest}, 2024.
+\newblock Consultado el 7 de agosto de 2026.
+
+\bibitem{firebasestorage}
+{Google Firebase}, ``Cloud storage for firebase --- documentación oficial.''
+  \url{https://firebase.google.com/docs/storage}, 2024.
+\newblock Consultado el 7 de agosto de 2026.
+
+\bibitem{springdatajpa}
+{VMware}, ``Spring data {JPA} --- documentación oficial.''
+  \url{https://spring.io/projects/spring-data-jpa}, 2024.
+\newblock Consultado el 7 de agosto de 2026.
+
+\bibitem{springsecurity}
+{VMware}, ``Spring security --- documentación oficial.''
+  \url{https://spring.io/projects/spring-security}, 2024.
+\newblock Consultado el 7 de agosto de 2026.
+
+\bibitem{hibernate}
+{Red Hat}, ``Hibernate {ORM} --- documentación oficial.''
+  \url{https://hibernate.org/orm/documentation/}, 2024.
 \newblock Consultado el 7 de agosto de 2026.
 
 \bibitem{figma}

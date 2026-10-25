@@ -67,6 +67,14 @@
             "usesCleartextTraffic": true
           }
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Usamos la cámara para leer el código QR de acceso de tu cofradía.",
+          "recordAudioAndroid": false,
+          "microphonePermission": false
+        }
       ]
     ],
     "extra": {

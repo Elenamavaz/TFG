@@ -1,8 +1,17 @@
 \section{2ª Iteración}\label{cap:2_iteracion}
 
-\subsection{Analisís}
+\subsection{Análisis}
+
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta segunda iteración se centra en el sistema de mapas, que permite ver el recorrido de las procesiones y la ubicación de los eventos (RF-15 y RF-17). Para ello, el principal problema que había que resolver era qué servicio de mapas utilizar.
+
+\paragraph{Mapas}
+Se valoraron Google Maps Platform \cite{googlemapsapi}, OpenStreetMap \cite{openstreetmap} y Mapbox. Se optó por la librería react-native-maps, que utiliza Google Maps en Android y el mapa propio de Apple en iOS, ya que está bien integrada con Expo y aprovecha el mapa que incluye cada sistema. OpenStreetMap y Mapbox se mantienen como plan de contingencia ante el riesgo de tener problemas con Google Maps (Sección~\ref{cap:analisisRiesgos}).
 
 \subsection{Diseño}
+
+\subsubsection{Mapas}
+
+Los mapas se muestran mediante componentes propios de la capa UI que utilizan react-native-maps, de forma que el resto de pantallas no depende directamente de la librería. Sobre el mapa se dibuja el recorrido de cada procesión como una línea que une, en orden, los puntos de su \texttt{Recorrido}, y se marcan los puntos de interés y la ubicación de los eventos. En Android se utiliza Google Maps y en iOS el mapa propio de Apple, sin que esto cambie nada en el resto de la aplicación.
 
 \subsubsection{Interfaces de usuario}
 
@@ -19,7 +28,7 @@ Muestra sobre un mapa de Google Maps la posición en tiempo real de las procesio
     \label{fig:mockupMapa}
 \end{figure}
 
-\subsection{Implementacion}
+\subsection{Implementación}
 
 Esta segunda iteración implementa en el backend las entidades necesarias para el sistema de mapas: \texttt{Recorrido}, \texttt{Ubicacion} y \texttt{PuntoRuta}, siguiendo la misma estructura de cuatro capas ya establecida en la Iteración 1 y documentada a nivel de campo en el Apéndice~\ref{cap:esquemaBD}.
 

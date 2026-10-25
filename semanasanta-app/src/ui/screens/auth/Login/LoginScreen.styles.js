@@ -72,6 +72,22 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiRegular,
     fontSize: 14,
   },
+  escanear: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    borderWidth: 0.5,
+    borderColor: colors.gold,
+    borderRadius: radii.md,
+    paddingVertical: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  escanearTexto: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 14,
+  },
   inputConIcono: {
     flexDirection: 'row',
     alignItems: 'center',

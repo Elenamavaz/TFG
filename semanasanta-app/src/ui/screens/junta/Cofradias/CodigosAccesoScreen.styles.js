@@ -138,4 +138,74 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.bodyRegular,
     fontSize: 13,
   },
+  caducidad: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    marginTop: 4,
+  },
+
+  // Ventana del QR (mismo fondo semitransparente que NotificarModal).
+  qrOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.lg,
+  },
+  qrModal: {
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: radii.lg,
+    borderWidth: 0.5,
+    borderColor: colors.subtitle,
+    padding: spacing.lg,
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 360,
+  },
+  qrCofradia: {
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  qrInstrucciones: {
+    color: colors.subtitle,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+    textAlign: 'center',
+    marginTop: spacing.xs,
+  },
+  qrFondo: {
+    backgroundColor: '#FFFFFF',
+    padding: spacing.md,
+    borderRadius: radii.md,
+    marginVertical: spacing.md,
+  },
+  // El texto del código, para quien no pueda escanear: grande y espaciado.
+  qrCodigo: {
+    color: colors.gold,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 28,
+    letterSpacing: 4,
+    marginTop: spacing.xs,
+  },
+  qrCaducidad: {
+    color: colors.cream,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 13,
+    marginTop: spacing.md,
+  },
+  qrCerrar: {
+    backgroundColor: colors.gold,
+    borderRadius: radii.lg,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.xl,
+    marginTop: spacing.lg,
+  },
+  qrCerrarTexto: {
+    color: colors.background,
+    fontFamily: fontFamilies.uiSemiBold,
+    fontSize: 15,
+  },
 });

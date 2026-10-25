@@ -60,6 +60,9 @@ public class AuthService {
         if (codigoAcceso.getEstado() == EstadoCodigo.REVOCADO) {
             throw new CredencialesInvalidasException("Código de acceso revocado");
         }
+        if (codigoAcceso.isCaducado()) {
+            throw new CredencialesInvalidasException("Este código de acceso ha caducado; pide uno nuevo a tu Junta de Cofradías");
+        }
         if (!codigoAcceso.getCofradia().isActiva()) {
             throw new CredencialesInvalidasException("La cofradía de este código está desactivada");
         }

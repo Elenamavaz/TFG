@@ -6,6 +6,7 @@ import { context } from '../../../../application';
 import { services } from '../../../../data';
 import { colors } from '../../../../theme';
 import { styles } from './LoginScreen.styles';
+import { EscanerQrModal } from './EscanerQrModal';
 
 const ROLES = {
   JUNTA: {
@@ -31,7 +32,7 @@ const ROLES = {
     label: 'Cofrade',
     botonTexto: 'Entrar como Cofrade',
     nota:
-      'Introduce el código que te ha dado la Junta de Cofradías de tu ciudad. ' +
+      'Escanea el QR que te muestre la Junta de Cofradías de tu ciudad, o escribe el código que aparece debajo. ' +
       'Con él podrás compartir tu ubicación durante las procesiones de tu cofradía.',
   },
 };
@@ -48,6 +49,7 @@ export function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [codigo, setCodigo] = useState('');
+  const [escanerVisible, setEscanerVisible] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
 
@@ -58,13 +60,16 @@ export function LoginScreen({ navigation }) {
     setError(null);
   }
 
-  async function entrar() {
+  // codigoEscaneado: el leído del QR (EscanerQrModal), que entra directamente
+  // sin esperar a que el estado "codigo" se actualice.
+  async function entrar(codigoEscaneado) {
     if (cargando) return;
+    const codigoCofrade = (codigoEscaneado ?? codigo).trim();
     setError(null);
     setCargando(true);
     try {
       const respuesta =
-        rolId === 'COFRADE' ? await services.loginConCodigoAcceso(codigo.trim()) : await services.login(email.trim(), password);
+        rolId === 'COFRADE' ? await services.loginConCodigoAcceso(codigoCofrade) : await services.login(email.trim(), password);
       // El backend no valida "quiero entrar como Junta/Admin", solo
       // email+contraseña: si el rol real de la cuenta no coincide con la
       // pestaña elegida, se rechaza aquí -si no, alguien con cuenta de Junta
@@ -146,6 +151,10 @@ export function LoginScreen({ navigation }) {
             autoCorrect={false}
             style={styles.input}
           />
+          <TouchableOpacity style={styles.escanear} onPress={() => setEscanerVisible(true)} activeOpacity={0.85}>
+            <Ionicons name="qr-code-outline" size={18} color={colors.gold} />
+            <Text style={styles.escanearTexto}>Escanear QR</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <>
@@ -195,12 +204,24 @@ export function LoginScreen({ navigation }) {
 
       <TouchableOpacity
         style={[styles.boton, cargando && styles.botonDeshabilitado]}
-        onPress={entrar}
+        onPress={() => entrar()}
         activeOpacity={0.85}
         disabled={cargando || (rolId === 'COFRADE' ? !codigo.trim() : !email || !password)}
       >
         {cargando ? <ActivityIndicator color={colors.background} /> : <Text style={styles.botonTexto}>{rol.botonTexto}</Text>}
       </TouchableOpacity>
+
+      <EscanerQrModal
+        visible={escanerVisible}
+        onCerrar={() => setEscanerVisible(false)}
+        onCodigo={(leido) => {
+          // Se deja también escrito: si el código falla (caducado,
+          // revocado...), el cofrade ve cuál ha leído junto al error.
+          setEscanerVisible(false);
+          setCodigo(leido);
+          entrar(leido);
+        }}
+      />
     </common.ScreenContainer>
   );
 }

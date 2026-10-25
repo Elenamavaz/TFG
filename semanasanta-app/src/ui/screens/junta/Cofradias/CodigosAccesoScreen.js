@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { ActivityIndicator, Alert, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import QRCode from 'react-native-qrcode-svg';
 import { services } from '../../../../data';
 import { models } from '../../../../data';
 import { common } from '../../../components';
+import { tiempo } from '../../../utils';
 import { colors } from '../../../../theme';
 import { styles } from './CodigosAccesoScreen.styles';
 
@@ -16,13 +18,31 @@ const BADGE_POR_ESTADO = {
   [models.EstadoCodigo.VALIDADO]: { etiqueta: 'En uso', background: colors.greenBackground, texto: colors.lightGreenText },
   [models.EstadoCodigo.REVOCADO]: { etiqueta: 'Revocado', background: colors.backgroundRed, texto: colors.redText },
 };
+const BADGE_CADUCADO = { etiqueta: 'Caducado', background: colors.surfaceAlt, texto: colors.subtitle };
+
+// "25 de marzo, 18:30" a partir del LocalDateTime del backend (sin zona: se
+// lee como hora local, que es la de España igual que en el backend).
+function formatearFechaHora(fechaIso) {
+  if (!fechaIso) return '';
+  const fecha = new Date(fechaIso);
+  const hora = `${String(fecha.getHours()).padStart(2, '0')}:${String(fecha.getMinutes()).padStart(2, '0')}`;
+  return `${fecha.getDate()} de ${tiempo.MESES[fecha.getMonth()]}, ${hora}`;
+}
 
 // Códigos de acceso de una cofradía (2026-10-02, sin mockup): era el hueco
 // que impedía usar la geolocalización -los endpoints existían, pero la Junta
 // no tenía dónde generar un código para dárselo a sus cofrades. Se llega
 // desde "Elementos de la cofradia" en FormularioCofradiaScreen. "Compartir"
 // usa el Share nativo (WhatsApp, correo...), sin librería nueva. Los
-// revocados se quedan abajo, plegados: no sirven, pero son historial.
+// revocados y caducados se quedan abajo, plegados: no sirven, pero son
+// historial.
+//
+// QR (2026-10-25): "Ver QR" muestra el código como QR, con el texto del
+// código debajo, para ponerlo en la iglesia el día de la procesión (en
+// pantalla, o impreso a partir de una captura). El cofrade lo escanea al
+// iniciar sesión, o escribe el texto si no puede usar la cámara: las dos
+// vías llevan al mismo POST /auth/codigo-acceso. Cada código caduca 24 horas
+// después de generarse.
 export function CodigosAccesoScreen({ route, navigation }) {
   const { cofradiaId } = route.params;
   const [cofradia, setCofradia] = useState(null);
@@ -31,6 +51,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
   const [generando, setGenerando] = useState(false);
   const [revocandoId, setRevocandoId] = useState(null);
   const [verRevocados, setVerRevocados] = useState(false);
+  const [codigoQr, setCodigoQr] = useState(null); // código cuyo QR se está mostrando, o null
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -72,7 +93,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
       message:
         `Código de acceso de ${cofradia?.nombre ?? 'tu cofradía'}: ${codigo.codigo}\n\n` +
         'Entra en la app con él (Iniciar sesión → pestaña Cofrade) y, durante la procesión, ' +
-        'pulsa "Activar ubicación compartida".',
+        `pulsa "Activar ubicación compartida". Sirve hasta el ${formatearFechaHora(codigo.fechaExpiracion)}.`,
     });
   }
 
@@ -111,7 +132,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
   }
 
   const activos = codigos.filter((c) => c.activo);
-  const revocados = codigos.filter((c) => !c.activo);
+  const inactivos = codigos.filter((c) => !c.activo);
 
   return (
     <common.ScreenContainer>
@@ -119,8 +140,8 @@ export function CodigosAccesoScreen({ route, navigation }) {
         <Text style={styles.title}>Códigos de acceso</Text>
         <Text style={styles.subtitle}>{cofradia ? cofradia.nombre : ''}</Text>
         <Text style={styles.explicacion}>
-          Entrega un código a los cofrades que vayan a compartir su ubicación durante las procesiones. Un mismo código
-          puede usarlo más de una persona y sirve hasta que lo revoques.
+          Genera el código el mismo día de la procesión y muestra su QR a los cofrades que vayan a compartir su
+          ubicación. Un mismo código puede usarlo más de una persona y sirve durante 24 horas, o hasta que lo revoques.
         </Text>
 
         <TouchableOpacity
@@ -147,6 +168,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
             key={codigo.id}
             codigo={codigo}
             revocando={revocandoId === codigo.id}
+            onVerQr={() => setCodigoQr(codigo)}
             onCompartir={() => compartir(codigo)}
             onRevocar={() => confirmarRevocar(codigo)}
           />
@@ -155,22 +177,46 @@ export function CodigosAccesoScreen({ route, navigation }) {
           <Text style={styles.empty}>No hay códigos activos. Genera uno para dárselo a tus cofrades.</Text>
         ) : null}
 
-        {revocados.length > 0 ? (
+        {inactivos.length > 0 ? (
           <>
             <TouchableOpacity style={styles.revocadosToggle} onPress={() => setVerRevocados((v) => !v)} activeOpacity={0.8}>
-              <Text style={styles.sectionTitleSinMargen}>Revocados ({revocados.length})</Text>
+              <Text style={styles.sectionTitleSinMargen}>Revocados y caducados ({inactivos.length})</Text>
               <Ionicons name={verRevocados ? 'chevron-up' : 'chevron-down'} size={16} color={colors.subtitle} />
             </TouchableOpacity>
-            {verRevocados ? revocados.map((codigo) => <CodigoCard key={codigo.id} codigo={codigo} />) : null}
+            {verRevocados ? inactivos.map((codigo) => <CodigoCard key={codigo.id} codigo={codigo} />) : null}
           </>
         ) : null}
       </ScrollView>
+
+      <Modal visible={codigoQr !== null} transparent animationType="fade" onRequestClose={() => setCodigoQr(null)}>
+        <Pressable style={styles.qrOverlay} onPress={() => setCodigoQr(null)}>
+          <Pressable style={styles.qrModal}>
+            <Text style={styles.qrCofradia}>{cofradia ? cofradia.nombre : ''}</Text>
+            <Text style={styles.qrInstrucciones}>Escanéalo al iniciar sesión como cofrade</Text>
+            {codigoQr ? (
+              <View style={styles.qrFondo}>
+                {/* Fondo blanco con margen: los lectores de QR necesitan contraste y un borde claro. */}
+                <QRCode value={codigoQr.codigo} size={220} color="#000000" backgroundColor="#FFFFFF" />
+              </View>
+            ) : null}
+            <Text style={styles.qrInstrucciones}>o escribe este código</Text>
+            <Text style={styles.qrCodigo} selectable>
+              {codigoQr?.codigo}
+            </Text>
+            <Text style={styles.qrCaducidad}>Válido hasta el {formatearFechaHora(codigoQr?.fechaExpiracion)}</Text>
+            <TouchableOpacity style={styles.qrCerrar} onPress={() => setCodigoQr(null)} activeOpacity={0.85}>
+              <Text style={styles.qrCerrarTexto}>Cerrar</Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </common.ScreenContainer>
   );
 }
 
-function CodigoCard({ codigo, revocando = false, onCompartir, onRevocar }) {
-  const badge = BADGE_POR_ESTADO[codigo.estado];
+function CodigoCard({ codigo, revocando = false, onVerQr, onCompartir, onRevocar }) {
+  const caducado = codigo.estado !== models.EstadoCodigo.REVOCADO && codigo.caducado;
+  const badge = caducado ? BADGE_CADUCADO : BADGE_POR_ESTADO[codigo.estado];
   return (
     <View style={[styles.card, !codigo.activo && styles.cardRevocada]}>
       <View style={styles.cardHeader}>
@@ -181,8 +227,17 @@ function CodigoCard({ codigo, revocando = false, onCompartir, onRevocar }) {
           <Text style={[styles.badgeTexto, { color: badge.texto }]}>{badge.etiqueta}</Text>
         </View>
       </View>
+      {codigo.fechaExpiracion && codigo.estado !== models.EstadoCodigo.REVOCADO ? (
+        <Text style={styles.caducidad}>
+          {caducado ? 'Caducó' : 'Caduca'} el {formatearFechaHora(codigo.fechaExpiracion)}
+        </Text>
+      ) : null}
       {codigo.activo ? (
         <View style={styles.cardAcciones}>
+          <TouchableOpacity style={styles.accion} onPress={onVerQr}>
+            <Ionicons name="qr-code-outline" size={15} color={colors.gold} />
+            <Text style={styles.accionCompartir}>Ver QR</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.accion} onPress={onCompartir}>
             <Ionicons name="share-outline" size={15} color={colors.gold} />
             <Text style={styles.accionCompartir}>Compartir</Text>

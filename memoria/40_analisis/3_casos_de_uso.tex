@@ -133,11 +133,11 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
         \hline
         \multicolumn{2}{|l|}{\textbf{Caso de uso: Iniciar sesión con código de acceso}} \\
         \hline
-        \textbf{Resumen} & Un cofrade accede al modo cofrade introduciendo el código de acceso de su cofradía, sin necesidad de registrarse. \\
+        \textbf{Resumen} & Un cofrade accede al modo cofrade con el código de acceso de su cofradía, escaneando su código QR o escribiéndolo, sin necesidad de registrarse. \\
         \hline
         \textbf{Actor} & Cofrade \\
         \hline
-        \textbf{Precondición} & La Junta de Cofradías ha emitido un código de acceso para la cofradía del cofrade y no lo ha revocado. \\
+        \textbf{Precondición} & La Junta de Cofradías ha emitido un código de acceso para la cofradía del cofrade, no lo ha revocado y no han pasado 24 horas desde su emisión. \\
         \hline
         \textbf{Postcondición} & El cofrade queda identificado como cofrade de esa cofradía y puede compartir su ubicación durante sus procesiones en curso. \\
         \hline
@@ -145,23 +145,29 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
         \hline
         \multicolumn{2}{|p{15cm}|}{ [1] El usuario solicita acceder como cofrade. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [2] El sistema solicita el código de acceso de la cofradía. } \\
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema solicita el código de acceso de la cofradía, que el usuario puede escanear como código QR o escribir. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3] El usuario introduce el código de acceso. } \\
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario escanea el código QR que le muestra la Junta de Cofradías. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4] El sistema comprueba que el código existe, que no ha sido revocado y que la cofradía está activa. } \\
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema comprueba que el código existe, que no ha sido revocado ni ha caducado, y que la cofradía está activa. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5] El sistema identifica al usuario como cofrade de esa cofradía, sin crear ningún usuario ni guardar ningún dato que lo identifique, y le da acceso al modo cofrade. } \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Cancelación de la operación: el usuario desiste y el sistema no guarda ningún cambio. } \\
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] El usuario no puede o no quiere usar la cámara: escribe el código que aparece junto al QR. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.2] El usuario no concede el permiso de cámara: el sistema le informa de que puede escribir el código a mano. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.3] Cancelación de la operación: el usuario desiste y el sistema no guarda ningún cambio. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.a.1] Código inexistente: el sistema informa de que el código no es válido y no concede el acceso. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.a.2] Código revocado: el sistema informa de que el código ha sido revocado y no concede el acceso. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [4.a.3] Cofradía desactivada: el sistema informa de que la cofradía está desactivada y no concede el acceso. } \\
+        \multicolumn{2}{|p{15cm}|}{ [4.a.3] Código caducado: el sistema informa de que el código ha caducado y de que debe pedir uno nuevo a la Junta de Cofradías, y no concede el acceso. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4.a.4] Cofradía desactivada: el sistema informa de que la cofradía está desactivada y no concede el acceso. } \\
         \hline
         \textbf{Requisitos Relacionados} & RF-23. \\
         \hline
@@ -215,7 +221,7 @@ En las siguientes tablas se exponen los cinco casos de uso más representativos 
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5.a.2] Pérdida de conexión: el sistema vuelve a intentar el envío en el siguiente ciclo. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.3] La procesión finaliza, la Junta revoca el código de acceso o caduca la sesión: el sistema deja de compartir la ubicación automáticamente e informa al cofrade del motivo. } \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.3] La procesión finaliza, la Junta revoca el código de acceso, el código caduca o caduca la sesión: el sistema deja de compartir la ubicación automáticamente e informa al cofrade del motivo. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [7.a.1] El cofrade decide dejar de compartir su ubicación: se realiza el caso de uso «Dejar de compartir ubicación». } \\
         \hline

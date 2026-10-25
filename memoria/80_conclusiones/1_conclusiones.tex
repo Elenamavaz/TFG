@@ -14,13 +14,11 @@ En cuarto lugar, la importación del recorrido desde un archivo GPX podría apro
 
 En quinto lugar, las notificaciones solo pueden activarse o desactivarse en bloque, desde el permiso de notificaciones del dispositivo. Una mejora natural sería permitir al ciudadano elegir desde la propia aplicación qué tipos de aviso quiere recibir (por ejemplo, solo los de procesiones o solo los de eventos). Esto exigiría guardar esas preferencias junto a cada dispositivo registrado y asociar cada notificación al tipo de acto del que informa, para que el backend pueda filtrar a quién se la envía.
 
-En sexto lugar, el acceso de los cofrades podría simplificarse mostrando el código de acceso de cada cofradía también como un código QR, de modo que el cofrade pudiera entrar al modo cofrade escaneándolo con la cámara del móvil en lugar de tener que escribirlo a mano.
-
 Por último, sería interesante adaptar la interfaz en función de la Semana Santa de cada ciudad, asociando a cada una la terminología propia que se emplea localmente, de forma que la experiencia resulte más cercana y personalizada para cada usuario.
 
 \section{Puntos débiles}\label{cap:puntosDebiles}
 
-El sistema presenta una seguridad limitada en el acceso de los cofrades, que se realiza introduciendo un código de acceso compartido por toda la cofradía. No obstante, se ha priorizado la usabilidad frente a la seguridad, ya que el nivel de riesgo asociado a este método de acceso se considera asumible dado el contexto de uso de la aplicación, y la Junta de Cofradías puede revocar el código en cualquier momento.
+El sistema presenta una seguridad limitada en el acceso de los cofrades, que se realiza con un código de acceso compartido por toda la cofradía, ya sea escaneando su código QR o escribiéndolo a mano. Cualquiera que vea el QR o el código, por ejemplo en una fotografía, podría usarlo. No obstante, se ha priorizado la usabilidad frente a la seguridad, ya que el nivel de riesgo asociado a este método de acceso se considera asumible dado el contexto de uso de la aplicación, la Junta de Cofradías puede revocar el código en cualquier momento, cada código caduca 24 horas después de emitirse, y solo permite compartir la ubicación mientras la procesión está en curso y cerca de su recorrido.
 
 Además, la comunicación entre la aplicación y el servidor se realiza mediante HTTP, sin cifrar, porque el servidor de despliegue no dispone de un certificado TLS. En consecuencia, las credenciales de inicio de sesión, los tokens de sesión y las posiciones que comparten los cofrades viajan por la red sin cifrar y podrían ser interceptados en una red no segura. Para un uso real, sería imprescindible servir la API mediante HTTPS, con un dominio propio y un certificado TLS (por ejemplo, de Let's Encrypt), lo que además permitiría retirar de la aplicación las excepciones que hoy permiten el tráfico HTTP.
 

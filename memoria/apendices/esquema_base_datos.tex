@@ -128,7 +128,7 @@ Pasos que posee la cofradía. A diferencia del planteamiento inicial, en el que 
 
 \section{Código de Acceso (\texttt{codigos\_acceso})}
 \textbf{Requisito:} RI-13
-Códigos que emite la Junta de Cofradías en nombre de una cofradía de su ciudad (\texttt{Cofradia} no es un actor con cuenta propia, no puede emitir nada por sí misma). Quien lo valida obtiene un token identificado con esa cofradía y el rol de cofrade, sin que ello genere ningún registro de usuario --ver la explicación completa en la Sección~\ref{sec:usuariosBD}--. El código no se invalida al usarse por primera vez: sigue sirviendo para volver a autenticarse mientras no esté revocado.
+Códigos que emite la Junta de Cofradías en nombre de una cofradía de su ciudad (\texttt{Cofradia} no es un actor con cuenta propia, no puede emitir nada por sí misma). Quien lo valida obtiene un token identificado con esa cofradía y el rol de cofrade, sin que ello genere ningún registro de usuario --ver la explicación completa en la Sección~\ref{sec:usuariosBD}--. El código no se invalida al usarse por primera vez: sigue sirviendo para volver a autenticarse mientras no esté revocado ni haya caducado. Cada código caduca 24 horas después de emitirse (migración \texttt{V44}), pensado para que la Junta lo genere el mismo día de la procesión.
 
 \begin{table}[H]
 \centering
@@ -143,6 +143,10 @@ Códigos que emite la Junta de Cofradías en nombre de una cofradía de su ciuda
 \texttt{estado} & \texttt{ENUM} & \texttt{EMITIDO}, \texttt{VALIDADO}, \texttt{REVOCADO} \\
 \hline
 \texttt{cofradia\_id} & \texttt{BIGINT} & FK $\to$ \texttt{cofradias(id)} \\
+\hline
+\texttt{fecha\_emision} & \texttt{TIMESTAMP} & Momento en que se emite el código \\
+\hline
+\texttt{fecha\_expiracion} & \texttt{TIMESTAMP} & 24 horas después de \texttt{fecha\_emision}; pasado ese momento el código deja de servir \\
 \hline
 \end{tabular}
 \caption{Campos de \texttt{codigos\_acceso}}

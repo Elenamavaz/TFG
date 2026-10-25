@@ -62,7 +62,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 \subsubsection{Cofrade}
 
 \begin{itemize}
-    \item \textbf{RF-23} \prioridad{Alta} El sistema debe permitir a los cofrades acceder al modo cofrade, desde el inicio de sesión, introduciendo el código de acceso de su cofradía generado por la Junta de Cofradías, sin necesidad de registrarse.
+    \item \textbf{RF-23} \prioridad{Alta} El sistema debe permitir a los cofrades acceder al modo cofrade, desde el inicio de sesión, escaneando el código QR del código de acceso de su cofradía generado por la Junta de Cofradías o escribiendo el código a mano, sin necesidad de registrarse.
 
     \item \textbf{RF-24} \prioridad{Alta} El sistema debe permitir a los cofrades compartir su ubicación en tiempo real únicamente mientras una procesión de su cofradía esté en curso --eligiendo cuál si hay varias en curso a la vez--, y dejar de compartirla en cualquier momento. El sistema debe dejar de compartirla automáticamente, informando al cofrade del motivo, cuando la procesión finalice, cuando se revoque su código de acceso o cuando caduque su sesión. Si el cofrade concede el permiso de ubicación permanente, la ubicación se debe seguir enviando aunque la pantalla esté bloqueada; en caso contrario, solo mientras la aplicación esté abierta.
 
@@ -82,7 +82,7 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-30} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías gestionar (dar de alta, editar y dar de baja) los pasos que pertenecen a cada una de las cofradías de su ciudad --un paso pertenece siempre a una única cofradía (RI-10), aunque después pueda participar en varios eventos y procesiones de esa misma cofradía--.
 
-    \item \textbf{RF-31} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías emitir, cuando lo necesite, un código de acceso para una cofradía, para que sus cofrades puedan acceder al modo cofrade; el valor del código lo genera automáticamente el propio sistema, sin que tenga que escribirlo a mano. También debe permitirle revocar un código emitido, de modo que deje de dar acceso al modo cofrade.
+    \item \textbf{RF-31} \prioridad{Media} El sistema debe permitir al miembro de la Junta de Cofradías emitir, cuando lo necesite, un código de acceso para una cofradía, para que sus cofrades puedan acceder al modo cofrade; el valor del código lo genera automáticamente el propio sistema, sin que tenga que escribirlo a mano, y el sistema debe mostrarlo también como un código QR, junto al texto del código. Cada código debe caducar 24 horas después de emitirse. También debe permitirle revocar un código emitido, de modo que deje de dar acceso al modo cofrade.
 
     \item \textbf{RF-32} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías importar el recorrido de una procesión desde un archivo GPX, del que se toma la secuencia ordenada de coordenadas que forma el trazado.
 
@@ -132,7 +132,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
     \end{itemize}
 
     \item \textbf{RI-02} \prioridad{Alta} El sistema debe almacenar la información sobre las Juntas de
-    Cofradías/hermandades:
+    Cofradías:
     \begin{itemize}
         \item Identificador.
         \item Nombre.
@@ -248,6 +248,7 @@ Los requisitos de información definen los datos que el sistema debe almacenar y
         \item Identificador.
         \item Código, generado automáticamente por el sistema y único.
         \item Estado (emitido, validado --ya se ha usado al menos una vez para entrar-- o revocado).
+        \item Fecha de emisión y fecha de caducidad (24 horas después de la emisión).
         \item Cofradía a la que da acceso.
     \end{itemize}
 

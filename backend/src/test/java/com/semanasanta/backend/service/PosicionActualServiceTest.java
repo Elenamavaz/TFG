@@ -18,6 +18,7 @@ import com.semanasanta.backend.util.GeometriaRuta.PuntoGeo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -25,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -162,6 +164,16 @@ class PosicionActualServiceTest {
         assertThatThrownBy(() -> servicio.registrarPing(10L, 41.651, LON))
                 .isInstanceOf(AccesoDenegadoException.class)
                 .hasMessageContaining("revocado");
+        verify(posicionActualRepository, never()).save(any());
+    }
+
+    @Test
+    void conUnCodigoCaducadoDespuesDeEntrarYaNoSeAceptanPings() {
+        ReflectionTestUtils.setField(autenticarCofradeConCodigoVigente(), "fechaExpiracion", LocalDateTime.now().minusMinutes(1));
+
+        assertThatThrownBy(() -> servicio.registrarPing(10L, 41.651, LON))
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("caducado");
         verify(posicionActualRepository, never()).save(any());
     }
 

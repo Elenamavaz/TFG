@@ -220,6 +220,9 @@ public class PosicionActualService {
                 || !codigo.getCofradia().getId().equals(actual.id())) {
             throw new AccesoDenegadoException("La Junta ha revocado tu código de acceso: ya no puedes compartir tu ubicación");
         }
+        if (codigo.isCaducado()) {
+            throw new AccesoDenegadoException("Tu código de acceso ha caducado: ya no puedes compartir tu ubicación");
+        }
         if (!codigo.getCofradia().isActiva()) {
             throw new AccesoDenegadoException("Tu cofradía está desactivada: ya no puedes compartir tu ubicación");
         }
