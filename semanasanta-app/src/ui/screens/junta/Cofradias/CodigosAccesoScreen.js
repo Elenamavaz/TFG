@@ -20,13 +20,16 @@ const BADGE_POR_ESTADO = {
 };
 const BADGE_CADUCADO = { etiqueta: 'Caducado', background: colors.surfaceAlt, texto: colors.subtitle };
 
-// "25 de marzo, 18:30" a partir del LocalDateTime del backend (sin zona: se
-// lee como hora local, que es la de España igual que en el backend).
+// "25 de marzo, 18:30" a partir del LocalDateTime del backend (hora de
+// España, sin zona). Se trocea el texto en vez de pasar por new Date: el
+// backend lo envía con hasta 9 decimales en los segundos
+// ("2026-10-26T18:30:12.123456789"), y no todos los motores de JavaScript
+// (Hermes, en el móvil) aceptan ese formato.
 function formatearFechaHora(fechaIso) {
-  if (!fechaIso) return '';
-  const fecha = new Date(fechaIso);
-  const hora = `${String(fecha.getHours()).padStart(2, '0')}:${String(fecha.getMinutes()).padStart(2, '0')}`;
-  return `${fecha.getDate()} de ${tiempo.MESES[fecha.getMonth()]}, ${hora}`;
+  const partes = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(fechaIso ?? '');
+  if (!partes) return '';
+  const [, , mes, dia, hora, minuto] = partes;
+  return `${Number(dia)} de ${tiempo.MESES[Number(mes) - 1]}, ${hora}:${minuto}`;
 }
 
 // Códigos de acceso de una cofradía (2026-10-02, sin mockup): era el hueco
