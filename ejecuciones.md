@@ -40,3 +40,8 @@ cd ~/TFG && git pull && cd backend && ./mvnw package -DskipTests && sudo systemc
 
 cd C:\Users\elena\dev\TFG\semanasanta-app
 eas build -p android --profile preview
+
+
+He comparado el diagrama con las entidades del backend ([backend/src/main/java/com/semanasanta/backend/model/](backend/src/main/java/com/semanasanta/backend/model/)) y con las migraciones. No he cambiado nada. Esto es lo que tendrías que corregir.
+Tienes razón: el modelo de dominio tiene que reflejar el análisis, es decir, los requisitos (RF/RI) y los casos de uso, no el código. He revisado el diagrama con ese criterio, comparándolo con [2_requisistos.tex](memoria/40_analisis/2_requisistos.tex) y con el texto de [4_modelo_de_dominio.tex](memoria/40_analisis/4_modelo_de_dominio.tex). No he cambiado nada.
+
