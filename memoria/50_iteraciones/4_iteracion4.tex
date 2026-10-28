@@ -2,16 +2,63 @@
 
 \subsection{Análisis}
 
-Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta cuarta iteración se centra en el panel de gestión de la Junta de Cofradías. Al ser el primer rol que puede modificar la información de la aplicación, el principal problema era cómo debían acceder sus miembros.
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta cuarta iteración se centra en el panel de gestión de la Junta de Cofradías, desde el que sus miembros pueden crear, editar y eliminar las cofradías, procesiones, eventos y pasos de su ciudad, importar los recorridos y emitir los códigos de acceso (RF-26 a RF-33). Al ser el primer rol que puede modificar la información de la aplicación, en esta iteración se analizaron sobre todo los problemas relacionados con el acceso y los permisos, además de cómo introducir los recorridos.
+
+\subsubsection{Problemas planteados y alternativas valoradas}
 
 \paragraph{Acceso de la Junta de Cofradías}
 Se valoró que la Junta accediera con un código compartido, igual que el cofrade, o que cada miembro tuviera su propia cuenta con correo electrónico y contraseña. Se optó por las cuentas individuales, ya que la Junta puede crear, modificar y eliminar información, por lo que es necesario saber quién accede y poder desactivar a un miembro concreto sin afectar al resto. Para identificarlos se reutilizan los mismos tokens JWT ya utilizados con el cofrade en la Iteración 3, añadiendo un nuevo rol.
 
+\paragraph{Control de lo que puede modificar cada Junta}
+Cada Junta solo debe poder modificar la información de su propia ciudad (RNF-03). Se valoró hacer esta comprobación por separado en cada operación o hacerla en un único sitio que reutilicen todas. Se optó por la segunda opción, ya que la comprobación es la misma para cofradías, pasos, eventos, procesiones y códigos de acceso, y repetirla en cada uno aumentaba el riesgo de olvidarla en alguno. En el caso de los recorridos, los puntos y las ubicaciones, que no pertenecen directamente a ninguna ciudad, se decidió deducirla a partir de la procesión o el evento que los utiliza.
+
+\paragraph{Introducción del recorrido}
+Para crear el recorrido de una procesión (RF-32) se valoró que la Junta lo dibujara punto a punto sobre el mapa dentro de la propia aplicación, o que lo importara desde un archivo GPX. Dibujarlo en el móvil es lento y poco preciso para un recorrido de varios kilómetros, mientras que el formato GPX es un estándar que generan herramientas gratuitas como gpx.studio, Wikiloc o Strava. Por ello se optó por importar el recorrido desde un archivo GPX, y sobre los puntos importados la Junta puede marcar después los puntos de interés (RF-33).
+
+\paragraph{Cofradías y pasos de una procesión}
+Una procesión o un evento puede tener varias cofradías, como ocurre en la Procesión General del Viernes Santo, y a la hora de asignar sus pasos se valoró ofrecer todos los pasos de la ciudad o solo los de las cofradías que participan. Se optó por la segunda opción, ya que un paso pertenece siempre a una única cofradía (RF-30), de forma que la lista es más corta y no se puede asignar por error un paso de una cofradía que no participa. Además, si se quita una cofradía de una procesión, sus pasos también se quitan.
+
+En la Tabla~\ref{tab:alternativasIt4} se resumen todas estas decisiones.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{3.6cm}|p{5.6cm}|p{4.4cm}|}
+\hline
+\textbf{Problema} & \textbf{Alternativas valoradas} & \textbf{Opción elegida} \\
+\hline
+Acceso de la Junta & Código compartido, cuentas individuales & Cuentas con correo y contraseña \\
+\hline
+Control de cada Junta & Comprobación en cada operación, comprobación común & Comprobación común reutilizada \\
+\hline
+Introducción del recorrido & Dibujarlo en la aplicación, importar un GPX & Importar un archivo GPX \\
+\hline
+Pasos de una procesión & Todos los de la ciudad, solo los de sus cofradías & Solo los de sus cofradías \\
+\hline
+\end{tabular}
+\caption{Problemas analizados en la cuarta iteración y opción elegida}
+\label{tab:alternativasIt4}
+\end{table}
+
 \subsection{Diseño}
+
+Una vez elegidas las alternativas en el análisis, en este apartado se explica cómo se ha diseñado el acceso y el panel de la Junta de Cofradías sobre la arquitectura definida en la Iteración 1 (Sección~\ref{cap:1_iteracion}).
 
 \subsubsection{Autenticación de la Junta de Cofradías}
 
-Los miembros de la Junta de Cofradías inician sesión con su correo electrónico y su contraseña (\texttt{POST /auth/login}). La contraseña se guarda como \emph{hash} mediante BCrypt, de forma que nunca se almacena en texto plano (RNF-01). Si los datos son correctos, el servidor devuelve un token JWT con el rol de la Junta, igual que en el caso del cofrade. Además, en cada operación de gestión el servidor comprueba que el miembro solo modifica información de la ciudad que gestiona su Junta, cubriendo así el requisito RNF-03.
+Los miembros de la Junta de Cofradías inician sesión con su correo electrónico y su contraseña (\texttt{POST /auth/login}). La contraseña se guarda como \emph{hash} mediante BCrypt, de forma que nunca se almacena en texto plano (RNF-01). Si los datos son correctos, el servidor devuelve un token JWT con el rol de la Junta, igual que en el caso del cofrade, y la aplicación lo guarda para que el miembro no tenga que volver a iniciar sesión cada vez que la abre.
+
+\subsubsection{Control de acceso}
+
+En cada operación de creación, edición o eliminación, la capa \texttt{Service} comprueba que quien la solicita es un miembro activo de la Junta que gestiona la ciudad de esa información, utilizando para ello una única comprobación común. Si no es así, la API responde con un código \texttt{403} (prohibido). En el caso de los recorridos, los puntos de ruta y las ubicaciones, la ciudad se obtiene a partir de la procesión o el evento que los utiliza, y si todavía no están asignados a ninguno, como un recorrido que se acaba de importar, basta con que quien lo modifica sea una Junta activa. De esta forma se cubre el requisito RNF-03.
+
+\subsubsection{Importación del recorrido}
+
+La Junta selecciona el archivo GPX desde el móvil y la aplicación lo envía al servidor (\texttt{POST /recorridos/importar-gpx}). En el servidor, la clase \texttt{GpxParser} lee el archivo y lo convierte en la lista ordenada de puntos que necesita \texttt{RecorridoService} para crear el \texttt{Recorrido}, aplicando el patrón Adapter descrito en la Iteración 1. Una vez creado, el recorrido se asigna a la procesión y la Junta puede marcar cualquiera de sus puntos como punto de interés.
+
+\subsubsection{Diseño de la base de datos}
+
+La tabla \texttt{usuarios} solo contiene a los usuarios con credenciales propias, es decir, a los miembros de la Junta de Cofradías y, más adelante, a los administradores (Iteración 5), con su correo y su contraseña guardada como \emph{hash}\footnote{Hash: transformación irreversible de una contraseña en una cadena de caracteres, de forma que el sistema pueda comprobar que una contraseña es correcta sin necesidad de guardarla en texto plano.} mediante BCrypt (RNF-01). Los datos propios de cada tipo de usuario se guardan en su propia tabla (\texttt{miembros\_junta\_cofradia} y \texttt{administradores}), siguiendo el criterio de herencia definido en la Iteración 1. Cada miembro hace referencia a la Junta a la que pertenece, y el ciudadano y el cofrade no generan ninguna fila en estas tablas (Sección~\ref{sec:usuariosBD}).
 
 \subsubsection{Interfaces de usuario}
 
@@ -127,12 +174,16 @@ Cada paso pertenece a una única cofradía, y su ficha incluye su historia, un a
 
 \subsection{Implementación}
 
-Esta cuarta iteración implementa el panel de la Junta de Cofradías: el acceso mediante credenciales propias y el mecanismo de control de acceso que restringe, entidad por entidad, qué puede gestionar cada Junta.
+Esta cuarta iteración implementa el panel de la Junta de Cofradías, es decir, el acceso con credenciales propias y el control de lo que puede gestionar cada Junta.
 
-Se implementa \texttt{MiembroJuntaCofradia} --persona con credenciales que pertenece a la Junta de una ciudad, pudiendo haber varios miembros por Junta-- y el \emph{endpoint} \texttt{POST /auth/login}, que compara el \texttt{email} y la contraseña (\emph{hash} BCrypt) recibidos y devuelve un token JWT con el identificador del miembro y su rol, siguiendo el mismo mecanismo de autenticación introducido en la Iteración 3.
+Se implementa \texttt{MiembroJuntaCofradia}, que representa a una persona con credenciales que pertenece a la Junta de una ciudad, pudiendo haber varios miembros en cada Junta, y el \emph{endpoint} \texttt{POST /auth/login}, que comprueba el correo y la contraseña recibidos y devuelve un token JWT con el identificador del miembro y su rol, siguiendo el mismo mecanismo de autenticación de la Iteración 3.
 
-Sobre esa autenticación se implementa la autorización por rol que exige el requisito RNF-03: en la capa \texttt{Service} de cada entidad de contenido --\texttt{Cofradia}, \texttt{Paso}, \texttt{Evento}, \texttt{Procesion} y \texttt{CodigoAcceso}--, las operaciones de creación, edición y eliminación comprueban que quien las solicita es un miembro de la Junta que gestiona la ciudad a la que pertenece esa cofradía, antes de permitir la operación; en caso contrario, la API responde con un código \texttt{403} (prohibido). Esta comprobación se centraliza en un único método reutilizable en lugar de repetirse en cada entidad, para evitar duplicar la misma lógica de autorización varias veces. Las entidades \texttt{Recorrido}, \texttt{Ubicacion}, \texttt{PuntoRuta} y \texttt{PuntoDeInteres}, al no pertenecer a una única cofradía --se diseñaron como recursos reutilizables entre procesiones e incluso entre ciudades distintas, Sección~\ref{cap:2_iteracion}--, solo exigen que quien las gestione sea una Junta de Cofradías cualquiera, sin comparar ciudad.
+Sobre esta autenticación se implementa la autorización por rol que exige el requisito RNF-03. En la capa \texttt{Service} de \texttt{Cofradia}, \texttt{Paso}, \texttt{Evento}, \texttt{Procesion} y \texttt{CodigoAcceso}, las operaciones de creación, edición y eliminación comprueban que quien las solicita es un miembro de la Junta que gestiona la ciudad de esa cofradía, respondiendo con un código \texttt{403} en caso contrario. Para no repetir la misma lógica en cada entidad, esta comprobación se centraliza en un único método. En el caso de \texttt{Recorrido}, \texttt{Ubicacion}, \texttt{PuntoRuta} y \texttt{PuntoDeInteres}, que no pertenecen directamente a ninguna cofradía, se implementa \texttt{AutorizacionRecorridoService}, que obtiene la ciudad a partir de la procesión o el evento que los utiliza.
+
+En la aplicación se implementan todas las pantallas del panel: el perfil de la Junta, la edición de la información de la ciudad y la gestión de cofradías, procesiones, eventos, pasos y códigos de acceso. Al crear una procesión, el recorrido se importa desde un archivo GPX seleccionado con la librería \texttt{expo-document-picker}, y tanto en las procesiones como en los eventos se pueden elegir varias cofradías y asignar los pasos de todas ellas. Además, desde el listado de procesiones y eventos la Junta puede cambiar su estado a mano, por ejemplo para cancelar uno de ellos.
+
+% TODO: capturas de la aplicación real de esta iteración (inicio de sesión, perfil de la Junta y gestión de cofradías, procesiones, eventos y pasos).
 
 \subsection{Pruebas}
 
-Al igual que en las iteraciones anteriores, la verificación se ha realizado de forma manual: obtención de un token con \texttt{POST /auth/login} y comprobación de que las operaciones de gestión se aceptan o se rechazan (\texttt{403}) según la ciudad que gestiona cada Junta de prueba. La batería de pruebas automatizadas queda pendiente y se documentará en el Capítulo~\ref{cap:pruebas}.
+Al igual que en las iteraciones anteriores, la verificación se ha realizado de forma manual, obteniendo un token con \texttt{POST /auth/login} y comprobando que las operaciones de gestión se aceptan o se rechazan (\texttt{403}) según la ciudad que gestiona cada Junta de prueba. Las pruebas automatizadas se recogen en el Capítulo~\ref{cap:pruebas}.

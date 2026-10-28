@@ -1,50 +1,67 @@
 \chapter{Tecnologías utilizadas}\label{cap:tecnologias}
- 
+
 Este capítulo recoge, a modo de referencia, el conjunto de tecnologías, herramientas y servicios empleados en el desarrollo del proyecto, agrupados por la parte del sistema a la que pertenecen. La justificación de cada decisión --por qué esta tecnología y no otra-- se desarrolla con más detalle en el apartado \nameref{sec:decisionesTecnologicas} (Sección~\ref{cap:1_iteracion}); este capítulo se centra en describir brevemente cada pieza y su papel dentro del sistema.
- 
+
 \section{Cliente móvil}
- 
+
 \begin{itemize}
-    \item \textbf{React Native} \cite{reactnative}: \emph{framework}\footnote{Framework: conjunto de herramientas y bibliotecas de código que facilitan el desarrollo de un tipo concreto de aplicación, proporcionando una estructura base sobre la que trabajar.} de Meta que permite escribir una única aplicación en JavaScript/TypeScript y ejecutarla tanto en Android como en iOS.
-    \item \textbf{Expo} \cite{expo}: conjunto de herramientas sobre React Native recomendado por la documentación oficial de este último \cite{reactnative} para construir el código de la aplicación, en lugar de configurar manualmente el entorno nativo de cada plataforma. Aporta una biblioteca estándar de módulos nativos, un proceso de compilación gestionado (\emph{EAS Build}) y la publicación de actualizaciones del código sin pasar por las tiendas de aplicaciones.
-    \item \textbf{react-native-maps} y \textbf{expo-location}: librerías utilizadas para la integración del mapa y el acceso a la geolocalización del dispositivo, respectivamente; esta última forma parte de la biblioteca estándar de Expo.
+    \item \textbf{React Native} \cite{reactnative}: \emph{framework}\footnote{Framework: conjunto de herramientas y bibliotecas de código que facilitan el desarrollo de un tipo concreto de aplicación, proporcionando una estructura base sobre la que trabajar.} de Meta que permite escribir una única aplicación en JavaScript y ejecutarla tanto en Android como en iOS. La versión final utiliza React Native 0.88.
+    \item \textbf{Expo} \cite{expo}: conjunto de herramientas sobre React Native recomendado por la documentación oficial de este último \cite{reactnative} para construir el código de la aplicación, en lugar de configurar manualmente el entorno nativo de cada plataforma. Aporta una biblioteca estándar de módulos nativos y un proceso de compilación gestionado (\emph{EAS Build}). La versión final utiliza el SDK 58 de Expo. Durante el desarrollo se ha utilizado además la aplicación \textbf{Expo Go}, que permite probar el código en un dispositivo físico sin generar un ejecutable.
+    \item \textbf{React Navigation}: navegación entre pantallas, mediante pilas de pantallas y una barra de pestañas inferior para el ciudadano.
+    \item \textbf{react-native-maps}: integración del mapa en la aplicación. En Android utiliza Google Maps y en iOS el mapa nativo del sistema (Apple Maps), que no necesita clave de API.
+    \item \textbf{expo-location} y \textbf{expo-task-manager}: acceso a la ubicación del dispositivo. La primera se usa para preseleccionar la ciudad más cercana y para obtener la posición del cofrade; la segunda permite seguir enviando esa posición con la pantalla bloqueada, mediante una tarea en segundo plano.
+    \item \textbf{expo-notifications}: registro del dispositivo para recibir notificaciones \emph{push} y consulta del permiso de notificaciones.
+    \item \textbf{expo-document-picker} y \textbf{expo-file-system}: selección del archivo GPX del recorrido desde el dispositivo y envío de su contenido a la API.
     \item \textbf{react-native-qrcode-svg} y \textbf{expo-camera}: librerías utilizadas para mostrar a la Junta de Cofradías cada código de acceso como código QR y para que el cofrade lo escanee con la cámara del móvil al iniciar sesión, como alternativa a escribir el código a mano.
-    \item \textbf{TanStack Query} \cite{reactquery}: librería de gestión de estado remoto que se encarga de las peticiones a la API propia (caché en memoria y en disco, reintentos automáticos y actualización periódica de los datos), utilizada para cubrir la disponibilidad sin conexión de los datos estáticos (RNF-06), tal y como se explica en la Sección~\ref{cap:1_iteracion}.
+    \item \textbf{TanStack Query} \cite{reactquery}: librería de gestión de estado remoto que se encarga de parte de las peticiones a la API propia (caché en memoria y en disco y reintentos automáticos). Su caché en disco, guardada con \textbf{AsyncStorage}, es la que permite seguir consultando sin conexión los datos ya visitados durante 24 horas (RNF-06).
 \end{itemize}
- 
+
 \section{Backend propio}
- 
+
 \begin{itemize}
-    \item \textbf{Spring Boot} \cite{springboot}: \emph{framework} de Java sobre el que se construye la API REST\footnote{API REST: forma habitual de comunicación entre un cliente y un servidor propio, en la que el cliente pide o envía datos a través de peticiones HTTP a unas direcciones (\emph{endpoints}) definidas por el propio equipo de desarrollo.} del proyecto, siguiendo una arquitectura en capas (controlador, servicio, repositorio) descrita en la Sección~\ref{cap:1_iteracion}.
-    \item \textbf{Spring Security} \cite{springsecurity} y \textbf{JWT} (\emph{JSON Web Token}) \cite{jwt}: mecanismo de autenticación y autorización de la API. Tras validar sus credenciales, el usuario recibe un token firmado que debe incluir en cada petición posterior; el servidor lo valida y comprueba el rol asociado antes de permitir el acceso a un recurso, sin necesidad de mantener sesión en el servidor.
+    \item \textbf{Spring Boot} \cite{springboot}: \emph{framework} de Java sobre el que se construye la API REST\footnote{API REST: forma habitual de comunicación entre un cliente y un servidor propio, en la que el cliente pide o envía datos a través de peticiones HTTP a unas direcciones (\emph{endpoints}) definidas por el propio equipo de desarrollo.} del proyecto, siguiendo una arquitectura en capas (controlador, servicio, repositorio) descrita en la Sección~\ref{cap:1_iteracion}. Incluye también las tareas programadas, como la que cambia automáticamente el estado de las procesiones y los eventos al llegar su hora de inicio y de fin.
+    \item \textbf{Spring Security} \cite{springsecurity} y \textbf{JWT} (\emph{JSON Web Token}) \cite{jwt}: mecanismo de autenticación y autorización de la API. Tras validar sus credenciales, el usuario recibe un token firmado que debe incluir en cada petición posterior; el servidor lo valida y comprueba el rol asociado antes de permitir el acceso a un recurso, sin necesidad de mantener sesión en el servidor. Las contraseñas se guardan cifradas con BCrypt.
     \item \textbf{Spring Data JPA} \cite{springdatajpa} e \textbf{Hibernate} \cite{hibernate}: capa de persistencia (\emph{Object-Relational Mapping} u ORM\footnote{ORM: técnica que traduce automáticamente entre los objetos de un lenguaje de programación orientado a objetos (Java, en este caso) y las tablas de una base de datos relacional, evitando escribir manualmente la mayoría de las sentencias SQL.}) que traduce las entidades Java del dominio a tablas de PostgreSQL y viceversa.
+    \item \textbf{Flyway} \cite{flyway}: gestión del esquema de la base de datos mediante migraciones versionadas, un script SQL numerado por cada cambio, que se aplican automáticamente al arrancar la API.
+    \item \textbf{Spring Mail}: envío por correo electrónico, a través del servidor SMTP de Gmail, del mensaje de bienvenida con la contraseña provisional de los miembros de las Juntas de Cofradías.
     \item \textbf{springdoc-openapi} \cite{springdoc}, basado en la especificación \textbf{OpenAPI} \cite{openapi}: genera automáticamente la documentación interactiva de la API a partir del propio código.
 \end{itemize}
- 
+
 \section{Base de datos}
- 
+
 \begin{itemize}
     \item \textbf{PostgreSQL} \cite{postgresql}: sistema gestor de bases de datos relacional utilizado para almacenar toda la información persistente del sistema (ciudades, cofradías, procesiones, recorridos, usuarios, notificaciones, etc.). El esquema completo se detalla en el Apéndice~\ref{cap:esquemaBD}.
 \end{itemize}
- 
+
 \section{Servicios externos}
- 
+
 \begin{itemize}
-    \item \textbf{Expo Push Notifications} \cite{expo}: servicio de notificaciones \emph{push} de la propia plataforma Expo (\texttt{exp.host}), en lugar de Firebase Cloud Messaging. El backend propio es quien decide cuándo se envía una notificación (por ejemplo, cuando una Junta de Cofradías crea una notificación de cambio de horario o cancelación) y se la manda a Expo mediante una petición HTTP corriente a su API; es Expo quien por detrás entrega esa notificación al dispositivo del usuario a través de FCM (Android) o de APNs (iOS), sin que el backend propio tenga que integrarse directamente con ninguno de los dos ni gestionar credenciales de Firebase o de Apple. Se ha optado por esta vía en lugar del Firebase Admin SDK planteado inicialmente porque, al usar ya Expo como plataforma del cliente móvil, evita añadir un segundo proveedor de \emph{push} y sus credenciales propias al proyecto.
-    \item \textbf{Google Maps Platform} \cite{googlemapsapi}: visualización de mapas y cálculo de rutas en el cliente, ya justificado en el estado de la cuestión (Sección~1.3.2).
+    \item \textbf{Expo Push Notifications} \cite{expo}: servicio de notificaciones \emph{push} de la propia plataforma Expo (\texttt{exp.host}), en lugar de Firebase Cloud Messaging. El backend propio es quien decide cuándo se envía una notificación (por ejemplo, cuando una procesión comienza o cuando una Junta de Cofradías crea una notificación de cambio de horario o cancelación) y se la manda a Expo mediante una petición HTTP corriente a su API; es Expo quien por detrás entrega esa notificación al dispositivo del usuario a través de FCM (Android) o de APNs (iOS), sin que el backend propio tenga que integrarse directamente con ninguno de los dos ni gestionar credenciales de Firebase o de Apple. Se ha optado por esta vía en lugar del Firebase Admin SDK planteado inicialmente porque, al usar ya Expo como plataforma del cliente móvil, evita añadir un segundo proveedor de \emph{push} y sus credenciales propias al proyecto.
+    \item \textbf{Google Maps Platform} \cite{googlemapsapi}: visualización de mapas en Android, mediante el SDK de Maps para Android y una clave de API restringida a la aplicación.
+    \item \textbf{OpenStreetMap} \cite{openstreetmap}: callejero libre utilizado para preparar los archivos GPX de los recorridos de las procesiones de Valladolid. A partir del itinerario oficial de cada procesión, publicado por la Junta de Cofradías de Semana Santa de Valladolid \cite{jcssvaProcesiones}, se localizó cada calle en OpenStreetMap y se trazó el recorrido a pie con el servicio de rutas OSRM \cite{osrm}.
 \end{itemize}
- 
+
 \section{Despliegue y alojamiento}
- 
+
 \begin{itemize}
     \item \textbf{Servidor virtual de la Universidad de Valladolid}: máquina virtual Linux proporcionada por la Escuela de Ingeniería Informática, en la que se alojan tanto la API de Spring Boot, ejecutada como servicio del sistema mediante systemd, como la base de datos PostgreSQL. Al ser un recurso cedido por la universidad, no supone ningún coste para el proyecto; a cambio, la gestión del servidor (instalación de dependencias, configuración del servicio y actualización a cada nueva versión) se realiza de forma manual. El manual de despliegue completo se recoge en el Apéndice~\ref{cap:manual_despliegue}.
     \item \textbf{EAS Build} \cite{expo}: servicio de compilación en la nube de Expo, utilizado para generar el ejecutable instalable de la aplicación móvil sin necesidad de compilarlo en local.
 \end{itemize}
- 
+
+\section{Pruebas}
+
+\begin{itemize}
+    \item \textbf{JUnit 5} \cite{junit} y \textbf{Mockito} \cite{mockito}: pruebas automáticas del backend. JUnit ejecuta las pruebas y Mockito sustituye las dependencias de cada clase (por ejemplo, los repositorios) por objetos simulados, de forma que cada prueba comprueba la lógica de una sola clase.
+    \item \textbf{Spring Boot Test} (con MockMvc): pruebas de la API a nivel HTTP --rutas públicas y protegidas, traducción de errores a códigos HTTP y validación de los datos de entrada-- sin necesidad de arrancar un servidor real.
+    \item \textbf{JaCoCo} \cite{jacoco}: medición de la cobertura de código de las pruebas automáticas.
+    \item \textbf{Node.js}: entorno de ejecución del simulador de procesiones, un programa propio que imita a varios cofrades enviando su ubicación para probar el seguimiento en tiempo real sin salir a la calle (Capítulo~\ref{cap:pruebas}).
+\end{itemize}
+
 \section{Herramientas de desarrollo}
- 
+
 \begin{itemize}
     \item \textbf{Android Studio} \cite{androidstudio} y \textbf{Visual Studio Code} \cite{vscode}: entornos de desarrollo utilizados para la aplicación móvil y para el backend, respectivamente.
     \item \textbf{GitHub} \cite{github}: control de versiones y repositorio remoto del proyecto, desde el que además se descarga el código en el servidor en cada despliegue.
     \item \textbf{Figma} \cite{figma}: diseño de las interfaces mediante \emph{mockups}, tal y como se explica en la Sección~\ref{cap:1_iteracion}.
+    \item \textbf{Astah}: elaboración de los diagramas UML de casos de uso, de dominio y de secuencia.
 \end{itemize}

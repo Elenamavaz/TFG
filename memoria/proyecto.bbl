@@ -202,16 +202,6 @@ B.~W. Boehm, {\em Software Risk Management}.
   oficial.'' \url{https://www.postgresql.org/docs/}, 2024.
 \newblock Consultado el 7 de agosto de 2026.
 
-\bibitem{jwt}
-{IETF}, ``{RFC} 7519: {JSON} web token ({JWT}).''
-  \url{https://datatracker.ietf.org/doc/html/rfc7519}, 2015.
-\newblock Consultado el 7 de agosto de 2026.
-
-\bibitem{firebasefcm}
-{Google Firebase}, ``Firebase cloud messaging --- documentación oficial.''
-  \url{https://firebase.google.com/docs/cloud-messaging}, 2024.
-\newblock Consultado el 1 de enero de 2025.
-
 \bibitem{reactquery}
 {TanStack}, ``{TanStack} query --- documentación oficial.''
   \url{https://tanstack.com/query/latest}, 2024.
@@ -255,5 +245,15 @@ E.~Gamma, R.~Helm, R.~Johnson, and J.~Vlissides, {\em Design Patterns: Elements
 {springdoc}, ``springdoc-openapi --- documentación oficial.''
   \url{https://springdoc.org/}, 2024.
 \newblock Consultado el 7 de agosto de 2026.
+
+\bibitem{jwt}
+{IETF}, ``{RFC} 7519: {JSON} web token ({JWT}).''
+  \url{https://datatracker.ietf.org/doc/html/rfc7519}, 2015.
+\newblock Consultado el 7 de agosto de 2026.
+
+\bibitem{firebasefcm}
+{Google Firebase}, ``Firebase cloud messaging --- documentación oficial.''
+  \url{https://firebase.google.com/docs/cloud-messaging}, 2024.
+\newblock Consultado el 1 de enero de 2025.
 
 \end{thebibliography}

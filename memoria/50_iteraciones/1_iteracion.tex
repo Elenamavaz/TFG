@@ -4,7 +4,7 @@
 
 Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta primera iteración se centra en el módulo básico del ciudadano, es decir, en la selección de la ciudad (RF-01, RF-02 y RF-04), la consulta de la información general de la Semana Santa y los listados y fichas de cofradías, procesiones, pasos y eventos (RF-05 a RF-08 y RF-11). Sin embargo, al tratarse de la primera iteración, también es en la que se define la base sobre la que se construye el resto del proyecto.
 
-Debido a esto, antes de empezar con el diseño se analizaron los principales problemas que había que resolver, valorando para cada uno de ellos las distintas alternativas posibles y eligiendo la que mejor se adaptaba al proyecto. En este apartado se recogen las decisiones necesarias para construir esta primera base del sistema, mientras que las relacionadas con funcionalidades posteriores, como los mapas, la ubicación en tiempo real, el acceso de los usuarios o las notificaciones, se analizan en la iteración en la que se tomaron.
+Debido a esto, antes de empezar con el diseño se analizaron los principales problemas que había que resolver, valorando para cada uno de ellos las distintas alternativas posibles y eligiendo la que mejor se adaptaba al proyecto. En este apartado se recogen las decisiones necesarias para construir esta primera base del sistema.
 
 \subsubsection{Problemas planteados y alternativas valoradas}\label{sec:decisionesTecnologicas}
 
@@ -51,21 +51,21 @@ Favoritos & En el servidor, en el móvil & En el móvil \\
 
 \subsection{Diseño}
 
-Una vez elegidas las alternativas en el análisis, en este apartado se explica cómo se ha diseñado cada una de ellas: cómo se organiza el sistema, cómo se guardan los datos, cómo son las pantallas y qué patrones de diseño se han aplicado. Aunque este diseño se definió en la primera iteración, es el que se ha seguido durante todo el proyecto, por lo que aquí se describe tal y como ha quedado en la versión final de la aplicación. Además, se explica con el detalle suficiente para que pueda entenderse sin conocimientos previos de React Native o Spring Boot.
+Una vez elegidas las alternativas en el análisis, en este apartado se explica cómo se ha diseñado cada una de ellas: cómo se organiza el sistema, cómo se guardan los datos, cómo son las pantallas y qué patrones de diseño se han aplicado. 
 
 \subsubsection{Arquitectura del sistema}
 
 La arquitectura de un sistema describe, de forma general, en qué partes se divide y cómo se comunican entre sí. En este proyecto se ha definido una arquitectura \textbf{cliente-servidor con servidor propio}, en la que la aplicación React Native (el cliente\footnote{Cliente: en una arquitectura cliente-servidor, es la parte del sistema con la que interactúa directamente el usuario; en este caso, la propia aplicación instalada en el teléfono móvil.}) se comunica mediante peticiones HTTPS\footnote{HTTPS: versión segura (cifrada) del protocolo HTTP, usado habitualmente para la comunicación entre aplicaciones y servicios en internet.} con la API REST propia (el \emph{backend}\footnote{Backend: la parte del sistema que no ve el usuario directamente, encargada de almacenar los datos, gestionar la lógica de negocio y responder a las peticiones que le hace el cliente.}), desarrollada con Spring Boot. Esta API ofrece un conjunto de \emph{endpoints}\footnote{Endpoint: dirección concreta de una API a la que el cliente envía una petición para realizar una operación determinada (por ejemplo, obtener el listado de procesiones de una ciudad).} organizados por recurso, como \texttt{/ciudades}, \texttt{/cofradias}, \texttt{/pasos}, \texttt{/eventos}, \texttt{/procesiones}, \texttt{/recorridos}, \texttt{/notificaciones} o \texttt{/auth}.
 
-La API es la que contiene toda la lógica de negocio y la única que accede a la base de datos PostgreSQL, de forma que el cliente nunca se comunica directamente con ella. En el caso de las notificaciones \emph{push}, el cliente obtiene un token de Expo Push mediante \texttt{expo-notifications} y lo registra en la API (\texttt{POST /dispositivos-push}). Después, es la API, y no el cliente, la que se comunica con el servicio de Expo Push para enviar cada notificación.
+La API es la que contiene toda la lógica de negocio y la única que accede a la base de datos PostgreSQL, de forma que el cliente nunca se comunica directamente con ella.
 
 \paragraph{Estructura del front-end}
 
 El código del cliente se organiza siguiendo una \textbf{arquitectura en capas} \cite{sommerville2015}, en la que el proyecto se divide en varios grupos de carpetas (o \emph{paquetes}), cada uno con una responsabilidad concreta. Cada capa solo puede depender de la capa inmediatamente inferior y nunca al revés, de forma que un cambio en una capa afecta al menor número posible de partes del código y cada capa se puede probar por separado. Las cuatro capas definidas son:
 
 \begin{itemize}
-    \item \textbf{UI} (\texttt{screens}, \texttt{components}, \texttt{navigation}): contiene las pantallas que ve el usuario, agrupadas por rol (ciudadano, cofrade, Junta de Cofradías y administrador) siguiendo los cuatro diagramas de casos de uso del Capítulo~\ref{cap:analisis}, los componentes visuales que se reutilizan entre pantallas, como los mapas, y la navegación entre pantallas.
-    \item \textbf{Application} (\texttt{context}): contiene el estado que comparten varias pantallas a la vez, como la sesión del usuario (\texttt{AuthContext}), la ciudad seleccionada (\texttt{CiudadContext}), el día de la Semana Santa que se está consultando (\texttt{DiaContext}), los favoritos (\texttt{FavoritosContext}) o si el cofrade está compartiendo su ubicación (\texttt{CofradeContext}).
+    \item \textbf{UI} (\texttt{screens}, \texttt{components}, \texttt{navigation}): contiene las pantallas que ve el usuario, agrupadas por rol (ciudadano, cofrade, Junta de Cofradías y administrador) siguiendo los diagramas de casos de uso del Capítulo~\ref{cap:analisis} y del Apendice~\ref{cap:casos_de_uso_adicionales}, los componentes visuales que se reutilizan entre pantallas, como los mapas, y la navegación entre pantallas.
+    \item \textbf{Application} (\texttt{context}): contiene el estado que comparten varias pantallas a la vez, como la sesión del usuario (\texttt{AuthContext}), la ciudad seleccionada (\texttt{CiudadContext}), el día de la Semana Santa que se está consultando (\texttt{DiaContext}) o los favoritos (\texttt{FavoritosContext}).
     \item \textbf{Data} (\texttt{services}, \texttt{models}, \texttt{utils}): contiene un servicio por cada tipo de información del dominio (\texttt{ciudadService}, \texttt{cofradiaService}, \texttt{procesionService}, \texttt{seguimientoService}, \texttt{pushService}, etc.), que son los únicos que se comunican con la API, los modelos que describen cada objeto del dominio dentro de la aplicación y algunas utilidades, como el cálculo de las fechas de la Semana Santa de cada año.
     \item \textbf{Infrastructure} (\texttt{api}): contiene la configuración del cliente HTTP (\texttt{apiClient}), que añade automáticamente el token JWT a cada petición y avisa a la aplicación cuando la sesión ha caducado, y la caché de TanStack Query (\texttt{queryClient}), que guarda las respuestas en el dispositivo para poder consultarlas sin conexión.
 \end{itemize}
@@ -74,26 +74,24 @@ En la Figura~\ref{fig:disenoPaquetes} se muestra esta organización mediante un 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/Dragrama de aplicacion front-end.png}
+    \includegraphics[width=0.45\textwidth]{imagenes/DiagramaDePaquetes.png}
     \caption{Diagrama de paquetes de la aplicación cliente}
     \label{fig:disenoPaquetes}
 \end{figure}
 
-\colorbox{yellow}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textit{Nota: este diagrama todavía muestra los paquetes \texttt{firebase} y \texttt{maps} dentro de \texttt{Infrastructure}, que no llegaron a usarse (solo existe \texttt{api}, Sección~\ref{sec:decisionesTecnologicas}). Estoy pidiendo permisos para la licencia de Astah para poder actualizarlo.}}}
-
 \paragraph{Estructura del back-end}
 
-El back-end también se organiza en capas, siguiendo la estructura habitual de una API desarrollada con Spring Boot \cite{sommerville2015}:
+El back-end también se organiza en capas, siguiendo la estructura habitual de una API desarrollada con Spring Boot \cite{sommerville2015}. Esta estructura se define en esta primera iteración y es la que se sigue después con cada nueva entidad del sistema:
 
 \begin{itemize}
     \item \textbf{Controller}: ofrece los \emph{endpoints} REST de cada recurso, recibe las peticiones HTTP, delega el trabajo en la capa de servicio y devuelve la respuesta HTTP correspondiente (código de estado y cuerpo en JSON).
-    \item \textbf{Service}: contiene la lógica de negocio, como comprobar que un código de acceso existe, no está revocado ni caducado y su cofradía está activa antes de dar acceso al modo cofrade, o comprobar que un miembro de la Junta solo modifica datos de su propia ciudad.
+    \item \textbf{Service}: contiene la lógica de negocio, como comprobar que los datos obligatorios de una cofradía están completos o que no se elimina una ciudad que todavía tiene cofradías.
     \item \textbf{Repository}: contiene las interfaces de Spring Data JPA \cite{springdatajpa}, una por cada entidad, que se encargan de acceder a PostgreSQL y cuya implementación genera Spring automáticamente.
-    \item \textbf{Security}: contiene la configuración de Spring Security \cite{springsecurity}, el filtro que comprueba el token JWT de cada petición y la generación de los tokens al iniciar sesión.
+    \item \textbf{Security}: contiene la configuración de Spring Security \cite{springsecurity}, que decide qué peticiones necesitan que el usuario se identifique. En esta iteración todas las consultas son públicas, y esta capa se completa a partir de la Iteración 3, cuando aparece el acceso de los cofrades.
     \item \textbf{DTO} (\emph{Data Transfer Object}): contiene las clases que definen exactamente qué datos entran y salen de cada \emph{endpoint}, de forma que no se exponen directamente las entidades de la base de datos y un cambio interno no afecta a lo que recibe el cliente.
 \end{itemize}
 
-Todas las entidades del dominio (\texttt{Ciudad}, \texttt{JuntaCofradias}, \texttt{Cofradia}, \texttt{Paso}, \texttt{Evento}, \texttt{Procesion}, \texttt{Recorrido}, \texttt{PuntoRuta}, \texttt{PuntoDeInteres}, \texttt{Ubicacion}, \texttt{PosicionActual}, \texttt{Usuario}, \texttt{Administrador}, \texttt{MiembroJuntaCofradia}, \texttt{Notificacion}, \texttt{CodigoAcceso} y \texttt{DispositivoPush}) siguen esta misma estructura de capas, tal y como se recoge en la Figura~\ref{fig:disenoPaquetesBackend}. Además de estas capas, existe un paquete \texttt{exception}, que transforma los errores en respuestas HTTP comprensibles para el cliente, y un paquete \texttt{util} con las clases que no pertenecen a ninguna entidad concreta, como la lectura de los archivos GPX. El esquema completo de la base de datos se detalla en el Apéndice~\ref{cap:esquemaBD}, y su diseño se explica en el apartado \nameref{sec:disenoBD}.
+En esta iteración se aplica a las entidades del módulo de ciudadano (\texttt{Ciudad}, \texttt{JuntaCofradias}, \texttt{Cofradia}, \texttt{Paso} y \texttt{Evento}), y en las siguientes iteraciones el resto de entidades se van añadiendo siguiendo la misma estructura. Por ello, en la Figura~\ref{fig:disenoPaquetesBackend} se muestra el diagrama de paquetes con todas las entidades de la versión final de la aplicación. Además de estas capas, existe un paquete \texttt{exception}, que transforma los errores en respuestas HTTP comprensibles para el cliente, y un paquete \texttt{util} con las clases que no pertenecen a ninguna entidad concreta, como la lectura de los archivos GPX. El esquema completo de la base de datos se detalla en el Apéndice~\ref{cap:esquemaBD}, y su diseño se explica en el apartado \nameref{sec:disenoBD}.
 
 \begin{figure}[H]
     \centering
@@ -101,8 +99,6 @@ Todas las entidades del dominio (\texttt{Ciudad}, \texttt{JuntaCofradias}, \text
     \caption{Diagrama de paquetes del backend propio}
     \label{fig:disenoPaquetesBackend}
 \end{figure}
-
-\colorbox{yellow}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textit{Nota: a este diagrama le faltan \texttt{CodigoAcceso} y \texttt{DispositivoPush}, con su propio Controller/Service/Repository/DTO. Estoy pidiendo permisos para la licencia de Astah para poder actualizarlo.}}}
 
 \paragraph{Diagrama de despliegue}
 
@@ -117,18 +113,15 @@ Un diagrama de despliegue representa dónde se ejecuta físicamente cada parte d
 
 \subsubsection{Diseño de la base de datos}\label{sec:disenoBD}
 
-PostgreSQL \cite{postgresql} es una base de datos \textbf{relacional}, en la que la información se organiza en tablas con filas y columnas, y las relaciones entre entidades se representan mediante \textbf{claves foráneas}\footnote{Clave foránea (\emph{foreign key}): columna de una tabla que referencia la clave primaria de otra tabla, y que la propia base de datos utiliza para garantizar que esa relación siempre apunta a un registro que realmente existe (integridad referencial).}, que la propia base de datos se encarga de validar. Para acceder a ella desde Java se utiliza Spring Data JPA \cite{springdatajpa} junto con Hibernate \cite{hibernate}, un \emph{ORM}\footnote{ORM (\emph{Object-Relational Mapping}): técnica que traduce automáticamente entre los objetos de un lenguaje de programación orientado a objetos (Java, en este caso) y las tablas de una base de datos relacional, evitando escribir manualmente la mayoría de las sentencias SQL.} que evita tener que escribir a mano la mayoría de las consultas SQL. Para pasar el modelo de dominio de la Figura~\ref{fig:DiagramDomain} a tablas se han tomado las siguientes decisiones:
+PostgreSQL \cite{postgresql} es una base de datos \textbf{relacional}, en la que la información se organiza en tablas con filas y columnas, y las relaciones entre entidades se representan mediante \textbf{claves foráneas}\footnote{Clave foránea (\emph{foreign key}): columna de una tabla que referencia la clave primaria de otra tabla, y que la propia base de datos utiliza para garantizar que esa relación siempre apunta a un registro que realmente existe (integridad referencial).}, que la propia base de datos se encarga de validar. Para acceder a ella desde Java se utiliza Spring Data JPA \cite{springdatajpa} junto con Hibernate \cite{hibernate}, un \emph{ORM}\footnote{ORM (\emph{Object-Relational Mapping}): técnica que traduce automáticamente entre los objetos de un lenguaje de programación orientado a objetos (Java, en este caso) y las tablas de una base de datos relacional, evitando escribir manualmente la mayoría de las sentencias SQL.} que evita tener que escribir a mano la mayoría de las consultas SQL.
+
+En esta iteración se definen los criterios con los que se pasa el modelo de dominio de la Figura~\ref{fig:DiagramDomain} a tablas, y que se siguen durante todo el proyecto. Aunque en esta iteración solo se crean las tablas del módulo de ciudadano, algunos ejemplos corresponden a tablas que se añaden más tarde, ya que sirven para explicar mejor cada criterio. Las decisiones propias de cada funcionalidad posterior se explican en el diseño de la iteración correspondiente. Los criterios generales son los siguientes:
 
 \begin{itemize}
     \item Las relaciones de uno a muchos se representan con una clave foránea en la tabla del lado ``muchos''. Por ejemplo, la tabla \texttt{pasos} tiene la columna \texttt{cofradia\_id} y la tabla \texttt{cofradias} tiene la columna \texttt{ciudad\_id}, de forma que para obtener los pasos de una cofradía basta con buscar por esa columna.
     \item Las relaciones de muchos a muchos, como las cofradías que participan en varios eventos o los pasos que participan en varios eventos y procesiones, se representan mediante \textbf{tablas intermedias} (\texttt{eventos\_cofradias} y \texttt{pasos\_eventos}).
-    \item Como un mismo punto puede formar parte de varios recorridos, la relación entre \texttt{recorridos} y \texttt{puntos\_ruta} también se guarda en una tabla intermedia, \texttt{recorrido\_puntos\_ruta}, que además guarda el orden y la hora prevista de paso del punto en ese recorrido concreto (Apéndice~\ref{cap:esquemaBD}).
     \item La tabla \texttt{ubicaciones} (latitud, longitud y dirección) es independiente y a ella hacen referencia tanto \texttt{eventos} como \texttt{puntos\_ruta}. De esta forma no se repiten estas columnas en cada tabla y se puede reutilizar una misma ubicación, como una iglesia en la que se celebra un evento y por la que pasa una procesión.
     \item Las herencias del modelo de dominio se representan con una \textbf{tabla por cada clase} (estrategia \texttt{JOINED} de JPA): \texttt{procesiones} extiende a \texttt{eventos}, \texttt{puntos\_de\_interes} a \texttt{puntos\_ruta}, y \texttt{administradores} y \texttt{miembros\_junta\_cofradia} a \texttt{usuarios}. El identificador de cada subtipo es a la vez su clave primaria y una clave foránea a la tabla padre, evitando así tener una única tabla con muchas columnas vacías según el tipo.
-    \item La tabla \texttt{posiciones\_actuales} es un \textbf{histórico de lecturas} independiente de \texttt{procesiones}, en la que cada posición enviada por un cofrade es una fila nueva que solo hace referencia a la procesión, y no a quién la envió. Al estar en una tabla propia, estas escrituras tan frecuentes no afectan a los datos de la procesión, que apenas cambian.
-    \item La tabla \texttt{usuarios} solo contiene a los usuarios con credenciales propias, es decir, a los miembros de la Junta de Cofradías y a los administradores, con su correo y su contraseña guardada como \emph{hash}\footnote{Hash: transformación irreversible de una contraseña en una cadena de caracteres, de forma que el sistema pueda comprobar que una contraseña es correcta sin necesidad de guardarla en texto plano.} mediante BCrypt (RNF-01). El ciudadano y el cofrade no generan ninguna fila en esta tabla (Sección~\ref{sec:usuariosBD}).
-    \item La tabla \texttt{codigos\_acceso} tiene una clave foránea a la cofradía a la que da acceso y un estado (\texttt{EMITIDO}, \texttt{VALIDADO} o \texttt{REVOCADO}). Al validar un código no se crea ningún usuario, sino que el servidor devuelve directamente un token asociado a esa cofradía.
-    \item Las tablas \texttt{notificaciones} y \texttt{dispositivos\_push} hacen referencia a su ciudad. No se guarda qué ciudadano ha leído cada notificación, ya que el ciudadano no tiene cuenta.
     \item Los favoritos no tienen tabla, ya que se guardan en el propio móvil, almacenando únicamente el tipo y el identificador del elemento marcado.
 \end{itemize}
 
@@ -141,7 +134,7 @@ PostgreSQL \cite{postgresql} es una base de datos \textbf{relacional}, en la que
 
 \colorbox{yellow}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textit{Nota: este diagrama está desactualizado respecto al esquema real (Apéndice~\ref{cap:esquemaBD}): entre otras cosas, no tiene tabla \texttt{dispositivos\_push}, sigue llamándose \texttt{pasos\_procesiones} en vez de \texttt{pasos\_eventos}, y le faltan columnas (\texttt{activa} en \texttt{ciudades} y \texttt{cofradias}, \texttt{latitud}/\texttt{longitud} en \texttt{ciudades}, y varias en \texttt{miembros\_junta\_cofradia}). Estoy pidiendo permisos para la licencia de Astah para poder actualizarlo.}}}
 
-En el Apéndice~\ref{cap:esquemaBD} se recoge el esquema completo de cada tabla, con sus tipos de datos y sus claves primarias y foráneas.
+Al igual que en el back-end, el diagrama entidad-relación de la Figura~\ref{fig:EstructuraBD} muestra la base de datos completa de la versión final, y en el Apéndice~\ref{cap:esquemaBD} se recoge el esquema de cada tabla, con sus tipos de datos y sus claves primarias y foráneas.
 
 \subsubsection{Interfaces de usuario}
  
@@ -262,7 +255,7 @@ Durante esta implementación se han detectado varias necesidades no recogidas en
 
 Queda pendiente para el cierre de esta iteración la implementación de las pantallas de cliente correspondientes sobre esta API, que hasta ahora consumían datos de prueba (\emph{mock}).
 
-% TODO (Elena): capturas de la aplicación real de esta iteración (selección de ciudad, inicio, calendario, listados y fichas de cofradía, paso, evento y procesión).
+% TODO: capturas de la aplicación real de esta iteración (selección de ciudad, inicio, calendario, listados y fichas de cofradía, paso, evento y procesión).
 
 \subsection{Pruebas}
 

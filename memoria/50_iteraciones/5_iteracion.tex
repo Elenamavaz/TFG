@@ -2,16 +2,67 @@
 
 \subsection{Análisis}
 
-Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta quinta iteración se centra en el panel de administrador y en el sistema de notificaciones. En el caso del administrador se reutiliza el mismo acceso con correo y contraseña de la Junta de Cofradías (Iteración 4), por lo que el problema nuevo que había que resolver era cómo enviar las notificaciones \emph{push}.
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta quinta y última iteración se centra en el panel de administrador, desde el que se gestionan las ciudades, las Juntas de Cofradías y sus miembros (RF-37 a RF-41), y en el sistema de notificaciones (RF-21, RF-22, RF-35 y RF-36). En el caso del administrador se reutiliza el mismo acceso con correo y contraseña de la Junta de Cofradías (Iteración 4), por lo que los problemas nuevos que había que resolver estaban relacionados con las notificaciones y con el alta de los miembros de la Junta.
+
+\subsubsection{Problemas planteados y alternativas valoradas}
 
 \paragraph{Notificaciones \emph{push}}
 Se valoró utilizar Firebase Cloud Messaging \cite{firebasefcm}, que era la opción prevista inicialmente, o Expo Push Notifications. Finalmente se eligió Expo Push, ya que la aplicación está desarrollada con Expo y de esta forma no es necesario añadir otro proveedor con su propio proyecto y sus credenciales.
 
+\paragraph{A quién se envía cada notificación}
+Como el ciudadano no tiene cuenta, no se puede enviar una notificación a una persona concreta. Se valoró enviar todas las notificaciones a todos los dispositivos o asociar cada dispositivo a una ciudad. Se optó por la segunda opción, de forma que cada dispositivo se registra con la ciudad que tiene seleccionada y solo recibe las notificaciones de esa ciudad (RF-21). Para dejar de recibirlas, en lugar de añadir un interruptor propio dentro de la aplicación, se decidió utilizar el propio permiso de notificaciones del móvil (RF-22), ya que hacer las dos cosas sería redundante.
+
+\paragraph{Cambio de estado de los eventos}
+Las notificaciones de inicio y de fin dependen de que los eventos y las procesiones cambien de estado a su hora. Se valoró que fuera la Junta quien cambiara siempre el estado a mano o que el sistema lo hiciera de forma automática. Se optó por el cambio automático (RF-34), ya que el día de la procesión la Junta tiene muchas otras cosas de las que ocuparse y es fácil que se le olvide. Aun así, se mantuvo la posibilidad de corregir el estado a mano, por ejemplo para cancelar una procesión por la lluvia.
+
+\paragraph{Alta de los miembros de la Junta}
+Para dar de alta a un miembro se valoró que el administrador escribiera su contraseña y se la comunicara, que el propio miembro se registrara, o que el sistema generara una contraseña provisional y se la enviara por correo. Se optó por la última opción, ya que así el administrador nunca conoce la contraseña del miembro y no cualquiera puede registrarse como Junta. Además, el miembro está obligado a cambiar esa contraseña la primera vez que inicia sesión (RF-26 y RF-39).
+
+En la Tabla~\ref{tab:alternativasIt5} se resumen todas estas decisiones.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{3.6cm}|p{5.6cm}|p{4.4cm}|}
+\hline
+\textbf{Problema} & \textbf{Alternativas valoradas} & \textbf{Opción elegida} \\
+\hline
+Notificaciones \emph{push} & Firebase Cloud Messaging, Expo Push & Expo Push \\
+\hline
+Destinatarios & Todos los dispositivos, dispositivos por ciudad; interruptor propio o permiso del móvil & Dispositivos por ciudad; permiso del móvil \\
+\hline
+Cambio de estado & A mano, automático & Automático, con corrección a mano \\
+\hline
+Alta de miembros & Contraseña del administrador, registro propio, contraseña provisional por correo & Contraseña provisional por correo \\
+\hline
+\end{tabular}
+\caption{Problemas analizados en la quinta iteración y opción elegida}
+\label{tab:alternativasIt5}
+\end{table}
+
 \subsection{Diseño}
+
+Una vez elegidas las alternativas en el análisis, en este apartado se explica cómo se ha diseñado el sistema de notificaciones y el panel de administrador sobre la arquitectura definida en la Iteración 1 (Sección~\ref{cap:1_iteracion}).
 
 \subsubsection{Notificaciones}
 
-Cuando el ciudadano selecciona una ciudad, la aplicación obtiene un token de Expo Push mediante \texttt{expo-notifications} y lo registra en la API junto con esa ciudad (\texttt{POST /dispositivos-push}). Después, cada vez que se crea una notificación, ya sea de forma automática al empezar o terminar un evento o porque la escribe la Junta de Cofradías, es la API la que la envía al servicio de Expo Push (\texttt{exp.host}) para todos los dispositivos registrados en esa ciudad. De esta forma, el cliente nunca se comunica directamente con el servicio de notificaciones.
+Cuando el ciudadano selecciona una ciudad, la aplicación obtiene un token de Expo Push mediante \texttt{expo-notifications} y lo registra en la API junto con esa ciudad (\texttt{POST /dispositivos-push}). Después, cada vez que se crea una notificación, ya sea de forma automática al empezar o terminar un evento o porque la escribe la Junta de Cofradías, la API la guarda y la envía al servicio de Expo Push (\texttt{exp.host}) para todos los dispositivos registrados en esa ciudad. De esta forma, el cliente nunca se comunica directamente con el servicio de notificaciones, y aunque el envío falle, la notificación se puede seguir consultando dentro de la aplicación.
+
+\subsubsection{Cambio automático de estado}
+
+En el servidor se ejecuta una tarea programada cada 30 segundos que revisa los eventos y procesiones. Los que están programados pasan a en curso al llegar su hora de inicio, y los que están en curso pasan a finalizado al llegar su hora de fin, generando en cada caso la notificación correspondiente (RF-35). Los eventos cancelados o finalizados no se modifican nunca. Cuando la Junta cambia el estado a mano, el sistema no le permite hacer un cambio que contradiga el horario, como volver a programado una vez pasada la hora de inicio, y le indica que modifique la hora en su lugar (RF-34).
+
+\subsubsection{Alta de miembros e invitación}
+
+Al dar de alta a un miembro, el servidor genera una contraseña provisional aleatoria, la guarda como \emph{hash} y se la envía por correo electrónico junto con un mensaje de bienvenida, utilizando un servidor SMTP. Mientras el miembro no la cambie, el servidor rechaza cualquier modificación que intente hacer y la aplicación le lleva directamente a la pantalla de cambio de contraseña. Si la invitación se pierde, el administrador puede reenviarla, lo que genera una contraseña provisional nueva e invalida la anterior (RF-39).
+
+\subsubsection{Diseño de la base de datos}
+
+\begin{itemize}
+    \item Las tablas \texttt{notificaciones} y \texttt{dispositivos\_push} hacen referencia a su ciudad, de forma que cada notificación se envía a los dispositivos registrados en la ciudad a la que pertenece. No se guarda qué ciudadano ha leído cada notificación, ya que el ciudadano no tiene cuenta.
+    \item La tabla \texttt{administradores} extiende a \texttt{usuarios} y no hace referencia a ninguna ciudad, ya que cualquier administrador puede gestionar cualquier ciudad.
+    \item En \texttt{miembros\_junta\_cofradia} se guarda si el miembro sigue con la contraseña provisional, si está activo y si ha solicitado su reactivación (RF-41).
+\end{itemize}
 
 \subsubsection{Interfaces de usuario}
 
@@ -48,7 +99,7 @@ Permite dar de alta una ciudad y, sobre las ya existentes, activarlas o desactiv
 
 \paragraph{Juntas de Cofradías}
 
-Análogo a la gestión de ciudades: al crear una Junta se le asigna la ciudad que gestionará --solo se ofrecen ciudades que todavía no tienen una-- y, tras crearla, se puede pasar directamente a añadirle miembros.
+Análogo a la gestión de ciudades: al crear una Junta se le asigna la ciudad que gestionará, ofreciendo solo las ciudades que todavía no tienen una, y tras crearla se puede pasar directamente a añadirle miembros.
 
 \begin{figure}[H]
     \centering
@@ -98,12 +149,14 @@ Al dar de alta un miembro se le envía por correo una contraseña provisional ge
 
 \subsection{Implementación}
 
-Esta quinta y última iteración implementa el panel de administrador global del sistema. El sistema de notificaciones previsto para esta misma iteración queda pendiente de implementar.
+Esta quinta y última iteración implementa el panel de administrador y el sistema de notificaciones.
 
-Se implementa \texttt{Administrador} --rol global del sistema, sin ninguna referencia a \texttt{Ciudad}, ya que cualquier administrador puede gestionar cualquier ciudad-- y su acceso mediante el mismo \emph{endpoint} \texttt{POST /auth/login} ya utilizado por la Junta de Cofradías en la Iteración 4, que distingue el rol a partir del tipo de cuenta encontrado.
+Se implementa \texttt{Administrador}, que es un rol global del sistema sin ninguna referencia a \texttt{Ciudad}, ya que cualquier administrador puede gestionar cualquier ciudad, y su acceso mediante el mismo \emph{endpoint} \texttt{POST /auth/login} de la Junta de Cofradías, que distingue el rol según el tipo de cuenta. Sobre esta autenticación se completa el control de acceso por rol: la creación, edición y eliminación de \texttt{Ciudad}, \texttt{JuntaCofradias} y \texttt{MiembroJuntaCofradia} quedan restringidas al administrador. En este caso no hace falta comparar ninguna ciudad, a diferencia de la comprobación de la Junta de Cofradías de la Iteración 4. Para el alta de los miembros se implementa \texttt{CorreoService}, que envía el correo de bienvenida con la contraseña provisional, junto con el reenvío de la invitación y la solicitud de reactivación de los miembros desactivados.
 
-Sobre esa autenticación se completa el mecanismo de control de acceso por rol: las operaciones de creación, edición y eliminación de \texttt{Ciudad} pasan a exigir que quien las solicita sea un Administrador, sin comparar ninguna ciudad concreta --a diferencia de la comprobación introducida en la Iteración 4 para la Junta de Cofradías, aquí no hay ninguna instancia con la que comparar--. De igual forma, dar de alta, editar o dar de baja una \texttt{JuntaCofradias}, y dar de alta o dar de baja a sus \texttt{MiembroJuntaCofradia}, quedan restringidos también al Administrador, que es quien gestiona qué personas tienen acceso al panel de cada Junta.
+En cuanto a las notificaciones, se implementan \texttt{Notificacion} y \texttt{DispositivoPush}, el registro de los dispositivos (\texttt{POST /dispositivos-push}) y \texttt{PushNotificacionService}, que envía cada notificación al servicio de Expo Push. Además, se implementa \texttt{CambioEstadoAutomaticoService}, la tarea programada que cambia el estado de los eventos y las procesiones a su hora y genera las notificaciones de inicio y de fin. En la aplicación, el ciudadano puede consultar las notificaciones vigentes de su ciudad, y en su perfil ve si tiene activado el permiso de notificaciones, con un acceso directo a los ajustes del móvil para cambiarlo. Por su parte, la Junta puede crear una notificación después de modificar una procesión o un evento, y al cancelarlo se abre directamente la creación de la notificación de cancelación para que indique el motivo (RF-35 y RF-36).
+
+% TODO: capturas de la aplicación real de esta iteración (perfil del administrador, gestión de ciudades, Juntas y miembros, creación de una notificación y notificación recibida en el móvil).
 
 \subsection{Pruebas}
 
-Al igual que en las iteraciones anteriores, la verificación se ha realizado de forma manual: obtención de un token de Administrador con \texttt{POST /auth/login} y comprobación de que las operaciones sobre \texttt{Ciudad}, \texttt{JuntaCofradias} y \texttt{MiembroJuntaCofradia} se aceptan únicamente con ese rol. La batería de pruebas automatizadas queda pendiente y se documentará en el Capítulo~\ref{cap:pruebas}.
+Al igual que en las iteraciones anteriores, la verificación se ha realizado de forma manual, obteniendo un token de administrador con \texttt{POST /auth/login} y comprobando que las operaciones sobre \texttt{Ciudad}, \texttt{JuntaCofradias} y \texttt{MiembroJuntaCofradia} solo se aceptan con ese rol. Las notificaciones se han probado enviándolas a un móvil real. Las pruebas automatizadas se recogen en el Capítulo~\ref{cap:pruebas}.

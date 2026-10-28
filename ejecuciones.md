@@ -44,7 +44,15 @@ eas build -p android --profile preview
 npx expo start --tunnel
 
 cd C:\Users\elena\dev\TFG
-node herramientas/simulador-procesion/prueba-hoy.mjs --junta-email elena.martinez@estudiantes.uva.es --junta-password 'ElenaCofradia_1' --codigo 148647D5
+node herramientas/simulador-procesion/prueba-hoy.mjs --junta-email elena.martinez@estudiantes.uva.es --junta-password 'ElenaCofradia_1' --codigo F9823379
+
+cd C:\Users\elena\dev\TFG
+node herramientas/simulador-procesion/prueba-varias.mjs --junta-email elena.martinez@estudiantes.uva.es --junta-password 'ElenaCofradia_1' --en 1
+
+node herramientas/simulador-procesion/prueba-varias.mjs --junta-email elena.martinez@estudiantes.uva.es --junta-password 'ElenaCofradia_1' --borrar
+
+
+node herramientas/simulador-procesion/prueba-varias.mjs --junta-email TU_EMAIL --junta-password 'TU_CLAVE' --en 1
 
 
 fin de compilacion PS C:\Users\elena\dev\TFG> node herramientas/simulador-procesion/prueba-hoy.mjs --junta-email elena.martinez@estudiantes.uva.es --junta-password 'ElenaCofradia_1' --codigo 148647D5
