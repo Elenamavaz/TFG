@@ -256,23 +256,25 @@ export function FormularioJuntaScreen({ route, navigation }) {
       <Modal transparent visible={modalCiudadVisible} animationType="fade" onRequestClose={() => setModalCiudadVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalCiudadVisible(false)}>
           <View style={styles.modalLista}>
-            {ciudadesDisponibles.length === 0 ? (
-              <Text style={styles.modalVacio}>No hay ciudades sin Junta asignada.</Text>
-            ) : (
-              ciudadesDisponibles.map((ciudad) => (
-                <TouchableOpacity
-                  key={ciudad.id}
-                  style={styles.modalItem}
-                  onPress={() => {
-                    setCiudadSeleccionada(ciudad);
-                    limpiarError('ciudad');
-                    setModalCiudadVisible(false);
-                  }}
-                >
-                  <Text style={styles.modalItemTexto}>{ciudad.nombre}</Text>
-                </TouchableOpacity>
-              ))
-            )}
+            <ScrollView>
+              {ciudadesDisponibles.length === 0 ? (
+                <Text style={styles.modalVacio}>No hay ciudades sin Junta asignada.</Text>
+              ) : (
+                ciudadesDisponibles.map((ciudad) => (
+                  <TouchableOpacity
+                    key={ciudad.id}
+                    style={styles.modalItem}
+                    onPress={() => {
+                      setCiudadSeleccionada(ciudad);
+                      limpiarError('ciudad');
+                      setModalCiudadVisible(false);
+                    }}
+                  >
+                    <Text style={styles.modalItemTexto}>{ciudad.nombre}</Text>
+                  </TouchableOpacity>
+                ))
+              )}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>

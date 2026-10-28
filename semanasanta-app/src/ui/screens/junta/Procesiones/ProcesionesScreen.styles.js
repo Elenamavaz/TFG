@@ -131,6 +131,18 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.lg,
   },
+  accionQr: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  modalTitulo: {
+    color: colors.textPrimary,
+    fontFamily: fontFamilies.titleSemiBold,
+    fontSize: 16,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
   modalLista: {
     backgroundColor: colors.backgroundAlt,
     borderWidth: 0.5,

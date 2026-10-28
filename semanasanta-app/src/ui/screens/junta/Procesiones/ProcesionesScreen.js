@@ -51,6 +51,9 @@ export function ProcesionesScreen({ route, navigation }) {
   // puede quitarlo igualmente, es solo el punto de partida.
   const [filtroCofradiaId, setFiltroCofradiaId] = useState(route.params?.cofradiaIdInicial ?? null); // null = "Todos"
   const [modalFiltroVisible, setModalFiltroVisible] = useState(false);
+  // Procesión con varias cofradías cuyo código QR se quiere sacar: se pide
+  // primero de qué cofradía (cada cofradía tiene sus propios códigos).
+  const [procesionQr, setProcesionQr] = useState(null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -87,6 +90,17 @@ export function ProcesionesScreen({ route, navigation }) {
     ? procesiones.filter((p) => p.cofradiaIds.includes(filtroCofradiaId))
     : procesiones;
   const cofradiaFiltro = cofradias.find((c) => c.id === filtroCofradiaId);
+
+  // Acceso directo a los códigos de acceso desde la procesión (2026-10-26):
+  // el QR se necesita el día de la procesión, y antes había que ir a
+  // Cofradías -> editar cofradía -> Códigos de acceso.
+  function abrirCodigos(procesion) {
+    if (procesion.cofradiaIds.length === 1) {
+      navigation.navigate('CodigosAcceso', { cofradiaId: procesion.cofradiaIds[0] });
+    } else {
+      setProcesionQr(procesion);
+    }
+  }
 
   if (cargando) return null;
 
@@ -128,6 +142,10 @@ export function ProcesionesScreen({ route, navigation }) {
               <TouchableOpacity onPress={() => navigation.navigate('FormularioProcesion', { ciudadId, procesionId: procesion.id })}>
                 <Text style={styles.accionEditar}>Editar</Text>
               </TouchableOpacity>
+              <TouchableOpacity style={styles.accionQr} onPress={() => abrirCodigos(procesion)}>
+                <Ionicons name="qr-code-outline" size={14} color={colors.gold} />
+                <Text style={styles.accionEditar}>Código QR</Text>
+              </TouchableOpacity>
             </View>
           </View>
         ))}
@@ -137,27 +155,53 @@ export function ProcesionesScreen({ route, navigation }) {
       <Modal transparent visible={modalFiltroVisible} animationType="fade" onRequestClose={() => setModalFiltroVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalFiltroVisible(false)}>
           <View style={styles.modalLista}>
-            <TouchableOpacity
-              style={styles.modalItem}
-              onPress={() => {
-                setFiltroCofradiaId(null);
-                setModalFiltroVisible(false);
-              }}
-            >
-              <Text style={styles.modalItemTexto}>Todos</Text>
-            </TouchableOpacity>
-            {cofradias.map((cofradia) => (
+            <ScrollView>
               <TouchableOpacity
-                key={cofradia.id}
                 style={styles.modalItem}
                 onPress={() => {
-                  setFiltroCofradiaId(cofradia.id);
+                  setFiltroCofradiaId(null);
                   setModalFiltroVisible(false);
                 }}
               >
-                <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
+                <Text style={styles.modalItemTexto}>Todos</Text>
               </TouchableOpacity>
-            ))}
+              {cofradias.map((cofradia) => (
+                <TouchableOpacity
+                  key={cofradia.id}
+                  style={styles.modalItem}
+                  onPress={() => {
+                    setFiltroCofradiaId(cofradia.id);
+                    setModalFiltroVisible(false);
+                  }}
+                >
+                  <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </Pressable>
+      </Modal>
+
+      <Modal transparent visible={procesionQr !== null} animationType="fade" onRequestClose={() => setProcesionQr(null)}>
+        <Pressable style={styles.overlay} onPress={() => setProcesionQr(null)}>
+          <View style={styles.modalLista}>
+            <Text style={styles.modalTitulo}>¿De qué cofradía?</Text>
+            <ScrollView>
+              {cofradias
+                .filter((c) => procesionQr?.cofradiaIds.includes(c.id))
+                .map((cofradia) => (
+                  <TouchableOpacity
+                    key={cofradia.id}
+                    style={styles.modalItem}
+                    onPress={() => {
+                      setProcesionQr(null);
+                      navigation.navigate('CodigosAcceso', { cofradiaId: cofradia.id });
+                    }}
+                  >
+                    <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
+                  </TouchableOpacity>
+                ))}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>

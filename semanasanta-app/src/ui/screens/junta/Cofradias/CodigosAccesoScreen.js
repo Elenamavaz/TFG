@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import QRCode from 'react-native-qrcode-svg';
 import { services } from '../../../../data';
 import { models } from '../../../../data';
 import { common } from '../../../components';
-import { tiempo } from '../../../utils';
 import { colors } from '../../../../theme';
 import { styles } from './CodigosAccesoScreen.styles';
+import { QrCodigoModal, formatearFechaHora } from './QrCodigoModal';
 
 // Mismo patrón de badge que EstadoBadge en Procesiones/Eventos. EMITIDO y
 // VALIDADO valen igual para entrar (el código no se gasta); la diferencia
@@ -19,18 +18,6 @@ const BADGE_POR_ESTADO = {
   [models.EstadoCodigo.REVOCADO]: { etiqueta: 'Revocado', background: colors.backgroundRed, texto: colors.redText },
 };
 const BADGE_CADUCADO = { etiqueta: 'Caducado', background: colors.surfaceAlt, texto: colors.subtitle };
-
-// "25 de marzo, 18:30" a partir del LocalDateTime del backend (hora de
-// España, sin zona). Se trocea el texto en vez de pasar por new Date: el
-// backend lo envía con hasta 9 decimales en los segundos
-// ("2026-10-26T18:30:12.123456789"), y no todos los motores de JavaScript
-// (Hermes, en el móvil) aceptan ese formato.
-function formatearFechaHora(fechaIso) {
-  const partes = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(fechaIso ?? '');
-  if (!partes) return '';
-  const [, , mes, dia, hora, minuto] = partes;
-  return `${Number(dia)} de ${tiempo.MESES[Number(mes) - 1]}, ${hora}:${minuto}`;
-}
 
 // Códigos de acceso de una cofradía (2026-10-02, sin mockup): era el hueco
 // que impedía usar la geolocalización -los endpoints existían, pero la Junta
@@ -191,28 +178,7 @@ export function CodigosAccesoScreen({ route, navigation }) {
         ) : null}
       </ScrollView>
 
-      <Modal visible={codigoQr !== null} transparent animationType="fade" onRequestClose={() => setCodigoQr(null)}>
-        <Pressable style={styles.qrOverlay} onPress={() => setCodigoQr(null)}>
-          <Pressable style={styles.qrModal}>
-            <Text style={styles.qrCofradia}>{cofradia ? cofradia.nombre : ''}</Text>
-            <Text style={styles.qrInstrucciones}>Escanéalo al iniciar sesión como cofrade</Text>
-            {codigoQr ? (
-              <View style={styles.qrFondo}>
-                {/* Fondo blanco con margen: los lectores de QR necesitan contraste y un borde claro. */}
-                <QRCode value={codigoQr.codigo} size={220} color="#000000" backgroundColor="#FFFFFF" />
-              </View>
-            ) : null}
-            <Text style={styles.qrInstrucciones}>o escribe este código</Text>
-            <Text style={styles.qrCodigo} selectable>
-              {codigoQr?.codigo}
-            </Text>
-            <Text style={styles.qrCaducidad}>Válido hasta el {formatearFechaHora(codigoQr?.fechaExpiracion)}</Text>
-            <TouchableOpacity style={styles.qrCerrar} onPress={() => setCodigoQr(null)} activeOpacity={0.85}>
-              <Text style={styles.qrCerrarTexto}>Cerrar</Text>
-            </TouchableOpacity>
-          </Pressable>
-        </Pressable>
-      </Modal>
+      <QrCodigoModal codigo={codigoQr} nombreCofradia={cofradia?.nombre} onCerrar={() => setCodigoQr(null)} />
     </common.ScreenContainer>
   );
 }

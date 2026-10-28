@@ -134,4 +134,5 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamilies.uiSemiBold,
     fontSize: 15,
   },
+
 });

@@ -211,18 +211,20 @@ export function MiembrosScreen({ route, navigation }) {
       <Modal transparent visible={modalFiltroVisible} animationType="fade" onRequestClose={() => setModalFiltroVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalFiltroVisible(false)}>
           <View style={styles.modalLista}>
-            {juntas.map((junta) => (
-              <TouchableOpacity
-                key={junta.id}
-                style={styles.modalItem}
-                onPress={() => {
-                  setFiltroJuntaId(junta.id);
-                  setModalFiltroVisible(false);
-                }}
-              >
-                <Text style={styles.modalItemTexto}>{junta.nombre}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView>
+              {juntas.map((junta) => (
+                <TouchableOpacity
+                  key={junta.id}
+                  style={styles.modalItem}
+                  onPress={() => {
+                    setFiltroJuntaId(junta.id);
+                    setModalFiltroVisible(false);
+                  }}
+                >
+                  <Text style={styles.modalItemTexto}>{junta.nombre}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>

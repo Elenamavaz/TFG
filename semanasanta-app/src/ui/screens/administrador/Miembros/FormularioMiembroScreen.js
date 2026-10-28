@@ -242,23 +242,25 @@ export function FormularioMiembroScreen({ route, navigation }) {
       <Modal transparent visible={modalJuntaVisible} animationType="fade" onRequestClose={() => setModalJuntaVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalJuntaVisible(false)}>
           <View style={styles.modalLista}>
-            {juntasDisponibles.length === 0 ? (
-              <Text style={styles.modalVacio}>No hay Juntas de Cofradías todavía.</Text>
-            ) : (
-              juntasDisponibles.map((junta) => (
-                <TouchableOpacity
-                  key={junta.id}
-                  style={styles.modalItem}
-                  onPress={() => {
-                    setJuntaSeleccionada(junta);
-                    limpiarError('junta');
-                    setModalJuntaVisible(false);
-                  }}
-                >
-                  <Text style={styles.modalItemTexto}>{junta.nombre}</Text>
-                </TouchableOpacity>
-              ))
-            )}
+            <ScrollView>
+              {juntasDisponibles.length === 0 ? (
+                <Text style={styles.modalVacio}>No hay Juntas de Cofradías todavía.</Text>
+              ) : (
+                juntasDisponibles.map((junta) => (
+                  <TouchableOpacity
+                    key={junta.id}
+                    style={styles.modalItem}
+                    onPress={() => {
+                      setJuntaSeleccionada(junta);
+                      limpiarError('junta');
+                      setModalJuntaVisible(false);
+                    }}
+                  >
+                    <Text style={styles.modalItemTexto}>{junta.nombre}</Text>
+                  </TouchableOpacity>
+                ))
+              )}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>

@@ -135,27 +135,29 @@ export function EventosScreen({ route, navigation }) {
       <Modal transparent visible={modalFiltroVisible} animationType="fade" onRequestClose={() => setModalFiltroVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalFiltroVisible(false)}>
           <View style={styles.modalLista}>
-            <TouchableOpacity
-              style={styles.modalItem}
-              onPress={() => {
-                setFiltroCofradiaId(null);
-                setModalFiltroVisible(false);
-              }}
-            >
-              <Text style={styles.modalItemTexto}>Todos</Text>
-            </TouchableOpacity>
-            {cofradias.map((cofradia) => (
+            <ScrollView>
               <TouchableOpacity
-                key={cofradia.id}
                 style={styles.modalItem}
                 onPress={() => {
-                  setFiltroCofradiaId(cofradia.id);
+                  setFiltroCofradiaId(null);
                   setModalFiltroVisible(false);
                 }}
               >
-                <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
+                <Text style={styles.modalItemTexto}>Todos</Text>
               </TouchableOpacity>
-            ))}
+              {cofradias.map((cofradia) => (
+                <TouchableOpacity
+                  key={cofradia.id}
+                  style={styles.modalItem}
+                  onPress={() => {
+                    setFiltroCofradiaId(cofradia.id);
+                    setModalFiltroVisible(false);
+                  }}
+                >
+                  <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>

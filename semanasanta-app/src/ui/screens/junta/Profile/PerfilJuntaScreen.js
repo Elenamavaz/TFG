@@ -35,6 +35,16 @@ const OPCIONES_GESTION = [
     ruta: 'Eventos',
   },
   { id: 'pasos', icono: 'cross', titulo: 'Pasos', subtitulo: 'Crear, editar y eliminar pasos', ruta: 'Pasos' },
+  // Acceso directo a los códigos de acceso (2026-10-26): antes solo se
+  // llegaba desde Cofradías -> editar cofradía. Lista los activos de toda la
+  // ciudad y permite crear uno nuevo (CodigosQrScreen).
+  {
+    id: 'codigos',
+    icono: 'qrcode',
+    titulo: 'Códigos QR',
+    subtitulo: 'Ver y crear los QR de acceso de los cofrades',
+    ruta: 'CodigosQr',
+  },
   {
     id: 'perfil',
     icono: 'account-edit-outline',
@@ -64,8 +74,8 @@ export function PerfilJuntaScreen({ navigation }) {
           setCiudad(ciudadCargada);
           return Promise.all([services.getCofradiasPorCiudad(ciudadCargada.id), services.getProcesionesPorCiudad(ciudadCargada.id)]);
         })
-        .then(([cofradias, procesiones]) => {
-          setNumCofradias(cofradias.length);
+        .then(([listaCofradias, procesiones]) => {
+          setNumCofradias(listaCofradias.length);
           setNumProcesiones(procesiones.length);
         });
     }, [sesion.usuarioId])

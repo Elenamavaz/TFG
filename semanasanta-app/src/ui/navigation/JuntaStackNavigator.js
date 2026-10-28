@@ -41,6 +41,7 @@ export function JuntaStackNavigator() {
       <Stack.Screen name="FormularioCofradia" component={junta.FormularioCofradiaScreen} />
       <Stack.Screen name="CofradiaCreada" component={junta.CofradiaCreadaScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CodigosAcceso" component={junta.CodigosAccesoScreen} />
+      <Stack.Screen name="CodigosQr" component={junta.CodigosQrScreen} />
 
       <Stack.Screen name="Eventos" component={junta.EventosScreen} />
       <Stack.Screen name="FormularioEvento" component={junta.FormularioEventoScreen} />

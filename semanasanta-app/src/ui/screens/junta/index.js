@@ -13,6 +13,7 @@ export { CofradiasScreen } from './Cofradias/CofradiasScreen';
 export { FormularioCofradiaScreen } from './Cofradias/FormularioCofradiaScreen';
 export { CofradiaCreadaScreen } from './Cofradias/CofradiaCreadaScreen';
 export { CodigosAccesoScreen } from './Cofradias/CodigosAccesoScreen';
+export { CodigosQrScreen } from './Cofradias/CodigosQrScreen';
 
 export { EventosScreen } from './Eventos/EventosScreen';
 export { FormularioEventoScreen } from './Eventos/FormularioEventoScreen';

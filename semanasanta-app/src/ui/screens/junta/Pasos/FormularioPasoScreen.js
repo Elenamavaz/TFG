@@ -249,23 +249,25 @@ export function FormularioPasoScreen({ route, navigation }) {
       <Modal transparent visible={modalCofradiaVisible} animationType="fade" onRequestClose={() => setModalCofradiaVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalCofradiaVisible(false)}>
           <View style={styles.modalLista}>
-            {cofradiasDisponibles.length === 0 ? (
-              <Text style={styles.modalVacio}>No hay cofradías todavía en esta ciudad.</Text>
-            ) : (
-              cofradiasDisponibles.map((cofradia) => (
-                <TouchableOpacity
-                  key={cofradia.id}
-                  style={styles.modalItem}
-                  onPress={() => {
-                    setCofradiaSeleccionada(cofradia);
-                    limpiarError('cofradia');
-                    setModalCofradiaVisible(false);
-                  }}
-                >
-                  <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
-                </TouchableOpacity>
-              ))
-            )}
+            <ScrollView>
+              {cofradiasDisponibles.length === 0 ? (
+                <Text style={styles.modalVacio}>No hay cofradías todavía en esta ciudad.</Text>
+              ) : (
+                cofradiasDisponibles.map((cofradia) => (
+                  <TouchableOpacity
+                    key={cofradia.id}
+                    style={styles.modalItem}
+                    onPress={() => {
+                      setCofradiaSeleccionada(cofradia);
+                      limpiarError('cofradia');
+                      setModalCofradiaVisible(false);
+                    }}
+                  >
+                    <Text style={styles.modalItemTexto}>{cofradia.nombre}</Text>
+                  </TouchableOpacity>
+                ))
+              )}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>

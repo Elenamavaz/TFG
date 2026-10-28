@@ -198,18 +198,20 @@ export function EditarRecorridoScreen({ route, navigation }) {
       <Modal transparent visible={modalTipoVisible} animationType="fade" onRequestClose={() => setModalTipoVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalTipoVisible(false)}>
           <View style={styles.modalLista}>
-            {Object.values(models.TipoPuntoInteres).map((valor) => (
-              <TouchableOpacity
-                key={valor}
-                style={styles.modalItem}
-                onPress={() => {
-                  setTipo(valor);
-                  setModalTipoVisible(false);
-                }}
-              >
-                <Text style={styles.modalItemTexto}>{ETIQUETA_TIPO[valor]}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView>
+              {Object.values(models.TipoPuntoInteres).map((valor) => (
+                <TouchableOpacity
+                  key={valor}
+                  style={styles.modalItem}
+                  onPress={() => {
+                    setTipo(valor);
+                    setModalTipoVisible(false);
+                  }}
+                >
+                  <Text style={styles.modalItemTexto}>{ETIQUETA_TIPO[valor]}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>

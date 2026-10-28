@@ -518,19 +518,21 @@ export function FormularioProcesionScreen({ route, navigation }) {
       <Modal transparent visible={modalDiaVisible} animationType="fade" onRequestClose={() => setModalDiaVisible(false)}>
         <Pressable style={styles.overlay} onPress={() => setModalDiaVisible(false)}>
           <View style={styles.modalLista}>
-            {diasSemanaSanta.map((dia) => (
-              <TouchableOpacity
-                key={dia.id}
-                style={styles.modalItem}
-                onPress={() => {
-                  setDiaSeleccionado(dia);
-                  limpiarError('dia');
-                  setModalDiaVisible(false);
-                }}
-              >
-                <Text style={styles.modalItemTexto}>{dia.nombre}</Text>
-              </TouchableOpacity>
-            ))}
+            <ScrollView>
+              {diasSemanaSanta.map((dia) => (
+                <TouchableOpacity
+                  key={dia.id}
+                  style={styles.modalItem}
+                  onPress={() => {
+                    setDiaSeleccionado(dia);
+                    limpiarError('dia');
+                    setModalDiaVisible(false);
+                  }}
+                >
+                  <Text style={styles.modalItemTexto}>{dia.nombre}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
         </Pressable>
       </Modal>
