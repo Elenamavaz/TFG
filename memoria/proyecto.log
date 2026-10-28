@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  28 OCT 2026 18:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.14)  28 OCT 2026 18:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1769,4 +1769,1111 @@ File: imagenes/buscar.png Graphic file (type png)
 Package pdftex.def Info: imagenes/buscar.png  used on input line 230.
 (pdftex.def)             Requested size: 448.12788pt x 304.41556pt.
 
-Underfull 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 234.
+LaTeX Info: Redefining \% on input line 234.
+ [61 <./imagenes/infoProcesion.png>]
+Overfull \hbox (114.95667pt too wide) in paragraph at lines 241--242
+\T1/bch/m/n/10.95 de for-ma que el res-to de la apli-ca-ción so-lo lla-ma a fun-cio-nes co-mo \T1/cmtt/m/n/10.95 procesionService.getProcesionesEnCurso(ciudadId)\T1/bch/m/n/10.95 ,
+ []
+
+LaTeX Info: Redefining \. on input line 242.
+LaTeX Info: Redefining \% on input line 242.
+[62 <./imagenes/buscar.png>]
+
+LaTeX Warning: Citation `flyway' on page 63 undefined on input line 250.
+
+LaTeX Info: Redefining \. on input line 253.
+LaTeX Info: Redefining \% on input line 253.
+[63]) (50_iteraciones/2_iteracion.tex
+LaTeX Info: Redefining \. on input line 14.
+LaTeX Info: Redefining \% on input line 14.
+ [64]
+Underfull \hbox (badness 2671) in paragraph at lines 29--30
+[]|\T1/bch/m/n/10 Cada pun-to por se-pa-ra-do
+ []
+
+
+Underfull \vbox (badness 6300) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 50.
+LaTeX Info: Redefining \% on input line 50.
+ [65]
+<imagenes/mapa.png, id=1522, 275.15297pt x 599.61516pt>
+File: imagenes/mapa.png Graphic file (type png)
+<use imagenes/mapa.png>
+Package pdftex.def Info: imagenes/mapa.png  used on input line 63.
+(pdftex.def)             Requested size: 224.06393pt x 488.2932pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 67.
+LaTeX Info: Redefining \% on input line 67.
+ [66]
+LaTeX Info: Redefining \. on input line 73.
+LaTeX Info: Redefining \% on input line 73.
+ [67 <./imagenes/mapa.png>]) (50_iteraciones/3_iteracion.tex
+LaTeX Info: Redefining \. on input line 17.
+LaTeX Info: Redefining \% on input line 17.
+ [68]
+LaTeX Info: Redefining \. on input line 29.
+LaTeX Info: Redefining \% on input line 29.
+ [69]
+LaTeX Info: Redefining \. on input line 67.
+LaTeX Info: Redefining \% on input line 67.
+ [70]
+LaTeX Info: Redefining \. on input line 79.
+LaTeX Info: Redefining \% on input line 79.
+ [71]
+LaTeX Info: Redefining \. on input line 102.
+LaTeX Info: Redefining \% on input line 102.
+ [72]
+<imagenes/perfilCiudadano.png, id=1589, 880.79062pt x 440.77171pt>
+File: imagenes/perfilCiudadano.png Graphic file (type png)
+<use imagenes/perfilCiudadano.png>
+Package pdftex.def Info: imagenes/perfilCiudadano.png  used on input line 105.
+(pdftex.def)             Requested size: 448.12788pt x 224.25255pt.
+LaTeX Info: Redefining \. on input line 119.
+LaTeX Info: Redefining \% on input line 119.
+ [73 <./imagenes/perfilCiudadano.png>]) (50_iteraciones/4_iteracion4.tex
+Overfull \hbox (31.2778pt too wide) in paragraph at lines 124--1
+\T1/bch/m/n/10.95 me-dian-te springdoc-openapi (\T1/cmtt/m/n/10.95 /swagger-ui.html\T1/bch/m/n/10.95 ), ob-te-nien-do un to-ken vá-li-do con \T1/cmtt/m/n/10.95 POST /auth/codigo-acceso
+ []
+
+LaTeX Info: Redefining \. on input line 14.
+LaTeX Info: Redefining \% on input line 14.
+[74]
+LaTeX Info: Redefining \. on input line 50.
+LaTeX Info: Redefining \% on input line 50.
+ [75]
+Overfull \hbox (86.8584pt too wide) in paragraph at lines 57--58
+[]\T1/bch/m/n/10.95 La Jun-ta se-lec-cio-na el ar-chi-vo GPX des-de el mó-vil y la apli-ca-ción lo en-vía al ser-vi-dor (\T1/cmtt/m/n/10.95 POST /recorridos/importar-gpx\T1/bch/m/n/10.95 ).
+ []
+
+LaTeX Info: Redefining \. on input line 70.
+LaTeX Info: Redefining \% on input line 70.
+[76]
+<imagenes/inicioSesion.png, id=1631, 740.7675pt x 515.30016pt>
+File: imagenes/inicioSesion.png Graphic file (type png)
+<use imagenes/inicioSesion.png>
+Package pdftex.def Info: imagenes/inicioSesion.png  used on input line 73.
+(pdftex.def)             Requested size: 448.12788pt x 311.73003pt.
+<imagenes/perfilMiembro.png, id=1632, 447.92343pt x 455.82797pt>
+File: imagenes/perfilMiembro.png Graphic file (type png)
+<use imagenes/perfilMiembro.png>
+Package pdftex.def Info: imagenes/perfilMiembro.png  used on input line 84.
+(pdftex.def)             Requested size: 448.12788pt x 456.04942pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 88.
+LaTeX Info: Redefining \% on input line 88.
+ [77 <./imagenes/inicioSesion.png>]
+<imagenes/NuevaCofradia.png, id=1640, 670.00313pt x 455.45157pt>
+File: imagenes/NuevaCofradia.png Graphic file (type png)
+<use imagenes/NuevaCofradia.png>
+Package pdftex.def Info: imagenes/NuevaCofradia.png  used on input line 95.
+(pdftex.def)             Requested size: 473.02556pt x 321.54512pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 99.
+LaTeX Info: Redefining \% on input line 99.
+ [78 <./imagenes/perfilMiembro.png>]
+<imagenes/actualizarCofradia.png, id=1647, 441.14813pt x 456.58078pt>
+File: imagenes/actualizarCofradia.png Graphic file (type png)
+<use imagenes/actualizarCofradia.png>
+Package pdftex.def Info: imagenes/actualizarCofradia.png  used on input line 102.
+(pdftex.def)             Requested size: 448.12788pt x 463.82516pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 106.
+LaTeX Info: Redefining \% on input line 106.
+ [79 <./imagenes/NuevaCofradia.png>]
+<imagenes/listarElementosCofradia.png, id=1653, 678.66046pt x 454.32234pt>
+File: imagenes/listarElementosCofradia.png Graphic file (type png)
+<use imagenes/listarElementosCofradia.png>
+Package pdftex.def Info: imagenes/listarElementosCofradia.png  used on input line 109.
+(pdftex.def)             Requested size: 473.02556pt x 316.65779pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 113.
+LaTeX Info: Redefining \% on input line 113.
+ [80 <./imagenes/actualizarCofradia.png>]
+<imagenes/CrearProcesion.png, id=1659, 444.53578pt x 456.58078pt>
+File: imagenes/CrearProcesion.png Graphic file (type png)
+<use imagenes/CrearProcesion.png>
+Package pdftex.def Info: imagenes/CrearProcesion.png  used on input line 120.
+(pdftex.def)             Requested size: 473.02556pt x 485.84042pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 124.
+LaTeX Info: Redefining \% on input line 124.
+ [81 <./imagenes/listarElementosCofradia.png>]
+<imagenes/actualizarProcesion.png, id=1667, 444.15938pt x 457.71pt>
+File: imagenes/actualizarProcesion.png Graphic file (type png)
+<use imagenes/actualizarProcesion.png>
+Package pdftex.def Info: imagenes/actualizarProcesion.png  used on input line 127.
+(pdftex.def)             Requested size: 448.12788pt x 461.80156pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 131.
+LaTeX Info: Redefining \% on input line 131.
+ [82 <./imagenes/CrearProcesion.png>]
+<imagenes/listaProcesionesYNotificacion.png, id=1673, 443.40656pt x 456.58078pt>
+File: imagenes/listaProcesionesYNotificacion.png Graphic file (type png)
+<use imagenes/listaProcesionesYNotificacion.png>
+Package pdftex.def Info: imagenes/listaProcesionesYNotificacion.png  used on input line 134.
+(pdftex.def)             Requested size: 473.02556pt x 487.1084pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 138.
+LaTeX Info: Redefining \% on input line 138.
+ [83 <./imagenes/actualizarProcesion.png>]
+<imagenes/listaEventosyCreacion.png, id=1679, 621.82312pt x 416.30531pt>
+File: imagenes/listaEventosyCreacion.png Graphic file (type png)
+<use imagenes/listaEventosyCreacion.png>
+Package pdftex.def Info: imagenes/listaEventosyCreacion.png  used on input line 145.
+(pdftex.def)             Requested size: 473.02556pt x 316.68753pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 149.
+LaTeX Info: Redefining \% on input line 149.
+ [84 <./imagenes/listaProcesionesYNotificacion.png>]
+<imagenes/editarEvento.png, id=1686, 407.27156pt x 416.30531pt>
+File: imagenes/editarEvento.png Graphic file (type png)
+<use imagenes/editarEvento.png>
+Package pdftex.def Info: imagenes/editarEvento.png  used on input line 152.
+(pdftex.def)             Requested size: 224.06393pt x 229.03215pt.
+<imagenes/listaPasosyCreacion.png, id=1688, 614.295pt x 417.81094pt>
+File: imagenes/listaPasosyCreacion.png Graphic file (type png)
+<use imagenes/listaPasosyCreacion.png>
+Package pdftex.def Info: imagenes/listaPasosyCreacion.png  used on input line 163.
+(pdftex.def)             Requested size: 473.02556pt x 321.72816pt.
+
+Underfull \vbox (badness 1448) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 167.
+LaTeX Info: Redefining \% on input line 167.
+ [85 <./imagenes/listaEventosyCreacion.png> <./imagenes/editarEvento.png>]
+<imagenes/editarPasos.png, id=1696, 408.77719pt x 416.68172pt>
+File: imagenes/editarPasos.png Graphic file (type png)
+<use imagenes/editarPasos.png>
+Package pdftex.def Info: imagenes/editarPasos.png  used on input line 170.
+(pdftex.def)             Requested size: 224.06393pt x 228.39996pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 179.
+LaTeX Info: Redefining \% on input line 179.
+ [86 <./imagenes/listaPasosyCreacion.png> <./imagenes/editarPasos.png>]) (50_iteraciones/5_iteracion.tex
+LaTeX Info: Redefining \. on input line 7.
+LaTeX Info: Redefining \% on input line 7.
+ [87]
+Underfull \hbox (badness 5274) in paragraph at lines 30--30
+[]|\T1/bch/m/n/10 Firebase Cloud Mes-sa-ging, Ex-po
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 36--36
+\T1/bch/m/n/10 tro pro-pio, con-tra-se-ña pro-vi-sio-nal
+ []
+
+
+Underfull \hbox (badness 1092) in paragraph at lines 36--37
+[]|\T1/bch/m/n/10 Contraseña pro-vi-sio-nal por
+ []
+
+LaTeX Info: Redefining \. on input line 46.
+LaTeX Info: Redefining \% on input line 46.
+[88]
+LaTeX Info: Redefining \. on input line 64.
+LaTeX Info: Redefining \% on input line 64.
+ [89]
+<imagenes/perfilAdmin.png, id=1735, 814.54312pt x 846.16125pt>
+File: imagenes/perfilAdmin.png Graphic file (type png)
+<use imagenes/perfilAdmin.png>
+Package pdftex.def Info: imagenes/perfilAdmin.png  used on input line 77.
+(pdftex.def)             Requested size: 448.12788pt x 465.51924pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 81.
+LaTeX Info: Redefining \% on input line 81.
+ [90]
+<imagenes/ciudadesCreacion.png, id=1742, 1252.68pt x 845.40843pt>
+File: imagenes/ciudadesCreacion.png Graphic file (type png)
+<use imagenes/ciudadesCreacion.png>
+Package pdftex.def Info: imagenes/ciudadesCreacion.png  used on input line 88.
+(pdftex.def)             Requested size: 473.02556pt x 319.23326pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 92.
+LaTeX Info: Redefining \% on input line 92.
+ [91 <./imagenes/perfilAdmin.png>]
+<imagenes/editarCiudad.png, id=1749, 820.56563pt x 843.90282pt>
+File: imagenes/editarCiudad.png Graphic file (type png)
+<use imagenes/editarCiudad.png>
+Package pdftex.def Info: imagenes/editarCiudad.png  used on input line 95.
+(pdftex.def)             Requested size: 448.12788pt x 460.86438pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 99.
+LaTeX Info: Redefining \% on input line 99.
+ [92 <./imagenes/ciudadesCreacion.png>]
+<imagenes/juntaCreacion.png, id=1755, 1253.43282pt x 844.65562pt>
+File: imagenes/juntaCreacion.png Graphic file (type png)
+<use imagenes/juntaCreacion.png>
+Package pdftex.def Info: imagenes/juntaCreacion.png  used on input line 106.
+(pdftex.def)             Requested size: 473.02556pt x 318.75566pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 110.
+LaTeX Info: Redefining \% on input line 110.
+ [93 <./imagenes/editarCiudad.png>]
+<imagenes/juntaEditar.png, id=1763, 819.8128pt x 843.15pt>
+File: imagenes/juntaEditar.png Graphic file (type png)
+<use imagenes/juntaEditar.png>
+Package pdftex.def Info: imagenes/juntaEditar.png  used on input line 113.
+(pdftex.def)             Requested size: 448.12788pt x 460.89067pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 117.
+LaTeX Info: Redefining \% on input line 117.
+ [94 <./imagenes/juntaCreacion.png>]
+<imagenes/nuevoMiembro.png, id=1769, 818.30719pt x 844.65562pt>
+File: imagenes/nuevoMiembro.png Graphic file (type png)
+<use imagenes/nuevoMiembro.png>
+Package pdftex.def Info: imagenes/nuevoMiembro.png  used on input line 124.
+(pdftex.def)             Requested size: 473.02556pt x 488.26378pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 128.
+LaTeX Info: Redefining \% on input line 128.
+ [95 <./imagenes/juntaEditar.png>]
+<imagenes/editarMiembro.png, id=1776, 822.82407pt x 843.15pt>
+File: imagenes/editarMiembro.png Graphic file (type png)
+<use imagenes/editarMiembro.png>
+Package pdftex.def Info: imagenes/editarMiembro.png  used on input line 131.
+(pdftex.def)             Requested size: 448.12788pt x 459.19244pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 135.
+LaTeX Info: Redefining \% on input line 135.
+ [96 <./imagenes/nuevoMiembro.png>]
+<imagenes/listaMiembrosJuntas.png, id=1782, 817.55438pt x 844.65562pt>
+File: imagenes/listaMiembrosJuntas.png Graphic file (type png)
+<use imagenes/listaMiembrosJuntas.png>
+Package pdftex.def Info: imagenes/listaMiembrosJuntas.png  used on input line 138.
+(pdftex.def)             Requested size: 473.02556pt x 488.71487pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 142.
+LaTeX Info: Redefining \% on input line 142.
+ [97 <./imagenes/editarMiembro.png>]
+<imagenes/pruebaDeEnvioDeCorreo.png, id=1788, 973.38657pt x 344.03531pt>
+File: imagenes/pruebaDeEnvioDeCorreo.png Graphic file (type png)
+<use imagenes/pruebaDeEnvioDeCorreo.png>
+Package pdftex.def Info: imagenes/pruebaDeEnvioDeCorreo.png  used on input line 145.
+(pdftex.def)             Requested size: 348.54475pt x 123.19116pt.
+
+Underfull \vbox (badness 6691) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 154.
+LaTeX Info: Redefining \% on input line 154.
+ [98 <./imagenes/listaMiembrosJuntas.png> <./imagenes/pruebaDeEnvioDeCorreo.png>])
+LaTeX Info: Redefining \. on input line 272.
+LaTeX Info: Redefining \% on input line 272.
+ [99] (70_pruebas/1_pruebas.tex [100
+
+
+]
+Cap\'{\i }tulo 5.
+
+LaTeX Warning: Citation `junit' on page 101 undefined on input line 16.
+
+
+LaTeX Warning: Citation `mockito' on page 101 undefined on input line 16.
+
+[101]
+Overfull \hbox (31.82742pt too wide) in paragraph at lines 37--37
+[]|\T1/cmtt/m/n/10 MiembroJuntaCofradiaServiceTest| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+[]|\T1/cmtt/m/n/10 CofradiaServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+\T1/cmtt/m/n/10 CiudadServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Overfull \hbox (3.11511pt too wide) in paragraph at lines 47--47
+\T1/cmtt/m/n/10 JuntaCofradiasServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+\T1/cmtt/m/n/10 PasoServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+\T1/cmtt/m/n/10 EventoServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Overfull \hbox (16.08127pt too wide) in paragraph at lines 47--47
+\T1/cmtt/m/n/10 InformacionCiudadServiceTest| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+[]|\T1/cmtt/m/n/10 HorarioEventosTest\T1/bch/m/n/10 ,
+ []
+
+
+Overfull \hbox (42.32486pt too wide) in paragraph at lines 51--51
+\T1/cmtt/m/n/10 CambioEstadoAutomaticoServiceTest| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/cmtt/m/n/10 GpxParserTest\T1/bch/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+\T1/cmtt/m/n/10 RecorridoServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Overfull \hbox (24.10999pt too wide) in paragraph at lines 53--53
+\T1/cmtt/m/n/10 RecorridoPuntoRutaServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Overfull \hbox (37.07614pt too wide) in paragraph at lines 53--53
+\T1/cmtt/m/n/10 AutorizacionRecorridoServiceTest| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
+[]|\T1/cmtt/m/n/10 JwtServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
+\T1/cmtt/m/n/10 CodigoAccesoServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+Overfull \hbox (8.36383pt too wide) in paragraph at lines 55--55
+\T1/cmtt/m/n/10 DispositivoPushServiceTest\T1/bch/m/n/10 ,
+ []
+
+
+LaTeX Warning: Citation `jacoco' on page 102 undefined on input line 66.
+
+
+Overfull \hbox (13.9635pt too wide) in paragraph at lines 66--67
+[]\T1/bch/m/n/10.95 La co-ber-tu-ra de las prue-bas se ha me-di-do con Ja-Co-Co [[]], que ge-ne-ra un in-for-me en \T1/cmtt/m/n/10.95 target/site/jacoco
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 92.
+LaTeX Info: Redefining \% on input line 92.
+ [102]
+Underfull \hbox (badness 10000) in paragraph at lines 114--114
+[]|\T1/bch/m/n/10 Ubicaciones erró-
+ []
+
+
+Underfull \hbox (badness 2435) in paragraph at lines 120--120
+[]|\T1/bch/m/n/10 Código re-vo-ca-do o
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 126.
+LaTeX Info: Redefining \% on input line 126.
+ [103]
+<imagenes/consola_una_proecsion.png, id=1826, 1199.23032pt x 356.0803pt>
+File: imagenes/consola_una_proecsion.png Graphic file (type png)
+<use imagenes/consola_una_proecsion.png>
+Package pdftex.def Info: imagenes/consola_una_proecsion.png  used on input line 131.
+(pdftex.def)             Requested size: 497.92325pt x 147.8412pt.
+LaTeX Info: Redefining \. on input line 143.
+LaTeX Info: Redefining \% on input line 143.
+ [104 <./imagenes/consola_una_proecsion.png>]
+<imagenes/una_procesion_activa.PNG, id=1835, 587.19376pt x 1270.7475pt>
+File: imagenes/una_procesion_activa.PNG Graphic file (type png)
+<use imagenes/una_procesion_activa.PNG>
+Package pdftex.def Info: imagenes/una_procesion_activa.PNG  used on input line 157.
+(pdftex.def)             Requested size: 159.33908pt x 344.81273pt.
+<imagenes/notficacones.jpg, id=1836, 1173.38374pt x 600.2425pt>
+File: imagenes/notficacones.jpg Graphic file (type jpg)
+<use imagenes/notficacones.jpg>
+Package pdftex.def Info: imagenes/notficacones.jpg  used on input line 163.
+(pdftex.def)             Requested size: 308.70998pt x 157.91862pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 169.
+LaTeX Info: Redefining \% on input line 169.
+ [105]
+Underfull \vbox (badness 5475) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 194.
+LaTeX Info: Redefining \% on input line 194.
+ [106 <./imagenes/una_procesion_activa.PNG> <./imagenes/notficacones.jpg>]
+<imagenes/inicio_variasProcesiones.PNG, id=1849, 587.19376pt x 1270.7475pt>
+File: imagenes/inicio_variasProcesiones.PNG Graphic file (type png)
+<use imagenes/inicio_variasProcesiones.PNG>
+Package pdftex.def Info: imagenes/inicio_variasProcesiones.PNG  used on input line 210.
+(pdftex.def)             Requested size: 199.16626pt x 431.00137pt.
+<imagenes/mapa_variasProcesiones.PNG, id=1850, 587.19376pt x 1270.7475pt>
+File: imagenes/mapa_variasProcesiones.PNG Graphic file (type png)
+<use imagenes/mapa_variasProcesiones.PNG>
+Package pdftex.def Info: imagenes/mapa_variasProcesiones.PNG  used on input line 216.
+(pdftex.def)             Requested size: 199.16626pt x 431.00137pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 222.
+LaTeX Info: Redefining \% on input line 222.
+ [107]
+<imagenes/consola_tresprocesiones_recortada.png, id=1855, 813.0375pt x 666.23906pt>
+File: imagenes/consola_tresprocesiones_recortada.png Graphic file (type png)
+<use imagenes/consola_tresprocesiones_recortada.png>
+Package pdftex.def Info: imagenes/consola_tresprocesiones_recortada.png  used on input line 225.
+(pdftex.def)             Requested size: 497.92325pt x 408.02162pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 229.
+LaTeX Info: Redefining \% on input line 229.
+ [108 <./imagenes/inicio_variasProcesiones.PNG> <./imagenes/mapa_variasProcesiones.PNG>]
+Underfull \hbox (badness 3158) in paragraph at lines 247--247
+[]|\T1/bch/m/n/10 Miembro de la
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 255.
+LaTeX Info: Redefining \% on input line 255.
+ [109 <./imagenes/consola_tresprocesiones_recortada.png>]
+<imagenes/cofrade_comparte_ubicacion.PNG, id=1870, 587.19376pt x 1270.7475pt>
+File: imagenes/cofrade_comparte_ubicacion.PNG Graphic file (type png)
+<use imagenes/cofrade_comparte_ubicacion.PNG>
+Package pdftex.def Info: imagenes/cofrade_comparte_ubicacion.PNG  used on input line 260.
+(pdftex.def)             Requested size: 174.27617pt x 377.1359pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 264.
+LaTeX Info: Redefining \% on input line 264.
+ [110]
+LaTeX Info: Redefining \. on input line 272.
+LaTeX Info: Redefining \% on input line 272.
+ [111 <./imagenes/cofrade_comparte_ubicacion.PNG>]) (80_conclusiones/1_conclusiones.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [112]
+Cap\'{\i }tulo 6.
+[113
+
+]
+LaTeX Info: Redefining \. on input line 30.
+LaTeX Info: Redefining \% on input line 30.
+ [114]
+LaTeX Info: Redefining \. on input line 44.
+LaTeX Info: Redefining \% on input line 44.
+ [115])
+LaTeX Info: Redefining \. on input line 279.
+LaTeX Info: Redefining \% on input line 279.
+ [116] [117
+
+] [118] (proyecto.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 26--31
+\T1/cmtt/m/n/10.95 2026 / 3660 -[] lanzamos -[] la -[] nueva -[] app -[] de -[] valladolid -[] cofrade -[] toda -[] la -[] semana -[] santa -[] 2026 -[]
+ []
+
+
+Underfull \hbox (badness 3428) in paragraph at lines 60--64
+[]\T1/bch/m/n/10.95 I. Som-mer-vi-lle, \T1/bch/m/it/10.95 Soft-wa-re En-gi-nee-ring\T1/bch/m/n/10.95 .  Bos-ton, MA: Pear-son, 10 ed., 2015.  []$\T1/cmtt/m/n/10.95 https :
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--64
+\T1/cmtt/m/n/10.95 / / dn790001 . ca . archive . org / 0 / items / bme -[] vik -[] konyvek / Software % 20Engineering % 20 -[]
+ []
+
+[119
+
+]
+Underfull \hbox (badness 1168) in paragraph at lines 71--75
+[]\T1/bch/m/n/10.95 IEEE, ``IEEE Std 29148-2018: Sys-tems and soft-wa-re en-gi-nee-ring --- re-qui-re-ments en-gi-nee-
+ []
+
+
+Underfull \hbox (badness 3271) in paragraph at lines 89--93
+[]\T1/bch/m/n/10.95 OWASP Foun-da-tion, ``Ac-cess con-trol cheat sheet.'' []$\T1/cmtt/m/n/10.95 https : / / cheatsheetseries . owasp . org /
+ []
+
+
+Underfull \hbox (badness 5105) in paragraph at lines 105--108
+[]\T1/bch/m/n/10.95 OpenStreetMap Foun-da-tion, ``Opens-treet-map --- ma-pa li-bre del mun-do.'' []$\T1/cmtt/m/n/10.95 https : / / www .
+ []
+
+
+Underfull \hbox (badness 4726) in paragraph at lines 121--125
+[]\T1/bch/m/n/10.95 Glassdoor, ``Suel-do: Ana-lis-ta fun-cio-nal en es-pa-ña.'' []$\T1/cmtt/m/n/10.95 https : / / www . glassdoor . es / Sueldos /
+ []
+
+
+Underfull \hbox (badness 3364) in paragraph at lines 133--137
+[]\T1/bch/m/n/10.95 Glassdoor, ``Suel-do: Bac-kend de-ve-lo-per en es-pa-ña.'' []$\T1/cmtt/m/n/10.95 https : / / www . glassdoor . es / Sueldos /
+ []
+
+LaTeX Info: Redefining \. on input line 162.
+LaTeX Info: Redefining \% on input line 162.
+[120]
+Underfull \hbox (badness 1648) in paragraph at lines 191--194
+[]\T1/bch/m/n/10.95 Meta Plat-forms, ``React na-ti-ve --- do-cu-men-ta-ción ofi-cial.'' []$\T1/cmtt/m/n/10.95 https : / / reactnative . dev / docs /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 226--229
+[]\T1/bch/m/n/10.95 Red Hat, ``Hi-ber-na-te ORM --- do-cu-men-ta-ción ofi-cial.'' []$\T1/cmtt/m/n/10.95 https : / / hibernate . org / orm /
+ []
+
+LaTeX Info: Redefining \. on input line 248.
+LaTeX Info: Redefining \% on input line 248.
+[121]
+Underfull \hbox (badness 1205) in paragraph at lines 255--258
+[]\T1/bch/m/n/10.95 Google Fi-re-ba-se, ``Fi-re-ba-se cloud mes-sa-ging --- do-cu-men-ta-ción ofi-cial.'' []$\T1/cmtt/m/n/10.95 https : / / firebase .
+ []
+
+)
+LaTeX Info: Redefining \. on input line 296.
+LaTeX Info: Redefining \% on input line 296.
+ [122] [123
+
+] [124] (apendices/casosDeUsoAdiccionales.tex
+Ap\'{e}ndice A.
+
+Underfull \hbox (badness 2213) in paragraph at lines 45--45
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 83--83
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 123--123
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 163--163
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 203--203
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 239--239
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 277--277
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 311--311
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 345--345
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 383--383
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 423--423
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 461--461
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 496--496
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 530--530
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 579--579
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 621--621
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 659--659
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 705--705
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 741--741
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 785--785
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 829--829
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 883--883
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 939--939
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 979--979
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 1027--1027
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 1071--1071
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 1111--1111
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 1160--1160
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 1214--1214
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 1250--1250
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 1290--1290
+[]|\T1/bch/b/n/10.95 Requisitos Re-la-cio-na-
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (apendices/esquema_base_datos.tex [125
+
+] [126]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [127]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [128]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [129]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [130]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [131]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [132]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [133]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [134]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [135]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [136]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [137]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [138]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [139]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [140]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [141]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [142]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [143]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [144]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [145]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [146]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [147]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [148]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [149]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [150]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [151]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [152]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [153]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [154]
+Ap\'{e}ndice B.
+
+Overfull \hbox (6.0315pt too wide) in paragraph at lines 3--4
+[]\T1/bch/m/n/10.95 Este apén-di-ce re-co-ge, a ni-vel de de-ta-lle de cam-po, el es-que-ma com-ple-to de las ta-blas de Post-greSQL [[]]
+ []
+
+
+LaTeX Font Warning: Font shape `T1/cmtt/b/n' undefined
+(Font)              using `T1/cmtt/m/n' instead on input line 5.
+
+[155
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 113.
+LaTeX Info: Redefining \% on input line 113.
+ [156]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 157.
+LaTeX Info: Redefining \% on input line 157.
+ [157]
+Underfull \hbox (badness 10000) in paragraph at lines 197--198
+[]|\T1/cmtt/b/n/10.95 PROGRAMADO\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 EN_CURSO\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 FINALIZADO\T1/bch/m/n/10.95 ,
+ []
+
+LaTeX Info: Redefining \. on input line 223.
+LaTeX Info: Redefining \% on input line 223.
+[158]
+Underfull \vbox (badness 1173) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 269.
+LaTeX Info: Redefining \% on input line 269.
+ [159]
+Underfull \hbox (badness 10000) in paragraph at lines 315--316
+[]|\T1/cmtt/b/n/10.95 MONUMENTO\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 IGLESIA\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 ENCUENTRO\T1/bch/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 315--316
+\T1/cmtt/b/n/10.95 ORACCION\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 ENTRADAPROCESION\T1/bch/m/n/10.95 ,
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 326.
+LaTeX Info: Redefining \% on input line 326.
+ [160]
+LaTeX Info: Redefining \. on input line 356.
+LaTeX Info: Redefining \% on input line 356.
+ [161]
+Overfull \hbox (19.46605pt too wide) in paragraph at lines 357--358
+[]\T1/bch/m/n/10.95 Por tan-to, \T1/cmtt/b/n/10.95 usuarios \T1/bch/m/n/10.95 so-lo con-tie-ne los per-fi-les con cre-den-cia-les pro-pias --junta de co-fra-días y administrador--
+ []
+
+LaTeX Info: Redefining \. on input line 406.
+LaTeX Info: Redefining \% on input line 406.
+[162]
+Underfull \hbox (badness 7631) in paragraph at lines 444--445
+\T1/bch/m/n/10.95 te-ma al cam-biar el es-ta-do de un
+ []
+
+
+Underfull \hbox (badness 1817) in paragraph at lines 444--445
+\T1/cmtt/b/n/10.95 Evento\T1/bch/m/n/10.95 ), \T1/cmtt/b/n/10.95 INCIDENCIA\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 CAMBIO_HORARIO\T1/bch/m/n/10.95 ,
+ []
+
+
+Underfull \vbox (badness 7451) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 459.
+LaTeX Info: Redefining \% on input line 459.
+ [163]
+Overfull \hbox (10.4907pt too wide) in paragraph at lines 485--526
+ [][] 
+ []
+
+) (apendices/manual_despliegue.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [164]
+Ap\'{e}ndice C.
+[165
+
+]
+Overfull \hbox (2.0801pt too wide) in paragraph at lines 32--33
+[]\T1/cmtt/b/n/10.95 SPRING_DATASOURCE_URL\T1/bch/m/n/10.95 , \T1/cmtt/b/n/10.95 SPRING_DATASOURCE_USERNAME \T1/bch/m/n/10.95 y \T1/cmtt/b/n/10.95 SPRING_DATASOURCE_PASSWORD\T1/bch/m/n/10.95 : co-
+ []
+
+
+Overfull \hbox (48.52556pt too wide) in paragraph at lines 38--39
+\T1/bch/m/n/10.95 fi-ca-ción con una pe-ti-ción HTTP co-rrien-te al ser-vi-cio de Ex-po Push (\T1/cmtt/b/n/10.95 https://exp.host/--/api/v2/push/send\T1/bch/m/n/10.95 ),
+ []
+
+LaTeX Info: Redefining \. on input line 48.
+LaTeX Info: Redefining \% on input line 48.
+[166]
+Overfull \hbox (86.69363pt too wide) in paragraph at lines 66--67
+\T1/bch/m/n/10.95 ne-ra-dos con EAS la de-fi-ne \T1/cmtt/b/n/10.95 eas.json \T1/bch/m/n/10.95 en los per-fi-les \T1/cmtt/b/n/10.95 preview \T1/bch/m/n/10.95 y \T1/cmtt/b/n/10.95 production \T1/bch/m/n/10.95 (\T1/cmtt/b/n/10.95 http://virtual.lab.inf.uva.es:20102\T1/bch/m/n/10.95 );
+ []
+
+
+Overfull \hbox (35.16382pt too wide) in paragraph at lines 68--69
+[]\T1/bch/m/n/10.95 Comprobar que \T1/cmtt/b/n/10.95 app.json \T1/bch/m/n/10.95 tie-ne con-fi-gu-ra-do el \T1/cmtt/b/n/10.95 projectId \T1/bch/m/n/10.95 del pro-yec-to EAS (cam-po \T1/cmtt/b/n/10.95 extra.eas.projectId\T1/bch/m/n/10.95 )
+ []
+
+LaTeX Info: Redefining \. on input line 75.
+LaTeX Info: Redefining \% on input line 75.
+[167]) (apendices/manual_usuario.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [168]
+Ap\'{e}ndice D.
+) (apendices/contenido_CD.tex [169
+
+] [170
+
+]
+Ap\'{e}ndice E.
+) [171] [172
+
+] [173] (proyecto.aux
+LaTeX Info: Redefining \. on input line 11.
+LaTeX Info: Redefining \% on input line 11.
+)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `proyecto.out' has not changed.
+(rerunfilecheck)             Checksum: 95E547BD5B890FEEAC163B0B372FA9BB;19783.
+ ) 
+Here is how much of TeX's memory you used:
+ 20036 strings out of 467871
+ 339430 string characters out of 5418376
+ 977298 words of memory out of 5000000
+ 47880 multiletter control sequences out of 15000+600000
+ 701595 words of font info for 111 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 75i,16n,91p,1735b,878s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exist, replaced by a fixed one
+
+ <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1440.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1095.pk> <C:\Users\elena\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchb8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchbi8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchr8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/bitstrea/charter/bchri8a.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/elena/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on proyecto.pdf (195 pages, 11010297 bytes).
+PDF statistics:
+ 2631 PDF objects out of 2984 (max. 8388607)
+ 614 named destinations out of 1000 (max. 500000)
+ 1201 words of extra memory for PDF output out of 10000 (max. 10000000)
+
