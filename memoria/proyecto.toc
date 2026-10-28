@@ -59,96 +59,96 @@
 \contentsline {subsubsection}{Arquitectura del sistema}{47}{section*.59}%
 \contentsline {paragraph}{Estructura del front-end}{47}{section*.60}%
 \contentsline {paragraph}{Estructura del back-end}{50}{section*.62}%
-\contentsline {paragraph}{Diagrama de despliegue}{51}{section*.64}%
+\contentsline {paragraph}{Diagrama de despliegue}{52}{section*.64}%
 \contentsline {subsubsection}{Diseño de la base de datos}{52}{section*.66}%
-\contentsline {subsubsection}{Interfaces de usuario}{54}{section*.68}%
+\contentsline {subsubsection}{Interfaces de usuario}{55}{section*.68}%
 \contentsline {paragraph}{Selección de ciudad}{55}{section*.69}%
-\contentsline {paragraph}{Inicio}{55}{section*.71}%
-\contentsline {paragraph}{Calendario}{56}{section*.73}%
-\contentsline {paragraph}{Listados de cofradías, procesiones, pasos y eventos}{57}{section*.75}%
-\contentsline {paragraph}{Detalle de cofradía y de paso}{58}{section*.77}%
-\contentsline {paragraph}{Detalle de evento}{59}{section*.79}%
-\contentsline {paragraph}{Detalle de procesión}{60}{section*.81}%
-\contentsline {paragraph}{Buscar}{61}{section*.83}%
-\contentsline {subsubsection}{Patrones de diseño}{62}{section*.85}%
-\contentsline {subsection}{\numberline {4.1.3}Implementación}{63}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Pruebas}{64}{subsection.4.1.4}%
-\contentsline {section}{\numberline {4.2}2ª Iteración}{64}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Análisis}{64}{subsection.4.2.1}%
-\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{64}{section*.86}%
-\contentsline {paragraph}{Mapas}{64}{section*.87}%
-\contentsline {paragraph}{Cómo guardar el recorrido}{65}{section*.88}%
-\contentsline {paragraph}{Puntos de interés}{65}{section*.89}%
-\contentsline {subsection}{\numberline {4.2.2}Diseño}{65}{subsection.4.2.2}%
-\contentsline {subsubsection}{Mapas}{65}{section*.91}%
-\contentsline {subsubsection}{Diseño de la base de datos}{66}{section*.92}%
-\contentsline {subsubsection}{Interfaces de usuario}{66}{section*.93}%
-\contentsline {paragraph}{Mapa en Vivo}{66}{section*.94}%
-\contentsline {subsection}{\numberline {4.2.3}Implementación}{67}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Pruebas}{68}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}3ª Iteración}{68}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Análisis}{68}{subsection.4.3.1}%
-\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{68}{section*.96}%
-\contentsline {paragraph}{Identificación del cofrade}{68}{section*.97}%
-\contentsline {paragraph}{Introducción del código de acceso}{68}{section*.98}%
-\contentsline {paragraph}{Envío y consulta de la posición}{68}{section*.99}%
-\contentsline {paragraph}{Recogida de las posiciones y estela de la procesión}{69}{section*.100}%
-\contentsline {paragraph}{Envío con la pantalla bloqueada}{69}{section*.101}%
-\contentsline {subsection}{\numberline {4.3.2}Diseño}{70}{subsection.4.3.2}%
-\contentsline {subsubsection}{Autenticación del cofrade}{70}{section*.103}%
-\contentsline {subsubsection}{Posición en tiempo real}{70}{section*.104}%
-\contentsline {subsubsection}{Algoritmo de la estela}{71}{section*.105}%
-\contentsline {subsubsection}{Envío en segundo plano}{72}{section*.106}%
-\contentsline {subsubsection}{Diseño de la base de datos}{72}{section*.107}%
-\contentsline {subsubsection}{Interfaces de usuario}{72}{section*.108}%
-\contentsline {paragraph}{Perfil}{72}{section*.109}%
-\contentsline {subsection}{\numberline {4.3.3}Implementación}{73}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Pruebas}{74}{subsection.4.3.4}%
-\contentsline {section}{\numberline {4.4}4ª Iteración}{74}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Análisis}{74}{subsection.4.4.1}%
-\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{74}{section*.111}%
-\contentsline {paragraph}{Acceso de la Junta de Cofradías}{74}{section*.112}%
-\contentsline {paragraph}{Control de lo que puede modificar cada Junta}{74}{section*.113}%
-\contentsline {paragraph}{Introducción del recorrido}{75}{section*.114}%
-\contentsline {paragraph}{Cofradías y pasos de una procesión}{75}{section*.115}%
-\contentsline {subsection}{\numberline {4.4.2}Diseño}{75}{subsection.4.4.2}%
-\contentsline {subsubsection}{Autenticación de la Junta de Cofradías}{75}{section*.117}%
-\contentsline {subsubsection}{Control de acceso}{76}{section*.118}%
-\contentsline {subsubsection}{Importación del recorrido}{76}{section*.119}%
-\contentsline {subsubsection}{Diseño de la base de datos}{76}{section*.120}%
-\contentsline {subsubsection}{Interfaces de usuario}{76}{section*.121}%
-\contentsline {paragraph}{Inicio de sesión}{77}{section*.122}%
-\contentsline {paragraph}{Perfil de la Junta de Cofradías}{77}{section*.124}%
-\contentsline {paragraph}{Cofradías}{78}{section*.126}%
-\contentsline {paragraph}{Procesiones}{81}{section*.130}%
-\contentsline {paragraph}{Eventos}{84}{section*.134}%
-\contentsline {paragraph}{Pasos}{85}{section*.137}%
-\contentsline {subsection}{\numberline {4.4.3}Implementación}{87}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Pruebas}{87}{subsection.4.4.4}%
-\contentsline {section}{\numberline {4.5}5ª Iteración}{87}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Análisis}{87}{subsection.4.5.1}%
-\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{88}{section*.140}%
-\contentsline {paragraph}{Notificaciones \emph {push}}{88}{section*.141}%
-\contentsline {paragraph}{A quién se envía cada notificación}{88}{section*.142}%
-\contentsline {paragraph}{Cambio de estado de los eventos}{88}{section*.143}%
-\contentsline {paragraph}{Alta de los miembros de la Junta}{88}{section*.144}%
-\contentsline {subsection}{\numberline {4.5.2}Diseño}{89}{subsection.4.5.2}%
-\contentsline {subsubsection}{Notificaciones}{89}{section*.146}%
-\contentsline {subsubsection}{Cambio automático de estado}{89}{section*.147}%
-\contentsline {subsubsection}{Alta de miembros e invitación}{89}{section*.148}%
-\contentsline {subsubsection}{Diseño de la base de datos}{89}{section*.149}%
-\contentsline {subsubsection}{Interfaces de usuario}{90}{section*.150}%
-\contentsline {paragraph}{Perfil de administrador}{90}{section*.151}%
-\contentsline {paragraph}{Ciudades}{91}{section*.153}%
-\contentsline {paragraph}{Juntas de Cofradías}{93}{section*.156}%
-\contentsline {paragraph}{Miembros de la Junta de Cofradías}{95}{section*.159}%
-\contentsline {subsection}{\numberline {4.5.3}Implementación}{99}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Pruebas}{99}{subsection.4.5.4}%
+\contentsline {paragraph}{Inicio}{56}{section*.71}%
+\contentsline {paragraph}{Calendario}{57}{section*.73}%
+\contentsline {paragraph}{Listados de cofradías, procesiones, pasos y eventos}{58}{section*.75}%
+\contentsline {paragraph}{Detalle de cofradía y de paso}{59}{section*.77}%
+\contentsline {paragraph}{Detalle de evento}{60}{section*.79}%
+\contentsline {paragraph}{Detalle de procesión}{61}{section*.81}%
+\contentsline {paragraph}{Buscar}{62}{section*.83}%
+\contentsline {subsubsection}{Patrones de diseño}{63}{section*.85}%
+\contentsline {subsection}{\numberline {4.1.3}Implementación}{64}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Pruebas}{65}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}2ª Iteración}{65}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Análisis}{65}{subsection.4.2.1}%
+\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{65}{section*.86}%
+\contentsline {paragraph}{Mapas}{65}{section*.87}%
+\contentsline {paragraph}{Cómo guardar el recorrido}{66}{section*.88}%
+\contentsline {paragraph}{Puntos de interés}{66}{section*.89}%
+\contentsline {subsection}{\numberline {4.2.2}Diseño}{66}{subsection.4.2.2}%
+\contentsline {subsubsection}{Mapas}{66}{section*.91}%
+\contentsline {subsubsection}{Diseño de la base de datos}{67}{section*.92}%
+\contentsline {subsubsection}{Interfaces de usuario}{67}{section*.93}%
+\contentsline {paragraph}{Mapa en Vivo}{67}{section*.94}%
+\contentsline {subsection}{\numberline {4.2.3}Implementación}{68}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Pruebas}{69}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}3ª Iteración}{69}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Análisis}{69}{subsection.4.3.1}%
+\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{69}{section*.96}%
+\contentsline {paragraph}{Identificación del cofrade}{69}{section*.97}%
+\contentsline {paragraph}{Introducción del código de acceso}{69}{section*.98}%
+\contentsline {paragraph}{Envío y consulta de la posición}{69}{section*.99}%
+\contentsline {paragraph}{Recogida de las posiciones y estela de la procesión}{70}{section*.100}%
+\contentsline {paragraph}{Envío con la pantalla bloqueada}{70}{section*.101}%
+\contentsline {subsection}{\numberline {4.3.2}Diseño}{71}{subsection.4.3.2}%
+\contentsline {subsubsection}{Autenticación del cofrade}{71}{section*.103}%
+\contentsline {subsubsection}{Posición en tiempo real}{71}{section*.104}%
+\contentsline {subsubsection}{Algoritmo de la estela}{72}{section*.105}%
+\contentsline {subsubsection}{Envío en segundo plano}{73}{section*.106}%
+\contentsline {subsubsection}{Diseño de la base de datos}{73}{section*.107}%
+\contentsline {subsubsection}{Interfaces de usuario}{73}{section*.108}%
+\contentsline {paragraph}{Perfil}{73}{section*.109}%
+\contentsline {subsection}{\numberline {4.3.3}Implementación}{74}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Pruebas}{75}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}4ª Iteración}{75}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Análisis}{75}{subsection.4.4.1}%
+\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{75}{section*.111}%
+\contentsline {paragraph}{Acceso de la Junta de Cofradías}{75}{section*.112}%
+\contentsline {paragraph}{Control de lo que puede modificar cada Junta}{75}{section*.113}%
+\contentsline {paragraph}{Introducción del recorrido}{76}{section*.114}%
+\contentsline {paragraph}{Cofradías y pasos de una procesión}{76}{section*.115}%
+\contentsline {subsection}{\numberline {4.4.2}Diseño}{76}{subsection.4.4.2}%
+\contentsline {subsubsection}{Autenticación de la Junta de Cofradías}{76}{section*.117}%
+\contentsline {subsubsection}{Control de acceso}{77}{section*.118}%
+\contentsline {subsubsection}{Importación del recorrido}{77}{section*.119}%
+\contentsline {subsubsection}{Diseño de la base de datos}{77}{section*.120}%
+\contentsline {subsubsection}{Interfaces de usuario}{77}{section*.121}%
+\contentsline {paragraph}{Inicio de sesión}{78}{section*.122}%
+\contentsline {paragraph}{Perfil de la Junta de Cofradías}{78}{section*.124}%
+\contentsline {paragraph}{Cofradías}{79}{section*.126}%
+\contentsline {paragraph}{Procesiones}{82}{section*.130}%
+\contentsline {paragraph}{Eventos}{85}{section*.134}%
+\contentsline {paragraph}{Pasos}{86}{section*.137}%
+\contentsline {subsection}{\numberline {4.4.3}Implementación}{88}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Pruebas}{88}{subsection.4.4.4}%
+\contentsline {section}{\numberline {4.5}5ª Iteración}{88}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Análisis}{88}{subsection.4.5.1}%
+\contentsline {subsubsection}{Problemas planteados y alternativas valoradas}{89}{section*.140}%
+\contentsline {paragraph}{Notificaciones \emph {push}}{89}{section*.141}%
+\contentsline {paragraph}{A quién se envía cada notificación}{89}{section*.142}%
+\contentsline {paragraph}{Cambio de estado de los eventos}{89}{section*.143}%
+\contentsline {paragraph}{Alta de los miembros de la Junta}{89}{section*.144}%
+\contentsline {subsection}{\numberline {4.5.2}Diseño}{90}{subsection.4.5.2}%
+\contentsline {subsubsection}{Notificaciones}{90}{section*.146}%
+\contentsline {subsubsection}{Cambio automático de estado}{90}{section*.147}%
+\contentsline {subsubsection}{Alta de miembros e invitación}{90}{section*.148}%
+\contentsline {subsubsection}{Diseño de la base de datos}{90}{section*.149}%
+\contentsline {subsubsection}{Interfaces de usuario}{91}{section*.150}%
+\contentsline {paragraph}{Perfil de administrador}{91}{section*.151}%
+\contentsline {paragraph}{Ciudades}{92}{section*.153}%
+\contentsline {paragraph}{Juntas de Cofradías}{94}{section*.156}%
+\contentsline {paragraph}{Miembros de la Junta de Cofradías}{96}{section*.159}%
+\contentsline {subsection}{\numberline {4.5.3}Implementación}{100}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Pruebas}{100}{subsection.4.5.4}%
 \contentsline {chapter}{\numberline {5}Pruebas}{101}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Pruebas automáticas del backend}{101}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Cobertura}{103}{subsection.5.1.1}%
 \contentsline {section}{\numberline {5.2}Pruebas de simulación del seguimiento en tiempo real}{103}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Pruebas en directo}{104}{section.5.3}%
+\contentsline {section}{\numberline {5.3}Pruebas en directo}{105}{section.5.3}%
 \contentsline {subsection}{\numberline {5.3.1}Procesión de prueba}{105}{subsection.5.3.1}%
 \contentsline {subsection}{\numberline {5.3.2}Varias procesiones simultáneas}{106}{subsection.5.3.2}%
 \contentsline {section}{\numberline {5.4}Pruebas manuales de aceptación}{109}{section.5.4}%

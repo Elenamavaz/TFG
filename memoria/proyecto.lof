@@ -22,38 +22,38 @@
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Diagrama de paquetes de la aplicación cliente}}{49}{figure.caption.61}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama de paquetes del backend propio}}{51}{figure.caption.63}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Diagrama de despliegue de la aplicación}}{52}{figure.caption.65}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Diagrama entidad-relación de la base de datos}}{53}{figure.caption.67}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Mockup de la pantalla de selección de ciudad}}{55}{figure.caption.70}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Mockup de la pantalla de inicio: notificación de retraso, procesión en curso, estadísticas y agenda del día}}{56}{figure.caption.72}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Mockup de la pantalla de calendario: vista mensual y agenda del día seleccionado}}{57}{figure.caption.74}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Mockup del menú de la pantalla de inicio y de los listados de procesiones, pasos, eventos y cofradías}}{58}{figure.caption.76}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Mockup del detalle de un paso y de una cofradía}}{59}{figure.caption.78}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Mockup del detalle de un evento}}{60}{figure.caption.80}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Mockup del detalle de una procesión (programada y en curso) y de su información ampliada}}{61}{figure.caption.82}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Mockup de la pantalla de búsqueda con filtros por día y estado}}{62}{figure.caption.84}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Mockup del mapa en vivo}}{67}{figure.caption.95}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Mockup de la pantalla de perfil, en modo ciudadano y en modo cofrade}}{73}{figure.caption.110}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Mockup de la bienvenida y del inicio de sesión, para Junta de Cofradías y Administrador}}{77}{figure.caption.123}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces Mockup del perfil de la Junta de Cofradías y de la edición de sus datos}}{78}{figure.caption.125}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Mockup del listado de cofradías y de su creación}}{79}{figure.caption.127}%
-\contentsline {figure}{\numberline {4.18}{\ignorespaces Mockup de la edición de una cofradía}}{80}{figure.caption.128}%
-\contentsline {figure}{\numberline {4.19}{\ignorespaces Mockup de las procesiones, eventos y pasos de una cofradía, accesibles desde su edición}}{81}{figure.caption.129}%
-\contentsline {figure}{\numberline {4.20}{\ignorespaces Mockup de la creación de una procesión}}{82}{figure.caption.131}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Mockup de la edición de una procesión}}{83}{figure.caption.132}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Mockup del listado de procesiones y del envío de una notificación}}{84}{figure.caption.133}%
-\contentsline {figure}{\numberline {4.23}{\ignorespaces Mockup del listado de eventos y de su creación}}{85}{figure.caption.135}%
-\contentsline {figure}{\numberline {4.24}{\ignorespaces Mockup de la edición de un evento}}{85}{figure.caption.136}%
-\contentsline {figure}{\numberline {4.25}{\ignorespaces Mockup del listado de pasos y de su creación}}{86}{figure.caption.138}%
-\contentsline {figure}{\numberline {4.26}{\ignorespaces Mockup de la edición de un paso}}{86}{figure.caption.139}%
-\contentsline {figure}{\numberline {4.27}{\ignorespaces Mockup del perfil de administrador y de la edición de sus datos}}{91}{figure.caption.152}%
-\contentsline {figure}{\numberline {4.28}{\ignorespaces Mockup del listado de ciudades y de su creación}}{92}{figure.caption.154}%
-\contentsline {figure}{\numberline {4.29}{\ignorespaces Mockup de la edición de una ciudad}}{93}{figure.caption.155}%
-\contentsline {figure}{\numberline {4.30}{\ignorespaces Mockup del listado de Juntas de Cofradías y de su creación}}{94}{figure.caption.157}%
-\contentsline {figure}{\numberline {4.31}{\ignorespaces Mockup de la edición de una Junta de Cofradías}}{95}{figure.caption.158}%
-\contentsline {figure}{\numberline {4.32}{\ignorespaces Mockup de la creación de un miembro de la Junta de Cofradías}}{96}{figure.caption.160}%
-\contentsline {figure}{\numberline {4.33}{\ignorespaces Mockup de la edición de un miembro de la Junta de Cofradías}}{97}{figure.caption.161}%
-\contentsline {figure}{\numberline {4.34}{\ignorespaces Mockup del listado de miembros, sin filtrar y filtrado por Junta de Cofradías}}{98}{figure.caption.162}%
-\contentsline {figure}{\numberline {4.35}{\ignorespaces Correo de invitación recibido por un nuevo miembro de la Junta de Cofradías}}{98}{figure.caption.163}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Diagrama entidad-relación de la base de datos}}{54}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Mockup de la pantalla de selección de ciudad}}{56}{figure.caption.70}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Mockup de la pantalla de inicio: notificación de retraso, procesión en curso, estadísticas y agenda del día}}{57}{figure.caption.72}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Mockup de la pantalla de calendario: vista mensual y agenda del día seleccionado}}{58}{figure.caption.74}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Mockup del menú de la pantalla de inicio y de los listados de procesiones, pasos, eventos y cofradías}}{59}{figure.caption.76}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Mockup del detalle de un paso y de una cofradía}}{60}{figure.caption.78}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Mockup del detalle de un evento}}{61}{figure.caption.80}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Mockup del detalle de una procesión (programada y en curso) y de su información ampliada}}{62}{figure.caption.82}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Mockup de la pantalla de búsqueda con filtros por día y estado}}{63}{figure.caption.84}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Mockup del mapa en vivo}}{68}{figure.caption.95}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Mockup de la pantalla de perfil, en modo ciudadano y en modo cofrade}}{74}{figure.caption.110}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Mockup de la bienvenida y del inicio de sesión, para Junta de Cofradías y Administrador}}{78}{figure.caption.123}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Mockup del perfil de la Junta de Cofradías y de la edición de sus datos}}{79}{figure.caption.125}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Mockup del listado de cofradías y de su creación}}{80}{figure.caption.127}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Mockup de la edición de una cofradía}}{81}{figure.caption.128}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Mockup de las procesiones, eventos y pasos de una cofradía, accesibles desde su edición}}{82}{figure.caption.129}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Mockup de la creación de una procesión}}{83}{figure.caption.131}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Mockup de la edición de una procesión}}{84}{figure.caption.132}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Mockup del listado de procesiones y del envío de una notificación}}{85}{figure.caption.133}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Mockup del listado de eventos y de su creación}}{86}{figure.caption.135}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Mockup de la edición de un evento}}{86}{figure.caption.136}%
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Mockup del listado de pasos y de su creación}}{87}{figure.caption.138}%
+\contentsline {figure}{\numberline {4.26}{\ignorespaces Mockup de la edición de un paso}}{87}{figure.caption.139}%
+\contentsline {figure}{\numberline {4.27}{\ignorespaces Mockup del perfil de administrador y de la edición de sus datos}}{92}{figure.caption.152}%
+\contentsline {figure}{\numberline {4.28}{\ignorespaces Mockup del listado de ciudades y de su creación}}{93}{figure.caption.154}%
+\contentsline {figure}{\numberline {4.29}{\ignorespaces Mockup de la edición de una ciudad}}{94}{figure.caption.155}%
+\contentsline {figure}{\numberline {4.30}{\ignorespaces Mockup del listado de Juntas de Cofradías y de su creación}}{95}{figure.caption.157}%
+\contentsline {figure}{\numberline {4.31}{\ignorespaces Mockup de la edición de una Junta de Cofradías}}{96}{figure.caption.158}%
+\contentsline {figure}{\numberline {4.32}{\ignorespaces Mockup de la creación de un miembro de la Junta de Cofradías}}{97}{figure.caption.160}%
+\contentsline {figure}{\numberline {4.33}{\ignorespaces Mockup de la edición de un miembro de la Junta de Cofradías}}{98}{figure.caption.161}%
+\contentsline {figure}{\numberline {4.34}{\ignorespaces Mockup del listado de miembros, sin filtrar y filtrado por Junta de Cofradías}}{99}{figure.caption.162}%
+\contentsline {figure}{\numberline {4.35}{\ignorespaces Correo de invitación recibido por un nuevo miembro de la Junta de Cofradías}}{99}{figure.caption.163}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5.1}{\ignorespaces Salida del simulador de procesiones durante una prueba}}{104}{figure.caption.167}%
 \contentsline {figure}{\numberline {5.2}{\ignorespaces Prueba en directo con una procesión}}{106}{figure.caption.168}%
