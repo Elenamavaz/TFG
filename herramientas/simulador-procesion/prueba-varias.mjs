@@ -46,6 +46,7 @@ const { values: op } = parseArgs({
     'junta-email': { type: 'string' },
     'junta-password': { type: 'string' },
     hora: { type: 'string' },
+    en: { type: 'string' },
     desfase: { type: 'string', default: '0,3,6' },
     duracion: { type: 'string', default: '10' },
     cofrades: { type: 'string', default: '5' },
@@ -61,6 +62,7 @@ Prueba de varias procesiones a la vez
 
   --hora <HH:MM>       Salida de la primera (por defecto, el siguiente múltiplo de 5 min
                        con al menos 4 min de margen).
+  --en <minutos>       Salida de la primera dentro de N minutos (p. ej. --en 1).
   --desfase <m,m,..>   Minutos de diferencia de cada salida respecto a la primera (0,3,6).
                        Con 2 valores se crean 2 procesiones. Ejemplo: --desfase 0,5,10
   --duracion <min>     Duración de cada procesión (10).
@@ -198,7 +200,12 @@ async function main() {
 
   // Horario: la primera a --hora o al siguiente múltiplo de 5 minutos.
   const primera = new Date();
-  if (op.hora) {
+  if (op.en) {
+    // La API guarda las horas sin segundos: se redondea al minuto siguiente.
+    primera.setTime(primera.getTime() + Number(op.en) * 60000);
+    if (primera.getSeconds() || primera.getMilliseconds()) primera.setMinutes(primera.getMinutes() + 1);
+    primera.setSeconds(0, 0);
+  } else if (op.hora) {
     const [hh, mm] = op.hora.split(':').map(Number);
     primera.setHours(hh, mm, 0, 0);
   } else {

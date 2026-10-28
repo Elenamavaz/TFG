@@ -44,6 +44,10 @@ export function CofradeProvider({ children }) {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
   const [aviso, setAviso] = useState(null); // informativo, no error: p.ej. "solo con la app abierta"
+  // El backend descarta sin error los pings a más de 50 m del recorrido
+  // (guardado=false): se avisa al cofrade de que su ubicación no se está
+  // mostrando, en vez de dejarle creer que comparte bien.
+  const [fueraDeRecorrido, setFueraDeRecorrido] = useState(false);
   const intervaloRef = useRef(null);
 
   const detenerCompartir = useCallback(() => {
@@ -54,6 +58,7 @@ export function CofradeProvider({ children }) {
     services.detenerSeguimiento();
     setCompartiendo(false);
     setAviso(null);
+    setFueraDeRecorrido(false);
   }, []);
 
   // La tarea en segundo plano vive fuera de React: al abrir la app (o volver
@@ -61,12 +66,14 @@ export function CofradeProvider({ children }) {
   // finalizada, código revocado...) se muestra el motivo.
   const sincronizarConSeguimiento = useCallback(async () => {
     if (!esCofrade || intervaloRef.current) return; // el modo primer plano ya lleva su propio estado
-    const { seguimiento, motivoFin } = await services.getEstadoSeguimiento();
+    const { seguimiento, motivoFin, fueraDeRecorrido: fuera } = await services.getEstadoSeguimiento();
     if (seguimiento) {
       setProcesionNombre(seguimiento.procesionNombre);
       setCompartiendo(true);
+      if (fuera !== null) setFueraDeRecorrido(fuera);
     } else {
       setCompartiendo(false);
+      setFueraDeRecorrido(false);
     }
     if (motivoFin) setError(motivoFin);
   }, [esCofrade]);
@@ -101,7 +108,8 @@ export function CofradeProvider({ children }) {
       const posicion = await services.obtenerPosicionActual();
       if (!posicion) return; // sin GPS disponible en este ciclo, se reintenta en el siguiente
       try {
-        await services.registrarPosicion(idProcesion, posicion.latitud, posicion.longitud, jwt);
+        const respuesta = await services.registrarPosicion(idProcesion, posicion.latitud, posicion.longitud, jwt);
+        setFueraDeRecorrido(respuesta?.guardado === false);
       } catch (err) {
         // La procesión ha terminado (2026-09-30, decisión de Elena: si a un
         // cofrade se le olvida parar, se le echa al llegar la hora de fin):
@@ -131,6 +139,7 @@ export function CofradeProvider({ children }) {
       setProcesionesPendientes([]);
       setError(null);
       setAviso(null);
+      setFueraDeRecorrido(false);
       if (intervaloRef.current) clearInterval(intervaloRef.current);
       intervaloRef.current = null;
       enviarPing(procesion.id, token); // primero inmediato, no esperar al primer aviso del GPS
@@ -189,6 +198,7 @@ export function CofradeProvider({ children }) {
       cargando,
       error,
       aviso,
+      fueraDeRecorrido,
       procesionNombre,
       procesionesPendientes,
       empezarACompartir,
@@ -197,7 +207,7 @@ export function CofradeProvider({ children }) {
       detenerCompartir,
       limpiarError: () => setError(null),
     }),
-    [cofradiaId, compartiendo, cargando, error, aviso, procesionNombre, procesionesPendientes, empezarACompartir, elegirProcesion, detenerCompartir]
+    [cofradiaId, compartiendo, cargando, error, aviso, fueraDeRecorrido, procesionNombre, procesionesPendientes, empezarACompartir, elegirProcesion, detenerCompartir]
   );
 
   return <CofradeContext.Provider value={value}>{children}</CofradeContext.Provider>;

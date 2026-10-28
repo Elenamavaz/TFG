@@ -103,6 +103,19 @@ export const styles = StyleSheet.create({
     lineHeight: 16,
     marginTop: spacing.sm,
   },
+  fueraRecorrido: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.xs,
+    marginTop: spacing.sm,
+  },
+  fueraRecorridoTexto: {
+    flex: 1,
+    color: colors.orangeText,
+    fontFamily: fontFamilies.uiRegular,
+    fontSize: 12,
+    lineHeight: 16,
+  },
   modalError: {
     color: colors.redText,
     fontFamily: fontFamilies.uiRegular,

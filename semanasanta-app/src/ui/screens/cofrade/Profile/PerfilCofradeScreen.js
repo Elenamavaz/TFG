@@ -23,6 +23,7 @@ export function PerfilCofradeScreen({ navigation }) {
     cargando,
     error,
     aviso,
+    fueraDeRecorrido,
     procesionNombre,
     procesionesPendientes,
     empezarACompartir,
@@ -93,6 +94,17 @@ export function PerfilCofradeScreen({ navigation }) {
           {/* Sin permiso de ubicación "todo el tiempo": comparte, pero solo
               con la app abierta (ver CofradeContext). */}
           {compartiendo && aviso ? <Text style={styles.avisoCompartir}>{aviso}</Text> : null}
+          {/* El backend ha descartado la última ubicación por caer a más
+              de 50 m del recorrido (ver CofradeContext.fueraDeRecorrido). */}
+          {compartiendo && fueraDeRecorrido ? (
+            <View style={styles.fueraRecorrido}>
+              <Ionicons name="warning-outline" size={16} color={colors.orangeText} />
+              <Text style={styles.fueraRecorridoTexto}>
+                Estás fuera del recorrido de la procesión: tu ubicación no se está mostrando en el mapa.
+                Se volverá a mostrar en cuanto te acerques al recorrido.
+              </Text>
+            </View>
+          ) : null}
         </View>
 
         <TouchableOpacity style={styles.cerrarSesionButton} onPress={cerrarSesion} activeOpacity={0.85}>

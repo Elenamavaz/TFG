@@ -23,6 +23,10 @@ export const TAREA_SEGUIMIENTO = 'semanasanta-seguimiento-procesion';
 
 const CLAVE_SEGUIMIENTO = '@semanasanta/seguimiento'; // { procesionId, procesionNombre, token }
 const CLAVE_MOTIVO_FIN = '@semanasanta/seguimientoMotivoFin';
+// Resultado del último ping ('si'/'no'): el backend descarta, sin error, los
+// que caen a más de 50 m del recorrido (guardado=false), y el cofrade tiene
+// que saberlo para que no crea que está compartiendo bien.
+const CLAVE_FUERA_RECORRIDO = '@semanasanta/seguimientoFueraRecorrido';
 
 // Mismo ritmo que el modo antiguo (CofradeContext.INTERVALO_PING_MS). En
 // Android lo respeta timeInterval; iOS ignora esa opción y entrega por
@@ -49,7 +53,8 @@ TaskManager.defineTask(TAREA_SEGUIMIENTO, async ({ data, error }) => {
   const { latitude, longitude } = data.locations[data.locations.length - 1].coords;
   ultimoPing = Date.now();
   try {
-    await registrarPosicion(seguimiento.procesionId, latitude, longitude, seguimiento.token);
+    const respuesta = await registrarPosicion(seguimiento.procesionId, latitude, longitude, seguimiento.token);
+    await AsyncStorage.setItem(CLAVE_FUERA_RECORRIDO, respuesta?.guardado === false ? 'si' : 'no').catch(() => {});
   } catch (err) {
     // 410: la procesión ya no está en curso. 401/403: sesión caducada o
     // código revocado. Errores de red: se ignoran, se reintenta en el siguiente.
@@ -89,6 +94,7 @@ export async function iniciarSeguimiento({ procesionId, procesionNombre, token }
 
     await AsyncStorage.setItem(CLAVE_SEGUIMIENTO, JSON.stringify({ procesionId, procesionNombre, token }));
     await AsyncStorage.removeItem(CLAVE_MOTIVO_FIN);
+    await AsyncStorage.removeItem(CLAVE_FUERA_RECORRIDO);
     ultimoPing = 0;
     await Location.startLocationUpdatesAsync(TAREA_SEGUIMIENTO, {
       accuracy: Location.Accuracy.High,
@@ -113,6 +119,7 @@ export async function iniciarSeguimiento({ procesionId, procesionNombre, token }
 export async function detenerSeguimiento() {
   try {
     await AsyncStorage.removeItem(CLAVE_SEGUIMIENTO);
+    await AsyncStorage.removeItem(CLAVE_FUERA_RECORRIDO);
     if (await Location.hasStartedLocationUpdatesAsync(TAREA_SEGUIMIENTO)) {
       await Location.stopLocationUpdatesAsync(TAREA_SEGUIMIENTO);
     }
@@ -123,15 +130,18 @@ export async function detenerSeguimiento() {
 
 // Al abrir la app o volver a ella: si el seguimiento sigue en marcha
 // devuelve { procesionId, procesionNombre }; si la tarea paró sola, el
-// motivo (y lo borra, para mostrarlo una sola vez).
+// motivo (y lo borra, para mostrarlo una sola vez). fueraDeRecorrido es null
+// mientras la tarea no haya mandado ningún ping.
 export async function getEstadoSeguimiento() {
   try {
     const activo = await Location.hasStartedLocationUpdatesAsync(TAREA_SEGUIMIENTO);
     const seguimiento = activo ? await leerSeguimiento() : null;
     const motivoFin = await AsyncStorage.getItem(CLAVE_MOTIVO_FIN);
     if (motivoFin) await AsyncStorage.removeItem(CLAVE_MOTIVO_FIN);
-    return { seguimiento, motivoFin };
+    const fuera = seguimiento ? await AsyncStorage.getItem(CLAVE_FUERA_RECORRIDO) : null;
+    const fueraDeRecorrido = fuera === null ? null : fuera === 'si';
+    return { seguimiento, motivoFin, fueraDeRecorrido };
   } catch {
-    return { seguimiento: null, motivoFin: null };
+    return { seguimiento: null, motivoFin: null, fueraDeRecorrido: null };
   }
 }
