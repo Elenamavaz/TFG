@@ -14,7 +14,7 @@ import { styles } from './CambiarPasswordObligatorioScreen.styles';
 // MiembroJuntaCofradiaService.exigirJunta), así que no basta con saltarse
 // esta pantalla. No hay "ahora no": la única otra salida es cerrar sesión.
 export function CambiarPasswordObligatorioScreen({ navigation }) {
-  const { cerrarSesion, marcarPasswordCambiada } = context.useAuth();
+  const { sesion, cerrarSesion, marcarPasswordCambiada } = context.useAuth();
   const [passwordActual, setPasswordActual] = useState('');
   const [passwordNueva, setPasswordNueva] = useState('');
   const [passwordRepetida, setPasswordRepetida] = useState('');
@@ -47,7 +47,8 @@ export function CambiarPasswordObligatorioScreen({ navigation }) {
     try {
       await services.cambiarPassword(passwordActual, passwordNueva);
       marcarPasswordCambiada();
-      navigation.reset({ index: 0, routes: [{ name: 'JuntaStack' }] });
+      // Administrador dado de alta por otro (2026-10-31): a su propio panel.
+      navigation.reset({ index: 0, routes: [{ name: sesion?.rol === 'ADMIN' ? 'AdministradorStack' : 'JuntaStack' }] });
     } catch (err) {
       if (err.campos) {
         setErroresCampos(err.campos);

@@ -19,6 +19,11 @@ public class Administrador extends Usuario {
 
     private String telefono;
 
+    // Alta desde la app (2026-10-31, ver AdministradorService.crear): igual
+    // que MiembroJuntaCofradia.passwordProvisional, true hasta que cambia la
+    // contraseña que le llegó por correo. El del bootstrap nace en false.
+    private boolean passwordProvisional;
+
     protected Administrador() {
     }
 
@@ -40,5 +45,13 @@ public class Administrador extends Usuario {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public boolean isPasswordProvisional() {
+        return passwordProvisional;
+    }
+
+    public void setPasswordProvisional(boolean passwordProvisional) {
+        this.passwordProvisional = passwordProvisional;
     }
 }

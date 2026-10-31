@@ -44,6 +44,13 @@ export function AdministradorStackNavigator() {
       <Stack.Screen name="Miembros" component={administrador.MiembrosScreen} />
       <Stack.Screen name="FormularioMiembro" component={administrador.FormularioMiembroScreen} />
       <Stack.Screen name="MiembroCreado" component={administrador.MiembroCreadoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Administradores" component={administrador.AdministradoresScreen} />
+      <Stack.Screen name="FormularioAdministrador" component={administrador.FormularioAdministradorScreen} />
+      <Stack.Screen
+        name="AdministradorCreado"
+        component={administrador.AdministradorCreadoScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

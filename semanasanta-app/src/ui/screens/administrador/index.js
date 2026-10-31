@@ -10,3 +10,6 @@ export { SolicitudesReactivacionScreen } from './Miembros/SolicitudesReactivacio
 export { MiembrosScreen } from './Miembros/MiembrosScreen';
 export { FormularioMiembroScreen } from './Miembros/FormularioMiembroScreen';
 export { MiembroCreadoScreen } from './Miembros/MiembroCreadoScreen';
+export { AdministradoresScreen } from './Administradores/AdministradoresScreen';
+export { FormularioAdministradorScreen } from './Administradores/FormularioAdministradorScreen';
+export { AdministradorCreadoScreen } from './Administradores/AdministradorCreadoScreen';

@@ -2,7 +2,7 @@
 
 \subsection{Análisis}
 
-Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta cuarta iteración se centra en el panel de gestión de la Junta de Cofradías, desde el que sus miembros pueden crear, editar y eliminar las cofradías, procesiones, eventos y pasos de su ciudad, importar los recorridos y emitir los códigos de acceso (RF-26 a RF-33). Al ser el primer rol que puede modificar la información de la aplicación, en esta iteración se analizaron sobre todo los problemas relacionados con el acceso y los permisos, además de cómo introducir los recorridos.
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta cuarta iteración se centra en el panel de gestión de la Junta de Cofradías, desde el que sus miembros pueden crear, editar y eliminar las cofradías, procesiones, eventos y pasos de su ciudad, importar los recorridos y emitir los códigos de acceso (RF-26 a RF-34). Al ser el primer rol que puede modificar la información de la aplicación, en esta iteración se analizaron sobre todo los problemas relacionados con el acceso y los permisos, además de cómo introducir los recorridos.
 
 \subsubsection{Problemas planteados y alternativas valoradas}
 
@@ -13,7 +13,7 @@ Se valoró que la Junta accediera con un código compartido, igual que el cofrad
 Cada Junta solo debe poder modificar la información de su propia ciudad (RNF-03). Se valoró hacer esta comprobación por separado en cada operación o hacerla en un único sitio que reutilicen todas. Se optó por la segunda opción, ya que la comprobación es la misma para cofradías, pasos, eventos, procesiones y códigos de acceso, y repetirla en cada uno aumentaba el riesgo de olvidarla en alguno. En el caso de los recorridos, los puntos y las ubicaciones, que no pertenecen directamente a ninguna ciudad, se decidió deducirla a partir de la procesión o el evento que los utiliza.
 
 \paragraph{Introducción del recorrido}
-Para crear el recorrido de una procesión (RF-32) se valoró que la Junta lo dibujara punto a punto sobre el mapa dentro de la propia aplicación, o que lo importara desde un archivo GPX. Dibujarlo en el móvil es lento y poco preciso para un recorrido de varios kilómetros, mientras que el formato GPX es un estándar que generan herramientas gratuitas como gpx.studio, Wikiloc o Strava. Por ello se optó por importar el recorrido desde un archivo GPX, y sobre los puntos importados la Junta puede marcar después los puntos de interés (RF-33).
+Para crear el recorrido de una procesión (RF-32) se valoró que la Junta lo dibujara punto a punto sobre el mapa dentro de la propia aplicación, o que lo importara desde un archivo GPX. Dibujarlo en el móvil es lento y poco preciso para un recorrido de varios kilómetros, mientras que el formato GPX es un estándar que generan herramientas gratuitas como gpx.studio, Wikiloc o Strava. Por ello se optó por importar el recorrido desde un archivo GPX, y sobre los puntos importados la Junta puede marcar después los puntos de interés (RF-34).
 
 \paragraph{Cofradías y pasos de una procesión}
 Una procesión o un evento puede tener varias cofradías, como ocurre en la Procesión General del Viernes Santo, y a la hora de asignar sus pasos se valoró ofrecer todos los pasos de la ciudad o solo los de las cofradías que participan. Se optó por la segunda opción, ya que un paso pertenece siempre a una única cofradía (RF-30), de forma que la lista es más corta y no se puede asignar por error un paso de una cofradía que no participa. Además, si se quita una cofradía de una procesión, sus pasos también se quitan.

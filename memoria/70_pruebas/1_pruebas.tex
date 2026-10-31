@@ -115,7 +115,7 @@ Ubicaciones erróneas & Con un 30\,\% de ubicaciones alejadas del recorrido, nin
 \hline
 Recorrido circular & En una procesión que sale y vuelve al mismo templo, la estela no aparece completa al empezar. & RF-18 \\
 \hline
-Fin de la procesión & Al finalizar la procesión, el backend deja de aceptar ubicaciones y el simulador se detiene. & RF-24, RF-34 \\
+Fin de la procesión & Al finalizar la procesión, el backend deja de aceptar ubicaciones y el simulador se detiene. & RF-24, RF-35 \\
 \hline
 Código revocado o caducado & Al revocar el código de acceso durante la simulación, el backend rechaza las ubicaciones y se informa del motivo. & RF-24, RF-31 \\
 \hline
@@ -142,10 +142,10 @@ Además de las simulaciones, se han realizado pruebas con el sistema completo en
 La primera prueba en directo se realizó el 26 de octubre de 2026 con una procesión de prueba de 10 minutos de duración, programada a las 18:15. Como el formulario de la aplicación solo permite elegir los días de la Semana Santa, se preparó con un programa auxiliar (\texttt{prueba-hoy.mjs}, junto al simulador) que traslada la procesión al día de la prueba, comprueba el código de acceso antes de la hora y lanza el simulador cuando el backend la pone en curso. Se comprobó:
 
 \begin{itemize}
-    \item que el backend cambiaba la procesión a \emph{en curso} por sí solo al llegar la hora de inicio, y que llegaba al dispositivo la notificación \emph{push} de inicio (RF-34, RF-35, RNF-08);
+    \item que el backend cambiaba la procesión a \emph{en curso} por sí solo al llegar la hora de inicio, y que llegaba al dispositivo la notificación \emph{push} de inicio (RF-35, RF-36, RNF-08);
     \item que la procesión aparecía en el Mapa en Vivo sin que el ciudadano tuviera que seleccionarla, y que su estela avanzaba a medida que se recibían las ubicaciones (RF-16, RF-18);
     \item que se descartaban las ubicaciones erróneas (RF-25);
-    \item que al llegar la hora de fin el backend la finalizaba, enviaba la notificación de fin y dejaba de aceptar ubicaciones (RF-24, RF-34).
+    \item que al llegar la hora de fin el backend la finalizaba, enviaba la notificación de fin y dejaba de aceptar ubicaciones (RF-24, RF-35).
 \end{itemize}
 
 La prueba se completó sin incidencias. La Figura~\ref{fig:pruebaUnaProcesion} muestra la procesión en el Mapa en Vivo, con la parte del recorrido ya ocupada por el cortejo marcada en verde, y las notificaciones de inicio y de fin recibidas en el dispositivo con 10 minutos de diferencia.
@@ -193,7 +193,7 @@ P3 & Cristo de la Luz (1\,km) & Santísimo Cristo de la Luz & H+6 a H+16 \\
 La prueba se preparó con otro programa auxiliar (\texttt{prueba-varias.mjs}) que, con las credenciales de la Junta de Cofradías, importa los tres recorridos, crea las procesiones para el día de la prueba, emite un código de acceso para cada cofradía y, cuando el backend pone cada procesión en curso, lanza un simulador para ella con cinco cofrades virtuales. Al terminar, el mismo programa elimina las procesiones y los recorridos de prueba. Se comprobó:
 
 \begin{itemize}
-    \item que el backend ponía en curso y finalizaba cada procesión a su hora, de forma independiente, y que llegaban al dispositivo las seis notificaciones \emph{push}, una de inicio y otra de fin por cada procesión (RF-34, RF-35, RNF-08);
+    \item que el backend ponía en curso y finalizaba cada procesión a su hora, de forma independiente, y que llegaban al dispositivo las seis notificaciones \emph{push}, una de inicio y otra de fin por cada procesión (RF-35, RF-36, RNF-08);
     \item que el Mapa en Vivo mostraba las procesiones en curso a medida que salían, y las tres a la vez durante el tramo en que coincidían, cada una con su propia estela (RF-16, RF-18);
     \item que las ubicaciones de los cofrades de una procesión no alteraban la estela de las demás, aunque sus recorridos compartieran calles;
     \item que el código de una cofradía no permitía enviar ubicaciones a una procesión en la que esta no participa (RF-24).

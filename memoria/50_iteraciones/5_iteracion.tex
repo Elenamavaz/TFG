@@ -2,7 +2,7 @@
 
 \subsection{Análisis}
 
-Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta quinta y última iteración se centra en el panel de administrador, desde el que se gestionan las ciudades, las Juntas de Cofradías y sus miembros (RF-37 a RF-41), y en el sistema de notificaciones (RF-21, RF-22, RF-35 y RF-36). En el caso del administrador se reutiliza el mismo acceso con correo y contraseña de la Junta de Cofradías (Iteración 4), por lo que los problemas nuevos que había que resolver estaban relacionados con las notificaciones y con el alta de los miembros de la Junta.
+Según la planificación (Sección~\ref{cap:planificacionExtensa}), esta quinta y última iteración se centra en el panel de administrador, desde el que se gestionan las ciudades, las Juntas de Cofradías y sus miembros (RF-38 a RF-42), y en el sistema de notificaciones (RF-21, RF-22, RF-36 y RF-37). En el caso del administrador se reutiliza el mismo acceso con correo y contraseña de la Junta de Cofradías (Iteración 4), por lo que los problemas nuevos que había que resolver estaban relacionados con las notificaciones y con el alta de los miembros de la Junta.
 
 \subsubsection{Problemas planteados y alternativas valoradas}
 
@@ -13,10 +13,10 @@ Se valoró utilizar Firebase Cloud Messaging \cite{firebasefcm}, que era la opci
 Como el ciudadano no tiene cuenta, no se puede enviar una notificación a una persona concreta. Se valoró enviar todas las notificaciones a todos los dispositivos o asociar cada dispositivo a una ciudad. Se optó por la segunda opción, de forma que cada dispositivo se registra con la ciudad que tiene seleccionada y solo recibe las notificaciones de esa ciudad (RF-21). Para dejar de recibirlas, en lugar de añadir un interruptor propio dentro de la aplicación, se decidió utilizar el propio permiso de notificaciones del móvil (RF-22), ya que hacer las dos cosas sería redundante.
 
 \paragraph{Cambio de estado de los eventos}
-Las notificaciones de inicio y de fin dependen de que los eventos y las procesiones cambien de estado a su hora. Se valoró que fuera la Junta quien cambiara siempre el estado a mano o que el sistema lo hiciera de forma automática. Se optó por el cambio automático (RF-34), ya que el día de la procesión la Junta tiene muchas otras cosas de las que ocuparse y es fácil que se le olvide. Aun así, se mantuvo la posibilidad de corregir el estado a mano, por ejemplo para cancelar una procesión por la lluvia.
+Las notificaciones de inicio y de fin dependen de que los eventos y las procesiones cambien de estado a su hora. Se valoró que fuera la Junta quien cambiara siempre el estado a mano o que el sistema lo hiciera de forma automática. Se optó por el cambio automático (RF-35), ya que el día de la procesión la Junta tiene muchas otras cosas de las que ocuparse y es fácil que se le olvide. Aun así, se mantuvo la posibilidad de corregir el estado a mano, por ejemplo para cancelar una procesión por la lluvia.
 
 \paragraph{Alta de los miembros de la Junta}
-Para dar de alta a un miembro se valoró que el administrador escribiera su contraseña y se la comunicara, que el propio miembro se registrara, o que el sistema generara una contraseña provisional y se la enviara por correo. Se optó por la última opción, ya que así el administrador nunca conoce la contraseña del miembro y no cualquiera puede registrarse como Junta. Además, el miembro está obligado a cambiar esa contraseña la primera vez que inicia sesión (RF-26 y RF-39).
+Para dar de alta a un miembro se valoró que el administrador escribiera su contraseña y se la comunicara, que el propio miembro se registrara, o que el sistema generara una contraseña provisional y se la enviara por correo. Se optó por la última opción, ya que así el administrador nunca conoce la contraseña del miembro y no cualquiera puede registrarse como Junta. Además, el miembro está obligado a cambiar esa contraseña la primera vez que inicia sesión (RF-26 y RF-40).
 
 En la Tabla~\ref{tab:alternativasIt5} se resumen todas estas decisiones.
 
@@ -50,18 +50,18 @@ Cuando el ciudadano selecciona una ciudad, la aplicación obtiene un token de Ex
 
 \subsubsection{Cambio automático de estado}
 
-En el servidor se ejecuta una tarea programada cada 30 segundos que revisa los eventos y procesiones. Los que están programados pasan a en curso al llegar su hora de inicio, y los que están en curso pasan a finalizado al llegar su hora de fin, generando en cada caso la notificación correspondiente (RF-35). Los eventos cancelados o finalizados no se modifican nunca. Cuando la Junta cambia el estado a mano, el sistema no le permite hacer un cambio que contradiga el horario, como volver a programado una vez pasada la hora de inicio, y le indica que modifique la hora en su lugar (RF-34).
+En el servidor se ejecuta una tarea programada cada 30 segundos que revisa los eventos y procesiones. Los que están programados pasan a en curso al llegar su hora de inicio, y los que están en curso pasan a finalizado al llegar su hora de fin, generando en cada caso la notificación correspondiente (RF-36). Los eventos cancelados o finalizados no se modifican nunca. Cuando la Junta cambia el estado a mano, el sistema no le permite hacer un cambio que contradiga el horario, como volver a programado una vez pasada la hora de inicio, y le indica que modifique la hora en su lugar (RF-35).
 
 \subsubsection{Alta de miembros e invitación}
 
-Al dar de alta a un miembro, el servidor genera una contraseña provisional aleatoria, la guarda como \emph{hash} y se la envía por correo electrónico junto con un mensaje de bienvenida, utilizando un servidor SMTP. Mientras el miembro no la cambie, el servidor rechaza cualquier modificación que intente hacer y la aplicación le lleva directamente a la pantalla de cambio de contraseña. Si la invitación se pierde, el administrador puede reenviarla, lo que genera una contraseña provisional nueva e invalida la anterior (RF-39).
+Al dar de alta a un miembro, el servidor genera una contraseña provisional aleatoria, la guarda como \emph{hash} y se la envía por correo electrónico junto con un mensaje de bienvenida, utilizando un servidor SMTP. Mientras el miembro no la cambie, el servidor rechaza cualquier modificación que intente hacer y la aplicación le lleva directamente a la pantalla de cambio de contraseña. Si la invitación se pierde, el administrador puede reenviarla, lo que genera una contraseña provisional nueva e invalida la anterior (RF-40).
 
 \subsubsection{Diseño de la base de datos}
 
 \begin{itemize}
     \item Las tablas \texttt{notificaciones} y \texttt{dispositivos\_push} hacen referencia a su ciudad, de forma que cada notificación se envía a los dispositivos registrados en la ciudad a la que pertenece. No se guarda qué ciudadano ha leído cada notificación, ya que el ciudadano no tiene cuenta.
     \item La tabla \texttt{administradores} extiende a \texttt{usuarios} y no hace referencia a ninguna ciudad, ya que cualquier administrador puede gestionar cualquier ciudad.
-    \item En \texttt{miembros\_junta\_cofradia} se guarda si el miembro sigue con la contraseña provisional, si está activo y si ha solicitado su reactivación (RF-41).
+    \item En \texttt{miembros\_junta\_cofradia} se guarda si el miembro sigue con la contraseña provisional, si está activo y si ha solicitado su reactivación (RF-42).
 \end{itemize}
 
 \subsubsection{Interfaces de usuario}
@@ -153,7 +153,7 @@ Esta quinta y última iteración implementa el panel de administrador y el siste
 
 Se implementa \texttt{Administrador}, que es un rol global del sistema sin ninguna referencia a \texttt{Ciudad}, ya que cualquier administrador puede gestionar cualquier ciudad, y su acceso mediante el mismo \emph{endpoint} \texttt{POST /auth/login} de la Junta de Cofradías, que distingue el rol según el tipo de cuenta. Sobre esta autenticación se completa el control de acceso por rol: la creación, edición y eliminación de \texttt{Ciudad}, \texttt{JuntaCofradias} y \texttt{MiembroJuntaCofradia} quedan restringidas al administrador. En este caso no hace falta comparar ninguna ciudad, a diferencia de la comprobación de la Junta de Cofradías de la Iteración 4. Para el alta de los miembros se implementa \texttt{CorreoService}, que envía el correo de bienvenida con la contraseña provisional, junto con el reenvío de la invitación y la solicitud de reactivación de los miembros desactivados.
 
-En cuanto a las notificaciones, se implementan \texttt{Notificacion} y \texttt{DispositivoPush}, el registro de los dispositivos (\texttt{POST /dispositivos-push}) y \texttt{PushNotificacionService}, que envía cada notificación al servicio de Expo Push. Además, se implementa \texttt{CambioEstadoAutomaticoService}, la tarea programada que cambia el estado de los eventos y las procesiones a su hora y genera las notificaciones de inicio y de fin. En la aplicación, el ciudadano puede consultar las notificaciones vigentes de su ciudad, y en su perfil ve si tiene activado el permiso de notificaciones, con un acceso directo a los ajustes del móvil para cambiarlo. Por su parte, la Junta puede crear una notificación después de modificar una procesión o un evento, y al cancelarlo se abre directamente la creación de la notificación de cancelación para que indique el motivo (RF-35 y RF-36).
+En cuanto a las notificaciones, se implementan \texttt{Notificacion} y \texttt{DispositivoPush}, el registro de los dispositivos (\texttt{POST /dispositivos-push}) y \texttt{PushNotificacionService}, que envía cada notificación al servicio de Expo Push. Además, se implementa \texttt{CambioEstadoAutomaticoService}, la tarea programada que cambia el estado de los eventos y las procesiones a su hora y genera las notificaciones de inicio y de fin. En la aplicación, el ciudadano puede consultar las notificaciones vigentes de su ciudad, y en su perfil ve si tiene activado el permiso de notificaciones, con un acceso directo a los ajustes del móvil para cambiarlo. Por su parte, la Junta puede crear una notificación después de modificar una procesión o un evento, y al cancelarlo se abre directamente la creación de la notificación de cancelación para que indique el motivo (RF-36 y RF-37).
 
 % TODO: capturas de la aplicación real de esta iteración (perfil del administrador, gestión de ciudades, Juntas y miembros, creación de una notificación y notificación recibida en el móvil).
 

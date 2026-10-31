@@ -14,7 +14,14 @@ export {
   actualizarJuntaCofradias,
   eliminarJuntaCofradias,
 } from './juntaCofradiasService';
-export { obtenerAdministrador, actualizarPerfilPropio } from './administradorService';
+export {
+  obtenerAdministrador,
+  actualizarPerfilPropio,
+  getAdministradores,
+  crearAdministrador,
+  reenviarInvitacionAdministrador,
+  eliminarAdministrador,
+} from './administradorService';
 export {
   getMiembrosDeJunta,
   getMiembroJuntaCofradiaPorId,

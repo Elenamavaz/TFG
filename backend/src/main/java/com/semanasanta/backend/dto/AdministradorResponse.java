@@ -9,7 +9,8 @@ public record AdministradorResponse(
         String email,
         String nombre,
         String telefono,
-        LocalDateTime fechaIngreso
+        LocalDateTime fechaIngreso,
+        boolean passwordProvisional
 ) {
     public static AdministradorResponse from(Administrador administrador) {
         return new AdministradorResponse(
@@ -17,7 +18,8 @@ public record AdministradorResponse(
                 administrador.getEmail(),
                 administrador.getNombre(),
                 administrador.getTelefono(),
-                administrador.getFechaIngreso()
+                administrador.getFechaIngreso(),
+                administrador.isPasswordProvisional()
         );
     }
 }

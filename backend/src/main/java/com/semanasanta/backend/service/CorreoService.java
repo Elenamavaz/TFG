@@ -33,4 +33,23 @@ public class CorreoService {
                 """.formatted(nombre, email, passwordEnClaro));
         mailSender.send(mensaje);
     }
+
+    // Mismo correo para un Administrador dado de alta por otro (ver
+    // AdministradorService.crear).
+    public void enviarBienvenidaAdministrador(String nombre, String email, String passwordEnClaro) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(email);
+        mensaje.setSubject("Tu acceso a Semana Santa App");
+        mensaje.setText("""
+                Hola %s,
+
+                Un administrador te ha dado de alta como administrador de Semana Santa App. Estas son tus credenciales de acceso:
+
+                Email: %s
+                Contraseña provisional: %s
+
+                Al iniciar sesión por primera vez, la aplicación te pedirá que la sustituyas por una contraseña propia.
+                """.formatted(nombre, email, passwordEnClaro));
+        mailSender.send(mensaje);
+    }
 }

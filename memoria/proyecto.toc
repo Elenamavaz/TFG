@@ -1,5 +1,5 @@
 \babel@toc {spanish}{}\relax 
-\contentsline {chapter}{Acrónimos}{\es@scroman {vii}}{chapter*.6}%
+\contentsline {chapter}{Acrónimos}{\es@scroman {xi}}{chapter*.6}%
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Contexto}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Motivación}{2}{section.1.2}%
@@ -157,41 +157,61 @@
 \contentsline {section}{\numberline {6.1}Consecución de los objetivos}{113}{section.6.1}%
 \contentsline {section}{\numberline {6.2}Trabajo futuro}{114}{section.6.2}%
 \contentsline {section}{\numberline {6.3}Puntos débiles}{115}{section.6.3}%
-\contentsline {part}{Bibliografía}{119}{part*.174}%
-\contentsline {part}{Anexos}{121}{part*.175}%
-\contentsline {chapter}{\numberline {A}Casos de uso adicionales}{121}{appendix.Alph1}%
-\contentsline {section}{\numberline {A.1}Ciudadano}{121}{section.Alph1.1}%
-\contentsline {section}{\numberline {A.2}Cofrade}{121}{section.Alph1.2}%
-\contentsline {section}{\numberline {A.3}Miembro de la Junta de Cofradías}{121}{section.Alph1.3}%
-\contentsline {section}{\numberline {A.4}Administrador}{121}{section.Alph1.4}%
-\contentsline {chapter}{\numberline {B}Esquema de la base de datos}{151}{appendix.Alph2}%
-\contentsline {section}{\numberline {B.1}Ciudad (\texttt {ciudades})}{151}{section.Alph2.1}%
-\contentsline {section}{\numberline {B.2}Junta de Cofradías (\texttt {juntas\_cofradias})}{151}{section.Alph2.2}%
-\contentsline {section}{\numberline {B.3}Cofradía / Hermandad (\texttt {cofradias})}{152}{section.Alph2.3}%
-\contentsline {section}{\numberline {B.4}Paso (\texttt {pasos})}{152}{section.Alph2.4}%
-\contentsline {subsection}{\numberline {B.4.1}Paso-Evento (\texttt {pasos\_eventos}) --- tabla intermedia N:M}{153}{subsection.Alph2.4.1}%
-\contentsline {section}{\numberline {B.5}Código de Acceso (\texttt {codigos\_acceso})}{153}{section.Alph2.5}%
-\contentsline {section}{\numberline {B.6}Ubicación (\texttt {ubicaciones})}{154}{section.Alph2.6}%
-\contentsline {section}{\numberline {B.7}Evento (\texttt {eventos})}{154}{section.Alph2.7}%
-\contentsline {subsection}{\numberline {B.7.1}Evento-Cofradía (\texttt {eventos\_cofradias}) --- tabla intermedia N:M}{154}{subsection.Alph2.7.1}%
-\contentsline {section}{\numberline {B.8}Procesión (\texttt {procesiones})}{155}{section.Alph2.8}%
-\contentsline {subsection}{\numberline {B.8.1}Posiciones actuales (\texttt {posiciones\_actuales}) --- histórico de pings anónimos}{155}{subsection.Alph2.8.1}%
-\contentsline {section}{\numberline {B.9}Recorrido (\texttt {recorridos})}{156}{section.Alph2.9}%
-\contentsline {subsection}{\numberline {B.9.1}Punto de Ruta (\texttt {puntos\_ruta})}{156}{subsection.Alph2.9.1}%
-\contentsline {subsection}{\numberline {B.9.2}Punto de Interés (\texttt {puntos\_de\_interes})}{156}{subsection.Alph2.9.2}%
-\contentsline {subsection}{\numberline {B.9.3}Recorrido-Punto de Ruta (\texttt {recorrido\_puntos\_ruta}) --- tabla intermedia N:M}{157}{subsection.Alph2.9.3}%
-\contentsline {section}{\numberline {B.10}Usuario (\texttt {usuarios})}{157}{section.Alph2.10}%
-\contentsline {subsection}{\numberline {B.10.1}Miembro de Junta de Cofradías (\texttt {miembros\_junta\_cofradia})}{158}{subsection.Alph2.10.1}%
-\contentsline {subsection}{\numberline {B.10.2}Administrador (\texttt {administradores})}{159}{subsection.Alph2.10.2}%
-\contentsline {section}{\numberline {B.11}Notificación (\texttt {notificaciones})}{159}{section.Alph2.11}%
-\contentsline {section}{\numberline {B.12}Dispositivo Push (\texttt {dispositivos\_push})}{160}{section.Alph2.12}%
-\contentsline {section}{\numberline {B.13}Relaciones entre tablas}{160}{section.Alph2.13}%
-\contentsline {chapter}{\numberline {C}Manual de despliegue}{161}{appendix.Alph3}%
-\contentsline {section}{\numberline {C.1}Requisitos previos}{161}{section.Alph3.1}%
-\contentsline {section}{\numberline {C.2}Despliegue del backend en el servidor}{161}{section.Alph3.2}%
-\contentsline {subsection}{\numberline {C.2.1}Actualización a una nueva versión}{163}{subsection.Alph3.2.1}%
-\contentsline {section}{\numberline {C.3}Documentación de la API}{163}{section.Alph3.3}%
-\contentsline {section}{\numberline {C.4}Configuración del cliente React Native}{163}{section.Alph3.4}%
-\contentsline {section}{\numberline {C.5}Generación del ejecutable de la aplicación móvil}{164}{section.Alph3.5}%
-\contentsline {chapter}{\numberline {D}Manual de uso}{165}{appendix.Alph4}%
-\contentsline {chapter}{\numberline {E}Contenido del TFG}{167}{appendix.Alph5}%
+\contentsline {part}{Bibliografía}{121}{part*.174}%
+\contentsline {part}{Anexos}{127}{part*.176}%
+\contentsline {chapter}{\numberline {A}Casos de uso adicionales}{127}{appendix.Alph1}%
+\contentsline {section}{\numberline {A.1}Ciudadano}{127}{section.Alph1.1}%
+\contentsline {section}{\numberline {A.2}Cofrade}{127}{section.Alph1.2}%
+\contentsline {section}{\numberline {A.3}Miembro de la Junta de Cofradías}{127}{section.Alph1.3}%
+\contentsline {section}{\numberline {A.4}Administrador}{127}{section.Alph1.4}%
+\contentsline {chapter}{\numberline {B}Esquema de la base de datos}{157}{appendix.Alph2}%
+\contentsline {section}{\numberline {B.1}Ciudad (\texttt {ciudades})}{157}{section.Alph2.1}%
+\contentsline {section}{\numberline {B.2}Junta de Cofradías (\texttt {juntas\_cofradias})}{157}{section.Alph2.2}%
+\contentsline {section}{\numberline {B.3}Cofradía / Hermandad (\texttt {cofradias})}{158}{section.Alph2.3}%
+\contentsline {section}{\numberline {B.4}Paso (\texttt {pasos})}{158}{section.Alph2.4}%
+\contentsline {subsection}{\numberline {B.4.1}Paso-Evento (\texttt {pasos\_eventos}) --- tabla intermedia N:M}{159}{subsection.Alph2.4.1}%
+\contentsline {section}{\numberline {B.5}Código de Acceso (\texttt {codigos\_acceso})}{159}{section.Alph2.5}%
+\contentsline {section}{\numberline {B.6}Ubicación (\texttt {ubicaciones})}{160}{section.Alph2.6}%
+\contentsline {section}{\numberline {B.7}Evento (\texttt {eventos})}{160}{section.Alph2.7}%
+\contentsline {subsection}{\numberline {B.7.1}Evento-Cofradía (\texttt {eventos\_cofradias}) --- tabla intermedia N:M}{160}{subsection.Alph2.7.1}%
+\contentsline {section}{\numberline {B.8}Procesión (\texttt {procesiones})}{161}{section.Alph2.8}%
+\contentsline {subsection}{\numberline {B.8.1}Posiciones actuales (\texttt {posiciones\_actuales}) --- histórico de pings anónimos}{161}{subsection.Alph2.8.1}%
+\contentsline {section}{\numberline {B.9}Recorrido (\texttt {recorridos})}{162}{section.Alph2.9}%
+\contentsline {subsection}{\numberline {B.9.1}Punto de Ruta (\texttt {puntos\_ruta})}{162}{subsection.Alph2.9.1}%
+\contentsline {subsection}{\numberline {B.9.2}Punto de Interés (\texttt {puntos\_de\_interes})}{162}{subsection.Alph2.9.2}%
+\contentsline {subsection}{\numberline {B.9.3}Recorrido-Punto de Ruta (\texttt {recorrido\_puntos\_ruta}) --- tabla intermedia N:M}{163}{subsection.Alph2.9.3}%
+\contentsline {section}{\numberline {B.10}Usuario (\texttt {usuarios})}{163}{section.Alph2.10}%
+\contentsline {subsection}{\numberline {B.10.1}Miembro de Junta de Cofradías (\texttt {miembros\_junta\_cofradia})}{164}{subsection.Alph2.10.1}%
+\contentsline {subsection}{\numberline {B.10.2}Administrador (\texttt {administradores})}{165}{subsection.Alph2.10.2}%
+\contentsline {section}{\numberline {B.11}Notificación (\texttt {notificaciones})}{165}{section.Alph2.11}%
+\contentsline {section}{\numberline {B.12}Dispositivo Push (\texttt {dispositivos\_push})}{166}{section.Alph2.12}%
+\contentsline {section}{\numberline {B.13}Relaciones entre tablas}{166}{section.Alph2.13}%
+\contentsline {chapter}{\numberline {C}Manual de despliegue}{167}{appendix.Alph3}%
+\contentsline {section}{\numberline {C.1}Requisitos previos}{167}{section.Alph3.1}%
+\contentsline {section}{\numberline {C.2}Despliegue del backend en el servidor}{167}{section.Alph3.2}%
+\contentsline {subsection}{\numberline {C.2.1}Actualización a una nueva versión}{169}{subsection.Alph3.2.1}%
+\contentsline {section}{\numberline {C.3}Documentación de la API}{169}{section.Alph3.3}%
+\contentsline {section}{\numberline {C.4}Configuración del cliente React Native}{169}{section.Alph3.4}%
+\contentsline {section}{\numberline {C.5}Generación del ejecutable de la aplicación móvil}{170}{section.Alph3.5}%
+\contentsline {chapter}{\numberline {D}Manual de uso}{171}{appendix.Alph4}%
+\contentsline {section}{\numberline {D.1}Primer acceso}{171}{section.Alph4.1}%
+\contentsline {section}{\numberline {D.2}Ciudadano}{171}{section.Alph4.2}%
+\contentsline {subsection}{\numberline {D.2.1}Elegir la ciudad}{171}{subsection.Alph4.2.1}%
+\contentsline {subsection}{\numberline {D.2.2}Inicio}{172}{subsection.Alph4.2.2}%
+\contentsline {subsection}{\numberline {D.2.3}Consultar la información}{172}{subsection.Alph4.2.3}%
+\contentsline {subsection}{\numberline {D.2.4}Calendario}{172}{subsection.Alph4.2.4}%
+\contentsline {subsection}{\numberline {D.2.5}Buscar}{172}{subsection.Alph4.2.5}%
+\contentsline {subsection}{\numberline {D.2.6}Seguir una procesión en directo}{173}{subsection.Alph4.2.6}%
+\contentsline {subsection}{\numberline {D.2.7}Notificaciones}{173}{subsection.Alph4.2.7}%
+\contentsline {section}{\numberline {D.3}Cofrade}{173}{section.Alph4.3}%
+\contentsline {subsection}{\numberline {D.3.1}Entrar como cofrade}{173}{subsection.Alph4.3.1}%
+\contentsline {subsection}{\numberline {D.3.2}Compartir la ubicación}{173}{subsection.Alph4.3.2}%
+\contentsline {section}{\numberline {D.4}Miembro de la Junta de Cofradías}{174}{section.Alph4.4}%
+\contentsline {subsection}{\numberline {D.4.1}Primer acceso}{174}{subsection.Alph4.4.1}%
+\contentsline {subsection}{\numberline {D.4.2}Panel de gestión}{174}{subsection.Alph4.4.2}%
+\contentsline {subsection}{\numberline {D.4.3}Cofradías, pasos y eventos}{174}{subsection.Alph4.4.3}%
+\contentsline {subsection}{\numberline {D.4.4}Procesiones y recorridos}{174}{subsection.Alph4.4.4}%
+\contentsline {subsection}{\numberline {D.4.5}Enviar notificaciones}{175}{subsection.Alph4.4.5}%
+\contentsline {subsection}{\numberline {D.4.6}Códigos de acceso de los cofrades}{175}{subsection.Alph4.4.6}%
+\contentsline {section}{\numberline {D.5}Administrador}{175}{section.Alph4.5}%
+\contentsline {chapter}{\numberline {E}Contenido del TFG}{177}{appendix.Alph5}%

@@ -43,7 +43,8 @@ public class AuthService {
         // aviso de "cuenta desactivada" en vez de al panel. El rechazo de
         // verdad está en las escrituras, ver MiembroJuntaCofradiaService.exigirJunta.
         boolean activo = !(usuario instanceof MiembroJuntaCofradia miembro) || miembro.isActivo();
-        boolean passwordProvisional = usuario instanceof MiembroJuntaCofradia miembro && miembro.isPasswordProvisional();
+        boolean passwordProvisional = (usuario instanceof MiembroJuntaCofradia miembro && miembro.isPasswordProvisional())
+                || (usuario instanceof Administrador administrador && administrador.isPasswordProvisional());
         String token = jwtService.generarToken(usuario.getId(), rol);
         return new AuthResponse(token, rol, usuario.getId(), activo, passwordProvisional);
     }
@@ -98,6 +99,9 @@ public class AuthService {
         // pendiente" (ver MiembroJuntaCofradia.passwordProvisional).
         if (usuario instanceof MiembroJuntaCofradia miembro) {
             miembro.setPasswordProvisional(false);
+        }
+        if (usuario instanceof Administrador administrador) {
+            administrador.setPasswordProvisional(false);
         }
 
         usuario.setPasswordHash(passwordEncoder.encode(passwordNueva));

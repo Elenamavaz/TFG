@@ -570,13 +570,13 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.a.2] La cuenta no corresponde al tipo de usuario indicado: el sistema lo informa y no inicia la sesión. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5.a.1] El miembro de la Junta todavía usa la contraseña provisional que recibió por correo: se realiza el caso de uso «Cambiar contraseña provisional» antes de darle acceso. } \\
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] El usuario todavía usa la contraseña provisional que recibió por correo: se realiza el caso de uso «Cambiar contraseña provisional» antes de darle acceso. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5.a.2] La cuenta del miembro de la Junta está desactivada: el sistema le informa de que no puede realizar cambios y le ofrece el caso de uso «Solicitar reactivación de cuenta». } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [5.a.3] La sesión caduca mientras se usa la aplicación: el sistema la cierra e informa al usuario de que debe volver a iniciar sesión. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-26. \\
+        \textbf{Requisitos Relacionados} & RF-26 y RF-43. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Iniciar sesión}
@@ -590,13 +590,13 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Caso de uso: Cambiar contraseña provisional}} \\
         \hline
-        \textbf{Resumen} & El miembro de la Junta de Cofradías sustituye, la primera vez que inicia sesión, la contraseña provisional que recibió por correo por una propia. \\
+        \textbf{Resumen} & El miembro de la Junta de Cofradías o el administrador sustituye, la primera vez que inicia sesión, la contraseña provisional que recibió por correo por una propia. \\
         \hline
-        \textbf{Actor} & Miembro de la Junta de Cofradías \\
+        \textbf{Actor} & Miembro de la Junta de Cofradías, Administrador \\
         \hline
         \textbf{Precondición} & El usuario ha iniciado sesión con la contraseña provisional que el sistema le envió al darle de alta o al reenviarle la invitación. \\
         \hline
-        \textbf{Postcondición} & La contraseña provisional queda sustituida por la nueva, el alta del miembro queda completada y el usuario accede a sus funcionalidades de gestión. \\
+        \textbf{Postcondición} & La contraseña provisional queda sustituida por la nueva, el alta del usuario queda completada y accede a sus funcionalidades de gestión. \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
         \hline
@@ -608,7 +608,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4] El sistema comprueba que la contraseña provisional es correcta, que las dos nuevas coinciden, que la nueva es distinta de la provisional y que tiene al menos 8 caracteres, una mayúscula, un número y un carácter especial. } \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [5] El sistema guarda la contraseña nueva, marca el alta del miembro como completada y le da acceso a sus funcionalidades de gestión. } \\
+        \multicolumn{2}{|p{15cm}|}{ [5] El sistema guarda la contraseña nueva, marca su alta como completada y le da acceso a sus funcionalidades de gestión. } \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
         \hline
@@ -618,7 +618,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [4.a.2] Las contraseñas nuevas no coinciden, la nueva es igual a la provisional o no cumple las reglas: el sistema indica qué debe corregir y no cambia la contraseña. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-26. \\
+        \textbf{Requisitos Relacionados} & RF-26 y RF-43. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Cambiar contraseña provisional}
@@ -656,7 +656,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [3.a.1] La cuenta ya ha sido reactivada entretanto: el sistema informa de que la cuenta ya está activa. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-41. \\
+        \textbf{Requisitos Relacionados} & RF-42. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Solicitar reactivación de cuenta}
@@ -702,7 +702,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [6.a.2] La contraseña nueva no tiene al menos 8 caracteres, una mayúscula, un número y un carácter especial: el sistema indica qué debe corregir y no guarda los cambios. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-27 y RF-40. \\
+        \textbf{Requisitos Relacionados} & RF-27 y RF-41. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Gestionar su propio perfil}
@@ -880,7 +880,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [7.a.1] El usuario quiere notificar los cambios, o ha cambiado el estado a cancelado: se realiza el caso de uso «Crear notificación». } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-28, RF-29, RF-34 y RF-35. \\
+        \textbf{Requisitos Relacionados} & RF-28, RF-29, RF-35 y RF-36. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Gestionar eventos}
@@ -936,7 +936,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [7.a.1] El usuario quiere notificar los cambios, o ha cambiado el estado a cancelada: se realiza el caso de uso «Crear notificación». } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-28, RF-29, RF-34 y RF-35. \\
+        \textbf{Requisitos Relacionados} & RF-28, RF-29, RF-35 y RF-36. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Gestionar procesión}
@@ -1068,7 +1068,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [6.a.1] Faltan el tipo o el nombre: el sistema indica que son obligatorios y no guarda el punto. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-33. \\
+        \textbf{Requisitos Relacionados} & RF-34. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Marcar puntos de interés}
@@ -1157,7 +1157,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [6.a.3] La Junta se desactiva: sus miembros dejan de poder realizar cambios hasta que se vuelva a activar. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-38. \\
+        \textbf{Requisitos Relacionados} & RF-39. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Gestionar una Junta de Cofradías}
@@ -1211,7 +1211,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [7.a.1] Error al enviar el correo: el sistema informa del error y no da de alta al miembro, para no dejar una cuenta cuya contraseña nadie ha recibido. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-39. \\
+        \textbf{Requisitos Relacionados} & RF-40. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Gestionar a los miembros de las Juntas de Cofradías}
@@ -1225,17 +1225,17 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|l|}{\textbf{Caso de uso: Reenviar invitación}} \\
         \hline
-        \textbf{Resumen} & El administrador vuelve a enviar a un miembro de la Junta de Cofradías el correo con una contraseña provisional, porque no lo recibió o lo ha perdido. \\
+        \textbf{Resumen} & El administrador vuelve a enviar a un miembro de la Junta de Cofradías o a otro administrador el correo con una contraseña provisional, porque no lo recibió o lo ha perdido. \\
         \hline
         \textbf{Actor} & Administrador \\
         \hline
-        \textbf{Precondición} & El usuario ha iniciado sesión como administrador. El miembro tiene la invitación pendiente: todavía no ha sustituido su contraseña provisional. \\
+        \textbf{Precondición} & El usuario ha iniciado sesión como administrador. El miembro o administrador tiene la invitación pendiente: todavía no ha sustituido su contraseña provisional. \\
         \hline
-        \textbf{Postcondición} & El miembro recibe por correo una contraseña provisional nueva, y la anterior deja de ser válida. \\
+        \textbf{Postcondición} & El miembro o administrador recibe por correo una contraseña provisional nueva, y la anterior deja de ser válida. \\
         \hline
         \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
         \hline
-        \multicolumn{2}{|p{15cm}|}{ [1] El usuario solicita reenviar la invitación a un miembro con la invitación pendiente. } \\
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario solicita reenviar la invitación a un miembro o administrador con la invitación pendiente. } \\
         \hline
         \multicolumn{2}{|p{15cm}|}{ [2] El sistema genera una contraseña provisional nueva, que invalida la anterior. } \\
         \hline
@@ -1247,10 +1247,62 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [3.a.1] Error al enviar el correo: el sistema informa del error y mantiene la contraseña provisional anterior. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-39. \\
+        \textbf{Requisitos Relacionados} & RF-40 y RF-43. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Reenviar invitación}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+
+    \begin{tabular}{|p{4cm}|p{11cm}|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Caso de uso: Gestionar administradores}} \\
+        \hline
+        \textbf{Resumen} & El administrador da de alta o da de baja a otros administradores del sistema. \\
+        \hline
+        \textbf{Actor} & Administrador \\
+        \hline
+        \textbf{Precondición} & El usuario ha iniciado sesión como administrador. \\
+        \hline
+        \textbf{Postcondición} & Los administradores quedan actualizados en el sistema. \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Base}} \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [1] El usuario solicita gestionar los administradores. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [2] El sistema muestra los administradores registrados, indicando cuáles tienen la invitación pendiente (todavía no han cambiado su contraseña provisional). } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3] El usuario indica si quiere dar de alta un administrador nuevo o dar de baja uno existente. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [4] El sistema solicita los datos del administrador: nombre, correo electrónico y teléfono. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5] El usuario introduce los datos y confirma. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6] El sistema valida los datos, guarda el administrador, genera una contraseña provisional y se la envía por correo electrónico. } \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Secuencia Alternativa}} \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.1] Dar de baja: el sistema pide confirmación y, si el usuario confirma, elimina al administrador, que deja de poder acceder al sistema. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.2] El usuario intenta darse de baja a sí mismo: el sistema no lo permite, de forma que siempre quede al menos un administrador. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [3.a.3] El administrador tiene la invitación pendiente y no encuentra el correo: se realiza el caso de uso «Reenviar invitación». } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [5.a.1] Cancelación de la operación: el usuario desiste y el sistema no guarda ningún cambio. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6.a.1] El correo electrónico ya pertenece a otra cuenta: el sistema lo informa y no guarda el administrador. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6.a.2] Datos incompletos o no válidos: el sistema indica qué datos debe corregir el usuario y no guarda el administrador. } \\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{ [6.a.3] Error al enviar el correo: el sistema informa del error y no da de alta al administrador. } \\
+        \hline
+        \textbf{Requisitos Relacionados} & RF-43. \\
+        \hline
+    \end{tabular}
+    \caption{Caso de uso: Gestionar administradores}
 \end{table}
 
 \begin{table}[h!]
@@ -1287,7 +1339,7 @@ Este apéndice recoge los casos de uso adicionales del sistema que, por no consi
         \hline
         \multicolumn{2}{|p{15cm}|}{ [3.a.1] El usuario decide rechazar la solicitud: el sistema la marca como resuelta y la cuenta sigue desactivada. } \\
         \hline
-        \textbf{Requisitos Relacionados} & RF-41. \\
+        \textbf{Requisitos Relacionados} & RF-42. \\
         \hline
     \end{tabular}
     \caption{Caso de uso: Gestionar solicitudes de reactivación}

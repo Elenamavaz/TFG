@@ -14,6 +14,10 @@ import com.semanasanta.backend.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AdministradorService {
@@ -21,14 +25,16 @@ public class AdministradorService {
     private final AdministradorRepository administradorRepository;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CorreoService correoService;
     private final String bootstrapSecret;
 
     public AdministradorService(AdministradorRepository administradorRepository, UsuarioRepository usuarioRepository,
-                                 PasswordEncoder passwordEncoder,
+                                 PasswordEncoder passwordEncoder, CorreoService correoService,
                                  @Value("${admin.bootstrap-secret}") String bootstrapSecret) {
         this.administradorRepository = administradorRepository;
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.correoService = correoService;
         this.bootstrapSecret = bootstrapSecret;
     }
 
@@ -52,12 +58,49 @@ public class AdministradorService {
     // crearse un Administrador. Ver crearBootstrap para el primero, que por
     // definición no puede pasar por aquí (nadie autenticado como ADMIN existe
     // todavía).
+    //
+    // Desde el 2026-10-31 (alta desde la app) funciona igual que el alta de
+    // un miembro de Junta: la contraseña la genera el sistema y llega por
+    // correo, y es provisional. @Transactional por el mismo motivo que
+    // MiembroJuntaCofradiaService.crear: si el correo falla, no dejar creada
+    // una cuenta cuya contraseña nadie ha visto.
+    @Transactional
     public Administrador crear(AdministradorRequest request) {
         exigirAdministrador();
         exigirEmailLibre(request.email());
-        String passwordHash = passwordEncoder.encode(request.password());
-        Administrador administrador = new Administrador(request.email(), passwordHash);
-        return administradorRepository.save(administrador);
+        String passwordGenerada = generarPassword();
+        Administrador administrador = new Administrador(request.email(), passwordEncoder.encode(passwordGenerada));
+        administrador.setNombre(request.nombre());
+        administrador.setTelefono(request.telefono());
+        administrador.setPasswordProvisional(true);
+        administrador = administradorRepository.save(administrador);
+        correoService.enviarBienvenidaAdministrador(request.nombre(), request.email(), passwordGenerada);
+        return administrador;
+    }
+
+    // Pantalla "Administradores" del panel (2026-10-31).
+    public List<Administrador> listar() {
+        exigirAdministrador();
+        return administradorRepository.findAll();
+    }
+
+    // Mismo funcionamiento que MiembroJuntaCofradiaService.reenviarInvitacion:
+    // contraseña provisional nueva (invalida la anterior) y otro correo.
+    @Transactional
+    public Administrador reenviarInvitacion(Long id) {
+        exigirAdministrador();
+        Administrador administrador = obtener(id);
+        String passwordGenerada = generarPassword();
+        administrador.setPasswordHash(passwordEncoder.encode(passwordGenerada));
+        administrador.setPasswordProvisional(true);
+        administrador = administradorRepository.save(administrador);
+        correoService.enviarBienvenidaAdministrador(administrador.getNombre(), administrador.getEmail(), passwordGenerada);
+        return administrador;
+    }
+
+    // Mismo generador que MiembroJuntaCofradiaService.generarPassword.
+    private String generarPassword() {
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 12);
     }
 
     // Crea el PRIMER Administrador del sistema, cuando aún no hay ninguno con
@@ -83,8 +126,14 @@ public class AdministradorService {
 
     // Faltaba exigirAdministrador(): cualquier usuario autenticado (una Junta,
     // incluso un Cofrade) podía borrar Administradores.
+    // Nadie puede eliminarse a sí mismo (2026-10-31): así siempre queda al
+    // menos un Administrador -el que borra- y no hace falta volver a pasar
+    // por el bootstrap.
     public void eliminar(Long id) {
         exigirAdministrador();
+        if (id.equals(SecurityUtils.usuarioActual().id())) {
+            throw new AccesoDenegadoException("No puedes eliminar tu propia cuenta de administrador");
+        }
         Administrador administrador = obtener(id);
         administradorRepository.delete(administrador);
     }
@@ -113,9 +162,20 @@ public class AdministradorService {
     // Compartido entre Services (CiudadService, JuntaCofradiasService,
     // MiembroJuntaCofradiaService...): Administrador es un rol global, así
     // que aquí no hace falta comparar nada, solo el rol. Lanza 403 si no.
+    //
+    // Contraseña provisional sin cambiar (2026-10-31): mismo criterio que
+    // MiembroJuntaCofradiaService.exigirJunta -la app le lleva a cambiarla,
+    // pero se exige aquí para que no baste con llamar a la API. Cambiarla va
+    // por AuthService.cambiarPassword, que no pasa por aquí.
     public void exigirAdministrador() {
         if (!"ADMIN".equals(SecurityUtils.usuarioActual().rol())) {
             throw new AccesoDenegadoException("Esta operación solo puede realizarla un Administrador");
+        }
+        boolean provisional = administradorRepository.findById(SecurityUtils.usuarioActual().id())
+                .map(Administrador::isPasswordProvisional)
+                .orElse(false);
+        if (provisional) {
+            throw new AccesoDenegadoException("Debes cambiar tu contraseña provisional antes de hacer cambios");
         }
     }
 

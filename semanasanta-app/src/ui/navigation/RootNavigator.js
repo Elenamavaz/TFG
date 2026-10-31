@@ -37,7 +37,7 @@ async function resolverArranque(seleccionarCiudad, sesion, avisoSesion) {
     return 'Login';
   }
   if (sesion?.rol === 'ADMIN') {
-    return 'AdministradorStack';
+    return sesion.passwordProvisional ? 'CambiarPasswordObligatorio' : 'AdministradorStack';
   }
   if (sesion?.rol === 'COFRADE') {
     return 'CofradeStack';

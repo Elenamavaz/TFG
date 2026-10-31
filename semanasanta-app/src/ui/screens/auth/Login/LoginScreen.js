@@ -83,10 +83,13 @@ export function LoginScreen({ navigation }) {
       // Junta desactivada (respuesta.activo === false, ver AuthResponse del
       // backend) va a un aviso de que no puede hacer cambios, no al panel; y
       // una que aún tiene la contraseña provisional del correo, a cambiarla
-      // primero (respuesta.passwordProvisional, 2026-10-17).
+      // primero (respuesta.passwordProvisional, 2026-10-17). Desde el
+      // 2026-10-31 también un Administrador dado de alta por otro.
       const destino =
         respuesta.rol === 'ADMIN'
-          ? 'AdministradorStack'
+          ? respuesta.passwordProvisional
+            ? 'CambiarPasswordObligatorio'
+            : 'AdministradorStack'
           : respuesta.rol === 'COFRADE'
             ? 'CofradeStack'
             : respuesta.activo === false

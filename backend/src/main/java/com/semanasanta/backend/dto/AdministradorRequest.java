@@ -2,19 +2,16 @@ package com.semanasanta.backend.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
+// Alta de un Administrador por otro (2026-10-31): sin contraseña, igual que
+// MiembroJuntaCofradiaRequest -la genera el sistema y se la manda por correo
+// (ver AdministradorService.crear), nadie tiene que inventársela ni pasársela.
 public record AdministradorRequest(
+        @NotBlank(message = "El nombre es obligatorio")
+        String nombre,
         @NotBlank(message = "El email es obligatorio")
         @Email(message = "El email no tiene un formato válido")
         String email,
-        @NotBlank(message = "La contraseña es obligatoria")
-        @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
-        // Al menos una mayúscula, un número y un carácter especial (ninguna
-        // letra ni dígito) -- misma regla que CambiarPasswordRequest.passwordNueva.
-        @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).*$",
-                message = "La contraseña debe tener al menos una mayúscula, un número y un carácter especial")
-        String password
+        String telefono
 ) {
 }

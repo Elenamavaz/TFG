@@ -8,11 +8,12 @@ package com.semanasanta.backend.dto;
 // (ver MiembroJuntaCofradiaService.exigirJunta). Para ADMIN y COFRADE
 // siempre viene a true: no existe tal estado para esos roles.
 //
-// "passwordProvisional" (2026-10-17), igual: solo puede ser true para un
-// miembro de Junta que aún no ha cambiado la contraseña que le llegó por
-// correo. El frontend le lleva entonces a cambiarla antes de entrar al
-// panel, y el backend le rechaza el resto de escrituras mientras tanto
-// (ver MiembroJuntaCofradiaService.exigirJunta).
+// "passwordProvisional" (2026-10-17): true para un miembro de Junta -o,
+// desde el 2026-10-31, un Administrador dado de alta por otro- que aún no
+// ha cambiado la contraseña que le llegó por correo. El frontend le lleva
+// entonces a cambiarla antes de entrar al panel, y el backend le rechaza el
+// resto de operaciones mientras tanto (ver MiembroJuntaCofradiaService.exigirJunta
+// y AdministradorService.exigirAdministrador).
 public record AuthResponse(
         String token,
         String rol,

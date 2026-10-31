@@ -86,28 +86,32 @@ Para facilitar su lectura, los requisitos se han agrupado según el perfil de us
 
     \item \textbf{RF-32} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías importar el recorrido de una procesión desde un archivo GPX, del que se toma la secuencia ordenada de coordenadas que forma el trazado.
 
-    \item \textbf{RF-33} \prioridad{Baja} El sistema debe permitir al miembro de la Junta de Cofradías marcar como punto de interés cualquier punto del recorrido importado de una procesión, indicando su tipo, su nombre y, opcionalmente, una descripción y una imagen, y editar después esa información.
+    \item \textbf{RF-33} \prioridad{Baja} El sistema debe permitir al miembro de la Junta de Cofradías exportar el recorrido de una procesión a un archivo GPX, con el trazado y los puntos de interés marcados, para poder reutilizarlo o editarlo en otras herramientas.
 
-    \item \textbf{RF-34} \prioridad{Alta} El sistema debe actualizar automáticamente el estado de las procesiones y de los eventos según su horario: deben pasar a en curso al llegar su hora de inicio y a finalizado al llegar su hora de fin. Además, el sistema debe permitir al miembro de la Junta de Cofradías corregir ese estado a mano (programado, en curso, finalizado o cancelado), salvo cuando el cambio contradiga el horario --volver a programado una vez pasada la hora de inicio, o a en curso una vez pasada la hora de fin--, en cuyo caso debe indicarle que modifique la hora en lugar del estado.
+    \item \textbf{RF-34} \prioridad{Baja} El sistema debe permitir al miembro de la Junta de Cofradías marcar como punto de interés cualquier punto del recorrido importado de una procesión, indicando su tipo, su nombre y, opcionalmente, una descripción y una imagen, y editar después esa información.
 
-    \item \textbf{RF-35} \prioridad{Alta} Cuando una procesión o un evento pase a en curso o a finalizado, ya sea automáticamente o porque lo cambie a mano el miembro de la Junta de Cofradías, el sistema debe generar y enviar la notificación correspondiente (RI-08) sin que tenga que crearla. Cuando el cambio sea a cancelado, el sistema no debe avisar por sí solo, sino abrir a continuación la creación de una notificación de cancelación para que el miembro de la Junta indique el motivo (RF-36).
+    \item \textbf{RF-35} \prioridad{Alta} El sistema debe actualizar automáticamente el estado de las procesiones y de los eventos según su horario: deben pasar a en curso al llegar su hora de inicio y a finalizado al llegar su hora de fin. Además, el sistema debe permitir al miembro de la Junta de Cofradías corregir ese estado a mano (programado, en curso, finalizado o cancelado), salvo cuando el cambio contradiga el horario --volver a programado una vez pasada la hora de inicio, o a en curso una vez pasada la hora de fin--, en cuyo caso debe indicarle que modifique la hora en lugar del estado.
 
-    \item \textbf{RF-36} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías crear notificaciones dirigidas a todos los usuarios sobre incidencias o cambios en eventos y procesiones.
+    \item \textbf{RF-36} \prioridad{Alta} Cuando una procesión o un evento pase a en curso o a finalizado, ya sea automáticamente o porque lo cambie a mano el miembro de la Junta de Cofradías, el sistema debe generar y enviar la notificación correspondiente (RI-08) sin que tenga que crearla. Cuando el cambio sea a cancelado, el sistema no debe avisar por sí solo, sino abrir a continuación la creación de una notificación de cancelación para que el miembro de la Junta indique el motivo (RF-37).
+
+    \item \textbf{RF-37} \prioridad{Alta} El sistema debe permitir al miembro de la Junta de Cofradías crear notificaciones dirigidas a todos los usuarios sobre incidencias o cambios en eventos y procesiones.
 
 \end{itemize}
 
 \subsubsection{Administrador}
 
 \begin{itemize}
-    \item \textbf{RF-37} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar y dar de baja) las ciudades disponibles.
+    \item \textbf{RF-38} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar y dar de baja) las ciudades disponibles.
 
-    \item \textbf{RF-38} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar y dar de baja) las Juntas de Cofradías del sistema.
+    \item \textbf{RF-39} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar y dar de baja) las Juntas de Cofradías del sistema.
 
-    \item \textbf{RF-39} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar, desactivar y dar de baja) a los miembros de las Juntas de Cofradías. Al dar de alta a un miembro, el sistema debe generar una contraseña provisional y enviársela por correo electrónico junto a un mensaje de bienvenida. Mientras el miembro no haya cambiado esa contraseña, el administrador debe verlo como invitación pendiente y poder reenviarle la invitación, lo que genera una contraseña provisional nueva e invalida la anterior.
+    \item \textbf{RF-40} \prioridad{Alta} El sistema debe permitir al administrador gestionar (dar de alta, editar, desactivar y dar de baja) a los miembros de las Juntas de Cofradías. Al dar de alta a un miembro, el sistema debe generar una contraseña provisional y enviársela por correo electrónico junto a un mensaje de bienvenida. Mientras el miembro no haya cambiado esa contraseña, el administrador debe verlo como invitación pendiente y poder reenviarle la invitación, lo que genera una contraseña provisional nueva e invalida la anterior.
 
-    \item \textbf{RF-40} \prioridad{Media} El sistema debe permitir al administrador gestionar la información de su propio perfil.
+    \item \textbf{RF-41} \prioridad{Media} El sistema debe permitir al administrador gestionar la información de su propio perfil.
 
-    \item \textbf{RF-41} \prioridad{Media} El sistema debe permitir a un miembro desactivado de una Junta de Cofradías solicitar su reactivación, y al administrador aceptarla o rechazarla.
+    \item \textbf{RF-42} \prioridad{Media} El sistema debe permitir a un miembro desactivado de una Junta de Cofradías solicitar su reactivación, y al administrador aceptarla o rechazarla.
+
+    \item \textbf{RF-43} \prioridad{Media} El sistema debe permitir al administrador gestionar (dar de alta y dar de baja) a otros administradores. Al dar de alta a un administrador, el sistema debe generar una contraseña provisional y enviársela por correo electrónico, y obligarle a sustituirla por una propia la primera vez que inicie sesión, igual que a los miembros de las Juntas de Cofradías (RF-26 y RF-40), incluido el reenvío de la invitación. Un administrador no puede darse de baja a sí mismo, de forma que siempre quede al menos uno. El primer administrador del sistema se crea durante el despliegue (Apéndice~\ref{cap:manual_despliegue}).
 
 \end{itemize}
 
@@ -261,7 +265,7 @@ Los requisitos no funcionales describen las características de calidad del sist
 \begin{itemize}
     \item \textbf{RNF-01} \prioridad{Alta} El sistema debe proteger los datos de los usuarios, especialmente la información de ubicación: las posiciones que comparten los cofrades deben guardarse de forma anónima, sin ningún dato que identifique a quien las envía (RI-06), y las contraseñas no deben almacenarse en texto plano (RI-03).
 
-    \item \textbf{RNF-02} \prioridad{Alta} La aplicación debe ser accesible y fácil de usar para usuarios sin experiencia previa.
+    \item \textbf{RNF-02} \prioridad{Alta} La aplicación debe ser fácil de usar para usuarios sin experiencia previa.
 
     \item \textbf{RNF-03} \prioridad{Alta} El sistema debe implementar mecanismos de control de acceso que diferencien entre ciudadanos, cofrades, miembros de la junta de cofradías y administrador.
 

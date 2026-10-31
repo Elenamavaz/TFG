@@ -41,6 +41,13 @@ const OPCIONES_GESTION = [
     ruta: 'SolicitudesReactivacion',
   },
   {
+    id: 'administradores',
+    icono: 'shield-account-outline',
+    titulo: 'Administradores',
+    subtitulo: 'Dar de alta y eliminar administradores',
+    ruta: 'Administradores',
+  },
+  {
     id: 'perfil',
     icono: 'account-edit-outline',
     titulo: 'Editar perfil',

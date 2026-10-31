@@ -1,2 +1,133 @@
 \chapter{Manual de uso}\label{cap:manual_uso}
 
+Este apéndice explica cómo utilizar la aplicación con cada uno de los cuatro roles del sistema (Sección~\ref{cap:analisis_usuarios}): ciudadano, cofrade, miembro de la Junta de Cofradías y administrador. La aplicación funciona igual en Android y en iOS; la única diferencia visible es el mapa, que en Android es el de Google Maps y en iOS el mapa de Apple.
+
+\section{Primer acceso}
+
+Al abrir la aplicación por primera vez aparece la pantalla de bienvenida, con dos opciones:
+
+\begin{itemize}
+    \item \textbf{Continuar como Ciudadano}: permite consultar toda la información de la Semana Santa sin necesidad de registrarse.
+    \item \textbf{Iniciar sesión}: para los cofrades, los miembros de una Junta de Cofradías y los administradores. En la pantalla de inicio de sesión se elige el rol en la parte superior (\emph{Cofrade}, \emph{Miembro de la Junta} o \emph{Administrador}). Los miembros de la Junta y los administradores entran con su correo electrónico y su contraseña; los cofrades, con el código de acceso de su cofradía (Sección~\ref{sec:manualCofrade}).
+\end{itemize}
+
+\section{Ciudadano}\label{sec:manualCiudadano}
+
+\subsection{Elegir la ciudad}
+
+Lo primero que se pide al ciudadano es elegir la ciudad cuya Semana Santa quiere seguir. Si se concede el permiso de ubicación, la aplicación selecciona automáticamente la ciudad más cercana; si no, se elige de la lista. La ciudad se puede cambiar en cualquier momento desde \emph{Perfil} $\rightarrow$ \emph{Ciudad seleccionada} $\rightarrow$ \emph{Cambiar}.
+
+Una vez elegida la ciudad, la aplicación se organiza en cinco pestañas en la parte inferior: \emph{Inicio}, \emph{Calendario}, \emph{Mapa}, \emph{Buscar} y \emph{Perfil}.
+
+\subsection{Inicio}
+
+La pantalla de inicio muestra el día de la Semana Santa seleccionado, que se puede cambiar pulsando sobre su nombre, con las procesiones y los eventos de ese día. En la parte superior aparecen las últimas notificaciones de la ciudad (por ejemplo, que una procesión ha comenzado o ha cambiado de horario) y, si hay alguna procesión en la calle, el apartado \emph{En curso ahora} con un acceso directo a \emph{Ver en el mapa}. Desde esta pantalla también se accede a los listados completos de cofradías, procesiones, eventos y pasos, a los favoritos y a la historia de la Semana Santa de la ciudad.
+
+\subsection{Consultar la información}
+
+Al pulsar sobre cualquier elemento se abre su detalle:
+
+\begin{itemize}
+    \item \textbf{Cofradía}: su historia, su fecha de fundación, sus pasos, las procesiones y eventos en los que participa y su web oficial.
+    \item \textbf{Procesión}: el día, la hora de salida, la duración, el estado (programada, en curso, finalizada o cancelada), las cofradías y pasos que participan y el recorrido sobre el mapa. Si el recorrido todavía no se ha publicado, aparece como \emph{Recorrido por confirmar}.
+    \item \textbf{Evento}: el día, la hora, la ubicación, las cofradías y los pasos que participan.
+    \item \textbf{Paso}: su imagen, su historia y su análisis artístico, y la cofradía a la que pertenece.
+\end{itemize}
+
+En el detalle de cada elemento hay un icono de corazón para marcarlo como \textbf{favorito}. Los favoritos se guardan en el propio móvil y se consultan desde \emph{Inicio} o desde \emph{Perfil} $\rightarrow$ \emph{Mis favoritos}.
+
+\subsection{Calendario}
+
+La pestaña \emph{Calendario} muestra los días de la Semana Santa, marcando los días que tienen procesiones. Al pulsar un día se abre su agenda, con todos los actos ordenados por hora.
+
+\subsection{Buscar}
+
+La pestaña \emph{Buscar} permite buscar por nombre procesiones, cofradías, pasos y eventos de la ciudad. Los resultados se pueden filtrar por tipo de elemento y por estado (\emph{Programado}, \emph{En curso}, \emph{Finalizado} o \emph{Cancelado}).
+
+\subsection{Seguir una procesión en directo}
+
+La pestaña \emph{Mapa} abre el \textbf{Mapa en Vivo}, que muestra todas las procesiones de la ciudad que están en curso en ese momento, sin necesidad de buscarlas. Sobre el recorrido de cada procesión se marca en verde el tramo que ocupa el cortejo en ese momento, de la cola a la cabeza, y se actualiza a medida que avanza. Debajo del mapa, en el apartado \emph{En movimiento}, aparece la lista de procesiones en curso; al pulsar una, el mapa se centra en ella. Si se concede el permiso de ubicación, el mapa muestra también la posición del propio usuario. Cuando no hay ninguna procesión en la calle, se indica con el mensaje \emph{No hay ninguna procesión en curso ahora mismo}.
+
+\subsection{Notificaciones}
+
+El ciudadano recibe en el móvil las notificaciones de la ciudad seleccionada: automáticas, cuando una procesión o un evento comienza o termina, y las que envía la Junta de Cofradías cuando hay un cambio de horario, una incidencia o una cancelación. Para recibirlas basta con permitir las notificaciones cuando la aplicación lo pide. Su estado se puede consultar en \emph{Perfil} $\rightarrow$ \emph{Notificaciones}, y se activan o desactivan desde los ajustes de notificaciones del propio móvil.
+
+\section{Cofrade}\label{sec:manualCofrade}
+
+El cofrade comparte su ubicación durante la procesión para que los ciudadanos puedan seguirla en el Mapa en Vivo. Su ubicación se envía de forma anónima: no se guarda quién la ha enviado.
+
+\subsection{Entrar como cofrade}
+
+Para entrar como cofrade hace falta el \textbf{código de acceso} de la cofradía, que proporciona la Junta de Cofradías. En la pantalla de inicio de sesión se elige \emph{Cofrade} y se puede, o bien pulsar \emph{Escanear QR} y apuntar con la cámara al código QR que muestra la Junta, o bien escribir el código a mano. Cada código es válido durante 24 horas desde que se genera, y la Junta puede revocarlo en cualquier momento.
+
+\subsection{Compartir la ubicación}
+
+\begin{enumerate}
+    \item Una vez dentro, se pulsa \emph{Activar ubicación compartida} y se concede el permiso de ubicación. Para que la ubicación se siga enviando con la pantalla bloqueada, hay que permitir la ubicación \emph{Todo el tiempo}; si no, la aplicación avisa de que solo compartirá mientras esté abierta.
+    \item Solo se puede compartir mientras la cofradía tenga una procesión en curso. Si tiene varias en curso a la vez, la aplicación pide elegir en cuál se participa.
+    \item Mientras se comparte, la pantalla muestra \emph{Compartiendo tu ubicación en} seguido del nombre de la procesión. Si el cofrade se aleja del recorrido, la aplicación le avisa de que está fuera del recorrido y de que su ubicación no se está mostrando en el mapa; el aviso desaparece al volver al recorrido.
+    \item Para terminar, se pulsa \emph{Dejar de compartir}. Si se olvida, la aplicación deja de compartir automáticamente al finalizar la procesión.
+\end{enumerate}
+
+\section{Miembro de la Junta de Cofradías}\label{sec:manualJunta}
+
+\subsection{Primer acceso}
+
+El administrador da de alta a cada miembro de la Junta, que recibe por correo electrónico una contraseña provisional. En el primer inicio de sesión, la aplicación obliga a cambiarla antes de continuar. Si la cuenta ha sido desactivada, al iniciar sesión aparece la pantalla \emph{Cuenta desactivada}, desde la que se puede solicitar al administrador que la reactive.
+
+\subsection{Panel de gestión}
+
+Tras iniciar sesión se muestra el panel de la Junta, con la ciudad que gestiona y las opciones de gestión: \emph{Cofradías}, \emph{Pasos}, \emph{Procesiones}, \emph{Eventos}, \emph{Códigos QR} y \emph{Editar perfil}. Todas las listas siguen el mismo funcionamiento: el botón \emph{Añadir} abre el formulario de creación, y cada elemento tiene las opciones \emph{Editar} y eliminar. Las listas de pasos, procesiones y eventos se pueden filtrar por cofradía. Desde el perfil también se puede editar la información de la ciudad, como su historia.
+
+\subsection{Cofradías, pasos y eventos}
+
+\begin{itemize}
+    \item \textbf{Cofradías}: nombre, historia, fecha de fundación, web, enlace a su imagen y si está activa. Una cofradía desactivada no puede generar códigos de acceso.
+    \item \textbf{Pasos}: nombre, cofradía, historia, análisis artístico y enlace a su imagen.
+    \item \textbf{Eventos}: nombre, día y hora, duración, ubicación, cofradías que participan y, en un segundo paso, los pasos que participan.
+\end{itemize}
+
+\subsection{Procesiones y recorridos}
+
+Para crear una procesión se rellenan su nombre, historia, día, hora de salida, duración, cofradías que participan y templo de salida, y después se eligen los pasos. El \textbf{recorrido} se añade importando un archivo GPX desde el móvil, con la opción \emph{Importar archivo gpx}; el archivo puede prepararse con cualquier herramienta que dibuje rutas sobre un mapa. Una vez importado, con \emph{Editar recorrido} se pueden marcar puntos de la ruta como \emph{puntos de interés}, indicando su nombre, su tipo, una descripción y una imagen opcional.
+
+No hace falta cambiar a mano el estado de una procesión: la aplicación la pone en curso al llegar su hora de salida y la finaliza al terminar su duración, y envía a los ciudadanos las notificaciones de inicio y de fin.
+
+\subsection{Enviar notificaciones}
+
+Después de guardar los cambios de una procesión o de un evento, la aplicación ofrece la opción \emph{Notificar}, para avisar a los ciudadanos de la ciudad. En la ventana que se abre se elige:
+
+\begin{itemize}
+    \item el \textbf{tipo} de aviso: \emph{Actualización de información}, \emph{Cambio de horario}, \emph{Incidencia} o cancelación;
+    \item la \textbf{prioridad}: \emph{Baja}, \emph{Media} o \emph{Alta};
+    \item los \textbf{motivos}, un texto libre que acompaña al aviso.
+\end{itemize}
+
+Al pulsar \emph{Enviar notificaciones}, todos los ciudadanos de la ciudad reciben el aviso en su móvil. Si el tipo elegido es la cancelación, además la procesión o el evento pasan a estado cancelado.
+
+\subsection{Códigos de acceso de los cofrades}
+
+Los códigos de acceso se gestionan desde \emph{Códigos QR} en el panel, desde la lista de cofradías o desde el botón \emph{Código QR} de cada procesión. Para cada cofradía se puede:
+
+\begin{itemize}
+    \item \textbf{Generar código}: crea un código nuevo, válido durante 24 horas.
+    \item \textbf{Ver QR}: muestra el código QR y, debajo, el código escrito, para que los cofrades lo escaneen o lo escriban.
+    \item \textbf{Compartir}: envía el código por cualquier aplicación del móvil.
+    \item \textbf{Revocar}: anula el código; los cofrades que lo estaban usando dejan de poder compartir su ubicación.
+\end{itemize}
+
+\section{Administrador}\label{sec:manualAdministrador}
+
+El panel del administrador muestra un resumen general y las opciones \emph{Ciudades}, \emph{Juntas de Cofradías}, \emph{Miembros de las Juntas}, \emph{Solicitudes de reactivación}, \emph{Administradores} y \emph{Editar perfil}. Para incorporar una ciudad nueva al sistema, los pasos son:
+
+\begin{enumerate}
+    \item \textbf{Crear la ciudad}, con su nombre, su provincia, su comunidad autónoma y su ubicación, que se utiliza para proponerla automáticamente a los ciudadanos que están cerca.
+    \item \textbf{Crear su Junta de Cofradías}, con su nombre, su correo electrónico y su teléfono.
+    \item \textbf{Añadir los miembros de la Junta}, indicando su nombre, su correo electrónico y su teléfono. Cada miembro recibe un correo con una contraseña provisional. Si no le ha llegado, se puede volver a enviar con \emph{Reenviar invitación}.
+\end{enumerate}
+
+A partir de ese momento, es la Junta quien gestiona el contenido de la ciudad. Las ciudades, las Juntas y los miembros se pueden editar o desactivar en cualquier momento. Cuando un miembro desactivado pide volver a entrar, su solicitud aparece en \emph{Solicitudes de reactivación}, donde el administrador puede \emph{Aceptar} o \emph{Rechazar}.
+
+\subsection{Otros administradores}
+
+Desde \emph{Administradores} se pueden dar de alta otros administradores con el botón \emph{Añadir administrador}, indicando su nombre, su correo electrónico y, opcionalmente, su teléfono. Igual que los miembros de las Juntas, el nuevo administrador recibe por correo una contraseña provisional y la aplicación le obliga a cambiarla la primera vez que inicia sesión; mientras no lo haga aparece como \emph{Pendiente}, y se le puede volver a enviar con \emph{Reenviar invitación}. Un administrador se puede eliminar en cualquier momento, salvo la propia cuenta: así siempre queda al menos un administrador. El primer administrador del sistema no se crea desde la aplicación, sino durante el despliegue del servidor (Apéndice~\ref{cap:manual_despliegue}).

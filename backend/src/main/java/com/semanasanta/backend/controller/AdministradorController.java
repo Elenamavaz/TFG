@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/administradores")
 public class AdministradorController {
@@ -19,6 +21,11 @@ public class AdministradorController {
 
     public AdministradorController(AdministradorService administradorService) {
         this.administradorService = administradorService;
+    }
+
+    @GetMapping
+    public List<AdministradorResponse> listar() {
+        return administradorService.listar().stream().map(AdministradorResponse::from).toList();
     }
 
     @GetMapping("/{id}")
@@ -43,6 +50,11 @@ public class AdministradorController {
     public AdministradorResponse crearBootstrap(@Valid @RequestBody AdministradorBootstrapRequest request) {
         Administrador administrador = administradorService.crearBootstrap(request);
         return AdministradorResponse.from(administrador);
+    }
+
+    @PostMapping("/{id}/reenviar-invitacion")
+    public AdministradorResponse reenviarInvitacion(@PathVariable Long id) {
+        return AdministradorResponse.from(administradorService.reenviarInvitacion(id));
     }
 
     @DeleteMapping("/{id}")

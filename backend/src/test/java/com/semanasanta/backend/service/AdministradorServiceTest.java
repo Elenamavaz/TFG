@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.semanasanta.backend.support.DatosPrueba.*;
@@ -27,6 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,12 +45,14 @@ class AdministradorServiceTest {
     private UsuarioRepository usuarioRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private CorreoService correoService;
 
     private AdministradorService administradorService;
 
     @BeforeEach
     void preparar() {
-        administradorService = new AdministradorService(administradorRepository, usuarioRepository, passwordEncoder, SECRETO_BOOTSTRAP);
+        administradorService = new AdministradorService(administradorRepository, usuarioRepository, passwordEncoder, correoService, SECRETO_BOOTSTRAP);
     }
 
     @AfterEach
@@ -64,6 +69,18 @@ class AdministradorServiceTest {
         assertThatCode(() -> administradorService.exigirAdministrador()).doesNotThrowAnyException();
     }
 
+    @Test
+    void exigirAdministradorRechazaAUnAdministradorConLaContrasenaProvisional() {
+        Administrador nuevo = administrador(1L);
+        nuevo.setPasswordProvisional(true);
+        autenticarComo(1L, "ADMIN");
+        when(administradorRepository.findById(1L)).thenReturn(Optional.of(nuevo));
+
+        assertThatThrownBy(() -> administradorService.exigirAdministrador())
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("contraseña provisional");
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"JUNTA", "COFRADE"})
     void exigirAdministradorRechazaCualquierOtroRol(String rol) {
@@ -76,15 +93,49 @@ class AdministradorServiceTest {
     // --- crear ---
 
     @Test
-    void unAdministradorPuedeCrearOtroConLaContrasenaHasheada() {
+    void alCrearUnAdministradorSeGeneraUnaContrasenaProvisionalYSeEnviaPorCorreo() {
         autenticarComo(1L, "ADMIN");
-        when(passwordEncoder.encode("Clave.123")).thenReturn("hash-bcrypt");
+        when(passwordEncoder.encode(anyString())).thenReturn("hash-bcrypt");
         when(administradorRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        Administrador creado = administradorService.crear(new AdministradorRequest("nuevo@test.es", "Clave.123"));
+        Administrador creado = administradorService.crear(new AdministradorRequest("Ana", "nuevo@test.es", "600000000"));
 
         assertThat(creado.getEmail()).isEqualTo("nuevo@test.es");
+        assertThat(creado.getNombre()).isEqualTo("Ana");
         assertThat(creado.getPasswordHash()).isEqualTo("hash-bcrypt");
+        assertThat(creado.isPasswordProvisional()).isTrue();
+        verify(correoService).enviarBienvenidaAdministrador(eq("Ana"), eq("nuevo@test.es"), anyString());
+    }
+
+    @Test
+    void reenviarLaInvitacionGeneraOtraContrasenaProvisional() {
+        autenticarComo(1L, "ADMIN");
+        when(administradorRepository.findById(1L)).thenReturn(Optional.of(administrador(1L)));
+        Administrador otro = administrador(2L);
+        when(administradorRepository.findById(2L)).thenReturn(Optional.of(otro));
+        when(passwordEncoder.encode(anyString())).thenReturn("hash-nuevo");
+        when(administradorRepository.save(otro)).thenReturn(otro);
+
+        administradorService.reenviarInvitacion(2L);
+
+        assertThat(otro.getPasswordHash()).isEqualTo("hash-nuevo");
+        assertThat(otro.isPasswordProvisional()).isTrue();
+        verify(correoService).enviarBienvenidaAdministrador(any(), eq(otro.getEmail()), anyString());
+    }
+
+    @Test
+    void unAdministradorPuedeListarLosAdministradores() {
+        autenticarComo(1L, "ADMIN");
+        when(administradorRepository.findAll()).thenReturn(List.of(administrador(1L), administrador(2L)));
+
+        assertThat(administradorService.listar()).hasSize(2);
+    }
+
+    @Test
+    void unaJuntaNoPuedeListarLosAdministradores() {
+        autenticarComo(2L, "JUNTA");
+
+        assertThatThrownBy(() -> administradorService.listar()).isInstanceOf(AccesoDenegadoException.class);
     }
 
     @Test
@@ -93,7 +144,7 @@ class AdministradorServiceTest {
         // llamar al endpoint, el servicio debe impedirlo.
         autenticarComo(2L, "JUNTA");
 
-        assertThatThrownBy(() -> administradorService.crear(new AdministradorRequest("x@test.es", "Clave.123")))
+        assertThatThrownBy(() -> administradorService.crear(new AdministradorRequest("X", "x@test.es", null)))
                 .isInstanceOf(AccesoDenegadoException.class);
         verify(administradorRepository, never()).save(any());
     }
@@ -179,7 +230,7 @@ class AdministradorServiceTest {
         autenticarComo(1L, "ADMIN");
         when(usuarioRepository.existsByEmailIgnoreCase("ana@test.es")).thenReturn(true);
 
-        assertThatThrownBy(() -> administradorService.crear(new AdministradorRequest("ana@test.es", "Clave.123")))
+        assertThatThrownBy(() -> administradorService.crear(new AdministradorRequest("Ana", "ana@test.es", null)))
                 .isInstanceOf(RecursoDuplicadoException.class)
                 .hasMessageContaining("ana@test.es");
         verify(administradorRepository, never()).save(any());
@@ -209,12 +260,23 @@ class AdministradorServiceTest {
     @Test
     void unAdministradorPuedeEliminarOtro() {
         autenticarComo(1L, "ADMIN");
+        when(administradorRepository.findById(1L)).thenReturn(Optional.of(administrador(1L)));
         Administrador otro = administrador(2L);
         when(administradorRepository.findById(2L)).thenReturn(Optional.of(otro));
 
         administradorService.eliminar(2L);
 
         verify(administradorRepository).delete(otro);
+    }
+
+    @Test
+    void unAdministradorNoPuedeEliminarseASiMismo() {
+        autenticarComo(1L, "ADMIN");
+
+        assertThatThrownBy(() -> administradorService.eliminar(1L))
+                .isInstanceOf(AccesoDenegadoException.class)
+                .hasMessageContaining("propia cuenta");
+        verify(administradorRepository, never()).delete(any());
     }
 
     @Test
